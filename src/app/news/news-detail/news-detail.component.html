@@ -1,3 +1,8 @@
-<p>
-    news-<b>detail</b> component
-</p>
+<h5>{{title}}</h5>
+<div *ngIf="news">
+    <p>title: {{news.title}}</p>
+    <p>body: {{news.body}}</p>
+    <p>date: {{news.created_at}}</p>
+    <button (click)="gotoNewsList()">Back to all news</button>
+</div>
+

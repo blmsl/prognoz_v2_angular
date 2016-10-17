@@ -1,9 +1,7 @@
-<p>
-    news-list works!
-</p>
-<br>
+<h5>{{title}}</h5>
 <ul>
-    <li *ngFor="let one of news">
-        ( {{ one.created_at }} ) <b>{{ one.title }}</b>
+    <li *ngFor="let one of news" (click)="onSelect(one)" class="news-list-li">
+        <span class="news-list">{{one.title}}</span>
     </li>
 </ul>
+

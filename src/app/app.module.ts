@@ -3,20 +3,15 @@ import { NgModule }         from '@angular/core';
 import { FormsModule }      from '@angular/forms';
 import { HttpModule }       from '@angular/http';
 
-import { AppRoutingModule } from './app-routing.module';
-import { NewsModule }       from './news/news.module';
-import { HomeModule }       from './home/home.module';
-
 import { AppComponent }     from './app.component';
-//import { HomeComponent }    from './home/home.component';
-//import { NewsComponent }    from './news/news.component';
-//import { NewsService }      from './news/news.service';
+import { HomeModule }       from './home/home.module';
+import { NewsModule }       from './news/news.module';
+
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent
-    //HomeComponent
-    //NewsComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +21,7 @@ import { AppComponent }     from './app.component';
     NewsModule,
     HomeModule
   ],
-  //providers: [ NewsService ],
   bootstrap: [ AppComponent ]
 })
+
 export class AppModule { }

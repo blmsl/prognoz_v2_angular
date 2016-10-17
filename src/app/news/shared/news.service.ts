@@ -5,6 +5,8 @@ import { News } from './news.model';
 
 @Injectable()
 export class NewsService {
+
+    id: number;
     private newsUrl = 'http://prognoz-rest.local/api/v1/news';
     private headers = new Headers({'Content-Type': 'application/json'});
 
@@ -14,6 +16,12 @@ export class NewsService {
         return this.http.get(this.newsUrl)
             .toPromise()
             .then(response => response.json() as News[]);
+    }
+
+    getOneNews(id): Promise<News> {
+        return this.http.get(this.newsUrl + "/" + id)
+            .toPromise()
+            .then(response => response.json() as News);
     }
 
 }

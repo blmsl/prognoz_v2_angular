@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 
 export class NewsComponent {
-    title = 'news component works';
+    title = 'news component works!';
 }

@@ -1,6 +1,6 @@
 <h1>{{title}}</h1>
 <nav>
-    <a routerLink="/" routerLinkActive="active">Home</a>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     <a routerLink="/news" routerLinkActive="active">News</a>
 </nav>
 <router-outlet></router-outlet>

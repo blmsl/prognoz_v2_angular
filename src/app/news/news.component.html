@@ -1,6 +1,7 @@
-<h2>{{title}}</h2>
+<h3>{{title}}</h3>
 <nav>
-    <a routerLink="/news/list" routerLinkActive="active">News-list</a>
-    <a routerLink="/news/detail" routerLinkActive="active">News-detail</a>
+    <a routerLink="/news" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">All News</a>
+    <a routerLink="/news/1" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">First One</a>
+    <a routerLink="/news/10" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Last One</a>
 </nav>
 <router-outlet></router-outlet>

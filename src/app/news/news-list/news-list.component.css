@@ -1,0 +1,10 @@
+.news-list-li{
+    list-style: none;
+    margin-bottom: 10px;
+}
+.news-list{
+    border: 1px solid black;
+    background-color: #9E9E9E;
+    border-radius: 5px;
+    padding: 2px;
+}
