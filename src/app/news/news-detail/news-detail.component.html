@@ -1,8 +1,9 @@
 <h5>{{title}}</h5>
 <div *ngIf="news">
-    <p>title: {{news.title}}</p>
-    <p>body: {{news.body}}</p>
-    <p>date: {{news.created_at}}</p>
-    <button (click)="gotoNewsList()">Back to all news</button>
+    <p>title: <input [(ngModel)]="news.title"></p>
+    <p>body: <textarea [(ngModel)]="news.body" rows="5" cols="75"></textarea></p>
+    <p>date: {{news.updated_at}}</p>
+    <button (click)="goBack()">Back</button>
+    <button (click)="save()">Save</button>
 </div>
 

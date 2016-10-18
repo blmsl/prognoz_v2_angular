@@ -1,7 +1,7 @@
 <h5>{{title}}</h5>
 <ul>
     <li *ngFor="let one of news" (click)="onSelect(one)" class="news-list-li">
-        <span class="news-list">{{one.title}}</span>
+        <span class="news-list">{{one.title}}</span> <b (click) ="delete(one); $event.stopPropagation()">X</b>
     </li>
 </ul>
 

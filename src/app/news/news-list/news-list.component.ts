@@ -26,4 +26,10 @@ export class NewsListComponent implements OnInit {
     onSelect(news: News) {
         this.router.navigate(['/news', news.id]);
     }
+
+    delete(news: News) {
+        this.newsService.delete(news.id).then(() => {
+            this.news = this.news.filter(n => n !== news);
+        });
+    }
 }

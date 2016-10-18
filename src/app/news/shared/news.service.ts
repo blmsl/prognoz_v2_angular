@@ -15,13 +15,33 @@ export class NewsService {
     getNews(): Promise<News[]> {
         return this.http.get(this.newsUrl)
             .toPromise()
-            .then(response => response.json() as News[]);
+            .then(response => response.json().news as News[]);
     }
 
     getOneNews(id): Promise<News> {
         return this.http.get(this.newsUrl + "/" + id)
             .toPromise()
-            .then(response => response.json() as News);
+            .then(response => response.json().news as News);
+    }
+    
+    delete(id: number): Promise<void> {
+        const url = `${this.newsUrl}/${id}`;
+        return this.http.delete(url, {headers: this.headers})
+            .toPromise()
+            .then(() => null);
+    }
+
+    update(news: News): Promise<News> {
+        const url = `${this.newsUrl}/${news.id}`;
+        return this.http.put(url, JSON.stringify(news), {headers: this.headers})
+            .toPromise()
+            .then(() => news);
+    }
+
+    create(title: string, body: string, image: string, tournament_id: number): Promise<News> {
+        return this.http.post(this.newsUrl, JSON.stringify({title: title, body: body, image: image, tournament_id: tournament_id}), {headers: this.headers})
+            .toPromise()
+            .then(response => response.json().news);
     }
 
 }

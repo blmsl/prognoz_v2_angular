@@ -1,5 +1,6 @@
-import { Component, OnInit }                from '@angular/core';
+import { Component, Input, OnInit }                from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
+import { Location }                 from '@angular/common';
 
 import { News }         from '../shared/news.model';
 import { NewsService }  from '../shared/news.service';
@@ -11,13 +12,15 @@ import { NewsService }  from '../shared/news.service';
 })
 
 export class NewsDetailComponent implements OnInit {
+    @Input()
     title = 'news-detail component works!';
     news: News;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private newsService: NewsService
+        private newsService: NewsService,
+        private location: Location
     ) {}
     
     ngOnInit() {
@@ -29,6 +32,14 @@ export class NewsDetailComponent implements OnInit {
 
     gotoNewsList() {
         this.router.navigate(['/news']);
+    }
+
+    goBack() {
+        this.location.back();
+    }
+    
+    save() {
+        this.newsService.update(this.news).then(() => this.goBack());
     }
 
 }
