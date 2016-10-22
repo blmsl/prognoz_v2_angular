@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { UserService } from './shared/user.service';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -7,7 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AppComponent implements OnInit{
+    constructor(
+        private userService: UserService
+    ) {}
+
     title = 'app works!';
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.userService.reloadUserData();
+    }
+    
 }
