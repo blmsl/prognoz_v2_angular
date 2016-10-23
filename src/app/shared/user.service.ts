@@ -1,11 +1,12 @@
-import { Injectable }   from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Injectable }       from '@angular/core';
+import { Http, Headers }    from '@angular/http';
+import { Observable }       from 'rxjs/Observable';
 
+import { API_URL }          from './app.setings';
 import { HeadersWithToken } from './headers-with-token.service';
 
 @Injectable()
 export class UserService {
-    private loggedIn = false;
 
     constructor(
         private http: Http,
@@ -14,11 +15,14 @@ export class UserService {
         this.loggedIn = !!localStorage.getItem('auth_token');
     }
 
+    private loggedIn = false;
+
+
     login(email, password) {
         let headers = new Headers();
         headers.append('Content-type', 'application/json');
         return this.http
-            .post('http://prognoz-rest.local/api/auth/login', JSON.stringify({ email, password}), { headers })
+            .post(API_URL + 'auth/login', JSON.stringify({ email, password}), { headers })
             .map(res =>res.json())
             .map((res) => {
                 if (res.token) {
@@ -43,21 +47,21 @@ export class UserService {
     }
 
     getUserData() {
-        return this.headersWithToken.get('http://prognoz-rest.local/api/auth/user')
-            .toPromise()
-            .then(response => response.json().user)
+        return this.headersWithToken.get(API_URL + 'auth/user')
+            .map(response => response.json().user)
             .catch(this.handleError);
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        alert('An error occurred' + error);
-        return Promise.reject(error.message || error);
+    private handleError(error: any) {
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error(errMsg);
+        return Observable.throw(errMsg);
     }
 
     reloadUserData() {
         if (this.isLoggedIn()) {
-            this.getUserData().then(user => {
+            this.getUserData().subscribe(user => {
                 localStorage.setItem('user', JSON.stringify(user));
             });
         } else {

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit }                from '@angular/core';
+import { Component, Input, OnInit }         from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
-import { Location }                 from '@angular/common';
+import { Location }                         from '@angular/common';
 
 import { News }         from '../shared/news.model';
 import { NewsService }  from '../shared/news.service';
@@ -12,9 +12,6 @@ import { NewsService }  from '../shared/news.service';
 })
 
 export class NewsDetailComponent implements OnInit {
-    @Input()
-    title = 'news-detail component works!';
-    news: News;
 
     constructor(
         private route: ActivatedRoute,
@@ -22,11 +19,15 @@ export class NewsDetailComponent implements OnInit {
         private newsService: NewsService,
         private location: Location
     ) {}
+
+    title = 'news-detail component works!';
+    news: News;
     
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
             let id = +params['id'];
-            this.newsService.getOneNews(id).then(news => this.news = news);
+            this.newsService.getOneNews(id)
+                .subscribe(news => this.news = news);
         });
     }
 
@@ -39,7 +40,7 @@ export class NewsDetailComponent implements OnInit {
     }
     
     save() {
-        this.newsService.update(this.news).then(() => this.goBack());
+        this.newsService.update(this.news).subscribe(() => this.goBack());
     }
 
 }

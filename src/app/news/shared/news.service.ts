@@ -1,61 +1,67 @@
 import { Injectable }       from '@angular/core';
-import { Http }    from '@angular/http';
+import { Http, Response }   from '@angular/http';
+import { Observable }       from 'rxjs/Observable';
 
-import { News } from './news.model';
+import { API_URL }          from '../../shared/app.setings';
+import { News }             from './news.model';
 import { HeadersWithToken } from '../../shared/headers-with-token.service';
 
 @Injectable()
 export class NewsService {
-
-    id: number;
-    private newsUrl = 'http://prognoz-rest.local/api/news';
-
+    
     constructor(
         private http: Http,
         private headersWithToken: HeadersWithToken) { }
+    
+    id: number;
+    private newsUrl = API_URL + 'news';
 
-    getNews(): Promise<News[]> {
-        return this.headersWithToken
-            .get(this.newsUrl)
-            .toPromise()
-            .then(response => response.json().news as News[])
+    getNews(): Observable<News[]> {
+        return this.http.get(this.newsUrl)
+            .map(this.extractData)
             .catch(this.handleError);
     }
-
-    getOneNews(id): Promise<News> {
+    
+    getOneNews(id): Observable<News> {
         return this.http
             .get(this.newsUrl + "/" + id)
-            .toPromise()
-            .then(response => response.json().news as News);
+            .map(this.extractData)
+            .catch(this.handleError);
     }
     
-    delete(id: number): Promise<void> {
+    delete(id: number): Observable<void> {
         const url = `${this.newsUrl}/${id}`;
         return this.headersWithToken
             .delete(url)
-            .toPromise()
-            .then(() => null);
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 
-    update(news: News): Promise<News> {
+    update(news: News): Observable<News> {
         const url = `${this.newsUrl}/${news.id}`;
         return this.headersWithToken
             .put(url, JSON.stringify(news))
-            .toPromise()
-            .then(() => news);
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 
-    create(title: string, body: string, image: string, tournament_id: number): Promise<News> {
+    create(title: string, body: string, image: string, tournament_id: number): Observable<News> {
+        let data = JSON.stringify({title: title, body: body, image: image, tournament_id: tournament_id});
         return this.headersWithToken
-            .post(this.newsUrl, JSON.stringify({title: title, body: body, image: image, tournament_id: tournament_id}))
-            .toPromise()
-            .then(response => response.json().news);
+            .post(this.newsUrl, data)
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        alert('An error occurred' + error);
-        return Promise.reject(error.message || error);
+    private extractData(res: Response) {
+        let body = res.json();
+        return body.news || { };
     }
-
+    
+    private handleError(error: any) {
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error(errMsg);
+        return Observable.throw(errMsg);
+    }
 }

@@ -9,12 +9,14 @@ import { NewsService }  from '../shared/news.service';
   styleUrls: ['./news-create.component.css']
 })
 export class NewsCreateComponent implements OnInit {
-    test = 'news-create component works!';
 
     constructor(
         private newsService: NewsService,
         private router: Router
     ) {}
+
+    test = 'news-create component works!';
+    errorMessage: string;
 
     ngOnInit() {
     }
@@ -24,9 +26,11 @@ export class NewsCreateComponent implements OnInit {
     }
 
     create(title: string, body: string, image: string, tournament_id: number) {
-        this.newsService.create(title, body, image, tournament_id).then(news => {
-            this.gotoNewsList();
-        });
+        this.newsService.create(title, body, image, tournament_id)
+            .subscribe(
+                news => this.gotoNewsList(),
+                error => this.errorMessage = <any>error
+            );
     }
 
 

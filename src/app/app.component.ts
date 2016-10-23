@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserService } from './shared/user.service';
+import './rxjs-operators';
 
 @Component({
     selector: 'app-root',
@@ -8,7 +9,8 @@ import { UserService } from './shared/user.service';
     styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
+
     constructor(
         private userService: UserService
     ) {}

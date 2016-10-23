@@ -3,6 +3,7 @@
     <p>email: <input #email type="email" value="andrew.shostak@gmail.com"></p>
     <p>pswrd: <input #password type="password" value="123456"></p>
     <p><button (click)="onSubmit(email.value, password.value)">sign in</button></p>
+    {{errorMessage}}
 </div>
 <div *ngIf="user">
     <p><button (click)="logout()">logout</button></p>

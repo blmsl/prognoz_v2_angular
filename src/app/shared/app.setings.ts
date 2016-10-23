@@ -1,0 +1,1 @@
+export const API_URL = 'http://prognoz-rest.local/api/';

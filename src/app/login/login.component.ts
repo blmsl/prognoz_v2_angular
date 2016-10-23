@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// TODO: delete line below if app works
 import { Router } from '@angular/router';
 
 import { UserService } from '../shared/user.service';
@@ -18,16 +17,20 @@ export class LoginComponent implements OnInit {
 
     title = 'login component works!';
     user: any;
+    errorMessage: string;
 
     onSubmit(email, password) {
-        this.userService.login(email, password).subscribe((result) => {
-            if (result) {
-                this.userService.reloadUserData();
-                alert('authentication successfull!');
-                this.user = JSON.parse(localStorage.getItem('user'));
-                this.router.navigate(['/']);
-            }
-        });
+        this.userService.login(email, password)
+                        .subscribe(
+                            result => {
+                                if (result) {
+                                    this.userService.reloadUserData();
+                                    alert('authentication successfull!');
+                                    this.user = JSON.parse(localStorage.getItem('user'));
+                                    this.router.navigate(['/']);
+                                }
+                            },
+                            error => this.errorMessage = <any>error);
     }
     
     ngOnInit() {
