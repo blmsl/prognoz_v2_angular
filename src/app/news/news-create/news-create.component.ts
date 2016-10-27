@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router }   from '@angular/router';
+import { Component, OnInit }    from '@angular/core';
+import { Router }               from '@angular/router';
 
 import { NewsService }  from '../shared/news.service';
 
@@ -29,7 +29,7 @@ export class NewsCreateComponent implements OnInit {
         this.newsService.create(title, body, image, tournament_id)
             .subscribe(
                 news => this.gotoNewsList(),
-                error => this.errorMessage = <any>error
+                error => this.errorMessage = <any>error.json().errors
             );
     }
 

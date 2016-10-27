@@ -19,18 +19,20 @@ export class LoginComponent implements OnInit {
     user: any;
     errorMessage: string;
 
-    onSubmit(email, password) {
-        this.userService.login(email, password)
+    onSubmit(name, password) {
+        this.userService.login(name, password)
                         .subscribe(
                             result => {
                                 if (result) {
-                                    this.userService.reloadUserData();
                                     alert('authentication successfull!');
-                                    this.user = JSON.parse(localStorage.getItem('user'));
+                                    this.user = result;
                                     this.router.navigate(['/']);
                                 }
                             },
-                            error => this.errorMessage = <any>error);
+                            error => {
+                                this.errorMessage = <any>error.json().message;
+                            }
+                        );
     }
     
     ngOnInit() {
@@ -41,5 +43,4 @@ export class LoginComponent implements OnInit {
         this.userService.logout();
         this.user = false;
     }
-
 }

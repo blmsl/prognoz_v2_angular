@@ -6,4 +6,13 @@
     <button (click)="goBack()">Back</button>
     <button (click)="save()">Save</button>
 </div>
-
+<div *ngIf="errorMessage">
+    <ul>
+        <li *ngFor="let field of errorMessage.title">
+            {{field}}
+        </li>
+        <li *ngFor="let field of errorMessage.body">
+            {{field}}
+        </li>
+    </ul>
+</div>

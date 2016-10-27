@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     title = 'app works!';
 
     ngOnInit() {
-        this.userService.reloadUserData();
+        this.userService.initializeUser();
     }
     
 }

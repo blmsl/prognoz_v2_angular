@@ -54,14 +54,25 @@ export class NewsService {
     }
 
     private extractData(res: Response) {
-        let body = res.json();
-        return body.news || { };
+        if(res){
+            let body = res.json();
+            return body.news || { };
+        }
     }
     
-    private handleError(error: any) {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        console.error(errMsg);
-        return Observable.throw(errMsg);
+    private handleError(error: Response | any) {
+        // let errMsg: string;
+        // if (error instanceof Response) {
+        //     const body = error.json() || '';
+        //     const err = body.error || JSON.stringify(body);
+        //     console.log(err);
+        //     errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        // } else {
+        //     errMsg = error.message ? error.message : error.toString();
+        // }
+        // console.error(errMsg);
+        // return Observable.throw(errMsg);
+
+        return Observable.throw(error);
     }
 }

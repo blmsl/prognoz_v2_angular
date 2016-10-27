@@ -6,4 +6,13 @@
     <input type="hidden" #tournament_id value="1">
     <button (click)="create(title.value, body.value, image.value, tournament_id.value)">Create</button>
 </div>
-{{errorMessage}}
+<div *ngIf="errorMessage">
+    <ul>
+        <li *ngFor="let field of errorMessage.title">
+            {{field}}
+        </li>
+        <li *ngFor="let field of errorMessage.body">
+            {{field}}
+        </li>
+    </ul>
+</div>

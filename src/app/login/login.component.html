@@ -1,11 +1,12 @@
 <h3>{{title}}</h3>
 <div *ngIf="!user">
-    <p>email: <input #email type="email" value="andrew.shostak@gmail.com"></p>
+    <p>name: <input #name type="text" value="Andrew"></p>
     <p>pswrd: <input #password type="password" value="123456"></p>
-    <p><button (click)="onSubmit(email.value, password.value)">sign in</button></p>
+    <p><button (click)="onSubmit(name.value, password.value)">sign in</button></p>
     {{errorMessage}}
 </div>
 <div *ngIf="user">
+    Hello, {{user.name}}
     <p><button (click)="logout()">logout</button></p>
 </div>
 

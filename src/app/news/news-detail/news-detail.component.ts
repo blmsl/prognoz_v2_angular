@@ -1,6 +1,7 @@
 import { Component, Input, OnInit }         from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { Location }                         from '@angular/common';
+import {Headers}            from '@angular/http';
 
 import { News }         from '../shared/news.model';
 import { NewsService }  from '../shared/news.service';
@@ -22,7 +23,8 @@ export class NewsDetailComponent implements OnInit {
 
     title = 'news-detail component works!';
     news: News;
-    
+    errorMessage: string;
+
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
             let id = +params['id'];
@@ -40,7 +42,11 @@ export class NewsDetailComponent implements OnInit {
     }
     
     save() {
-        this.newsService.update(this.news).subscribe(() => this.goBack());
+        this.newsService.update(this.news)
+            .subscribe(
+                res => this.goBack(),
+                error => this.errorMessage = <any>error.json().errors
+            );
     }
 
 }

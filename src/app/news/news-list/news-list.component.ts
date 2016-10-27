@@ -19,6 +19,7 @@ export class NewsListComponent implements OnInit {
 
     title = 'news-list component works!';
     news: News[];
+    deletedNews: News;
     errorMessage: string;
 
     ngOnInit() {
@@ -32,10 +33,10 @@ export class NewsListComponent implements OnInit {
     delete(news: News) {
         this.newsService.delete(news.id)
             .subscribe(
-                () => {
+                response => {
                     this.news = this.news.filter(n => n !== news);
                 },
-                error => this.errorMessage = <any>error
+                error => this.errorMessage = <any>error.json().message
             );
     }
 }
