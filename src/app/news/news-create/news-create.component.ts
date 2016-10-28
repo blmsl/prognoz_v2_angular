@@ -29,7 +29,13 @@ export class NewsCreateComponent implements OnInit {
         this.newsService.create(title, body, image, tournament_id)
             .subscribe(
                 news => this.gotoNewsList(),
-                error => this.errorMessage = <any>error.json().errors
+                error => {
+                    if(error.json().status_code === 401) {
+                        this.errorMessage = <any>error.json();
+                    } else if(error.json().status_code === 422) {
+                        this.errorMessage = <any>error.json().errors;
+                    }
+                }
             );
     }
 

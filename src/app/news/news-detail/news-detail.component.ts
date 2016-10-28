@@ -1,7 +1,6 @@
 import { Component, Input, OnInit }         from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { Location }                         from '@angular/common';
-import {Headers}            from '@angular/http';
 
 import { News }         from '../shared/news.model';
 import { NewsService }  from '../shared/news.service';

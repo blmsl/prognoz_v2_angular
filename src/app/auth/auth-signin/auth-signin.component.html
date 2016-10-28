@@ -3,10 +3,11 @@
     <p>name: <input #name type="text" value="Andrew"></p>
     <p>pswrd: <input #password type="password" value="123456"></p>
     <p><button (click)="onSubmit(name.value, password.value)">sign in</button></p>
-    {{errorMessage}}
+    {{errorMessage?.message}}
+    {{errorMessage?.name}}
+    {{errorMessage?.password}}
 </div>
 <div *ngIf="user">
     Hello, {{user.name}}
     <p><button (click)="logout()">logout</button></p>
 </div>
-

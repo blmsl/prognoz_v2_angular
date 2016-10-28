@@ -4,21 +4,20 @@ import { Router } from '@angular/router';
 import { UserService } from '../shared/user.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-export class LoginComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
     constructor(
         private userService: UserService,
         private router: Router
     ) { }
 
-    title = 'login component works!';
     user: any;
     errorMessage: string;
-
+    
     onSubmit(name, password) {
         this.userService.login(name, password)
                         .subscribe(
@@ -30,7 +29,11 @@ export class LoginComponent implements OnInit {
                                 }
                             },
                             error => {
-                                this.errorMessage = <any>error.json().message;
+                                if(error.json().status_code === 401){
+                                    this.errorMessage = <any>error.json();
+                                } else if(error.json().status_code === 422) {
+                                    this.errorMessage = <any>error.json().errors;
+                                }
                             }
                         );
     }

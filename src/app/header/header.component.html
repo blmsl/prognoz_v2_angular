@@ -1,0 +1,17 @@
+<div class="header">
+    <div *ngIf="!user">
+        <input #name type="text" value="Andrew" placeholder="Ім'я">
+        <input #password type="password" value="123456" placeholder="Пароль">
+        <button (click)="onSubmit(name.value, password.value)">Вхід</button>
+        <button routerLink="signup">Реєстрація</button>
+        <p>{{errorMessage?.message}}
+        {{errorMessage?.name}}
+        {{errorMessage?.password}}</p>
+    </div>
+    <div *ngIf="user">
+        <p>
+            Првіт, {{user.name}}
+            <button (click)="logout()">Вихід</button>
+        </p>
+    </div>
+</div>

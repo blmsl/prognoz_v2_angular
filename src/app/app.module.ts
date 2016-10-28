@@ -3,26 +3,29 @@ import { NgModule }         from '@angular/core';
 import { FormsModule }      from '@angular/forms';
 import { HttpModule }       from '@angular/http';
 
-import { AppComponent }     from './app.component';
-import { HeadersWithToken}  from './shared/headers-with-token.service';
-import { HomeModule }       from './home/home.module';
-import { LoggedInGuard }    from './shared/logged-in-guard.service';
-import { LoginComponent }   from './login/login.component';
-import { NewsModule }       from './news/news.module';
-import { UserService }      from './shared/user.service';
-
 import { AppRoutingModule } from './app-routing.module';
+import { AuthModule }       from './auth/auth.module';
+import { HomeModule }       from './home/home.module';
+import { NewsModule }       from './news/news.module';
+
+import { AppComponent }      from './app.component';
+import { HeaderComponent }   from './header/header.component';
+
+import { HeadersWithToken}  from './shared/headers-with-token.service';
+import { LoggedInGuard }    from './shared/logged-in-guard.service';
+import { UserService }      from './shared/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    AuthModule,
     NewsModule,
     HomeModule
   ],
