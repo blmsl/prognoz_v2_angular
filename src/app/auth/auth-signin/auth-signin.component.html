@@ -1,13 +1,32 @@
 <h3>{{title}}</h3>
-<div *ngIf="!user">
-    <p>name: <input #name type="text" value="Andrew"></p>
-    <p>pswrd: <input #password type="password" value="123456"></p>
-    <p><button (click)="onSubmit(name.value, password.value)">sign in</button></p>
-    {{errorMessage?.message}}
-    {{errorMessage?.name}}
-    {{errorMessage?.password}}
-</div>
-<div *ngIf="user">
-    Hello, {{user.name}}
-    <p><button (click)="logout()">logout</button></p>
+<div class="container">
+    <div *ngIf="!user">
+        <h1>Аутентифікація</h1>
+        <div class="form-group">
+            <label for="name">Ім'я</label>
+            <input type="text"
+                   id="name"
+                   class="form-control"
+                   required
+                   value="Andrew"
+                   #name>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password"
+                   id="password"
+                   class="form-control"
+                   required
+                   value="123456"
+                   #password>
+        </div>
+        <button (click)="onSubmit(name.value, password.value)" class="btn btn-primary">Вхід</button>
+        {{errorMessage?.message}}
+        {{errorMessage?.name}}
+        {{errorMessage?.password}}
+    </div>
+    <div *ngIf="user">
+        Hello, {{user.name}}
+        <button (click)="logout()" class="btn btn-primary">logout</button>
+    </div>
 </div>

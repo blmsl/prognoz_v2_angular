@@ -5,6 +5,7 @@ import { FormsModule }      from '@angular/forms';
 import { AuthComponent }        from './auth.component';
 import { AuthSigninComponent }  from './auth-signin/auth-signin.component';
 import { AuthSignupComponent }  from './auth-signup/auth-signup.component';
+import { AuthSignupService }  from './auth-signup/auth-signup.service';
 
 import { AuthRoutingModule }    from './auth-routing.module';
 
@@ -21,6 +22,9 @@ import { AuthRoutingModule }    from './auth-routing.module';
   ],
   exports: [
       AuthComponent  
+  ],
+  providers: [
+      AuthSignupService
   ]
 })
 export class AuthModule { }
