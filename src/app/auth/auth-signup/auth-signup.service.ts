@@ -15,14 +15,21 @@ export class AuthSignupService {
         let headers = new Headers();
         headers.append('Content-type', 'application/json');
         return this.http.post(API_URL + 'auth/signup', JSON.stringify(user), {headers})
-            .map(result => result.json());
+            .map(result => result.json())
+            .map((result) => {
+                if (result.token) {
+                    this.setTokenToLocalStorage(result.token);
+                    this.setUserToLocalStorage(JSON.stringify(result.currentUser));
+                }
+                return result.currentUser;
+            });
     }
 
-    setTokenToLocalStorage(token) {
+    private setTokenToLocalStorage(token) {
         localStorage.setItem('auth_token', token);
     }
 
-    setUserToLocalStorage(user) {
+    private setUserToLocalStorage(user) {
         localStorage.setItem('user', user);
     }
 }

@@ -8,6 +8,6 @@ export class LoggedInGuard implements CanActivate {
     constructor(private userService: UserService) {}
 
     canActivate() {
-        return this.userService.isLoggedIn();
+        return this.userService.isTokenInLocalStorage();
     }
 }

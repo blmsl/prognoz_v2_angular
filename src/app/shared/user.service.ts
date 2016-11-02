@@ -12,10 +12,27 @@ export class UserService {
         private http: Http,
         private headersWithToken: HeadersWithToken
     ){
-        this.loggedIn = !!localStorage.getItem('auth_token');
+        this.tokenExists = !!localStorage.getItem('auth_token');
+        this.sharedUser = JSON.parse(localStorage.getItem('user'));
+        this.sharedUser$ = new Observable(observer => {
+            this.sharedUserObserver = observer;
+        }).share();
     }
 
-    private loggedIn = false;
+    private tokenExists = false;
+
+    public sharedUser$: Observable<any>;
+    private sharedUserObserver: any;
+    private sharedUser: boolean | Object;
+    
+    addSharedUser(value: boolean | Object) {
+        this.sharedUser = value;
+        this.sharedUserObserver.next(this.sharedUser);
+    }
+    
+    loadSharedUser() {
+        this.sharedUserObserver.next(this.sharedUser);
+    }
 
     login(name, password): Observable<any> {
         let headers = new Headers();
@@ -26,14 +43,14 @@ export class UserService {
                 if (res.token) {
                     this.setTokenToLocalStorage(res.token);
                     this.setUserToLocalStorage(JSON.stringify(res.currentUser));
-                    this.loggedIn = true;
+                    this.tokenExists = true;
                 }
                 return res.currentUser;
             });
     }
 
     initializeUser() {
-        if (this.isLoggedIn()) {
+        if (this.isTokenInLocalStorage()) {
             this.refreshUserData()
                 .subscribe(
                     response => {
@@ -50,45 +67,42 @@ export class UserService {
     logout() {
         this.removeTokenFromLocalStorage();
         this.removeUserFromLocalStorage();
-        this.loggedIn = false;
+        this.tokenExists = false;
     }
 
-    isLoggedIn() {
-        return this.loggedIn;
+    isTokenInLocalStorage() {
+        return this.tokenExists;
     }
 
-    refreshUserData() {
+    private refreshUserData() {
         return this.headersWithToken.get(API_URL + 'auth/refresh')
             .map(response => response.json())
             .catch(this.handleError);
     }
 
-    setTokenToLocalStorage(token) {
+    private setTokenToLocalStorage(token) {
         localStorage.setItem('auth_token', token);
     }
 
-    setUserToLocalStorage(user) {
+    private setUserToLocalStorage(user) {
         localStorage.setItem('user', user);
     }
 
-    removeTokenFromLocalStorage() {
+    private removeTokenFromLocalStorage() {
         localStorage.removeItem('auth_token');
     }
 
-    removeUserFromLocalStorage() {
+    private removeUserFromLocalStorage() {
         localStorage.removeItem('user');
     }
-    
+
+    private handleError(error: any) {
+        return Observable.throw(error);
+    }
+
     getUserData() {
         return this.headersWithToken.get(API_URL + 'auth/user')
             .map(response => response.json().user)
             .catch(this.handleError);
-    }
-
-    private handleError(error: any) {
-        // let errMsg = (error.message) ? error.message :
-        //     error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        // console.error(errMsg);
-        return Observable.throw(error);
     }
 }

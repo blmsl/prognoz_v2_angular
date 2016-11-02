@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit }    from '@angular/core';
+import { Router }               from '@angular/router';
 
 import { UserService } from '../../shared/user.service';
 
@@ -15,7 +15,6 @@ export class AuthSigninComponent implements OnInit {
         private router: Router
     ) { }
 
-    title = 'login component works!';
     user: any;
     errorMessage: string;
 
@@ -24,8 +23,9 @@ export class AuthSigninComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result) {
-                        alert('authentication successfull!');
                         this.user = result;
+                        this.userService.addSharedUser(result);
+                        alert('Аутентифікація успішна!');
                         this.router.navigate(['/']);
                     }
                 },
@@ -40,11 +40,16 @@ export class AuthSigninComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.user = JSON.parse(localStorage.getItem('user'));
+        this.userService.sharedUser$.subscribe(currentUser => {
+            this.user = currentUser;
+        });
+        this.userService.loadSharedUser();
+        if (!this.user) this.user = JSON.parse(localStorage.getItem('user'));
     }
 
     logout() {
         this.userService.logout();
         this.user = false;
+        this.userService.addSharedUser(false);
     }
 }
