@@ -1,31 +1,44 @@
-<div class="container">
-    <div *ngIf="!user">
-        <h1>Аутентифікація</h1>
+<div class="container" *ngIf="!user">
+    <h1>Аутентифікація</h1>
+    <form novalidate [formGroup]="signIn" (ngSubmit)="onSubmit(signIn)">
         <div class="form-group">
             <label for="name">Ім'я</label>
             <input type="text"
                    id="name"
+                   placeholder="Введіть ім'я"
                    class="form-control"
-                   required
-                   value="Andrew"
-                   #name>
+                   formControlName="name">
+            <div *ngIf="signIn.get('name').hasError('required') && signIn.get('name').touched" class="alert alert-danger" role="alert">
+                Ім'я обов'язкове
+            </div>
+            <div *ngIf="signIn.get('name').hasError('minlength') && signIn.get('name').touched" class="alert alert-danger" role="alert">
+                Ім'я повинно містити мінімум три символи
+            </div>
+            <div *ngIf="errorMessage?.name" class="alert alert-danger">
+                {{errorMessage?.name}}
+            </div>
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
             <input type="password"
                    id="password"
+                   placeholder="Введіть пароль"
                    class="form-control"
-                   required
-                   value="123456"
-                   #password>
+                   formControlName="password">
+            <div *ngIf="signIn.get('password').hasError('required') && signIn.get('password').touched" class="alert alert-danger" role="alert">
+                Пароль обов'язковий
+            </div>
+            <div *ngIf="errorMessage?.password" class="alert alert-danger">
+                {{errorMessage?.password}}
+            </div>
         </div>
-        <button (click)="onSubmit(name.value, password.value)" class="btn btn-primary">Вхід</button>
-        {{errorMessage?.message}}
-        {{errorMessage?.name}}
-        {{errorMessage?.password}}
-    </div>
-    <div *ngIf="user">
-        Hello, {{user.name}}
-        <button (click)="logout()" class="btn btn-primary">logout</button>
-    </div>
+        <button type="submit" [disabled]="signIn.invalid" class="btn btn-primary">Вхід</button>
+        <div *ngIf="errorMessage?.message" class="alert alert-danger">
+            {{errorMessage?.message}}
+        </div>
+    </form>
+</div>
+<div class="container" *ngIf="user">
+    Привіт, <b>{{user.name}}</b>
+    <button (click)="logout()" class="btn btn-primary">logout</button>
 </div>

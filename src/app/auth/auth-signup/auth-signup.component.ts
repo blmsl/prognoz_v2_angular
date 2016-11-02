@@ -1,7 +1,7 @@
 import { Component, OnInit }    from '@angular/core';
 import { Router }               from '@angular/router';
 
-import { User }                 from './auth-signup.interface';
+import { AuthSignupInterface }  from './auth-signup.interface';
 import { AuthSignupService }    from './auth-signup.service';
 import { UserService }          from '../../shared/user.service';
 
@@ -18,7 +18,7 @@ export class AuthSignupComponent implements OnInit {
         private userService:UserService
     ) { }
 
-    user: User = {
+    user: AuthSignupInterface = {
         name: '',
         email: '',
         password: '',
@@ -27,7 +27,7 @@ export class AuthSignupComponent implements OnInit {
     authenticatedUser: any;
     errorMessage: string;
     
-    onSubmit({value, valid}: {value:User, valid:boolean}) {
+    onSubmit({value, valid}: {value:AuthSignupInterface, valid:boolean}) {
         this.authSignupService.signup(value)
             .subscribe(
                 response => {
