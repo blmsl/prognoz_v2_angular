@@ -1,17 +1,34 @@
-<div class="header">
-    <div *ngIf="!user">
-        <input #name type="text" value="Andrew" placeholder="Ім'я">
-        <input #password type="password" value="123456" placeholder="Пароль">
-        <button (click)="onSubmit(name.value, password.value)">Вхід</button>
-        <button routerLink="signup">Реєстрація</button>
-        <p>{{errorMessage?.message}}
-        {{errorMessage?.name}}
-        {{errorMessage?.password}}</p>
-    </div>
-    <div *ngIf="user">
-        <p>
+<nav class="navbar navbar-full navbar-dark bg-inverse">
+    <a class="navbar-brand" routerLink="/">
+        Prognoz.org.ua
+    </a>
+    <form *ngIf="!user" novalidate #headerSignin="ngForm" (ngSubmit)="onSubmit(headerSignin)" class="form-inline float-xs-right">
+        <input type="text"
+               id="name"
+               placeholder="Ім'я"
+               class="form-control"
+               minlength="3"
+               reuired
+               name="name"
+               ngModel
+               #userName="ngModel">
+        <input type="password"
+               id="password"
+               placeholder="Пароль"
+               class="form-control"
+               required
+               name="password"
+               ngModel
+               #userPassword="ngModel">
+        <button type="submit" [disabled]="headerSignin.invalid" class="btn btn-outline-primary">Вхід</button>
+        <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
+    </form>
+
+    <form class="form-inline float-xs-right" *ngIf="user">
+        <h1 class="navbar-brand" *ngIf="user">
             Привіт, {{user.name}}
-            <button (click)="logout()">Вихід</button>
-        </p>
-    </div>
-</div>
+        </h1>
+        <button (click)="logout()" class="btn btn-outline-secondary">Вихід</button>
+    </form>
+
+</nav>

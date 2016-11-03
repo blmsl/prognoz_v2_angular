@@ -9,3 +9,9 @@ a{
     border-radius: 5px;
     font-weight: bold;
 }
+/*header grass image*/
+.container-first {
+    background-image: url("../img/headerbg.jpg");
+    background-size: cover;
+    text-align: center;
+}

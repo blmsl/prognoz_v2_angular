@@ -1,6 +1,7 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { Router }                               from '@angular/router';
+import { NotificationsService }                 from 'angular2-notifications';
 
 import { UserService } from '../../shared/user.service';
 
@@ -13,7 +14,8 @@ export class AuthSigninComponent implements OnInit {
 
     constructor(
         private userService: UserService,
-        private router: Router
+        private router: Router,
+        private notificationService: NotificationsService
     ) { }
 
     user: any;
@@ -27,15 +29,16 @@ export class AuthSigninComponent implements OnInit {
                     if (result) {
                         this.user = result;
                         this.userService.addSharedUser(result);
-                        alert('Аутентифікація успішна!');
                         this.router.navigate(['/']);
+                        this.notificationService.success('Успішно', 'Аутентифікація пройшла успішно');
                     }
                 },
                 error => {
-                    if(error.json().status_code === 401){
-                        this.errorMessage = <any>error.json();
+                    if (error.json().status_code === 401){
+                        this.notificationService.error('Помилка', error.json().message);
                     } else if(error.json().status_code === 422) {
-                        this.errorMessage = <any>error.json().errors;
+                        if (error.json().errors.name) this.notificationService.error('Помилка', error.json().errors.name);
+                        if (error.json().errors.password) this.notificationService.error('Помилка', error.json().errors.password);
                     }
                 }
             );
@@ -60,5 +63,6 @@ export class AuthSigninComponent implements OnInit {
         this.userService.logout();
         this.user = false;
         this.userService.addSharedUser(false);
+        this.notificationService.success('Успішно', 'Ви вийшли зі свого аккаунту');
     }
 }

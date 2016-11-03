@@ -18,9 +18,6 @@
             <div *ngIf="userName?.errors?.minlength && userName.touched" class="alert alert-danger" role="alert">
                 Ім'я повинно містити мінімум три символи
             </div>
-            <div *ngIf="errorMessage?.name" class="alert alert-danger" role="alert">
-                {{errorMessage?.name}}
-            </div>
         </div>
         <div class="form-group">
             <label for="email">E-mail</label>
@@ -35,9 +32,6 @@
             <div *ngIf="userEmail?.errors?.required && userEmail.touched" class="alert alert-danger" role="alert">
                 E-mail обов'язковий
             </div>
-            <div *ngIf="errorMessage?.email" class="alert alert-danger" role="alert">
-                {{errorMessage?.email}}
-            </div>
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
@@ -51,9 +45,6 @@
                    #userPassword="ngModel">
             <div *ngIf="userPassword?.errors?.required && userPassword.touched" class="alert alert-danger" role="alert">
                 Пароль обов'язковий
-            </div>
-            <div *ngIf="errorMessage?.password" class="alert alert-danger" role="alert">
-                {{errorMessage?.password}}
             </div>
         </div>
         <div class="form-group">
@@ -71,9 +62,6 @@
             </div>
             <div *ngIf="(userPassword.value != userConfirm.value) && userConfirm.touched" class="alert alert-danger" role="alert">
                 Паролі не співпадають
-            </div>
-            <div *ngIf="errorMessage?.password_confirmation" class="alert alert-danger" role="alert">
-                {{errorMessage?.password_confirmation}}
             </div>
         </div>
         <button type="submit" [disabled]="f.invalid || (userPassword.value != userConfirm.value)" class="btn btn-primary">Зареєструватись</button>

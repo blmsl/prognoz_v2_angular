@@ -1,5 +1,6 @@
 import { Component, OnInit }    from '@angular/core';
 import { Router }               from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
 
 import { AuthSignupInterface }  from './auth-signup.interface';
 import { AuthSignupService }    from './auth-signup.service';
@@ -13,9 +14,10 @@ import { UserService }          from '../../shared/user.service';
 export class AuthSignupComponent implements OnInit {
 
     constructor(
-        private authSignupService:AuthSignupService,
-        private router:Router,
-        private userService:UserService
+        private authSignupService: AuthSignupService,
+        private router: Router,
+        private userService: UserService,
+        private notificationService: NotificationsService
     ) { }
 
     user: AuthSignupInterface = {
@@ -25,7 +27,6 @@ export class AuthSignupComponent implements OnInit {
         password_confirmation: ''
     };
     authenticatedUser: any;
-    errorMessage: string;
     
     onSubmit({value, valid}: {value:AuthSignupInterface, valid:boolean}) {
         this.authSignupService.signup(value)
@@ -33,14 +34,16 @@ export class AuthSignupComponent implements OnInit {
                 response => {
                     this.userService.addSharedUser(response);
                     this.authenticatedUser = response;
-                    alert('Реєстрація успішна');
                     this.router.navigate(['/']);
+                    this.notificationService.success('Успішно', 'Реєстрація пройшла успішно');
                 },
                 error => {
-                    if (error.json().status_code === 401) {
-                        this.errorMessage = <any>error.json();
-                    } else if (error.json().status_code === 422) {
-                        this.errorMessage = <any>error.json().errors;
+                    if (error.json().status_code === 401){
+                        this.notificationService.error('Помилка', error.json().message);
+                    } else if(error.json().status_code === 422) {
+                        if (error.json().errors.name) this.notificationService.error('Помилка', error.json().errors.name);
+                        if (error.json().errors.email) this.notificationService.error('Помилка', error.json().errors.email);
+                        if (error.json().errors.password) this.notificationService.error('Помилка', error.json().errors.password);
                     }
                 }
             );

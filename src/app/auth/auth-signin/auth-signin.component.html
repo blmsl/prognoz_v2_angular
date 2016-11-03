@@ -14,9 +14,6 @@
             <div *ngIf="signIn.get('name').hasError('minlength') && signIn.get('name').touched" class="alert alert-danger" role="alert">
                 Ім'я повинно містити мінімум три символи
             </div>
-            <div *ngIf="errorMessage?.name" class="alert alert-danger">
-                {{errorMessage?.name}}
-            </div>
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
@@ -28,14 +25,8 @@
             <div *ngIf="signIn.get('password').hasError('required') && signIn.get('password').touched" class="alert alert-danger" role="alert">
                 Пароль обов'язковий
             </div>
-            <div *ngIf="errorMessage?.password" class="alert alert-danger">
-                {{errorMessage?.password}}
-            </div>
         </div>
         <button type="submit" [disabled]="signIn.invalid" class="btn btn-primary">Вхід</button>
-        <div *ngIf="errorMessage?.message" class="alert alert-danger">
-            {{errorMessage?.message}}
-        </div>
     </form>
 </div>
 <div class="container" *ngIf="user">
