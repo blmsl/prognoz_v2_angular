@@ -24,16 +24,31 @@ export class UserService {
     public sharedUser$: Observable<any>;
     private sharedUserObserver: any;
     private sharedUser: boolean | Object;
-    
+
+    /**
+     * adds user data to this.sharedUser property
+     *
+     * @param value
+     */
     addSharedUser(value: boolean | Object) {
         this.sharedUser = value;
         this.sharedUserObserver.next(this.sharedUser);
     }
-    
+
+    /**
+     * watchs for changes in this.sharedUser property
+     */
     loadSharedUser() {
         this.sharedUserObserver.next(this.sharedUser);
     }
 
+    /**
+     * User authentication
+     *
+     * @param name
+     * @param password
+     * @returns {Observable<R>}
+     */
     login(name, password): Observable<any> {
         let headers = new Headers();
         headers.append('Content-type', 'application/json');
@@ -49,6 +64,57 @@ export class UserService {
             });
     }
 
+    /**
+     * User registration
+     *
+     * @param user
+     * @returns {Observable<R>}
+     */
+    registration(user): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-type', 'application/json');
+        return this.http.post(API_URL + 'auth/signup', JSON.stringify(user), {headers})
+            .map(result => result.json())
+            .map((result) => {
+                if (result.token) {
+                    this.setTokenToLocalStorage(result.token);
+                    this.setUserToLocalStorage(JSON.stringify(result.currentUser));
+                }
+                return result.currentUser;
+            });
+    }
+
+    /**
+     * User password recovery
+     *
+     * @param email
+     * @returns {Observable<R>}
+     */
+    recovery(email): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-type', 'application/json');
+        return this.http.post(API_URL + 'auth/recovery', JSON.stringify({email: email}), {headers})
+            .map(response => response)
+            .catch(this.handleError);
+    }
+
+    /**
+     * User password reset
+     * 
+     * @param resetForm
+     * @returns {Observable<R>}
+     */
+    reset(resetForm): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-type', 'application/json');
+        return this.http.post(API_URL + 'auth/reset', JSON.stringify(resetForm), {headers})
+            .map(response => response)
+            .catch(this.handleError);
+    }
+
+    /**
+     * Update token if exists, logout when error occurs
+     */
     initializeUser() {
         if (this.isTokenInLocalStorage()) {
             this.refreshUserData()
@@ -64,42 +130,82 @@ export class UserService {
         }
     }
 
+    /**
+     * logout method
+     */
     logout() {
         this.removeTokenFromLocalStorage();
         this.removeUserFromLocalStorage();
         this.tokenExists = false;
     }
 
+    /**
+     * check if 'auth_token' exists in localStorage
+     *
+     * @returns {boolean}
+     */
     isTokenInLocalStorage() {
         return this.tokenExists;
     }
 
+    /**
+     * Refresh user profile data & token
+     *
+     * @returns {Observable<R>}
+     */
     private refreshUserData() {
         return this.headersWithToken.get(API_URL + 'auth/refresh')
             .map(response => response.json())
             .catch(this.handleError);
     }
 
+    /**
+     * set token to localStorage
+     *
+     * @param token
+     */
     private setTokenToLocalStorage(token) {
         localStorage.setItem('auth_token', token);
     }
 
+    /**
+     * set user profile data to localStorage
+     *
+     * @param user
+     */
     private setUserToLocalStorage(user) {
         localStorage.setItem('user', user);
     }
 
+    /**
+     * remove token from localStorage
+     */
     private removeTokenFromLocalStorage() {
         localStorage.removeItem('auth_token');
     }
 
+    /**
+     * remove user profile data from localStorage
+     */
     private removeUserFromLocalStorage() {
         localStorage.removeItem('user');
     }
 
+    /**
+     * error handling
+     *
+     * @param error
+     * @returns {ErrorObservable}
+     */
     private handleError(error: any) {
         return Observable.throw(error);
     }
 
+    /**
+     * get user profile data from rest(currently dont need)
+     *
+     * @returns {Observable<R>}
+     */
     getUserData() {
         return this.headersWithToken.get(API_URL + 'auth/user')
             .map(response => response.json().user)

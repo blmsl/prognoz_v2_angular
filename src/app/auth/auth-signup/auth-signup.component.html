@@ -60,7 +60,7 @@
             <div *ngIf="userConfirm?.errors?.required && userConfirm.touched" class="alert alert-danger" role="alert">
                 Підтвердження паролю обов'язкове
             </div>
-            <div *ngIf="(userPassword.value != userConfirm.value) && userConfirm.touched" class="alert alert-danger" role="alert">
+            <div *ngIf="(userPassword.value != userConfirm.value)" class="alert alert-danger" role="alert">
                 Паролі не співпадають
             </div>
         </div>

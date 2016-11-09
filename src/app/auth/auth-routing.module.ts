@@ -1,9 +1,11 @@
 import { NgModule }                 from '@angular/core';
 import { RouterModule, Routes }     from '@angular/router';
 
-import { AuthComponent }        from './auth.component';
-import { AuthSignupComponent }  from './auth-signup/auth-signup.component';
-import { AuthSigninComponent }  from './auth-signin/auth-signin.component';
+import { AuthComponent }            from './auth.component';
+import { AuthRecoveryComponent }    from './auth-recovery/auth-recovery.component';
+import { AuthResetComponent }       from './auth-reset/auth-reset.component';
+import { AuthSigninComponent }      from './auth-signin/auth-signin.component';
+import { AuthSignupComponent }      from './auth-signup/auth-signup.component';
 
 const routes: Routes = [
     {
@@ -11,12 +13,20 @@ const routes: Routes = [
         component: AuthComponent,
         children: [
             {
-                path: 'signup',
-                component: AuthSignupComponent
+                path: 'recovery',
+                component: AuthRecoveryComponent
+            },
+            {
+                path: 'reset/:token',
+                component: AuthResetComponent
             },
             {
                 path: 'signin',
                 component: AuthSigninComponent
+            },
+            {
+                path: 'signup',
+                component: AuthSignupComponent
             }
         ]
     }

@@ -3,7 +3,6 @@ import { Router }               from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 
 import { AuthSignupInterface }  from './auth-signup.interface';
-import { AuthSignupService }    from './auth-signup.service';
 import { UserService }          from '../../shared/user.service';
 
 @Component({
@@ -14,7 +13,6 @@ import { UserService }          from '../../shared/user.service';
 export class AuthSignupComponent implements OnInit {
 
     constructor(
-        private authSignupService: AuthSignupService,
         private router: Router,
         private userService: UserService,
         private notificationService: NotificationsService
@@ -29,7 +27,7 @@ export class AuthSignupComponent implements OnInit {
     authenticatedUser: any;
     
     onSubmit({value, valid}: {value:AuthSignupInterface, valid:boolean}) {
-        this.authSignupService.signup(value)
+        this.userService.registration(value)
             .subscribe(
                 response => {
                     this.userService.addSharedUser(response);

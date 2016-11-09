@@ -1,0 +1,45 @@
+<div class="container">
+    <h1>Створення нового паролю</h1>
+    <form novalidate [formGroup]="resetForm" (ngSubmit)="onSubmit(resetForm)">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email"
+                   id="email"
+                   placeholder="Введіть email"
+                   class="form-control"
+                   formControlName="email">
+            <div *ngIf="resetForm.get('email').hasError('required') && resetForm.get('email').touched" class="alert alert-danger">
+                Email обов'язковий.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Новий пароль</label>
+            <input type="password"
+                   id="password"
+                   placeholder="Пароль"
+                   class="form-control"
+                   formControlName="password">
+            <div *ngIf="resetForm.get('password').hasError('required') && resetForm.get('password').touched" class="alert alert-danger">
+              Email обов'язковий.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Повторіть пароль</label>
+            <input type="password"
+                   id="password_confirmation"
+                   placeholder="Повторіть пароль"
+                   class="form-control"
+                   formControlName="password_confirmation">
+            <div *ngIf="resetForm.get('password_confirmation').hasError('required') && resetForm.get('password_confirmation').touched" class="alert alert-danger">
+                Email обов'язковий.
+            </div>
+            <div *ngIf="(resetForm.value.password != resetForm.value.password_confirmation)" class="alert alert-danger" role="alert">
+                Паролі не співпадають.
+            </div>
+        </div>
+        <input type="hidden"
+               id="token"
+               formControlName="token">
+        <button type="submit" [disabled]="resetForm.invalid || (resetForm.value.password != resetForm.value.password_confirmation)" class="btn btn-primary">Вперед</button>
+    </form>
+</div>
