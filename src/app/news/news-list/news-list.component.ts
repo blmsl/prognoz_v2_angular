@@ -1,5 +1,5 @@
-import { Component, OnInit }    from '@angular/core';
-import { Router }               from '@angular/router';
+import { Component, OnInit }                from '@angular/core';
+import { Router, ActivatedRoute, Params }   from '@angular/router';
 
 import { News }         from '../shared/news.model';
 import { NewsService }  from '../shared/news.service';
@@ -14,22 +14,36 @@ export class NewsListComponent implements OnInit {
 
     constructor(
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private newsService: NewsService
     ) { }
-
-    title = 'news-list component works!';
+    
     news: News[];
-    deletedNews: News;
     errorMessage: string;
 
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
+
     ngOnInit() {
-        this.newsService.getNews().subscribe(news => this.news = news);
+        this.activatedRoute.params.subscribe((params: Params) => {
+            this.newsService.getNews(params['number']).subscribe(result => {
+                let response = result.json();
+                this.currentPage = response.current_page;
+                this.lastPage = response.last_page;
+                this.perPage = response.per_page;
+                this.total = response.total;
+                this.news = response.data;
+            });
+        });
     }
     
     onSelect(news: News) {
         this.router.navigate(['/news', news.id]);
     }
-
+    
+    //TODO: replace to admin-news-delete controller 
     delete(news: News) {
         this.newsService.delete(news.id)
             .subscribe(
@@ -38,5 +52,9 @@ export class NewsListComponent implements OnInit {
                 },
                 error => this.errorMessage = <any>error.json().message
             );
+    }
+    
+    pageChanged(event){
+        this.router.navigate(['/news/page', event]);
     }
 }

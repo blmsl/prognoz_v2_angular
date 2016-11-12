@@ -1,6 +1,7 @@
-import { NgModule }     from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule }  from '@angular/forms';
+import { NgModule }             from '@angular/core';
+import { CommonModule }         from '@angular/common';
+import { FormsModule }          from '@angular/forms';
+import { Ng2PaginationModule }  from 'ng2-pagination';
 
 import { NewsComponent }        from './news.component';
 import { NewsCreateComponent }  from './news-create/news-create.component';
@@ -14,6 +15,7 @@ import { NewsRoutingModule }    from './news-routing.module';
     imports: [
         CommonModule,
         FormsModule,
+        Ng2PaginationModule,
         NewsRoutingModule
     ],
     declarations: [
@@ -22,7 +24,9 @@ import { NewsRoutingModule }    from './news-routing.module';
         NewsDetailComponent,
         NewsListComponent
     ],
-    providers: [NewsService],
+    providers: [
+        NewsService
+    ],
     exports: [
         NewsComponent
     ]

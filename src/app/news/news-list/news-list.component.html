@@ -1,10 +1,38 @@
-<h5>{{title}}</h5>
-<ul>
-    <li *ngFor="let one of news" (click)="onSelect(one)" class="news-list-li">
-        <span class="news-list">{{one.title}}</span> <b (click) ="delete(one); $event.stopPropagation()">X</b>
-    </li>
-</ul>
-{{errorMessage}}
-
-
-
+<!--<b (click) ="delete(one); $event.stopPropagation()">X</b>-->
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Останні новини:</h2>
+        </div>
+    </div>
+    <div *ngIf="!news" class="row">
+        <div class="col-xs-12 text-xs-center">
+            <img src="../../../img/5.gif" alt="spinner">
+        </div>
+    </div>
+    <div *ngFor="let one of news | paginate: { id: 'news-list',
+                                              itemsPerPage: perPage,
+                                              currentPage: currentPage,
+                                              totalItems: total }"
+         (click)="onSelect(one)"
+         class="row bg-inverse text-white one-news">
+        <div class="hidden-xs-down col-sm-4 col-md-3 col-lg-2">
+            <img class="img-fluid" src="http://loremflickr.com/640/480/all?random={{one.id}}" alt="{{one.title}}">
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+            <h5>{{one.title}}</h5>
+            <div >
+                <div class="text-xs-left"><small class="text-muted">{{one.created_at}}</small></div>
+                <div class="text-xs-right"><small class="text-muted">Категорія:</small> Назва категорії</div>
+            </div>
+        </div>
+    </div>
+    <div class="row text-xs-center pagination-row">
+        <pagination-controls  id="news-list"
+                              (pageChange)="pageChanged($event)"
+                              maxSize="9"
+                              directionLinks="true"
+                              autoHide="true">
+        </pagination-controls>
+    </div>
+</div>

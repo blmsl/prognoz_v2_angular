@@ -3,14 +3,24 @@
     <br><br><br><br><br><br><br><br><br><!--TODO: add site logo here-->
 </div>
 <nav class="navbar navbar-full navbar-dark bg-inverse">
-    <ul class="nav navbar-nav">
+    <ul class="nav nav-pills">
         <li class="nav-item">
             <a routerLink="/" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
         </li>
         <li class="nav-item">
             <a routerLink="/news" routerLinkActive="active" class="nav-link">News</a>
         </li>
+        <li class="nav-item">
+            <a routerLink="/" class="nav-link">Option 1</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="/" class="nav-link">Option 2</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="/" class="nav-link">Option 3</a>
+        </li>
     </ul>
 </nav>
 <router-outlet></router-outlet>
+<app-footer></app-footer>
 <simple-notifications [options]="options"></simple-notifications>

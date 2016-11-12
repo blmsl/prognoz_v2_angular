@@ -1,18 +1,26 @@
-<h5>{{title}}</h5>
-<div *ngIf="news">
-    <p>title: <input [(ngModel)]="news.title"></p>
-    <p>body: <textarea [(ngModel)]="news.body" rows="5" cols="75"></textarea></p>
-    <p>date: {{news.updated_at}}</p>
-    <button (click)="goBack()">Back</button>
-    <button (click)="save()">Save</button>
-</div>
-<div *ngIf="errorMessage">
-    <ul>
-        <li *ngFor="let field of errorMessage.title">
-            {{field}}
-        </li>
-        <li *ngFor="let field of errorMessage.body">
-            {{field}}
-        </li>
-    </ul>
+<div class="container">
+    <div *ngIf="!news" class="row">
+        <div class="col-xs-12 text-xs-center">
+            <img src="../../../img/5.gif" alt="spinner">
+        </div>
+    </div>
+    <div *ngIf="news" class="row">
+        <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+            <div class="card card-inverse">
+                <h5 class="card-header card-inverse">
+                    {{news.title}}
+                </h5>
+                <img class="card-img-top img-fluid" src="http://loremflickr.com/640/480/all?random={{news.id}}" alt="{{news.title}}">
+                <div class="card-block">
+                    <div class="card-title"><small class="text-muted">{{news.created_at}}</small></div>
+                    <p class="card-text">{{news.body}}. {{news.tournament_id}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <a (click)="goBack()" class="btn btn-secondary btn-block">Назад</a>
+        </div>
+    </div>
 </div>

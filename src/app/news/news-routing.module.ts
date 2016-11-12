@@ -20,6 +20,10 @@ const routes: Routes = [
                 component: NewsCreateComponent
             },
             {
+                path: 'page/:number',
+                component: NewsListComponent
+            },
+            {
                 path: ':id',
                 component: NewsDetailComponent
             }

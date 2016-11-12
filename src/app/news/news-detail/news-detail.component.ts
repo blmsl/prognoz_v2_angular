@@ -1,4 +1,4 @@
-import { Component, Input, OnInit }         from '@angular/core';
+import { Component, OnInit }                from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { Location }                         from '@angular/common';
 
@@ -20,7 +20,6 @@ export class NewsDetailComponent implements OnInit {
         private location: Location
     ) {}
 
-    title = 'news-detail component works!';
     news: News;
     errorMessage: string;
 
@@ -39,13 +38,4 @@ export class NewsDetailComponent implements OnInit {
     goBack() {
         this.location.back();
     }
-    
-    save() {
-        this.newsService.update(this.news)
-            .subscribe(
-                res => this.goBack(),
-                error => this.errorMessage = <any>error.json().errors
-            );
-    }
-
 }

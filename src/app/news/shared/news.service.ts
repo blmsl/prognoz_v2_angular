@@ -1,6 +1,6 @@
-import { Injectable }       from '@angular/core';
-import { Http, Response }   from '@angular/http';
-import { Observable }       from 'rxjs/Observable';
+import { Injectable }                        from '@angular/core';
+import { Http, Response, URLSearchParams }   from '@angular/http';
+import { Observable }                        from 'rxjs/Observable';
 
 import { API_URL }          from '../../shared/app.setings';
 import { News }             from './news.model';
@@ -16,9 +16,11 @@ export class NewsService {
     id: number;
     private newsUrl = API_URL + 'news';
 
-    getNews(): Observable<News[]> {
-        return this.http.get(this.newsUrl)
-            .map(this.extractData)
+    getNews(page = '1'): Observable<any> {
+        let params = new URLSearchParams();
+        params.set('page', page);
+        return this.http.get(this.newsUrl, {search: params})
+            .map(response => response)
             .catch(this.handleError);
     }
     

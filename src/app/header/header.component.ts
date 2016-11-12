@@ -17,10 +17,7 @@ export class HeaderComponent implements OnInit {
         private notificationService: NotificationsService
     ) { }
     user: any;
-
-    //TODO: users from old database authentication
-    //TODO: guestbook page
-
+    
     onSubmit({value, valid}: {value:any, valid:boolean}) {
         this.userService.login(value.name, value.password)
             .subscribe(
