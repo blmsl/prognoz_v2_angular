@@ -2,7 +2,7 @@ import { Injectable }                        from '@angular/core';
 import { Http, Response, URLSearchParams }   from '@angular/http';
 import { Observable }                        from 'rxjs/Observable';
 
-import { API_URL }          from '../../shared/app.setings';
+import { API_URL }          from '../../shared/app.settings';
 import { News }             from './news.model';
 import { HeadersWithToken } from '../../shared/headers-with-token.service';
 

@@ -33,11 +33,9 @@ export class AuthRecoveryComponent implements OnInit {
                     this.router.navigate(['/']);
                     this.notificationService.success('Успішно', 'Подальші інструкції відправлено на ваш email');
                 },
-                error => {
-                    if (error.json().status_code === 404){
-                        this.notificationService.error('Помилка', error.json().message);
-                    } else if(error.json().status_code === 422) {
-                        if (error.json().errors.email) this.notificationService.error('Помилка', error.json().errors.email);
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
                     }
                 }
             )

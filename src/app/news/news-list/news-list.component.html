@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <h2>Останні новини:</h2>
+            <h2>Всі новини:</h2>
         </div>
     </div>
     <div *ngIf="!news" class="row">
@@ -20,10 +20,10 @@
             <img class="img-fluid" src="http://loremflickr.com/640/480/all?random={{one.id}}" alt="{{one.title}}">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
-            <h5>{{one.title}}</h5>
+            <h5>{{one.title}}</h5><a (click)="delete(one)">delete</a>
             <div >
                 <div class="text-xs-left"><small class="text-muted">{{one.created_at}}</small></div>
-                <div class="text-xs-right"><small class="text-muted">Категорія:</small> Назва категорії</div>
+                <div class="text-xs-right"><small class="text-muted">Категорія:</small> {{one.tournament.title}}</div>
             </div>
         </div>
     </div>

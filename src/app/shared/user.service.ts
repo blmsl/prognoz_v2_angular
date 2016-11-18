@@ -1,9 +1,9 @@
-import { Injectable }       from '@angular/core';
-import { Http, Headers }    from '@angular/http';
-import { Observable }       from 'rxjs/Observable';
+import { Injectable }               from '@angular/core';
+import { Http, Headers, Response }  from '@angular/http';
+import { Observable }               from 'rxjs/Observable';
 
-import { API_URL }          from './app.setings';
-import { HeadersWithToken } from './headers-with-token.service';
+import { API_URL }                  from './app.settings';
+import { HeadersWithToken }         from './headers-with-token.service';
 
 @Injectable()
 export class UserService {
@@ -61,7 +61,8 @@ export class UserService {
                     this.tokenExists = true;
                 }
                 return res.currentUser;
-            });
+            })
+            .catch(this.handleError);
     }
 
     /**
@@ -81,7 +82,8 @@ export class UserService {
                     this.setUserToLocalStorage(JSON.stringify(result.currentUser));
                 }
                 return result.currentUser;
-            });
+            })
+            .catch(this.handleError);
     }
 
     /**
@@ -197,8 +199,33 @@ export class UserService {
      * @param error
      * @returns {ErrorObservable}
      */
-    private handleError(error: any) {
-        return Observable.throw(error);
+    private handleError(error: Response | any) {
+        let errorObject: any;
+        let errorMessage: Array<any> = [];
+        if (error instanceof Response) {
+            errorObject = error.json();
+            switch (errorObject.status_code) {
+                case 401:
+                    errorMessage.push(errorObject.message);
+                    break;
+                case 404:
+                    errorMessage.push(errorObject.message);
+                    break;
+                case 422:
+                    if (errorObject.errors.name) errorMessage.push(errorObject.errors.name);
+                    if (errorObject.errors.password) errorMessage.push(errorObject.errors.password);
+                    if (errorObject.errors.email) errorMessage.push(errorObject.errors.email);
+                    break;
+                case 500:
+                    errorMessage.push('Помилка сервера');
+                    break;
+            }
+        } else {
+            errorMessage.push('Невідома помилка');
+        }
+
+        return Observable.throw(errorMessage);
+        //return Observable.throw(error);
     }
 
     /**

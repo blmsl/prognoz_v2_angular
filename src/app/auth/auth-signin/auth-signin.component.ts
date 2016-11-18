@@ -33,12 +33,9 @@ export class AuthSigninComponent implements OnInit {
                         this.notificationService.success('Успішно', 'Аутентифікація пройшла успішно');
                     }
                 },
-                error => {
-                    if (error.json().status_code === 401){
-                        this.notificationService.error('Помилка', error.json().message);
-                    } else if(error.json().status_code === 422) {
-                        if (error.json().errors.name) this.notificationService.error('Помилка', error.json().errors.name);
-                        if (error.json().errors.password) this.notificationService.error('Помилка', error.json().errors.password);
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
                     }
                 }
             );
@@ -63,6 +60,6 @@ export class AuthSigninComponent implements OnInit {
         this.userService.logout();
         this.user = false;
         this.userService.addSharedUser(false);
-        this.notificationService.success('Успішно', 'Ви вийшли зі свого аккаунту');
+        this.notificationService.info('Успішно', 'Ви вийшли зі свого аккаунту');
     }
 }

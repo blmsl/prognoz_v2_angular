@@ -4,4 +4,8 @@ export class News {
     body:           string;
     image:          string;
     tournament_id:  number;
+    tournament: {
+        id: number;
+        title: string;
+    }
 }

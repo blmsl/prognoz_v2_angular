@@ -13,7 +13,8 @@
                 <img class="card-img-top img-fluid" src="http://loremflickr.com/640/480/all?random={{news.id}}" alt="{{news.title}}">
                 <div class="card-block">
                     <div class="card-title"><small class="text-muted">{{news.created_at}}</small></div>
-                    <p class="card-text">{{news.body}}. {{news.tournament_id}}</p>
+                    <div class="card-title"><small class="text-muted">Категорія: </small>{{news.tournament.title}}</div>
+                    <p class="card-text">{{news.body}}</p>
                 </div>
             </div>
         </div>

@@ -38,12 +38,9 @@ export class AuthResetComponent implements OnInit {
                 this.router.navigate(['/signin']);
                 this.notificationService.success('Успішно', 'Відновлення паролю пройшло успішно. Тепер ви можете виконати вхід на сайт. ');
             },
-            error => {
-                if (error.json().status_code === 404){
-                    this.notificationService.error('Помилка', error.json().message);
-                } else if(error.json().status_code === 422) {
-                    if (error.json().errors.email) this.notificationService.error('Помилка', error.json().errors.email);
-                    if (error.json().errors.password) this.notificationService.error('Помилка', error.json().errors.password);
+            errors => {
+                for (let error of errors) {
+                    this.notificationService.error('Помилка', error);
                 }
             }
         );

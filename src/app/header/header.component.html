@@ -2,35 +2,38 @@
     <a class="navbar-brand hidden-md-down" routerLink="/">
         Prognoz.org.ua
     </a>
-    <form *ngIf="!user" novalidate #headerSignin="ngForm" (ngSubmit)="onSubmit(headerSignin)" class="form-inline float-xs-right hidden-sm-down">
-        <input type="text"
-               id="name"
-               placeholder="Ім'я"
-               class="form-control"
-               minlength="3"
-               reuired
-               name="name"
-               ngModel
-               #userName="ngModel">
-        <input type="password"
-               id="password"
-               placeholder="Пароль"
-               class="form-control"
-               required
-               name="password"
-               ngModel
-               #userPassword="ngModel">
-        <button type="submit" [disabled]="headerSignin.invalid" class="btn btn-primary">Вхід</button>
-        <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
-    </form>
-    <div *ngIf="!user" class="float-xs-right">
-        <button routerLink="signin" class="btn btn-primary hidden-md-up">Вхід</button>
-        <button routerLink="signup" class="btn btn-secondary hidden-md-up">Реєстрація</button>
+    <div *ngIf="!user">
+        <form novalidate #headerSignin="ngForm" (ngSubmit)="onSubmit(headerSignin)" class="form-inline float-xs-right hidden-sm-down">
+            <input type="text"
+                   id="name"
+                   placeholder="Ім'я"
+                   class="form-control"
+                   minlength="3"
+                   reuired
+                   name="name"
+                   ngModel
+                   #userName="ngModel">
+            <input type="password"
+                   id="password"
+                   placeholder="Пароль"
+                   class="form-control"
+                   required
+                   name="password"
+                   ngModel
+                   #userPassword="ngModel">
+            <button type="submit" [disabled]="headerSignin.invalid" class="btn btn-primary">Вхід</button>
+            <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
+        </form>
+        <div class="float-xs-right hidden-md-up">
+            <button routerLink="signin" class="btn btn-primary">Вхід</button>
+            <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
+        </div>
     </div>
     <form class="form-inline float-xs-right" *ngIf="user">
-        <h1 class="navbar-brand" *ngIf="user">
-            Привіт, {{user.name}}
+        <h1 class="navbar-brand">
+            <span class="text-muted">Привіт,</span> {{user.name}}
         </h1>
+        <button *ngIf="user.showAdministrationLink" routerLink="manage" class="btn btn-outline-secondary">Керування</button>
         <button (click)="logout()" class="btn btn-outline-secondary">Вихід</button>
     </form>
 </nav>
