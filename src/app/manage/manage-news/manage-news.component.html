@@ -1,5 +1,14 @@
-<a routerLink="/manage">Back to manage page</a>
-<p>
-    Here will be provided table with news, where user can delete one, or navigate to edit page.
-</p>
-<a href="#">Link to news-create page</a>
+<div class="container margin-10">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Керування новинами:</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <button routerLink="/manage" type="button" class="btn btn-outline-primary">Назад до меню керування</button>
+            <button type="button" class="btn btn-success">Створити новину</button>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

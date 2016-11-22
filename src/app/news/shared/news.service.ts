@@ -20,25 +20,27 @@ export class NewsService {
         let params = new URLSearchParams();
         params.set('page', page);
         return this.http.get(this.newsUrl, {search: params})
-            .map(response => response)
+            .map(this.extractData)
             .catch(this.handleError);
     }
     
     getOneNews(id): Observable<News> {
         return this.http
             .get(this.newsUrl + "/" + id)
-            .map(this.extractData)
+            .map(response => response.json().news)
             .catch(this.handleError);
     }
-    
+
+    //TODO: move to manage-news.service
     delete(id: number): Observable<void> {
         const url = `${this.newsUrl}/${id}`;
         return this.headersWithToken
             .delete(url)
-            .map(this.extractData)
+            .map(response => response)
             .catch(this.handleError);
     }
 
+    //TODO: move to manage-news.service
     update(news: News): Observable<News> {
         const url = `${this.newsUrl}/${news.id}`;
         return this.headersWithToken
@@ -46,7 +48,8 @@ export class NewsService {
             .map(this.extractData)
             .catch(this.handleError);
     }
-
+    
+    //TODO: move to manage-news.service
     create(title: string, body: string, image: string, tournament_id: number): Observable<News> {
         let data = JSON.stringify({title: title, body: body, image: image, tournament_id: tournament_id});
         return this.headersWithToken
@@ -56,25 +59,24 @@ export class NewsService {
     }
 
     private extractData(res: Response) {
-        if(res){
+        if (res && res.status !== 204) {
             let body = res.json();
-            return body.news || { };
+            return body || {};
         }
+
+        return {};
     }
     
     private handleError(error: Response | any) {
-        // let errMsg: string;
-        // if (error instanceof Response) {
-        //     const body = error.json() || '';
-        //     const err = body.error || JSON.stringify(body);
-        //     console.log(err);
-        //     errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        // } else {
-        //     errMsg = error.message ? error.message : error.toString();
-        // }
-        // console.error(errMsg);
-        // return Observable.throw(errMsg);
+        let errorObject: any;
+        let errorMessage: Array<any> = [];
+        if (error instanceof Response) {
+            errorObject = error.json();
+            errorMessage.push(errorObject.message);
+        } else {
+            errorMessage.push('Невідома помилка');
+        }
 
-        return Observable.throw(error);
+        return Observable.throw(errorMessage);
     }
 }

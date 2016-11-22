@@ -19,7 +19,8 @@ export class NewsListComponent implements OnInit {
     ) { }
     
     news: News[];
-    errorMessage: string;
+    errorMessage: string; //TODO: delete
+    error: string | Array<string>;
 
     currentPage: number;
     lastPage: number;
@@ -28,14 +29,20 @@ export class NewsListComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.newsService.getNews(params['number']).subscribe(result => {
-                let response = result.json();
-                this.currentPage = response.current_page;
-                this.lastPage = response.last_page;
-                this.perPage = response.per_page;
-                this.total = response.total;
-                this.news = response.data;
-            });
+            this.newsService.getNews(params['number']).subscribe(
+                result => {
+                    if (!result.data) {
+                        this.error = "В базі даних новин немає";
+                    } else {
+                        this.currentPage = result.current_page;
+                        this.lastPage = result.last_page;
+                        this.perPage = result.per_page;
+                        this.total = result.total;
+                        this.news = result.data;
+                    }
+                },
+                error => this.error = error
+            )
         });
     }
     
@@ -54,7 +61,7 @@ export class NewsListComponent implements OnInit {
             );
     }
     
-    pageChanged(event){
+    pageChanged(event) {
         this.router.navigate(['/news/page', event]);
     }
 }

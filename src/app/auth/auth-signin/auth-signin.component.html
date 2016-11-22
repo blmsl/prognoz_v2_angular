@@ -1,35 +1,47 @@
 <div class="container" *ngIf="!user">
-    <h1>Аутентифікація</h1>
-    <form novalidate [formGroup]="signIn" (ngSubmit)="onSubmit(signIn)">
-        <div class="form-group">
-            <label for="name">Ім'я</label>
-            <input type="text"
-                   id="name"
-                   placeholder="Введіть ім'я"
-                   class="form-control"
-                   formControlName="name">
-            <div *ngIf="signIn.get('name').hasError('required') && signIn.get('name').touched" class="alert alert-danger" role="alert">
-                Ім'я обов'язкове.
-            </div>
-            <div *ngIf="signIn.get('name').hasError('minlength') && signIn.get('name').touched" class="alert alert-danger" role="alert">
-                Ім'я повинно містити мінімум три символи.
-            </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 bg-inverse text-white dark-form">
+            <h1>Вхід</h1>
+            <form novalidate [formGroup]="signIn" (ngSubmit)="onSubmit(signIn)">
+                <div class="form-group"
+                     [class.has-danger]="(signIn.get('name').hasError('required') && signIn.get('name').touched) || (signIn.get('name').hasError('minlength') && signIn.get('name').touched)">
+                    <label class="form-control-label" for="name">Ім'я:</label>
+                    <input type="text"
+                           id="name"
+                           placeholder="Введіть ім'я"
+                           class="form-control"
+                           [class.form-control-danger]="signIn.get('name').hasError('required') && signIn.get('name').touched"
+                           formControlName="name">
+                    <div *ngIf="signIn.get('name').hasError('required') && signIn.get('name').touched" class="form-control-feedback">
+                        Ім'я обов'язкове.
+                    </div>
+                    <div *ngIf="signIn.get('name').hasError('minlength') && signIn.get('name').touched" class="form-control-feedback">
+                        Ім'я повинно містити мінімум три символи.
+                    </div>
+                </div>
+                <div class="form-group" [class.has-danger]="signIn.get('password').hasError('required') && signIn.get('password').touched">
+                    <label class="form-control-label" for="password">Пароль:</label>
+                    <input type="password"
+                           id="password"
+                           placeholder="Введіть пароль"
+                           class="form-control"
+                           [class.form-control-danger]="signIn.get('password').hasError('required') && signIn.get('password').touched"
+                           formControlName="password">
+                    <div *ngIf="signIn.get('password').hasError('required') && signIn.get('password').touched" class="form-control-feedback">
+                        Пароль обов'язковий.
+                    </div>
+                </div>
+                <button type="submit" [disabled]="signIn.invalid" class="btn btn-primary">Вхід</button>
+                <button routerLink="/recovery" type="button" class="btn btn-outline-secondary">Забули пароль?</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="password">Пароль</label>
-            <input type="password"
-                   id="password"
-                   placeholder="Введіть пароль"
-                   class="form-control"
-                   formControlName="password">
-            <div *ngIf="signIn.get('password').hasError('required') && signIn.get('password').touched" class="alert alert-danger" role="alert">
-                Пароль обов'язковий.
-            </div>
-        </div>
-        <button type="submit" [disabled]="signIn.invalid" class="btn btn-primary">Вхід</button>
-    </form>
+    </div>
 </div>
 <div class="container" *ngIf="user">
-    Привіт, <b>{{user.name}}</b>
-    <button (click)="logout()" class="btn btn-primary">logout</button>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 bg-inverse text-white dark-form text-xs-center">
+            Привіт, <b>{{user.name}}</b>
+            <button (click)="logout()" class="btn btn-outline-secondary">Вихід</button>
+        </div>
+    </div>
 </div>

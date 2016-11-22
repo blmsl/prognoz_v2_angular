@@ -1,32 +1,7 @@
 <app-header></app-header>
-<div class="container-fluid container-first">
-    <div class="row">
-        <div class="col-xs-12">
-            <a class="text-xs-center" routerLink="/">
-                <img src="../img/logo-4.png" class="img-fluid" alt="prognoz.org.ua">
-            </a>
-        </div>
-    </div>
+<div class="half-height">
+    <router-outlet></router-outlet>
 </div>
-<nav class="navbar navbar-full navbar-dark bg-inverse">
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a routerLink="/" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
-        </li>
-        <li class="nav-item">
-            <a routerLink="/news" routerLinkActive="active" class="nav-link">News</a>
-        </li>
-        <li class="nav-item">
-            <a routerLink="/" class="nav-link">Option 1</a>
-        </li>
-        <li class="nav-item">
-            <a routerLink="/" class="nav-link">Option 2</a>
-        </li>
-        <li class="nav-item">
-            <a routerLink="/" class="nav-link">Option 3</a>
-        </li>
-    </ul>
-</nav>
-<router-outlet></router-outlet>
 <app-footer></app-footer>
+<template ngbModalContainer></template>
 <simple-notifications [options]="options"></simple-notifications>

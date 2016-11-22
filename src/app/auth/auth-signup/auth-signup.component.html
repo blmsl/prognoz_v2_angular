@@ -1,72 +1,79 @@
 <div class="container" *ngIf="!authenticatedUser">
-    <h1>Реєстрація</h1>
-    <form novalidate (ngSubmit)="onSubmit(f)" #f="ngForm">
-        <div class="form-group">
-            <label for="name">Ім'я</label>
-            <input type="text"
-                   id="name"
-                   placeholder="Ім'я"
-                   class="form-control"
-                   required
-                   minlength="3"
-                   name="name"
-                   ngModel
-                   #userName="ngModel">
-            <div *ngIf="userName?.errors?.required && userName.touched" class="alert alert-danger" role="alert">
-                Ім'я обов'язкове
-            </div>
-            <div *ngIf="userName?.errors?.minlength && userName.touched" class="alert alert-danger" role="alert">
-                Ім'я повинно містити мінімум три символи
-            </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 bg-inverse text-white dark-form">
+            <h1>Реєстрація</h1>
+            <form novalidate (ngSubmit)="onSubmit(f)" #f="ngForm">
+                <div class="form-group" [class.has-danger]="(userName?.errors?.required && userName.touched) || (userName?.errors?.minlength && userName.touched)">
+                    <label class="form-control-label" for="name">Ім'я:</label>
+                    <input type="text"
+                           id="name"
+                           placeholder="Придумайте собі оригінальне ім'я"
+                           class="form-control"
+                           [class.form-control-danger]="(userName?.errors?.required && userName.touched) || (userName?.errors?.minlength && userName.touched)"
+                           required
+                           minlength="3"
+                           name="name"
+                           ngModel
+                           #userName="ngModel">
+                    <div *ngIf="userName?.errors?.required && userName.touched" class="form-control-feedback">
+                        Ім'я обов'язкове
+                    </div>
+                    <div *ngIf="userName?.errors?.minlength && userName.touched" class="form-control-feedback">
+                        Ім'я повинно містити мінімум три символи
+                    </div>
+                </div>
+                <div class="form-group" [class.has-danger]="userEmail?.errors?.required && userEmail.touched">
+                    <label class="form-control-label" for="email">E-mail:</label>
+                    <input type="email"
+                           id="email"
+                           placeholder="Введіть свій email"
+                           class="form-control"
+                           [class.form-control-danger]="userEmail?.errors?.required && userEmail.touched"
+                           required
+                           name="email"
+                           ngModel
+                           #userEmail="ngModel">
+                    <div *ngIf="userEmail?.errors?.required && userEmail.touched" class="form-control-feedback">
+                        E-mail обов'язковий
+                    </div>
+                </div>
+                <div class="form-group" [class.has-danger]="userPassword?.errors?.required && userPassword.touched">
+                    <label class="form-control-label" for="password">Пароль:</label>
+                    <input type="password"
+                           id="password"
+                           placeholder="Придумайте пароль"
+                           class="form-control"
+                           [class.form-control-danger]="userPassword?.errors?.required && userPassword.touched"
+                           required
+                           name="password"
+                           ngModel
+                           #userPassword="ngModel">
+                    <div *ngIf="userPassword?.errors?.required && userPassword.touched" class="form-control-feedback">
+                        Пароль обов'язковий
+                    </div>
+                </div>
+                <div class="form-group" [class.has-danger]="(userConfirm?.errors?.required && userConfirm.touched) || (userPassword.value != userConfirm.value)">
+                    <label class="form-control-label" for="password_confirmation">Повторіть пароль:</label>
+                    <input type="password"
+                           id="password_confirmation"
+                           placeholder="Повторіть пароль"
+                           class="form-control"
+                           [class.form-control-danger]="(userConfirm?.errors?.required && userConfirm.touched) || (userPassword.value != userConfirm.value)"
+                           required
+                           name="password_confirmation"
+                           ngModel
+                           #userConfirm="ngModel">
+                    <div *ngIf="userConfirm?.errors?.required && userConfirm.touched" class="form-control-feedback">
+                        Підтвердження паролю обов'язкове
+                    </div>
+                    <div *ngIf="(userPassword.value != userConfirm.value)" class="form-control-feedback">
+                        Паролі не співпадають
+                    </div>
+                </div>
+                <button type="submit" [disabled]="f.invalid || (userPassword.value != userConfirm.value)" class="btn btn-primary">Зареєструватись</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email"
-                   id="email"
-                   placeholder="E-mail"
-                   class="form-control"
-                   required
-                   name="email"
-                   ngModel
-                   #userEmail="ngModel">
-            <div *ngIf="userEmail?.errors?.required && userEmail.touched" class="alert alert-danger" role="alert">
-                E-mail обов'язковий
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="password">Пароль</label>
-            <input type="password"
-                   id="password"
-                   placeholder="Пароль"
-                   class="form-control"
-                   required
-                   name="password"
-                   ngModel
-                   #userPassword="ngModel">
-            <div *ngIf="userPassword?.errors?.required && userPassword.touched" class="alert alert-danger" role="alert">
-                Пароль обов'язковий
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="password_confirmation">Повторіть пароль</label>
-            <input type="password"
-                   id="password_confirmation"
-                   placeholder="Повторіть пароль"
-                   class="form-control"
-                   required
-                   name="password_confirmation"
-                   ngModel
-                   #userConfirm="ngModel">
-            <div *ngIf="userConfirm?.errors?.required && userConfirm.touched" class="alert alert-danger" role="alert">
-                Підтвердження паролю обов'язкове
-            </div>
-            <div *ngIf="(userPassword.value != userConfirm.value)" class="alert alert-danger" role="alert">
-                Паролі не співпадають
-            </div>
-        </div>
-        <button type="submit" [disabled]="f.invalid || (userPassword.value != userConfirm.value)" class="btn btn-primary">Зареєструватись</button>
-    </form>
-    <hr>
+    </div>
 </div>
 <div *ngIf="authenticatedUser" class="alert alert-danger" role="alert">
     {{ authenticatedUser.name }}, для того щоб зареєструвати користувача, спершу необхідно вийти з поточного профілю!

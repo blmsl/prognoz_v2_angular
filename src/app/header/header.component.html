@@ -22,11 +22,17 @@
                    ngModel
                    #userPassword="ngModel">
             <button type="submit" [disabled]="headerSignin.invalid" class="btn btn-primary">Вхід</button>
-            <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
+            <div class="btn-group" role="group">
+                <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
+                <button routerLink="recovery" class="btn btn-outline-secondary">Забули пароль?</button>
+            </div>
         </form>
         <div class="float-xs-right hidden-md-up">
             <button routerLink="signin" class="btn btn-primary">Вхід</button>
-            <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
+            <div class="btn-group" role="group">
+                <button routerLink="signup" class="btn btn-outline-secondary">Реєстрація</button>
+                <button routerLink="recovery" class="btn btn-outline-secondary">?</button>
+            </div>
         </div>
     </div>
     <form class="form-inline float-xs-right" *ngIf="user">
@@ -36,4 +42,32 @@
         <button *ngIf="user.showAdministrationLink" routerLink="manage" class="btn btn-outline-secondary">Керування</button>
         <button (click)="logout()" class="btn btn-outline-secondary">Вихід</button>
     </form>
+</nav>
+<div class="container-fluid container-first">
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="text-xs-center" routerLink="/">
+                <img src="../../img/logo-4.png" class="img-fluid" alt="prognoz.org.ua">
+            </a>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-full navbar-dark bg-inverse">
+    <ul class="nav navbar-nav">
+        <li class="nav-item">
+            <a routerLink="/" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">Головна</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="/news" routerLinkActive="active" class="nav-link">Новини</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="/" class="nav-link">Чемпіонат</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="/" class="nav-link">Кубок</a>
+        </li>
+        <li class="nav-item">
+            <a routerLink="/" class="nav-link" disabled>Командний</a>
+        </li>
+    </ul>
 </nav>

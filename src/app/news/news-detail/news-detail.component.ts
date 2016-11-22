@@ -21,13 +21,15 @@ export class NewsDetailComponent implements OnInit {
     ) {}
 
     news: News;
-    errorMessage: string;
+    error: string | Array<string>;
 
     ngOnInit() {
         this.route.params.forEach((params: Params) => {
             let id = +params['id'];
-            this.newsService.getOneNews(id)
-                .subscribe(news => this.news = news);
+            this.newsService.getOneNews(id).subscribe(
+                result => this.news = result,
+                error => this.error = error
+            );
         });
     }
 

@@ -15,13 +15,19 @@ export class HomeComponent implements OnInit {
         private newsService: NewsService
     ) { }
 
-    title = 'home component works!';
+    error: string | Array<string>;
     news: News[];
 
     ngOnInit() {
-        this.newsService.getNews().subscribe(result => {
-            let response = result.json();
-            this.news = response.data;
-        });
+        this.newsService.getNews().subscribe(
+            result => {
+                if (!result.data) {
+                    this.error = "В базі даних новин немає";
+                } else {
+                    this.news = result.data;
+                }
+            },
+            error => this.error = error
+        );
     }
 }

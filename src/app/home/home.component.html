@@ -4,12 +4,12 @@
             <h2>Останні новини:</h2>
         </div>
     </div>
-    <div *ngIf="!news" class="row">
+    <div *ngIf="!error && !news" class="row">
         <div class="col-xs-12 text-xs-center">
-            <img src="../../../img/5.gif" alt="spinner">
+            <img src="../../img/5.gif" alt="spinner">
         </div>
     </div>
-    <div *ngIf="news" class="row">
+    <div *ngIf="news && news.length" class="row">
         <div class="col-xs-12">
             <div class="card-deck-wrapper">
                 <div class="card-deck">
@@ -27,6 +27,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="error">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>{{error}}</strong>
             </div>
         </div>
     </div>

@@ -25,6 +25,6 @@ export class AppComponent implements OnInit {
         timeOut: 5000,
         maxLength: 0,
         animate: 'scale',
-        position: ['left', 'bottom']
+        position: ['right', 'bottom']
     };
 }

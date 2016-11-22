@@ -58,6 +58,7 @@ export class UserService {
                 if (res.token) {
                     this.setTokenToLocalStorage(res.token);
                     this.setUserToLocalStorage(JSON.stringify(res.currentUser));
+                    if (res.roles) this.setRolesToLocalStorage(JSON.stringify(res.roles));
                     this.tokenExists = true;
                 }
                 return res.currentUser;
@@ -123,7 +124,12 @@ export class UserService {
                 .subscribe(
                     response => {
                         this.setTokenToLocalStorage(response.token);
-                        this.setUserToLocalStorage(JSON.stringify(response.user));
+                        this.setUserToLocalStorage(JSON.stringify(response.currentUser));
+                        if (response.roles) {
+                            this.setRolesToLocalStorage(JSON.stringify(response.roles));
+                        } else {
+                            this.removeRolesFromLocalStorage();
+                        }
                     },
                     error => this.logout()
                 );
@@ -138,6 +144,7 @@ export class UserService {
     logout() {
         this.removeTokenFromLocalStorage();
         this.removeUserFromLocalStorage();
+        this.removeRolesFromLocalStorage();
         this.tokenExists = false;
     }
 
@@ -180,6 +187,15 @@ export class UserService {
     }
 
     /**
+     * set user roles to localStorage
+     *
+     * @param roles
+     */
+    private setRolesToLocalStorage(roles) {
+        localStorage.setItem('roles', roles)
+    }
+
+    /**
      * remove token from localStorage
      */
     private removeTokenFromLocalStorage() {
@@ -191,6 +207,13 @@ export class UserService {
      */
     private removeUserFromLocalStorage() {
         localStorage.removeItem('user');
+    }
+
+    /**
+     * remove user roles from localStorage
+     */
+    private removeRolesFromLocalStorage() {
+        localStorage.removeItem('roles');
     }
 
     /**
