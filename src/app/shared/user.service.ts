@@ -227,21 +227,12 @@ export class UserService {
         let errorMessage: Array<any> = [];
         if (error instanceof Response) {
             errorObject = error.json();
-            switch (errorObject.status_code) {
-                case 401:
-                    errorMessage.push(errorObject.message);
-                    break;
-                case 404:
-                    errorMessage.push(errorObject.message);
-                    break;
-                case 422:
-                    if (errorObject.errors.name) errorMessage.push(errorObject.errors.name);
-                    if (errorObject.errors.password) errorMessage.push(errorObject.errors.password);
-                    if (errorObject.errors.email) errorMessage.push(errorObject.errors.email);
-                    break;
-                case 500:
-                    errorMessage.push('Помилка сервера');
-                    break;
+            if (errorObject.status_code !== 422) {
+                errorMessage.push(errorObject.message);
+            } else {
+                if (errorObject.errors.name) errorMessage.push(errorObject.errors.name);
+                if (errorObject.errors.password) errorMessage.push(errorObject.errors.password);
+                if (errorObject.errors.email) errorMessage.push(errorObject.errors.email);
             }
         } else {
             errorMessage.push('Невідома помилка');

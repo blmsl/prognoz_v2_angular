@@ -1,14 +1,18 @@
-import { Injectable }           from '@angular/core';
-import { CanActivate, Router }  from '@angular/router';
+import { Injectable }                            from '@angular/core';
+import { CanActivate, Router, CanActivateChild } from '@angular/router';
 
 @Injectable()
-export class ManageNewsGuard implements CanActivate {
+export class ManageNewsGuard implements CanActivate, CanActivateChild {
 
     constructor(
         private router: Router
     ) {}
 
     canActivate() {
+        return this.checkRole();
+    }
+
+    canActivateChild(){
         return this.checkRole();
     }
 

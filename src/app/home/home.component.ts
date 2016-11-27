@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }    from '@angular/core';
 
-import { NewsService }       from '../news/shared/news.service';
-import { News }              from '../news/shared/news.model';
+import { NewsService }          from '../news/shared/news.service';
+import { News }                 from '../news/shared/news.model';
+import { API_IMAGE_NEWS }       from '../shared/app.settings';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ export class HomeComponent implements OnInit {
 
     error: string | Array<string>;
     news: News[];
+    newsImagesUrl: string = API_IMAGE_NEWS;
 
     ngOnInit() {
         this.newsService.getNews().subscribe(

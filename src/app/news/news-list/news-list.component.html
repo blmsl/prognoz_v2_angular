@@ -16,15 +16,28 @@
                                               totalItems: total }"
          class="row bg-inverse text-white one-news">
         <div class="hidden-xs-down col-sm-4 col-md-3 col-lg-2">
-            <img class="img-fluid" src="http://loremflickr.com/640/480/all?random={{one.id}}" alt="{{one.title}}">
+            <img class="img-fluid" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
         </div>
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
             <h5>{{one.title}}</h5>
-            <button (click)="delete(one)">delete</button>
-            <button (click)="onSelect(one)">Go to</button>
-            <div >
-                <div class="text-xs-left"><small class="text-muted">{{one.created_at}}</small></div>
-                <div class="text-xs-right"><small class="text-muted">Категорія:</small> {{one.tournament.title}}</div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="text-xs-left">
+                        <small class="text-muted">{{one.created_at}}</small>
+                    </div>
+                    <div class="text-xs-left">
+                        <a routerLink="/news/{{one.id}}" class="btn btn-sm btn-outline-secondary">Читати далі</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="text-xs-right">
+                        <small class="text-muted">Категорія:</small>
+                    </div>
+                    <div class="text-xs-right">
+                        <span *ngIf="one.tournament">{{one.tournament.title}}</span>
+                        <span *ngIf="!one.tournament">Робота сайту</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,8 +1,9 @@
 import { Component, OnInit }                from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 
-import { News }         from '../shared/news.model';
-import { NewsService }  from '../shared/news.service';
+import { News }                             from '../shared/news.model';
+import { NewsService }                      from '../shared/news.service';
+import { API_IMAGE_NEWS }                   from '../../shared/app.settings';
 
 @Component({
   selector: 'app-news-list',
@@ -19,8 +20,8 @@ export class NewsListComponent implements OnInit {
     ) { }
     
     news: News[];
-    errorMessage: string; //TODO: delete
     error: string | Array<string>;
+    newsImagesUrl: string = API_IMAGE_NEWS;
 
     currentPage: number;
     lastPage: number;
@@ -44,21 +45,6 @@ export class NewsListComponent implements OnInit {
                 error => this.error = error
             )
         });
-    }
-    
-    onSelect(news: News) {
-        this.router.navigate(['/news', news.id]);
-    }
-    
-    //TODO: replace to admin-news-delete controller 
-    delete(news: News) {
-        this.newsService.delete(news.id)
-            .subscribe(
-                response => {
-                    this.news = this.news.filter(n => n !== news);
-                },
-                error => this.errorMessage = <any>error.json().message
-            );
     }
     
     pageChanged(event) {

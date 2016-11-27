@@ -2,8 +2,9 @@ import { Component, OnInit }                from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { Location }                         from '@angular/common';
 
-import { News }         from '../shared/news.model';
-import { NewsService }  from '../shared/news.service';
+import { News }                             from '../shared/news.model';
+import { NewsService }                      from '../shared/news.service';
+import { API_IMAGE_NEWS }                   from '../../shared/app.settings';
 
 @Component({
     selector: 'app-news-datail',
@@ -14,7 +15,7 @@ import { NewsService }  from '../shared/news.service';
 export class NewsDetailComponent implements OnInit {
 
     constructor(
-        private route: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
         private router: Router,
         private newsService: NewsService,
         private location: Location
@@ -22,9 +23,10 @@ export class NewsDetailComponent implements OnInit {
 
     news: News;
     error: string | Array<string>;
+    newsImagesUrl: string = API_IMAGE_NEWS;
 
     ngOnInit() {
-        this.route.params.forEach((params: Params) => {
+        this.activatedRoute.params.forEach((params: Params) => {
             let id = +params['id'];
             this.newsService.getOneNews(id).subscribe(
                 result => this.news = result,
@@ -32,11 +34,7 @@ export class NewsDetailComponent implements OnInit {
             );
         });
     }
-
-    gotoNewsList() {
-        this.router.navigate(['/news']);
-    }
-
+    
     goBack() {
         this.location.back();
     }

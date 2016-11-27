@@ -15,10 +15,14 @@
                 <h5 class="card-header card-inverse">
                     {{news.title}}
                 </h5>
-                <img class="card-img-top img-fluid" src="http://loremflickr.com/640/480/all?random={{news.id}}" alt="{{news.title}}">
+                <img class="card-img-top img-fluid" src="{{newsImagesUrl}}{{news.image}}" alt="{{news.title}}">
                 <div class="card-block">
                     <div class="card-title"><small class="text-muted">{{news.created_at}}</small></div>
-                    <div class="card-title"><small class="text-muted">Категорія: </small>{{news.tournament.title}}</div>
+                    <div class="card-title">
+                        <small class="text-muted">Категорія: </small>
+                        <span *ngIf="news.tournament">{{news.tournament.title}}</span>
+                        <span *ngIf="!news.tournament">Робота сайту</span>
+                    </div>
                     <p class="card-text">{{news.body}}</p>
                 </div>
             </div>
