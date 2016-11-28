@@ -1,4 +1,5 @@
 import { Component, OnInit }                    from '@angular/core';
+import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
@@ -13,6 +14,7 @@ export class NewsCreateComponent implements OnInit {
 
     constructor(
         private manageNewsService: ManageNewsService,
+        private router: Router,
         private notificationService: NotificationsService
     ) { }
 
@@ -32,6 +34,7 @@ export class NewsCreateComponent implements OnInit {
         this.newsCreateForm.value.image = this.newsImage;
         this.manageNewsService.create(this.newsCreateForm.value).subscribe(
             response => {
+                this.router.navigate(['/news/' + response.id]);
                 this.notificationService.success('Успішно', 'Новину створено!');
             },
             errors => {

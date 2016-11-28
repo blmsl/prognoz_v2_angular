@@ -18,6 +18,7 @@ export class NewsEditComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private manageNewsService: ManageNewsService,
         private formBuilder: FormBuilder,
+        private router: Router,
         private notificationService: NotificationsService
     ) {}
 
@@ -71,6 +72,7 @@ export class NewsEditComponent implements OnInit {
         }
         this.manageNewsService.update(this.newsEditForm.value).subscribe(
             response => {
+                this.router.navigate(['/news/' + this.news.id]);
                 this.notificationService.success('Успішно', 'Новину змінено!');
             },
             errors => {

@@ -80,6 +80,7 @@ export class NewsTableComponent implements OnInit {
     delete(news) {
         this.manageNewsService.delete(news.id).subscribe(
             response => {
+                this.total--;
                 this.news = this.news.filter(n => n !== news);
                 this.notificationService.success('Успішно', news.title + ' видалено');
             },
