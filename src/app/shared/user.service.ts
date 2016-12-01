@@ -123,7 +123,6 @@ export class UserService {
             this.refreshUserData()
                 .subscribe(
                     response => {
-                        this.setTokenToLocalStorage(response.token);
                         this.setUserToLocalStorage(JSON.stringify(response.currentUser));
                         if (response.roles) {
                             this.setRolesToLocalStorage(JSON.stringify(response.roles));
@@ -131,7 +130,10 @@ export class UserService {
                             this.removeRolesFromLocalStorage();
                         }
                     },
-                    error => this.logout()
+                    error => {
+                        this.addSharedUser(false);
+                        this.logout();
+                    }
                 );
         } else {
             this.logout();
@@ -142,9 +144,7 @@ export class UserService {
      * logout method
      */
     logout() {
-        this.removeTokenFromLocalStorage();
-        this.removeUserFromLocalStorage();
-        this.removeRolesFromLocalStorage();
+        localStorage.clear();
         this.tokenExists = false;
     }
 
@@ -196,20 +196,6 @@ export class UserService {
     }
 
     /**
-     * remove token from localStorage
-     */
-    private removeTokenFromLocalStorage() {
-        localStorage.removeItem('auth_token');
-    }
-
-    /**
-     * remove user profile data from localStorage
-     */
-    private removeUserFromLocalStorage() {
-        localStorage.removeItem('user');
-    }
-
-    /**
      * remove user roles from localStorage
      */
     private removeRolesFromLocalStorage() {
@@ -239,7 +225,6 @@ export class UserService {
         }
 
         return Observable.throw(errorMessage);
-        //return Observable.throw(error);
     }
 
     /**
