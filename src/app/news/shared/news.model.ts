@@ -7,5 +7,11 @@ export class News {
     tournament: {
         id: number;
         title: string;
-    }
+    };
+    comments: {
+        user_id: number;
+        news_id: number;
+        body: string;
+        user: any;
+    };
 }

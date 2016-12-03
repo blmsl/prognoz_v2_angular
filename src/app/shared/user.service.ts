@@ -23,7 +23,7 @@ export class UserService {
 
     public sharedUser$: Observable<any>;
     private sharedUserObserver: any;
-    private sharedUser: boolean | Object;
+    public sharedUser: boolean | Object;
 
     /**
      * adds user data to this.sharedUser property

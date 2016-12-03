@@ -1,9 +1,11 @@
 import { NgModule }                 from '@angular/core';
 import { RouterModule, Routes }     from '@angular/router';
 
-import { HomeComponent }    from './home/home.component';
+import { GuestbookComponent }       from './guestbook/guestbook.component';
+import { HomeComponent }            from './home/home.component';
 
 const routes: Routes = [
+    { path: 'guestbook', component: GuestbookComponent },
     { path: '', component: HomeComponent }
     // TODO: page 404 { path: '**', component: PageNotFoundComponent }
 ];

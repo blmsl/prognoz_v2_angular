@@ -46,7 +46,7 @@ export class ManageNewsService {
     }
 
     /**
-     * Delete one
+     * Delete one news
      *
      * @param id
      * @returns {Observable<R>}
@@ -58,7 +58,13 @@ export class ManageNewsService {
             .map(this.extractData)
             .catch(this.handleError);
     }
-    
+
+    /**
+     * Create one news
+     *
+     * @param news
+     * @returns {Observable<R>}
+     */
     create(news: News): Observable<News> {
         return this.headersWithToken
             .post(this.newsUrl, news)
@@ -66,6 +72,12 @@ export class ManageNewsService {
             .catch(this.handleError);
     }
 
+    /**
+     * Update one news 
+     * 
+     * @param news
+     * @returns {Observable<R>}
+     */
     update(news: News): Observable<News> {
         const url = `${this.newsUrl}/${news.id}`;
         return this.headersWithToken

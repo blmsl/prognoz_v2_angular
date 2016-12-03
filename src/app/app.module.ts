@@ -6,6 +6,7 @@ import { SimpleNotificationsModule }  from 'angular2-notifications';
 
 import { AppRoutingModule }           from './app-routing.module';
 import { AuthModule }                 from './auth/auth.module';
+import { GuestbookModule }            from './guestbook/guestbook.module';
 import { HomeModule }                 from './home/home.module';
 import { ManageModule }               from './manage/manage.module';
 import { NewsModule }                 from './news/news.module';
@@ -17,6 +18,7 @@ import { HeaderComponent }            from './header/header.component';
 import { HeadersWithToken }           from './shared/headers-with-token.service';
 import { LoggedInGuard }              from './shared/logged-in-guard.service';
 import { UserService }                from './shared/user.service';
+import { CommentService }             from './shared/comment.service';
 
 @NgModule({
     declarations: [
@@ -33,12 +35,14 @@ import { UserService }                from './shared/user.service';
         AuthModule,
         ManageModule,
         NewsModule,
-        HomeModule
+        HomeModule,
+        GuestbookModule
     ],
     providers: [
         HeadersWithToken,
         LoggedInGuard,
-        UserService
+        UserService,
+        CommentService
     ],
     bootstrap: [
         AppComponent

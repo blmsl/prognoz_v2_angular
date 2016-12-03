@@ -50,5 +50,6 @@ export class HeaderComponent implements OnInit {
         this.user = false;
         this.userService.addSharedUser(false);
         this.notificationService.info('Успішно', 'Ви вийшли зі свого аккаунту');
+        this.router.navigate(['/']);
     }
 }
