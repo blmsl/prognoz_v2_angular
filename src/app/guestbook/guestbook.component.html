@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Гостьова:</h2>
+        </div>
+    </div>
+    <div *ngIf="authenticatedUser" class="row">
+        <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
+            <form novalidate [formGroup]="guestbookAddMessageForm" (ngSubmit)="onSubmit(guestbookAddMessageForm)">
+                <input type="hidden" name="user_id" formControlName="user_id">
+                <div class="form-group" [class.has-danger]="(guestbookAddMessageForm.get('body').hasError('required')
+                                                            || guestbookAddMessageForm.get('body').hasError('minlength')
+                                                            || guestbookAddMessageForm.get('body').hasError('maxlength'))
+                                                            && guestbookAddMessageForm.get('body').touched">
+                    <label class="form-control-label" for="body">Добавити повідомлення:</label>
+                    <textarea id="body"
+                              placeholder="Напишіть щось..."
+                              class="form-control"
+                              [class.form-control-danger]="(guestbookAddMessageForm.get('body').hasError('required')
+                                                            || guestbookAddMessageForm.get('body').hasError('minlength')
+                                                            || guestbookAddMessageForm.get('body').hasError('maxlength'))
+                                                            && guestbookAddMessageForm.get('body').touched"
+                              required
+                              name="body"
+                              minlength="8"
+                              rows="3"
+                              formControlName="body">
+                    </textarea>
+                    <div *ngIf="guestbookAddMessageForm.get('body').hasError('required') && guestbookAddMessageForm.get('body').touched" class="form-control-feedback">
+                        Текст повідомлення обов'язковий
+                    </div>
+                    <div *ngIf="guestbookAddMessageForm.get('body').hasError('minlength') && guestbookAddMessageForm.get('body').touched" class="form-control-feedback">
+                        Текст повідомлення повинен бути більшим ніж 10 символів
+                    </div>
+                    <div *ngIf="guestbookAddMessageForm.get('body').hasError('maxlength') && guestbookAddMessageForm.get('body').touched" class="form-control-feedback">
+                        Текст повідомлення перевищує 1000 символів
+                    </div>
+                </div>
+                <button type="submit" [disabled]="guestbookAddMessageForm.invalid || preloader" class="btn btn-primary">Додати</button>
+                <img *ngIf="preloader" src="../../img/5.gif" alt="preloader">
+            </form>
+        </div>
+    </div>
+    <div *ngIf="!error && !guestbookMessages" class="row">
+        <div class="col-xs-12 text-xs-center">
+            <img src="../../../img/5.gif" alt="spinner">
+        </div>
+    </div>
+    <div *ngIf="guestbookMessages" class="row">
+        <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+            <div *ngFor="let message of guestbookMessages | paginate: { id: 'guestbook-messages-list',
+                                                                        itemsPerPage: perPage,
+                                                                        currentPage: currentPage,
+                                                                        totalItems: total }"
+                 class="card">
+                <div class="card-block">
+                    <div class="h4 card-title">
+                        <img class="rounded small-image" src="http://s3-us-west-1.amazonaws.com/witty-avatars/default-avatar-4-l.jpg" alt="message.user.name">
+                        {{message.user.name}}
+                    </div>
+                    <p class="card-text">{{message.body}}</p>
+                    <p class="card-text"><small class="text-muted">{{message.created_at}}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="error">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>{{error}}</strong>
+            </div>
+        </div>
+    </div>
+    <div class="row text-xs-center pagination-row">
+        <pagination-controls  id="guestbook-messages-list"
+                              (pageChange)="pageChanged($event)"
+                              maxSize="9"
+                              directionLinks="true"
+                              autoHide="true">
+        </pagination-controls>
+    </div>
+</div>

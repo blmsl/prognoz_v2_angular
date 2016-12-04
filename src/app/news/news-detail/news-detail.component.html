@@ -45,33 +45,35 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="authenticatedUser" class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
-            <form novalidate (ngSubmit)="onSubmit(addCommentForm)" #addCommentForm="ngForm">
-                <div class="form-group" [class.has-danger]="(body?.errors?.required || body?.errors?.minlength && body.touched) && body.touched">
-                    <label class="form-control-label" for="body">Добавити коментар:</label>
-                    <textarea id="body"
-                              placeholder="Напишіть щось..."
-                              class="form-control"
-                              [class.form-control-danger]="(body?.errors?.required || body?.errors?.minlength && body.touched) && body.touched"
-                              required
-                              name="body"
-                              minlength="8"
-                              rows="3"
-                              ngModel
-                              #body="ngModel">
-                    </textarea>
-                    <div *ngIf="body?.errors?.required && body.touched" class="form-control-feedback">
-                        Текст коментаря обов'язковий
+        <div *ngIf="authenticatedUser" class="row">
+            <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
+                <form novalidate (ngSubmit)="onSubmit(addCommentForm)" #addCommentForm="ngForm">
+                    <div class="form-group" [class.has-danger]="(body?.errors?.required || body?.errors?.minlength && body.touched) && body.touched">
+                        <label class="form-control-label" for="body">Добавити коментар:</label>
+                        <textarea id="body"
+                                  placeholder="Напишіть щось..."
+                                  class="form-control"
+                                  [class.form-control-danger]="(body?.errors?.required || body?.errors?.minlength && body.touched) && body.touched"
+                                  required
+                                  name="body"
+                                  minlength="8"
+                                  rows="3"
+                                  ngModel
+                                  #body="ngModel">
+                        </textarea>
+                        <div *ngIf="body?.errors?.required && body.touched" class="form-control-feedback">
+                            Текст коментаря обов'язковий
+                        </div>
+                        <div *ngIf="body?.errors?.minlength && body.touched" class="form-control-feedback">
+                            Текст коментаря повинен бути більшим ніж 10 символів
+                        </div>
                     </div>
-                    <div *ngIf="body?.errors?.minlength && body.touched" class="form-control-feedback">
-                        Текст коментаря повинен бути більшим ніж 10 символів
-                    </div>
-                </div>
-                <input type="hidden" name="news_id" [(ngModel)]="news.id">
-                <input type="hidden" name="user_id" [(ngModel)]="authenticatedUser.id">
-                <button type="submit" [disabled]="addCommentForm.invalid || preloader" class="btn btn-primary">Добавити</button>
-                <img *ngIf="preloader" src="../../../img/5.gif" alt="preloader">
-            </form>
+                    <input type="hidden" name="news_id" [(ngModel)]="news.id">
+                    <input type="hidden" name="user_id" [(ngModel)]="authenticatedUser.id">
+                    <button type="submit" [disabled]="addCommentForm.invalid || preloader" class="btn btn-primary">Добавити</button>
+                    <img *ngIf="preloader" src="../../../img/5.gif" alt="preloader">
+                </form>
+            </div>
         </div>
     </div>
     <div class="row" *ngIf="error">

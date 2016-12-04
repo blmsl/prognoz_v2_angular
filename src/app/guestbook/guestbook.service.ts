@@ -1,29 +1,44 @@
-import { Injectable }       from '@angular/core';
-import { Response }         from '@angular/http';
-import { Observable }       from 'rxjs/Observable';
+import { Injectable }                           from '@angular/core';
+import { Http, Response, URLSearchParams }      from '@angular/http';
+import { Observable }                           from 'rxjs/Observable';
 
-import { API_URL }          from './app.settings';
-import { HeadersWithToken } from './headers-with-token.service';
+import { API_URL }                              from '../shared/app.settings';
+import { HeadersWithToken }                     from '../shared/headers-with-token.service';
 
 @Injectable()
 
-export class CommentService {
+export class GuestbookService {
 
     constructor(
+        private http: Http,
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private commentUrl = API_URL + 'comment';
+    private guestbookUrl = API_URL + 'guestbookmessage';
 
     /**
-     * Add comment to news
+     * Get all guestbook messages of one page
      *
-     * @param comment
+     * @param page
      * @returns {Observable<R>}
      */
-    create(comment: {body: 'string', news_id: number, user_id: number}): Observable<any> {
+    getGuestbookMessages(page = '1'): Observable<any> {
+        let params = new URLSearchParams();
+        params.set('page', page);
+        return this.http.get(this.guestbookUrl, {search: params})
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
+     * Create guestbook message
+     *
+     * @param message
+     * @returns {Observable<R>}
+     */
+    create(message: {user_id: number, body: string}): Observable<any> {
         return this.headersWithToken
-            .post(this.commentUrl, comment)
+            .post(this.guestbookUrl, message)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -37,9 +52,10 @@ export class CommentService {
     private extractData(res: Response) {
         if (res && res.status !== 204) {
             let body = res.json();
+            if (body.guestbookMessages) body = body.guestbookMessages;
             return body || {};
         }
-    
+
         return res;
     }
 
@@ -59,12 +75,11 @@ export class CommentService {
             } else {
                 if (errorObject.errors.body) errorMessage.push(errorObject.errors.body);
                 if (errorObject.errors.user_id) errorMessage.push(errorObject.errors.user_id);
-                if (errorObject.errors.news_id) errorMessage.push(errorObject.errors.news_id);
             }
         } else {
             errorMessage.push('Невідома помилка');
         }
-    
+
         return Observable.throw(errorMessage);
     }
 }
