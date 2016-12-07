@@ -35,6 +35,8 @@ export class GuestbookComponent implements OnInit {
     authenticatedUser: any;
 
     ngOnInit() {
+        this.authenticatedUser = this.userService.sharedUser;
+
         this.activatedRoute.params.subscribe((params: Params) => {
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
                 result => {
@@ -51,13 +53,13 @@ export class GuestbookComponent implements OnInit {
                 error => this.error = error
             )
         });
-
-        this.authenticatedUser = this.userService.sharedUser;
-
-        this.guestbookAddMessageForm = this.formBuilder.group({
-            user_id: [this.authenticatedUser.id, [Validators.required]],
-            body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
-        });
+        
+        if (this.authenticatedUser) {
+            this.guestbookAddMessageForm = this.formBuilder.group({
+                user_id: [this.authenticatedUser.id, [Validators.required]],
+                body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
+            });
+        }
     }
 
     pageChanged(event) {

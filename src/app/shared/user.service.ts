@@ -226,15 +226,4 @@ export class UserService {
 
         return Observable.throw(errorMessage);
     }
-
-    /**
-     * get user profile data from rest(currently dont need)
-     *
-     * @returns {Observable<R>}
-     */
-    getUserData() {
-        return this.headersWithToken.get(API_URL + 'auth/user')
-            .map(response => response.json().user)
-            .catch(this.handleError);
-    }
 }
