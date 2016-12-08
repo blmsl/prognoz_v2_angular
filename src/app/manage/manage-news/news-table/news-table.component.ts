@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NotificationsService }           from 'angular2-notifications';
 
 import { ManageNewsService }              from '../shared/manage-news.service';
+import { News }                           from '../shared/news.model';
 
 @Component({
   selector: 'app-news-table',
@@ -14,11 +15,11 @@ export class NewsTableComponent implements OnInit {
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private manageNewsService: ManageNewsService,
-        private notificationService: NotificationsService
+        private notificationService: NotificationsService,
+        private manageNewsService: ManageNewsService
     ) { }
 
-    news: Array<any>;
+    news: News[];
     error: string | Array<string>;
 
     /**

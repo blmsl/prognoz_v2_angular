@@ -3,6 +3,7 @@ import { CommonModule }         from '@angular/common';
 
 import { ManageComponent }      from './manage.component';
 import { ManageNewsModule }     from './manage-news/manage-news.module';
+import { ManageClubModule }     from './manage-club/manage-club.module';
 import { ManageGuard }          from './shared/manage-guard.service';
 import { ManageRoutingModule }  from './manage-routing.module';
 
@@ -10,6 +11,7 @@ import { ManageRoutingModule }  from './manage-routing.module';
     imports: [
         CommonModule,
         ManageNewsModule,
+        ManageClubModule,
         ManageRoutingModule
     ],
     declarations: [
