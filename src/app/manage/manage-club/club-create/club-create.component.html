@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row" *ngIf="clubs">
+        <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
+            <h1>Створення команди</h1>
+            <form novalidate [formGroup]="clubCreateForm" (ngSubmit)="onSubmit(clubCreateForm)">
+                <div class="form-group"
+                     [class.has-danger]="(clubCreateForm.get('title').hasError('required')
+                                                || clubCreateForm.get('title').hasError('minlength')
+                                                || clubCreateForm.get('title').hasError('maxlength'))
+                                                && clubCreateForm.get('title').touched">
+                    <label class="form-control-label" for="title">Назва:</label>
+                    <input type="text"
+                           id="title"
+                           placeholder="Введіть назву команди"
+                           class="form-control"
+                           formControlName="title"
+                           [class.form-control-danger]="(clubCreateForm.get('title').hasError('required')
+                                                                  || clubCreateForm.get('title').hasError('minlength')
+                                                                  || clubCreateForm.get('title').hasError('maxlength'))
+                                                                  && clubCreateForm.get('title').touched">
+                    <div *ngIf="clubCreateForm.get('title').hasError('required') && clubCreateForm.get('title').touched" class="form-control-feedback">
+                        Назва команди обов'язкова
+                    </div>
+                    <div *ngIf="clubCreateForm.get('title').hasError('minlength') && clubCreateForm.get('title').touched" class="form-control-feedback">
+                        Назва повинна бути більша ніж 2 символи
+                    </div>
+                    <div *ngIf="clubCreateForm.get('title').hasError('maxlength') && clubCreateForm.get('title').touched" class="form-control-feedback">
+                        Назва перевищує 50 символів
+                    </div>
+                </div>
+                <div class="form-group"
+                     [class.has-danger]="(clubCreateForm.get('link').hasError('required')
+                                                || clubCreateForm.get('link').hasError('minlength')
+                                                || clubCreateForm.get('link').hasError('maxlength'))
+                                                && clubCreateForm.get('link').touched">
+                    <label class="form-control-label" for="link">Назва англійською:</label>
+                    <input type="text"
+                           id="link"
+                           placeholder="Введіть назву команди англійською"
+                           class="form-control"
+                           formControlName="link"
+                           [class.form-control-danger]="(clubCreateForm.get('link').hasError('required')
+                                                                    || clubCreateForm.get('link').hasError('minlength')
+                                                                    || clubCreateForm.get('link').hasError('maxlength'))
+                                                                    && clubCreateForm.get('link').touched">
+                    <div *ngIf="clubCreateForm.get('link').hasError('required') && clubCreateForm.get('link').touched" class="form-control-feedback">
+                        Назва команди обов'язкова
+                    </div>
+                    <div *ngIf="clubCreateForm.get('link').hasError('minlength') && clubCreateForm.get('link').touched" class="form-control-feedback">
+                        Назва повинна бути більша ніж 2 символи
+                    </div>
+                    <div *ngIf="clubCreateForm.get('link').hasError('maxlength') && clubCreateForm.get('link').touched" class="form-control-feedback">
+                        Назва перевищує 50 символів
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="parent_id">Країна:</label>
+                    <select id="parent_id"
+                            class="form-control"
+                            formControlName="parent_id"
+                            [class.form-control-danger]="clubCreateForm.get('parent_id').hasError('required') && clubCreateForm.get('parent_id').touched">
+                        <option [value]="'country'" selected>Це збірна команда</option>
+                        <option *ngFor="let club of clubs" [value]="club.id">{{club.title}}</option>
+                    </select>
+                </div>
+                <div class="form-group" >
+                    <label class="form-control-label" for="image">Зображення:</label>
+                    <input type="file"
+                           id="image"
+                           placeholder="Завантажте зображення для команди"
+                           class="form-control"
+                           (change)="fileChange($event)"
+                           accept=".png,.jpg,.gif">
+                </div>
+                <button type="submit" [disabled]="clubCreateForm.invalid" class="btn btn-primary">Створити</button>
+            </form>
+        </div>
+    </div>
+    <div class="row" *ngIf="error">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>{{error}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

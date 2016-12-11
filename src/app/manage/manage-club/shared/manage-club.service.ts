@@ -32,6 +32,34 @@ export class ManageClubService {
             .catch(this.handleError);
     }
 
+    getAllNationalTeams(): Observable<any> {
+        return this.http
+            .get(this.clubUrl + '/national-teams')
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    create(club: Club): Observable<any> {
+        return this.headersWithToken
+            .post(this.clubUrl, club)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    
+    /**
+     * Delete one club
+     *
+     * @param id
+     * @returns {Observable<R>}
+     */
+    delete(id: number): Observable<void> {
+        const url = `${this.clubUrl}/${id}`;
+        return this.headersWithToken
+            .delete(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     /**
      * Transforms to json
      *
@@ -42,6 +70,7 @@ export class ManageClubService {
         if (res && res.status !== 204) {
             let body = res.json();
             if (body.club) body = body.club;
+            if (body.clubs) body = body.clubs;
             return body || {};
         }
 

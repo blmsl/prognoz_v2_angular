@@ -13,9 +13,9 @@ import { ManageNewsService }                    from '../shared/manage-news.serv
 export class NewsCreateComponent implements OnInit {
 
     constructor(
-        private manageNewsService: ManageNewsService,
         private router: Router,
-        private notificationService: NotificationsService
+        private notificationService: NotificationsService,
+        private manageNewsService: ManageNewsService
     ) { }
 
     newsCreateForm: FormGroup;

@@ -1,0 +1,71 @@
+<div class="container">
+    <div *ngIf="!error && !clubs" class="row">
+        <div class="col-xs-12 text-xs-center">
+            <img src="../../../../img/5.gif" alt="spinner">
+        </div>
+    </div>
+    <div *ngIf="clubs && clubs.length" class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-bordered table-hover table-inverse">
+                <thead class="bg-faded text-muted">
+                    <tr>
+                        <th>ID</th>
+                        <th>Лого</th>
+                        <th>Ім'я</th>
+                        <th>Ім'я Англійською</th>
+                        <th>Країна</th>
+                        <th>Редагувати</th>
+                        <th>Видалити</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let club of clubs | paginate: { id: 'club-list',
+                                                    itemsPerPage: perPage,
+                                                    currentPage: currentPage,
+                                                    totalItems: total }">
+                        <td>{{club.id}}.</td>
+                        <td>
+                            <img class="small-image" src="{{clubsImagesUrl}}{{club.image}}" alt="{{club.link}}">
+                        </td>
+                        <td>{{club.title}}</td>
+                        <td>{{club.link}}</td>
+                        <td>
+                            <img *ngIf="club.parent" class="small-image" src="{{clubsImagesUrl}}{{club.parent.image}}" alt="{{club.parent.link}}">
+                            <span *ngIf="!club.parent">-</span>
+                        </td>
+                        <td>
+                            <a routerLink="/manage/club/{{club.id}}/edit" type="button" class="btn btn-outline-warning">Редагувати</a>
+                        </td>
+                        <td>
+                            <button type="button"
+                                    class="btn btn-outline-danger"
+                                    mwlConfirmationPopover
+                                    [title]="title"
+                                    [message]="message + ' ' + club.title + '?'"
+                                    placement="left"
+                                    (confirm)="delete(club)"
+                                    (cancel)="cancelClicked = true">
+                              Видалити
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" *ngIf="error">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+              <strong>{{error}}</strong>
+            </div>
+        </div>
+    </div>
+    <div class="row text-xs-center pagination-row">
+        <pagination-controls  id="club-list"
+                              (pageChange)="pageChanged($event)"
+                              maxSize="9"
+                              directionLinks="true"
+                              autoHide="true">
+        </pagination-controls>
+    </div>
+</div>

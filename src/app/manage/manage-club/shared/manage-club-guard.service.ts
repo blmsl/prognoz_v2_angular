@@ -24,7 +24,7 @@ export class ManageClubGuard implements CanActivate, CanActivateChild {
     checkRole(): boolean {
         if (!!localStorage.getItem('roles') && !!localStorage.getItem('auth_token')) {
             let userRoles = JSON.parse(localStorage.getItem('roles'));
-            let allowedRoles = ['admin', 'club_editor'];
+            let allowedRoles = ['admin', 'clubs_editor'];
             for (let role in userRoles) {
                 if (allowedRoles.indexOf(userRoles[role]) > -1) {
                     return true;
