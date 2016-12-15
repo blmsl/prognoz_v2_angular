@@ -13,6 +13,7 @@
                         <th>Ім'я</th>
                         <th>Категорія</th>
                         <th>Дата</th>
+                        <th>Змінено</th>
                         <th>Редагувати</th>
                         <th>Видалити</th>
                     </tr>
@@ -29,6 +30,7 @@
                             <span *ngIf="!one.tournament">Робота сайту</span>
                         </td>
                         <td>{{one.created_at}}</td>
+                        <td>{{one.updated_at}}</td>
                         <td><a routerLink="/manage/news/{{one.id}}/edit" type="button" class="btn btn-warning">Редагувати</a></td>
                         <td>
                             <button type="button"

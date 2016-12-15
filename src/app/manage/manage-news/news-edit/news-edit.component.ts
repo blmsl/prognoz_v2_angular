@@ -15,11 +15,11 @@ import { API_IMAGE_NEWS }                       from '../../../shared/app.settin
 export class NewsEditComponent implements OnInit {
 
     constructor(
-        private activatedRoute: ActivatedRoute,
-        private manageNewsService: ManageNewsService,
-        private formBuilder: FormBuilder,
         private router: Router,
-        private notificationService: NotificationsService
+        private activatedRoute: ActivatedRoute,
+        private formBuilder: FormBuilder,
+        private notificationService: NotificationsService,
+        private manageNewsService: ManageNewsService
     ) {}
 
     news: News;
@@ -60,16 +60,15 @@ export class NewsEditComponent implements OnInit {
             let file: File = fileList[0];
             let myReader: FileReader = new FileReader();
             myReader.onload = (e) => {
-                this.newsImage = myReader.result;
-            }
+                this.newsEditForm.patchValue({
+                    image: myReader.result
+                });
+            };
             myReader.readAsDataURL(file);
         }
     }
 
     onSubmit() {
-        if (this.newsImage) {
-            this.newsEditForm.value.image = this.newsImage;
-        }
         this.manageNewsService.update(this.newsEditForm.value).subscribe(
             response => {
                 this.router.navigate(['/news/' + this.news.id]);

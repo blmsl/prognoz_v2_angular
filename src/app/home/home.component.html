@@ -17,7 +17,9 @@
                         <h5 class="card-header" style="background-color: #333; border-color: #333;">
                             {{one.title}}
                         </h5>
-                        <img class="card-img-top img-fluid" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
+                        <div class="text-xs-center">
+                            <img class="card-img-top img-fluid" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
+                        </div>
                         <div class="card-block">
                             <div class="card-title"><small class="text-muted">{{one.created_at}}</small></div>
                             <p class="card-text">{{one.body | slice:0:75}}...</p>

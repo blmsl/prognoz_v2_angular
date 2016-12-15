@@ -1,3 +1,115 @@
-<p>
-  club-edit works!
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Редагувати команду <span *ngIf="club">{{club.title}}</span></h1>
+        </div>
+    </div>
+    <div *ngIf="!error && (!club || !clubs)" class="row">
+        <div class="col-xs-12 text-xs-center">
+            <img src="../../../../img/5.gif" alt="spinner">
+        </div>
+    </div>
+    <div *ngIf="club" class="row">
+        <div class="col-xs-12 col-lg-6 margin-top-10 ">
+            <div class="card card-inverse">
+                <h5 class="card-header card-inverse">
+                    Інформація про команду
+                </h5>
+                <br>
+                <div class="row">
+                    <div class="text-xs-center" [ngClass]="{'col-xs-6': club.parent}" [ngClass]="{'col-xs-12': !club.parent}">
+                        <img class="card-img-top img-fluid" src="{{clubImagesUrl}}{{club.image}}" alt="{{club.title}}" title="{{club.title}}">
+                    </div>
+                    <div *ngIf="club.parent" class="text-xs-center" [ngClass]="{'col-xs-6': club.parent}">
+                        <img class="card-img-top img-fluid" src="{{clubImagesUrl}}{{club.parent.image}}" alt="{{club.parent.title}}" title="{{club.parent.title}}">
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="card-title"><small class="text-muted">Ім'я: </small>{{club.title}}</div>
+                    <div class="card-title"><small class="text-muted">Name: </small>{{club.link}}</div>
+                    <div class="card-title"><small class="text-muted">Створено: </small>{{club.created_at}}</div>
+                    <div class="card-title"><small class="text-muted">Змінено: </small>{{club.updated_at}}</div>
+                    <div *ngIf="club.parent" class="card-title"><small class="text-muted">Країна: </small>{{club.parent.title}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-6 bg-inverse text-white dark-form">
+            <form novalidate [formGroup]="clubEditForm" (ngSubmit)="onSubmit(clubEditForm)">
+                <input type="hidden" formControlName="id">
+                <div class="form-group"
+                     [class.has-danger]="(clubEditForm.get('title').hasError('required')
+                                            || clubEditForm.get('title').hasError('minlength')
+                                            || clubEditForm.get('title').hasError('maxlength'))
+                                            && clubEditForm.get('title').touched">
+                    <label class="form-control-label" for="title">Назва:</label>
+                    <input type="text"
+                           id="title"
+                           placeholder="Введіть назву команди"
+                           class="form-control"
+                           [class.form-control-danger]="(clubEditForm.get('title').hasError('required')
+                                                              || clubEditForm.get('title').hasError('minlength')
+                                                              || clubEditForm.get('title').hasError('maxlength'))
+                                                              && clubEditForm.get('title').touched"
+                           formControlName="title">
+                    <div *ngIf="clubEditForm.get('title').hasError('required') && clubEditForm.get('title').touched" class="form-control-feedback">
+                        Назва команди обов'язкова
+                    </div>
+                    <div *ngIf="clubEditForm.get('title').hasError('minlength') && clubEditForm.get('title').touched" class="form-control-feedback">
+                        Назва команди повинна бути більшою ніж 2 символи
+                    </div>
+                    <div *ngIf="clubEditForm.get('title').hasError('maxlength') && clubEditForm.get('title').touched" class="form-control-feedback">
+                        Назва команди перевищує 50 символів
+                    </div>
+                </div>
+                <div class="form-group"
+                     [class.has-danger]="(clubEditForm.get('link').hasError('required')
+                                            || clubEditForm.get('link').hasError('minlength')
+                                            || clubEditForm.get('link').hasError('maxlength'))
+                                            && clubEditForm.get('link').touched">
+                    <label class="form-control-label" for="link">Назва англійською:</label>
+                    <input type="text"
+                           id="link"
+                           placeholder="Введіть назву команд англійською"
+                           class="form-control"
+                           [class.form-control-danger]="(clubEditForm.get('link').hasError('required')
+                                                              || clubEditForm.get('link').hasError('minlength')
+                                                              || clubEditForm.get('link').hasError('maxlength'))
+                                                              && clubEditForm.get('link').touched"
+                           formControlName="link">
+                    <div *ngIf="clubEditForm.get('link').hasError('required') && clubEditForm.get('link').touched" class="form-control-feedback">
+                        Назва команди англійською обов'язкова
+                    </div>
+                    <div *ngIf="clubEditForm.get('link').hasError('minlength') && clubEditForm.get('link').touched" class="form-control-feedback">
+                        Назва команди англійською повинна бути більшою ніж 2 символи
+                    </div>
+                    <div *ngIf="clubEditForm.get('link').hasError('maxlength') && clubEditForm.get('link').touched" class="form-control-feedback">
+                        Назва команди англійською перевищує 50 символів
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="form-control-label" for="image">Емблема / Прапор:</label>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Увага!</strong> Зображення повинне бути формату <strong>.png</strong> і розміром <strong>256x256</strong> пікселів.
+                    </div>
+                    <input type="file"
+                           id="image"
+                           placeholder="Завантажте емблему/прапор для команди"
+                           class="form-control"
+                           (change)="fileChange($event)"
+                           accept=".png,.jpg,.gif,.jpeg">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="parent_id">Країна:</label>
+                    <select id="parent_id"
+                            class="form-control"
+                            formControlName="parent_id"
+                            [class.form-control-danger]="clubEditForm.get('parent_id').hasError('required') && clubEditForm.get('parent_id').touched">
+                        <option [value]="'country'" [attr.selected]="club.parent_id === null">Це збірна команда</option>
+                        <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
+                    </select>
+                </div>
+                <button type="submit" [disabled]="clubEditForm.invalid" class="btn btn-primary">Змінити</button>
+            </form>
+        </div>
+    </div>
+</div>

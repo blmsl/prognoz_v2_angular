@@ -12,9 +12,10 @@
                         <th>ID</th>
                         <th>Лого</th>
                         <th>Ім'я</th>
-                        <th>Ім'я Англійською</th>
-                        <th>Країна</th>
+                        <th>Name</th>
+                        <th>Створено</th>
                         <th>Редагувати</th>
+                        <th>Змінено</th>
                         <th>Видалити</th>
                     </tr>
                 </thead>
@@ -23,22 +24,31 @@
                                                     itemsPerPage: perPage,
                                                     currentPage: currentPage,
                                                     totalItems: total }">
-                        <td>{{club.id}}.</td>
                         <td>
+                            {{club.id}}.
+                        </td>
+                        <td class="text-xs-center">
                             <img class="small-image" src="{{clubsImagesUrl}}{{club.image}}" alt="{{club.link}}">
-                        </td>
-                        <td>{{club.title}}</td>
-                        <td>{{club.link}}</td>
-                        <td>
-                            <img *ngIf="club.parent" class="small-image" src="{{clubsImagesUrl}}{{club.parent.image}}" alt="{{club.parent.link}}">
-                            <span *ngIf="!club.parent">-</span>
+                            <img *ngIf="club.parent" class="small-image" src="{{clubsImagesUrl}}{{club.parent.image}}" alt="{{club.parent.link}}" title="{{club.parent.title}}">
                         </td>
                         <td>
-                            <a routerLink="/manage/club/{{club.id}}/edit" type="button" class="btn btn-outline-warning">Редагувати</a>
+                            {{club.title}}
                         </td>
                         <td>
+                            {{club.link}}
+                        </td>
+                        <td>
+                            <small>{{club.created_at}}</small>
+                        </td>
+                        <td class="text-xs-center">
+                            <a routerLink="/manage/club/{{club.id}}/edit" type="button" class="btn btn-sm btn-outline-warning">Редагувати</a>
+                        </td>
+                        <td>
+                            <small>{{club.updated_at}}</small>
+                        </td>
+                        <td class="text-xs-center">
                             <button type="button"
-                                    class="btn btn-outline-danger"
+                                    class="btn btn-sm btn-outline-danger"
                                     mwlConfirmationPopover
                                     [title]="title"
                                     [message]="message + ' ' + club.title + '?'"

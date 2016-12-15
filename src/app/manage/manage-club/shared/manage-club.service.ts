@@ -32,6 +32,24 @@ export class ManageClubService {
             .catch(this.handleError);
     }
 
+    /**
+     * Get one club data
+     *
+     * @param id
+     * @returns {Observable<R>}
+     */
+    getClub(id: number): Observable<Club> {
+        return this.http
+            .get(this.clubUrl + '/' + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
+     * Get all national teams
+     *
+     * @returns {Observable<R>}
+     */
     getAllNationalTeams(): Observable<any> {
         return this.http
             .get(this.clubUrl + '/national-teams')
@@ -39,6 +57,12 @@ export class ManageClubService {
             .catch(this.handleError);
     }
 
+    /**
+     * Create club
+     *
+     * @param club
+     * @returns {Observable<R>}
+     */
     create(club: Club): Observable<any> {
         return this.headersWithToken
             .post(this.clubUrl, club)
@@ -56,6 +80,20 @@ export class ManageClubService {
         const url = `${this.clubUrl}/${id}`;
         return this.headersWithToken
             .delete(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
+     * Update club
+     *
+     * @param club
+     * @returns {Observable<R>}
+     */
+    update(club: Club): Observable<Club> {
+        const url = `${this.clubUrl}/${club.id}`;
+        return this.headersWithToken
+            .put(url, JSON.stringify(club))
             .map(this.extractData)
             .catch(this.handleError);
     }

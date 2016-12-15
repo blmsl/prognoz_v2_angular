@@ -31,7 +31,6 @@ export class NewsCreateComponent implements OnInit {
     }
 
     onSubmit() {
-        this.newsCreateForm.value.image = this.newsImage;
         this.manageNewsService.create(this.newsCreateForm.value).subscribe(
             response => {
                 this.router.navigate(['/news/' + response.id]);
@@ -51,8 +50,10 @@ export class NewsCreateComponent implements OnInit {
             let file: File = fileList[0];
             let myReader: FileReader = new FileReader();
             myReader.onload = (e) => {
-                this.newsImage = myReader.result;
-            }
+                this.newsCreateForm.patchValue({
+                    image: myReader.result
+                });
+            };
             myReader.readAsDataURL(file);
         }
     }

@@ -21,7 +21,6 @@ export class ClubCreateComponent implements OnInit {
 
     clubs: Club[];
     clubCreateForm: FormGroup;
-    clubImage: any;
     error: string | Array<string>;
 
     ngOnInit() {
@@ -59,9 +58,8 @@ export class ClubCreateComponent implements OnInit {
             let file: File = fileList[0];
             let myReader: FileReader = new FileReader();
             myReader.onload = (e) => {
-                this.clubImage = myReader.result;
                 this.clubCreateForm.patchValue({
-                    image: this.clubImage
+                    image: myReader.result
                 });
             };
             myReader.readAsDataURL(file);

@@ -25,4 +25,11 @@ body {
     height: 25px;
     width: 25px;
 }
+.card-inverse {
+    background-color: #333;
+    border-color: #333;
+}
+.margin-top-10 {
+    margin-top: 10px;
+}
 
