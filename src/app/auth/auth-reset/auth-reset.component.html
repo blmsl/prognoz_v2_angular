@@ -1,28 +1,34 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 bg-inverse text-white dark-form">
-            <h1>Створення нового паролю</h1>
+        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 bg-inverse text-white dark-form">
+            <h1>Відновлення паролю</h1>
             <form novalidate [formGroup]="resetForm" (ngSubmit)="onSubmit(resetForm)">
                 <div class="form-group" [class.has-danger]="resetForm.get('email').hasError('required') && resetForm.get('email').touched">
                     <label class="form-control-label" for="email">Email:</label>
-                    <input type="email"
-                           id="email"
-                           placeholder="Введіть свій email"
-                           class="form-control"
-                           [class.form-control-danger]="resetForm.get('email').hasError('required') && resetForm.get('email').touched"
-                           formControlName="email">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+                        <input type="email"
+                               id="email"
+                               placeholder="Введіть свій email"
+                               class="form-control"
+                               [class.form-control-danger]="resetForm.get('email').hasError('required') && resetForm.get('email').touched"
+                               formControlName="email">
+                    </div>
                     <div *ngIf="resetForm.get('email').hasError('required') && resetForm.get('email').touched" class="form-control-feedback">
                         Email обов'язковий.
                     </div>
                 </div>
                 <div class="form-group" [class.has-danger]="resetForm.get('password').hasError('required') && resetForm.get('password').touched">
                     <label class="form-control-label" for="password">Новий пароль:</label>
-                    <input type="password"
-                           id="password"
-                           placeholder="Придумайте новий пароль"
-                           class="form-control"
-                           [class.form-control-danger]="resetForm.get('password').hasError('required') && resetForm.get('password').touched"
-                           formControlName="password">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+                        <input type="password"
+                               id="password"
+                               placeholder="Придумайте новий пароль"
+                               class="form-control"
+                               [class.form-control-danger]="resetForm.get('password').hasError('required') && resetForm.get('password').touched"
+                               formControlName="password">
+                    </div>
                     <div *ngIf="resetForm.get('password').hasError('required') && resetForm.get('password').touched" class="form-control-feedback">
                       Пароль обов'язковий.
                     </div>
@@ -30,12 +36,15 @@
                 <div class="form-group"
                      [class.has-danger]="(resetForm.get('password_confirmation').hasError('required') && resetForm.get('password_confirmation').touched) || (resetForm.value.password != resetForm.value.password_confirmation)">
                     <label class="form-control-label" for="password">Повторіть новий пароль:</label>
-                    <input type="password"
-                           id="password_confirmation"
-                           placeholder="повторіть новий пароль"
-                           class="form-control"
-                           [class.form-control-danger]="(resetForm.get('password_confirmation').hasError('required') && resetForm.get('password_confirmation').touched) || (resetForm.value.password != resetForm.value.password_confirmation)"
-                           formControlName="password_confirmation">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+                        <input type="password"
+                               id="password_confirmation"
+                               placeholder="повторіть новий пароль"
+                               class="form-control"
+                               [class.form-control-danger]="(resetForm.get('password_confirmation').hasError('required') && resetForm.get('password_confirmation').touched) || (resetForm.value.password != resetForm.value.password_confirmation)"
+                               formControlName="password_confirmation">
+                    </div>
                     <div *ngIf="resetForm.get('password_confirmation').hasError('required') && resetForm.get('password_confirmation').touched" class="form-control-feedback">
                         Повторення паролю обов'язкове.
                     </div>
@@ -46,7 +55,9 @@
                 <input type="hidden"
                        id="token"
                        formControlName="token">
-                <button type="submit" [disabled]="resetForm.invalid || (resetForm.value.password != resetForm.value.password_confirmation)" class="btn btn-primary">Вперед</button>
+                <button type="submit" [disabled]="resetForm.invalid || (resetForm.value.password != resetForm.value.password_confirmation)" class="btn btn-primary">
+                    <i class="fa fa-question-circle" aria-hidden="true"></i> Продовжити
+                </button>
             </form>
         </div>
     </div>
