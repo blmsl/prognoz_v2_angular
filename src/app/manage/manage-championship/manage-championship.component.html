@@ -1,0 +1,31 @@
+<div class="container margin-10">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Керування чемпіонатом:</h2>
+        </div>
+    </div>
+  <div class="row">
+      <div class="col-xs-12">
+          <button routerLink="/manage" type="button" class="btn btn-outline-primary">Назад до меню керування</button>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-xs-12">
+          <ul class="nav nav-tabs">
+              <li class="nav-item">
+                  <a routerLink="/manage/championship/matches/create" routerLinkActive="active" class="nav-link">Добавити матч</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link disabled">Редагувати матч</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link disabled">Добавити результат</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link disabled">Зробити щось</a>
+              </li>
+          </ul>
+      </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

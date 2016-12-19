@@ -26,10 +26,8 @@ export class ClubEditComponent implements OnInit {
     clubs: Club[];
     error: string | Array<string>;
     clubEditForm: FormGroup;
-    //clubImage: any; //TODO: delete
     clubImagesUrl = API_IMAGE_CLUBS;
 
-  
     ngOnInit() {
         this.clubEditForm = this.formBuilder.group({
             id: ['', [Validators.required]],
@@ -79,7 +77,7 @@ export class ClubEditComponent implements OnInit {
         if (this.clubEditForm.value.parent_id === 'country') this.clubEditForm.value.parent_id = null;
         this.manageClubService.update(this.clubEditForm.value).subscribe(
             response => {
-                this.router.navigate(['/manage/club']);
+                this.router.navigate(['/manage/clubs']);
                 this.notificationService.success('Успішно', 'Дані команди змінено!');
             },
             errors => {

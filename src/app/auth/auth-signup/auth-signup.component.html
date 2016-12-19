@@ -82,8 +82,12 @@
                         Паролі не співпадають
                     </div>
                 </div>
-                <button type="submit" [disabled]="f.invalid || (userPassword.value != userConfirm.value)" class="btn btn-primary">
+                <button [hidden]="spinner" [disabled]="f.invalid || (userPassword.value != userConfirm.value)" type="submit" class="btn btn-primary">
                     <i class="fa fa-user-plus" aria-hidden="true"></i> Зареєструватись
+                </button>
+                <button *ngIf="spinner" type="button" class="btn btn-primary" >
+                    <i class="fa fa-spinner fa-pulse fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
                 </button>
             </form>
         </div>

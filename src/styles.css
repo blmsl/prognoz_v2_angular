@@ -12,7 +12,6 @@ body {
 }
 /*site form div*/
 .dark-form {
-    margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -31,5 +30,9 @@ body {
 }
 .margin-top-10 {
     margin-top: 10px;
+}
+
+.max-width-150 {
+    max-width: 150px;
 }
 

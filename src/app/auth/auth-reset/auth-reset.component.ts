@@ -20,6 +20,7 @@ export class AuthResetComponent implements OnInit {
     ) { }
   
     resetForm: FormGroup;
+    spinner: boolean = false;
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -33,15 +34,18 @@ export class AuthResetComponent implements OnInit {
     }
 
     onSubmit() {
+        this.spinner = true;
         this.userService.reset(this.resetForm.value).subscribe(
             response => {
                 this.router.navigate(['/signin']);
                 this.notificationService.success('Успішно', 'Відновлення паролю пройшло успішно. Тепер ви можете виконати вхід на сайт. ');
+                this.spinner = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
+                this.spinner = false;
             }
         );
     }

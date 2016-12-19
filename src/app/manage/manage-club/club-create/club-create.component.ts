@@ -41,7 +41,7 @@ export class ClubCreateComponent implements OnInit {
         if (this.clubCreateForm.value.parent_id === 'country') this.clubCreateForm.value.parent_id = null;
         this.manageClubService.create(this.clubCreateForm.value).subscribe(
             response => {
-                this.router.navigate(['/manage/club']);
+                this.router.navigate(['/manage/clubs']);
                 this.notificationService.success('Успішно', 'Команду ' + response.title + ' створено!');
             },
             errors => {

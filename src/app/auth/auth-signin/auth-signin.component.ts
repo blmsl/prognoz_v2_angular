@@ -21,8 +21,10 @@ export class AuthSigninComponent implements OnInit {
     user: any;
     errorMessage: string;
     signIn: FormGroup;
+    spinner: boolean = false;
 
     onSubmit() {
+        this.spinner = true;
         this.userService.login(this.signIn.value.name, this.signIn.value.password)
             .subscribe(
                 result => {
@@ -32,11 +34,13 @@ export class AuthSigninComponent implements OnInit {
                         this.router.navigate(['/']);
                         this.notificationService.success('Успішно', 'Аутентифікація пройшла успішно');
                     }
+                    this.spinner = false;
                 },
                 errors => {
                     for (let error of errors) {
                         this.notificationService.error('Помилка', error);
                     }
+                    this.spinner = false;
                 }
             );
     }

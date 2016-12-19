@@ -19,6 +19,7 @@ export class AuthRecoveryComponent implements OnInit {
     ) { }
 
     recoveryForm: FormGroup;
+    spinner: boolean = false;
   
     ngOnInit() {
         this.recoveryForm = new FormGroup({
@@ -27,16 +28,19 @@ export class AuthRecoveryComponent implements OnInit {
     }
 
     onSubmit() {
+        this.spinner = true;
         this.userService.recovery(this.recoveryForm.value.email)
             .subscribe(
                 result => {
                     this.router.navigate(['/']);
                     this.notificationService.success('Успішно', 'Подальші інструкції відправлено на ваш email');
+                    this.spinner = false;
                 },
                 errors => {
                     for (let error of errors) {
                         this.notificationService.error('Помилка', error);
                     }
+                    this.spinner = false;
                 }
             )
     }

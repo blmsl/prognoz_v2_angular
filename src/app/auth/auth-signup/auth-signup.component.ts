@@ -25,8 +25,10 @@ export class AuthSignupComponent implements OnInit {
         password_confirmation: ''
     };
     authenticatedUser: any;
+    spinner: boolean = false;
     
     onSubmit({value, valid}: {value:AuthSignupInterface, valid:boolean}) {
+        this.spinner = true;
         this.userService.registration(value)
             .subscribe(
                 response => {
@@ -34,11 +36,13 @@ export class AuthSignupComponent implements OnInit {
                     this.authenticatedUser = response;
                     this.router.navigate(['/']);
                     this.notificationService.success('Успішно', 'Реєстрація пройшла успішно');
+                    this.spinner = false;
                 },
                 errors => {
                     for (let error of errors) {
                         this.notificationService.error('Помилка', error);
                     }
+                    this.spinner = false;
                 }
             );
     }

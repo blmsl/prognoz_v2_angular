@@ -17,8 +17,10 @@ export class HeaderComponent implements OnInit {
         private notificationService: NotificationsService
     ) { }
     user: any;
+    spinner: boolean = false;
     
     onSubmit({value, valid}: {value:any, valid:boolean}) {
+        this.spinner = true;
         this.userService.login(value.name, value.password)
             .subscribe(
                 result => {
@@ -28,11 +30,13 @@ export class HeaderComponent implements OnInit {
                         this.router.navigate(['/']);
                         this.notificationService.success('Успішно', 'Аутентифікація пройшла успішно');
                     }
+                    this.spinner = false;
                 },
                 errors => {
                     for (let error of errors) {
                         this.notificationService.error('Помилка', error);
                     }
+                    this.spinner = false;
                 }
             );
     }

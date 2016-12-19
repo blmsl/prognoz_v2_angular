@@ -14,9 +14,8 @@
                         <th>Ім'я</th>
                         <th>Name</th>
                         <th>Створено</th>
-                        <th>Редагувати</th>
                         <th>Змінено</th>
-                        <th>Видалити</th>
+                        <th>Змінити</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,13 +39,13 @@
                         <td>
                             <small>{{club.created_at}}</small>
                         </td>
-                        <td class="text-xs-center">
-                            <a routerLink="/manage/club/{{club.id}}/edit" type="button" class="btn btn-sm btn-outline-warning">Редагувати</a>
-                        </td>
                         <td>
                             <small>{{club.updated_at}}</small>
                         </td>
                         <td class="text-xs-center">
+                            <a routerLink="/manage/clubs/{{club.id}}/edit" type="button" class="btn btn-sm btn-outline-warning">
+                                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                            </a>
                             <button type="button"
                                     class="btn btn-sm btn-outline-danger"
                                     mwlConfirmationPopover
@@ -55,7 +54,7 @@
                                     placement="left"
                                     (confirm)="delete(club)"
                                     (cancel)="cancelClicked = true">
-                              Видалити
+                                <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
                             </button>
                         </td>
                     </tr>

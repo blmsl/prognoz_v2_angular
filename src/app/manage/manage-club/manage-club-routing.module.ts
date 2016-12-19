@@ -9,7 +9,7 @@ import { ManageClubGuard }          from './shared/manage-club-guard.service';
 
 const routes: Routes = [
     {
-        path: 'manage/club',
+        path: 'manage/clubs',
         component: ManageClubComponent,
         canActivate: [ ManageClubGuard ],
         children: [

@@ -15,15 +15,16 @@ export class ManageClubService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private clubUrl = API_URL + 'club';
+    private clubUrl = API_URL + 'clubs';
 
     /**
      * Get all paginated clubs
      *
      * @param page
+     * @param filter
      * @returns {Observable<R>}
      */
-    getClubs(page = '1'): Observable<any> {
+    getClubs(page = ''): Observable<any> {
         let params = new URLSearchParams();
         params.set('page', page);
         return this.http

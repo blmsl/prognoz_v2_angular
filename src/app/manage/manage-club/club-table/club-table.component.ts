@@ -42,7 +42,10 @@ export class ClubTableComponent implements OnInit {
   
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.manageClubService.getClubs(params['number']).subscribe(
+            // let page =
+            // if (!params['number'])
+            let page = params['number'] ? params['number'] : 1;
+            this.manageClubService.getClubs(page).subscribe(
                 result => {
                     if (!result.data) {
                         this.error = "В базі даних клубів/збірних немає";
@@ -65,13 +68,13 @@ export class ClubTableComponent implements OnInit {
      * @param event
      */
     pageChanged(event) {
-        this.router.navigate(['/manage/club/page', event]);
+        this.router.navigate(['/manage/clubs/page', event]);
     }
 
     /**
      * Delete one club
      *
-     * @param news
+     * @param club
      */
     delete(club) {
         this.manageClubService.delete(club.id).subscribe(
