@@ -86,10 +86,10 @@
                         Назва команди англійською перевищує 50 символів
                     </div>
                 </div>
-                <div class="form-group" >
+                <div class="form-group" [class.has-danger]="errorImage">
                     <label class="form-control-label" for="image">Емблема / Прапор:</label>
-                    <div class="alert alert-info" role="alert">
-                        <strong>Увага!</strong> Зображення повинне бути формату <strong>.png</strong> і розміром <strong>256x256</strong> пікселів.
+                    <div *ngIf="!errorImage" class="alert alert-info" role="alert">
+                        <strong>Увага!</strong> Зображення повинне бути формату <strong>.png / .gif</strong> і розміром <strong>256x256</strong> пікселів.
                     </div>
                     <input type="file"
                            id="image"
@@ -97,6 +97,9 @@
                            class="form-control"
                            (change)="fileChange($event)"
                            accept=".png,.jpg,.gif,.jpeg">
+                    <div *ngIf="errorImage" class="form-control-feedback">
+                        {{errorImage}}
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="parent_id">Країна:</label>
@@ -108,7 +111,7 @@
                         <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
                     </select>
                 </div>
-                <button type="submit" [disabled]="clubEditForm.invalid" class="btn btn-primary">Змінити</button>
+                <button type="submit" [disabled]="clubEditForm.invalid || errorImage" class="btn btn-primary">Змінити</button>
             </form>
         </div>
     </div>

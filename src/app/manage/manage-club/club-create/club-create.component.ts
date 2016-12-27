@@ -5,6 +5,8 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { Club }                                 from '../shared/club.model';
 import { ManageClubService }                    from '../shared/manage-club.service';
+import { ImageService }                         from '../../../shared/image.service';
+import { IMAGE_SETTINGS }                       from '../../../shared/app.settings';
 
 @Component({
   selector: 'app-club-create',
@@ -16,12 +18,24 @@ export class ClubCreateComponent implements OnInit {
     constructor(
         private router: Router,
         private notificationService: NotificationsService,
-        private manageClubService: ManageClubService
-    ) { }
+        private manageClubService: ManageClubService,
+        private imageService: ImageService
+    ) {
+        imageService.uploadedImage$.subscribe(
+            result => {
+                this.clubCreateForm.patchValue({image: result});
+                this.errorImage = null;
+            }
+        );
+        imageService.uploadError$.subscribe(
+            result => { this.errorImage = result }
+        );
+    }
 
     clubs: Club[];
     clubCreateForm: FormGroup;
     error: string | Array<string>;
+    errorImage: string;
 
     ngOnInit() {
         this.manageClubService.getAllNationalTeams().subscribe(
@@ -53,16 +67,6 @@ export class ClubCreateComponent implements OnInit {
     }
 
     fileChange(event) {
-        let fileList: FileList = event.target.files;
-        if(fileList.length > 0) {
-            let file: File = fileList[0];
-            let myReader: FileReader = new FileReader();
-            myReader.onload = (e) => {
-                this.clubCreateForm.patchValue({
-                    image: myReader.result
-                });
-            };
-            myReader.readAsDataURL(file);
-        }
+        this.imageService.fileChange(event, IMAGE_SETTINGS.CLUB);
     }
 }

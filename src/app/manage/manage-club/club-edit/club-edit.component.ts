@@ -5,6 +5,8 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { Club }                                 from '../shared/club.model';
 import { ManageClubService }                    from '../shared/manage-club.service';
+import { ImageService }                         from '../../../shared/image.service';
+import { IMAGE_SETTINGS }                       from '../../../shared/app.settings';
 import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
 
 @Component({
@@ -19,14 +21,26 @@ export class ClubEditComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private formBuilder: FormBuilder,
         private notificationService: NotificationsService,
-        private manageClubService: ManageClubService
-    ) { }
+        private manageClubService: ManageClubService,
+        private imageService: ImageService
+    ) {
+        imageService.uploadedImage$.subscribe(
+            result => {
+                this.clubEditForm.patchValue({image: result});
+                this.errorImage = null;
+            }
+        );
+        imageService.uploadError$.subscribe(
+            result => { this.errorImage = result }
+        );
+    }
 
     club: Club;
     clubs: Club[];
     error: string | Array<string>;
     clubEditForm: FormGroup;
     clubImagesUrl = API_IMAGE_CLUBS;
+    errorImage: string;
 
     ngOnInit() {
         this.clubEditForm = this.formBuilder.group({
@@ -60,17 +74,7 @@ export class ClubEditComponent implements OnInit {
     }
 
     fileChange(event) {
-        let fileList: FileList = event.target.files;
-        if(fileList.length > 0) {
-            let file: File = fileList[0];
-            let myReader: FileReader = new FileReader();
-            myReader.onload = (e) => {
-                this.clubEditForm.patchValue({
-                    image: myReader.result
-                });
-            };
-            myReader.readAsDataURL(file);
-        }
+        this.imageService.fileChange(event, IMAGE_SETTINGS.CLUB);
     }
 
     onSubmit() {

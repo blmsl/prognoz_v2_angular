@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { ManageNewsService }                    from '../shared/manage-news.service';
+import { ImageService }                         from '../../../shared/image.service';
+import { IMAGE_SETTINGS }                       from '../../../shared/app.settings';
 
 @Component({
   selector: 'app-news-create',
@@ -15,11 +17,22 @@ export class NewsCreateComponent implements OnInit {
     constructor(
         private router: Router,
         private notificationService: NotificationsService,
-        private manageNewsService: ManageNewsService
-    ) { }
+        private manageNewsService: ManageNewsService,
+        private imageService: ImageService
+    ) {
+        imageService.uploadedImage$.subscribe(
+            result => {
+                this.newsCreateForm.patchValue({image: result});
+                this.errorImage = null;
+            }
+        );
+        imageService.uploadError$.subscribe(
+            result => { this.errorImage = result }
+        );
+    }
 
     newsCreateForm: FormGroup;
-    newsImage: any;
+    errorImage: string;
 
     ngOnInit() {
         this.newsCreateForm = new FormGroup({
@@ -45,16 +58,6 @@ export class NewsCreateComponent implements OnInit {
     }
 
     fileChange(event) {
-        let fileList: FileList = event.target.files;
-        if(fileList.length > 0) {
-            let file: File = fileList[0];
-            let myReader: FileReader = new FileReader();
-            myReader.onload = (e) => {
-                this.newsCreateForm.patchValue({
-                    image: myReader.result
-                });
-            };
-            myReader.readAsDataURL(file);
-        }
+        this.imageService.fileChange(event, IMAGE_SETTINGS.NEWS);
     }
 }

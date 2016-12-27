@@ -6,6 +6,8 @@ import { NotificationsService }                 from 'angular2-notifications';
 import { News }                                 from '../shared/news.model';
 import { ManageNewsService }                    from '../shared/manage-news.service';
 import { API_IMAGE_NEWS }                       from '../../../shared/app.settings';
+import { ImageService }                         from '../../../shared/image.service';
+import { IMAGE_SETTINGS }                       from '../../../shared/app.settings';
 
 @Component({
   selector: 'app-news-edit',
@@ -19,14 +21,25 @@ export class NewsEditComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private formBuilder: FormBuilder,
         private notificationService: NotificationsService,
-        private manageNewsService: ManageNewsService
-    ) {}
+        private manageNewsService: ManageNewsService,
+        private imageService: ImageService
+    ) {
+        imageService.uploadedImage$.subscribe(
+            result => {
+                this.newsEditForm.patchValue({image: result});
+                this.errorImage = null;
+            }
+        );
+        imageService.uploadError$.subscribe(
+            result => { this.errorImage = result }
+        );
+    }
 
     news: News;
     error: string | Array<string>;
     newsEditForm: FormGroup;
-    newsImage: any;
     newsImagesUrl = API_IMAGE_NEWS;
+    errorImage: string;
   
     ngOnInit() {
         this.newsEditForm = this.formBuilder.group({
@@ -55,17 +68,7 @@ export class NewsEditComponent implements OnInit {
     }
 
     fileChange(event) {
-        let fileList: FileList = event.target.files;
-        if(fileList.length > 0) {
-            let file: File = fileList[0];
-            let myReader: FileReader = new FileReader();
-            myReader.onload = (e) => {
-                this.newsEditForm.patchValue({
-                    image: myReader.result
-                });
-            };
-            myReader.readAsDataURL(file);
-        }
+        this.imageService.fileChange(event, IMAGE_SETTINGS.NEWS);
     }
 
     onSubmit() {

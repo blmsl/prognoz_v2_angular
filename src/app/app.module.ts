@@ -19,6 +19,7 @@ import { HeadersWithToken }           from './shared/headers-with-token.service'
 import { LoggedInGuard }              from './shared/logged-in-guard.service';
 import { UserService }                from './shared/user.service';
 import { CommentService }             from './shared/comment.service';
+import { ImageService }               from './shared/image.service';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { CommentService }             from './shared/comment.service';
         HeadersWithToken,
         LoggedInGuard,
         UserService,
-        CommentService
+        CommentService,
+        ImageService
     ],
     bootstrap: [
         AppComponent

@@ -1,13 +1,11 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-md-8 col-lg-9 col-xl-9">
-
             <div class="row">
                 <div class="col-xs-12">
                     <h2>Гостьова:</h2>
                 </div>
             </div>
-
             <div *ngIf="authenticatedUser" class="row">
                 <div class="col-xs-12">
                     <form novalidate [formGroup]="guestbookAddMessageForm" (ngSubmit)="onSubmit(guestbookAddMessageForm)" class="bg-inverse text-white dark-form">
@@ -40,18 +38,20 @@
                                 Текст повідомлення перевищує 1000 символів
                             </div>
                         </div>
-                        <button type="submit" [disabled]="guestbookAddMessageForm.invalid || preloader" class="btn btn-primary">Додати</button>
-                        <img *ngIf="preloader" src="../../img/5.gif" alt="preloader">
+                        <button [hidden]="preloader" type="submit" [disabled]="guestbookAddMessageForm.invalid" class="btn btn-primary">Додати</button>
+                        <button *ngIf="preloader" type="button" class="btn btn-primary" >
+                            <i class="fa fa-spinner fa-pulse fa-fw"></i>
+                            <span class="sr-only">Loading...</span>
+                        </button>
                     </form>
                 </div>
             </div>
-
             <div *ngIf="!error && !guestbookMessages" class="row">
                 <div class="col-xs-12 text-xs-center">
-                    <img src="../../../img/5.gif" alt="spinner">
+                    <i class="fa fa-spinner fa-pulse fa-fw fa-3x"></i>
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
-
             <div *ngIf="guestbookMessages" class="row">
                 <div class="col-xs-12">
                     <div *ngFor="let message of guestbookMessages | paginate: { id: 'guestbook-messages-list',
@@ -70,7 +70,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row" *ngIf="error">
                 <div class="col-xs-12">
                     <div class="alert alert-danger" role="alert">
@@ -78,7 +77,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row text-xs-center pagination-row">
                 <pagination-controls  id="guestbook-messages-list"
                                       (pageChange)="pageChanged($event)"
@@ -87,7 +85,6 @@
                                       autoHide="true">
                 </pagination-controls>
             </div>
-
         </div>
         <div class="hidden-sm-down col-md-4 col-lg-3 col-xl-3">
             <div class="row">

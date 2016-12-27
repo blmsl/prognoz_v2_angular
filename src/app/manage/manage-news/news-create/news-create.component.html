@@ -54,7 +54,7 @@
                         Текст новини перевищує 3000 символів
                     </div>
                 </div>
-                <div class="form-group" >
+                <div class="form-group" [class.has-danger]="errorImage">
                     <label class="form-control-label" for="image">Зображення:</label>
                     <input type="file"
                            id="image"
@@ -62,6 +62,9 @@
                            class="form-control"
                            (change)="fileChange($event)"
                            accept=".png,.jpg,.gif">
+                    <div *ngIf="errorImage" class="form-control-feedback">
+                        {{errorImage}}
+                    </div>
                 </div>
                 <div class="form-group" [class.has-danger]="newsCreateForm.get('tournament_id').hasError('required') && newsCreateForm.get('tournament_id').touched">
                     <label class="form-control-label" for="tournament_id">Категорія:</label>
@@ -77,7 +80,7 @@
                         Вибір категорії обов'язковий
                     </div>
                 </div>
-                <button type="submit" [disabled]="newsCreateForm.invalid" class="btn btn-primary">Створити</button>
+                <button type="submit" [disabled]="newsCreateForm.invalid || errorImage" class="btn btn-primary">Створити</button>
             </form>
         </div>
     </div>

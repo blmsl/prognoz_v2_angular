@@ -72,7 +72,7 @@
                 <div *ngIf="news">
                     <img class="img-fluid" src="{{newsImagesUrl}}{{news.image}}" alt="{{news.title}}">
                 </div>
-                <div class="form-group" >
+                <div class="form-group" [class.has-danger]="errorImage">
                     <label class="form-control-label" for="image">Зображення:</label>
                     <input type="file"
                          id="image"
@@ -80,8 +80,11 @@
                          class="form-control"
                          (change)="fileChange($event)"
                          accept=".png,.jpg,.gif,.jpeg">
+                    <div *ngIf="errorImage" class="form-control-feedback">
+                        {{errorImage}}
+                    </div>
                 </div>
-                <button type="submit" [disabled]="newsEditForm.invalid" class="btn btn-primary">Змінити</button>
+                <button type="submit" [disabled]="newsEditForm.invalid || errorImage" class="btn btn-primary">Змінити</button>
             </form>
         </div>
     </div>
