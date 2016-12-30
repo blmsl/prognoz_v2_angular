@@ -10,6 +10,7 @@ import { GuestbookModule }            from './guestbook/guestbook.module';
 import { HomeModule }                 from './home/home.module';
 import { ManageModule }               from './manage/manage.module';
 import { NewsModule }                 from './news/news.module';
+import { DirectivesModule }           from './shared/directives/directives.module';
 
 import { AppComponent }               from './app.component';
 import { FooterComponent }            from './footer/footer.component';
@@ -37,7 +38,8 @@ import { ImageService }               from './shared/image.service';
         ManageModule,
         NewsModule,
         HomeModule,
-        GuestbookModule
+        GuestbookModule,
+        DirectivesModule
     ],
     providers: [
         HeadersWithToken,

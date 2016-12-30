@@ -5,6 +5,7 @@ import { ReactiveFormsModule }      from '@angular/forms';
 import { Ng2PaginationModule }      from 'ng2-pagination';
 import { ConfirmationPopoverModule }from 'angular-confirmation-popover';
 
+import { DirectivesModule }         from '../../shared/directives/directives.module';
 import { ManageNewsComponent }      from './manage-news.component';
 import { ManageNewsRoutingModule }  from './manage-news-routing.module';
 import { ManageNewsService }        from './shared/manage-news.service';
@@ -23,7 +24,8 @@ import { NewsEditComponent }        from './news-edit/news-edit.component';
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger',
             focusButton: 'confirm'
-        })
+        }),
+        DirectivesModule
     ],
     declarations: [
         ManageNewsComponent,

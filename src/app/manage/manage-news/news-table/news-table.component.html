@@ -1,9 +1,5 @@
 <div class="container">
-    <div *ngIf="!error && !news" class="row">
-        <div class="col-xs-12 text-xs-center">
-            <img src="../../../../img/5.gif" alt="spinner">
-        </div>
-    </div>
+    <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
     <div *ngIf="news && news.length" class="row">
         <div class="col-xs-12">
             <table class="table table-striped table-bordered table-hover">
@@ -57,11 +53,11 @@
         </div>
     </div>
     <div class="row text-xs-center pagination-row">
-        <pagination-controls  id="news-list"
-                              (pageChange)="pageChanged($event)"
-                              maxSize="9"
-                              directionLinks="true"
-                              autoHide="true">
+        <pagination-controls id="news-list"
+                             (pageChange)="pageChanged($event)"
+                             maxSize="9"
+                             directionLinks="true"
+                             autoHide="true">
         </pagination-controls>
     </div>
 </div>

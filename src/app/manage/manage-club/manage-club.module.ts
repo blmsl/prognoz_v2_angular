@@ -5,6 +5,7 @@ import { ReactiveFormsModule }      from '@angular/forms';
 import { Ng2PaginationModule }      from 'ng2-pagination';
 import { ConfirmationPopoverModule }from 'angular-confirmation-popover';
 
+import { DirectivesModule }         from '../../shared/directives/directives.module';
 import { ManageClubComponent }      from './manage-club.component';
 import { ManageClubRoutingModule }  from './manage-club-routing.module';
 import { ManageClubGuard }          from './shared/manage-club-guard.service';
@@ -23,7 +24,8 @@ import { ClubTableComponent }       from './club-table/club-table.component';
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger',
             focusButton: 'confirm'
-        })
+        }),
+        DirectivesModule
     ],
     declarations: [
         ManageClubComponent,

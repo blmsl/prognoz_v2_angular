@@ -4,11 +4,7 @@
             <h2>Останні новини:</h2>
         </div>
     </div>
-    <div *ngIf="!error && !news" class="row">
-        <div class="col-xs-12 text-xs-center">
-            <img src="../../img/5.gif" alt="spinner">
-        </div>
-    </div>
+    <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
     <div *ngIf="news && news.length" class="row">
         <div class="col-xs-12">
             <div class="card-deck-wrapper">

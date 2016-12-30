@@ -4,11 +4,7 @@
             <h2>Новина:</h2>
         </div>
     </div>
-    <div *ngIf="!error && !news" class="row">
-        <div class="col-xs-12 text-xs-center">
-            <img src="../../../img/5.gif" alt="spinner">
-        </div>
-    </div>
+    <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
     <div *ngIf="news">
         <div class="row">
             <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">

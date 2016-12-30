@@ -1,15 +1,10 @@
-<!--<b (click) ="delete(one); $event.stopPropagation()">X</b>-->
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
             <h2>Всі новини:</h2>
         </div>
     </div>
-    <div *ngIf="!error && !news" class="row">
-        <div class="col-xs-12 text-xs-center">
-            <img src="../../../img/5.gif" alt="spinner">
-        </div>
-    </div>
+    <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
     <div *ngFor="let one of news | paginate: { id: 'news-list',
                                               itemsPerPage: perPage,
                                               currentPage: currentPage,

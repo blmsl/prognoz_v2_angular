@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row">
-    <div *ngIf="!error && clubs" class="col-xs-12 col-md-8 col-lg-7 bg-inverse text-white dark-form">
+    <app-spinner *ngIf="!error && !clubs.length" [height]="200"></app-spinner>
+    <div *ngIf="clubs && clubs.length" class="col-xs-12 col-md-8 col-lg-7 bg-inverse text-white dark-form">
       <h1>Добавлення матчу</h1>
       <form novalidate [formGroup]="championshipMatchCreateForm" (ngSubmit)="onSubmit(championshipMatchCreateForm)">
         <div class="form-group"

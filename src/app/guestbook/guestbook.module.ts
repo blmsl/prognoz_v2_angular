@@ -1,10 +1,11 @@
 import { NgModule }             from '@angular/core';
 import { CommonModule }         from '@angular/common';
-import { FormsModule }          from '@angular/forms'; //TODO: check
-import { ReactiveFormsModule }  from '@angular/forms'; //TODO: check
+import { FormsModule }          from '@angular/forms';
+import { ReactiveFormsModule }  from '@angular/forms';
 import { Ng2PaginationModule }  from 'ng2-pagination';
 
 import { AppRoutingModule }     from '../app-routing.module';
+import { DirectivesModule }     from '../shared/directives/directives.module';
 import { GuestbookComponent }   from './guestbook.component';
 import { GuestbookService }     from './guestbook.service';
 
@@ -14,7 +15,8 @@ import { GuestbookService }     from './guestbook.service';
         FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
-        Ng2PaginationModule
+        Ng2PaginationModule,
+        DirectivesModule
     ],
     declarations: [
         GuestbookComponent

@@ -1,9 +1,5 @@
 <div class="container">
-    <div *ngIf="!error && !clubs" class="row">
-        <div class="col-xs-12 text-xs-center">
-            <img src="../../../../img/5.gif" alt="spinner">
-        </div>
-    </div>
+    <app-spinner *ngIf="!error && !clubs" [height]="250"></app-spinner>
     <div *ngIf="clubs && clubs.length" class="row">
         <div class="col-xs-12">
             <table class="table table-striped table-bordered table-hover table-inverse">

@@ -1,4 +1,5 @@
 <div class="container">
+    <app-spinner *ngIf="!error && !clubs" [height]="250"></app-spinner>
     <div class="row" *ngIf="clubs">
         <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
             <h1>Створення команди</h1>
