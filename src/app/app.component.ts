@@ -22,9 +22,10 @@ export class AppComponent implements OnInit {
     }
 
     public options = {
+        position: ['right', 'bottom'],
         timeOut: 5000,
+        showProgressBar: false,
         maxLength: 0,
-        animate: 'scale',
-        position: ['right', 'bottom']
+        animate: 'scale'
     };
 }
