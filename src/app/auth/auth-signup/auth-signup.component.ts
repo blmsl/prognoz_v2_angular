@@ -1,9 +1,10 @@
-import { Component, OnInit }    from '@angular/core';
-import { Router }               from '@angular/router';
-import { NotificationsService } from 'angular2-notifications';
+import { Component, OnInit }                    from '@angular/core';
+import { Router }                               from '@angular/router';
+import { FormControl, FormGroup, Validators }   from '@angular/forms';
+import { NotificationsService }                 from 'angular2-notifications';
 
-import { AuthSignupInterface }  from './auth-signup.interface';
-import { UserService }          from '../../shared/user.service';
+import { AuthSignupInterface }                  from './auth-signup.interface';
+import { UserService }                          from '../../shared/user.service';
 
 @Component({
   selector: 'app-auth-signup',
@@ -26,6 +27,8 @@ export class AuthSignupComponent implements OnInit {
     };
     authenticatedUser: any;
     spinner: boolean = false;
+
+    signupForm: FormGroup;
     
     onSubmit({value, valid}: {value:AuthSignupInterface, valid:boolean}) {
         this.spinner = true;
@@ -46,11 +49,19 @@ export class AuthSignupComponent implements OnInit {
                 }
             );
     }
-    
+
     ngOnInit() {
         this.userService.sharedUser$.subscribe(latestCollection => {
             this.authenticatedUser = latestCollection;
         });
         this.userService.loadSharedUser();
+
+        let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
+        this.signupForm = new FormGroup({
+            name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+            email: new FormControl('', [Validators.required, Validators.pattern(emailRegex)]),
+            password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            password_confirmation: new FormControl('', [Validators.required]),
+        });
     }
 }

@@ -2,93 +2,101 @@
     <div class="row">
         <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 bg-inverse text-white dark-form">
             <h1>Реєстрація на сайті</h1>
-            <form novalidate (ngSubmit)="onSubmit(f)" #f="ngForm">
-                <div class="form-group" [class.has-danger]="(userName?.errors?.required && userName.touched) || (userName?.errors?.minlength && userName.touched)">
-                    <label class="form-control-label" for="name">Ім'я:</label>
+            <form novalidate [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
+
+                <div class="form-group"
+                     [class.has-danger]="signupForm.get('name').invalid && (signupForm.get('name').touched || !signupForm.get('name').pristine)">
+                    <label class="form-control-label" for="name"><strong>Ім'я:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
                         <input type="text"
                                id="name"
                                placeholder="Придумайте собі оригінальне ім'я"
                                class="form-control"
-                               [class.form-control-danger]="(userName?.errors?.required && userName.touched) || (userName?.errors?.minlength && userName.touched)"
-                               required
-                               minlength="3"
-                               name="name"
-                               ngModel
-                               #userName="ngModel">
+                               formControlName="name">
                     </div>
-                    <div *ngIf="userName?.errors?.required && userName.touched" class="form-control-feedback">
-                        Ім'я обов'язкове
+                    <div *ngIf="signupForm.get('name').hasError('required') && (signupForm.get('name').touched || !signupForm.get('name').pristine)"
+                         class="form-control-feedback">
+                        <small>Ім'я обов'язкове.</small>
                     </div>
-                    <div *ngIf="userName?.errors?.minlength && userName.touched" class="form-control-feedback">
-                        Ім'я повинно містити мінімум три символи
+                    <div *ngIf="signupForm.get('name').hasError('minlength') && !signupForm.get('name').pristine"
+                         class="form-control-feedback">
+                        <small>Ім'я повинно містити мінімум три символи.</small>
+                    </div>
+                    <div *ngIf="signupForm.get('name').hasError('maxlength') && !signupForm.get('name').pristine"
+                         class="form-control-feedback">
+                        <small>Ім'я перевищує п'ятдесять символів.</small>
                     </div>
                 </div>
-                <div class="form-group" [class.has-danger]="userEmail?.errors?.required && userEmail.touched">
-                    <label class="form-control-label" for="email">E-mail:</label>
+
+                <div class="form-group"
+                     [class.has-danger]="signupForm.get('email').invalid && (signupForm.get('email').touched || !signupForm.get('email').pristine)">
+                    <label class="form-control-label" for="email"><strong>E-mail:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
                         <input type="email"
                                id="email"
                                placeholder="Введіть свій email"
                                class="form-control"
-                               [class.form-control-danger]="userEmail?.errors?.required && userEmail.touched"
-                               required
-                               name="email"
-                               ngModel
-                               #userEmail="ngModel">
+                               formControlName="email">
                     </div>
-                    <div *ngIf="userEmail?.errors?.required && userEmail.touched" class="form-control-feedback">
-                        E-mail обов'язковий
+                    <div *ngIf="signupForm.get('email').hasError('required') && (signupForm.get('email').touched || !signupForm.get('email').pristine)"
+                         class="form-control-feedback">
+                        <small>E-mail обов'язковий.</small>
+                    </div>
+                    <div *ngIf="signupForm.get('email').hasError('pattern') && !signupForm.get('email').pristine"
+                         class="form-control-feedback">
+                        <small>Email введено неправильно.</small>
                     </div>
                 </div>
-                <div class="form-group" [class.has-danger]="userPassword?.errors?.required && userPassword.touched">
-                    <label class="form-control-label" for="password">Пароль:</label>
+
+                <div class="form-group"
+                     [class.has-danger]="signupForm.get('password').invalid && (signupForm.get('password').touched || !signupForm.get('password').pristine)">
+                    <label class="form-control-label" for="password"><strong>Пароль:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
                         <input type="password"
                                id="password"
                                placeholder="Придумайте пароль"
                                class="form-control"
-                               [class.form-control-danger]="userPassword?.errors?.required && userPassword.touched"
-                               required
-                               name="password"
-                               ngModel
-                               #userPassword="ngModel">
+                               formControlName="password">
                     </div>
-                    <div *ngIf="userPassword?.errors?.required && userPassword.touched" class="form-control-feedback">
-                        Пароль обов'язковий
+                    <div *ngIf="signupForm.get('password').hasError('required') && (signupForm.get('password').touched || !signupForm.get('password').pristine)"
+                         class="form-control-feedback">
+                        <small>Пароль обов'язковий.</small>
+                    </div>
+                    <div *ngIf="signupForm.get('password').hasError('minlength') && !signupForm.get('password').pristine"
+                         class="form-control-feedback">
+                        <small>Пароль повинен бути більшим ніж шість символів.</small>
                     </div>
                 </div>
-                <div class="form-group" [class.has-danger]="(userConfirm?.errors?.required && userConfirm.touched) || (userPassword.value != userConfirm.value)">
-                    <label class="form-control-label" for="password_confirmation">Повторіть пароль:</label>
+
+                <div class="form-group"
+                     [class.has-danger]="(signupForm.get('password_confirmation').invalid || (signupForm.value.password != signupForm.value.password_confirmation))
+                                        && (signupForm.get('password_confirmation').touched || !signupForm.get('password_confirmation').pristine)">
+                    <label class="form-control-label" for="password_confirmation"><strong>Повторіть пароль:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
                         <input type="password"
                                id="password_confirmation"
                                placeholder="Повторіть пароль"
                                class="form-control"
-                               [class.form-control-danger]="(userConfirm?.errors?.required && userConfirm.touched) || (userPassword.value != userConfirm.value)"
-                               required
-                               name="password_confirmation"
-                               ngModel
-                               #userConfirm="ngModel">
+                               formControlName="password_confirmation">
                     </div>
-                    <div *ngIf="userConfirm?.errors?.required && userConfirm.touched" class="form-control-feedback">
-                        Підтвердження паролю обов'язкове
+                    <div *ngIf="signupForm.get('password_confirmation').hasError('required') && (signupForm.get('password_confirmation').touched || !signupForm.get('password_confirmation').pristine)"
+                         class="form-control-feedback">
+                        <small>Підтвердження паролю обов'язкове.</small>
                     </div>
-                    <div *ngIf="(userPassword.value != userConfirm.value)" class="form-control-feedback">
-                        Паролі не співпадають
+                    <div *ngIf="(signupForm.value.password != signupForm.value.password_confirmation) && !signupForm.get('password_confirmation').pristine"
+                         class="form-control-feedback">
+                        <small>Паролі не співпадають.</small>
                     </div>
                 </div>
-                <button [hidden]="spinner" [disabled]="f.invalid || (userPassword.value != userConfirm.value)" type="submit" class="btn btn-primary">
+
+                <button [hidden]="spinner" [disabled]="signupForm.invalid || (signupForm.value.password != signupForm.value.password_confirmation)" type="submit" class="btn btn-primary">
                     <i class="fa fa-user-plus" aria-hidden="true"></i> Зареєструватись
                 </button>
-                <button *ngIf="spinner" type="button" class="btn btn-primary" >
-                    <i class="fa fa-spinner fa-pulse fa-fw"></i>
-                    <span class="sr-only">Loading...</span>
-                </button>
+                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             </form>
         </div>
     </div>

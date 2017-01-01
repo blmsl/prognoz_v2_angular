@@ -23,10 +23,11 @@ export class AuthResetComponent implements OnInit {
     spinner: boolean = false;
 
     ngOnInit() {
+        let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.activatedRoute.params.subscribe((params: Params) => {
             this.resetForm = new FormGroup({
-                email: new FormControl('', [Validators.required]),
-                password: new FormControl('', [Validators.required]),
+                email: new FormControl('', [Validators.required, Validators.pattern(emailRegex)]),
+                password: new FormControl('', [Validators.required, Validators.minLength(6)]),
                 password_confirmation: new FormControl('', [Validators.required]),
                 token: new FormControl(params['token'], [Validators.required])
             });

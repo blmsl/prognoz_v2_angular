@@ -20,12 +20,12 @@ export class AuthSigninComponent implements OnInit {
 
     user: any;
     errorMessage: string;
-    signIn: FormGroup;
+    signinForm: FormGroup;
     spinner: boolean = false;
 
     onSubmit() {
         this.spinner = true;
-        this.userService.login(this.signIn.value.name, this.signIn.value.password)
+        this.userService.login(this.signinForm.value.name, this.signinForm.value.password)
             .subscribe(
                 result => {
                     if (result) {
@@ -54,7 +54,7 @@ export class AuthSigninComponent implements OnInit {
 
         if (!this.user) this.user = JSON.parse(localStorage.getItem('user'));
 
-        this.signIn = new FormGroup({
+        this.signinForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3)]),
             password: new FormControl('', [Validators.required])
         });

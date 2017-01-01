@@ -3,28 +3,30 @@
         <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 bg-inverse text-white dark-form">
             <h1>Відновлення паролю</h1>
             <form novalidate [formGroup]="recoveryForm" (ngSubmit)="onSubmit(recoveryForm)">
-                <div class="form-group" [class.has-danger]="recoveryForm.get('email').hasError('required') && recoveryForm.get('email').touched">
-                    <label class="form-control-label" for="email">Email:</label>
+                <div class="form-group"
+                     [class.has-danger]="recoveryForm.get('email').invalid && (!recoveryForm.get('email').pristine || recoveryForm.get('email').touched)">
+                    <label class="form-control-label" for="email"><strong>Email:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
                         <input type="email"
                                id="email"
                                placeholder="Введіть свій email"
                                class="form-control"
-                               [class.form-control-danger]="recoveryForm.get('email').hasError('required') && recoveryForm.get('email').touched"
                                formControlName="email">
                     </div>
-                    <div *ngIf="recoveryForm.get('email').hasError('required') && recoveryForm.get('email').touched" class="form-control-feedback">
-                        Email обов'язковий.
+                    <div *ngIf="recoveryForm.get('email').hasError('required') && (!recoveryForm.get('email').pristine || recoveryForm.get('email').touched)"
+                         class="form-control-feedback">
+                        <small>Email обов'язковий.</small>
+                    </div>
+                    <div *ngIf="recoveryForm.get('email').hasError('pattern') && !recoveryForm.get('email').pristine"
+                         class="form-control-feedback">
+                        <small>Email введено неправильно.</small>
                     </div>
                 </div>
                 <button [hidden]="spinner" [disabled]="recoveryForm.invalid" type="submit" class="btn btn-primary">
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Продовжити
                 </button>
-                <button *ngIf="spinner" type="button" class="btn btn-primary" >
-                    <i class="fa fa-spinner fa-pulse fa-fw"></i>
-                    <span class="sr-only">Loading...</span>
-                </button>
+                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             </form>
         </div>
     </div>

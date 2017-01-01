@@ -22,8 +22,9 @@ export class AuthRecoveryComponent implements OnInit {
     spinner: boolean = false;
   
     ngOnInit() {
+        let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.recoveryForm = new FormGroup({
-            email: new FormControl('', [Validators.required])
+            email: new FormControl('', [Validators.required, Validators.pattern(emailRegex)])
         });
     }
 
@@ -33,7 +34,7 @@ export class AuthRecoveryComponent implements OnInit {
             .subscribe(
                 result => {
                     this.router.navigate(['/']);
-                    this.notificationService.success('Успішно', 'Подальші інструкції відправлено на ваш email');
+                    this.notificationService.success('Успішно', 'Подальші інструкції відправлено на ваш email', {timeOut: 0});
                     this.spinner = false;
                 },
                 errors => {
