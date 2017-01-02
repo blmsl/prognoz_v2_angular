@@ -27,6 +27,7 @@ export class ClubTableComponent implements OnInit {
     /**
      * Variables for pagination work
      */
+    path: string = '/manage/clubs/page/';
     currentPage: number;
     lastPage: number;
     perPage: number;
@@ -42,8 +43,6 @@ export class ClubTableComponent implements OnInit {
   
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            // let page =
-            // if (!params['number'])
             let page = params['number'] ? params['number'] : 1;
             this.manageClubService.getClubs(page).subscribe(
                 result => {
@@ -60,15 +59,6 @@ export class ClubTableComponent implements OnInit {
                 error => this.error = error
             )
         });
-    }
-
-    /**
-     * Navigation from pagination
-     *
-     * @param event
-     */
-    pageChanged(event) {
-        this.router.navigate(['/manage/clubs/page', event]);
     }
 
     /**

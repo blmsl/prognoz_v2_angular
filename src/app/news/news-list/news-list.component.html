@@ -5,11 +5,7 @@
         </div>
     </div>
     <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
-    <div *ngFor="let one of news | paginate: { id: 'news-list',
-                                              itemsPerPage: perPage,
-                                              currentPage: currentPage,
-                                              totalItems: total }"
-         class="row bg-inverse text-white one-news">
+    <div *ngFor="let one of news" class="row bg-inverse text-white one-news">
         <div class="hidden-xs-down col-sm-4 col-md-3 col-lg-2">
             <img class="img-fluid" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
         </div>
@@ -44,11 +40,10 @@
         </div>
     </div>
     <div class="row text-xs-center pagination-row">
-        <pagination-controls  id="news-list"
-                              (pageChange)="pageChanged($event)"
-                              maxSize="9"
-                              directionLinks="true"
-                              autoHide="true">
-        </pagination-controls>
+        <app-pagination [totalItems]="total"
+                        [currentPage]="currentPage"
+                        [pageSize]="perPage"
+                        [path]="path">
+        </app-pagination>
     </div>
 </div>

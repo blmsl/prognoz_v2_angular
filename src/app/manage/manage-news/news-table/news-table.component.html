@@ -15,10 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let one of news | paginate: { id: 'news-list',
-                                              itemsPerPage: perPage,
-                                              currentPage: currentPage,
-                                              totalItems: total }">
+                    <tr *ngFor="let one of news">
                         <th scope="row">{{one.id}}.</th>
                         <td>{{one.title}}</td>
                         <td>
@@ -53,11 +50,10 @@
         </div>
     </div>
     <div class="row text-xs-center pagination-row">
-        <pagination-controls id="news-list"
-                             (pageChange)="pageChanged($event)"
-                             maxSize="9"
-                             directionLinks="true"
-                             autoHide="true">
-        </pagination-controls>
+        <app-pagination [totalItems]="total"
+                        [currentPage]="currentPage"
+                        [pageSize]="perPage"
+                        [path]="path">
+        </app-pagination>
     </div>
 </div>

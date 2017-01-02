@@ -22,7 +22,8 @@ export class NewsListComponent implements OnInit {
     news: News[];
     error: string | Array<string>;
     newsImagesUrl: string = API_IMAGE_NEWS;
-
+    
+    path: string = '/news/page/';
     currentPage: number;
     lastPage: number;
     perPage: number;
@@ -45,9 +46,5 @@ export class NewsListComponent implements OnInit {
                 error => this.error = error
             )
         });
-    }
-    
-    pageChanged(event) {
-        this.router.navigate(['/news/page', event]);
     }
 }

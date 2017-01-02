@@ -15,10 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let club of clubs | paginate: { id: 'club-list',
-                                                    itemsPerPage: perPage,
-                                                    currentPage: currentPage,
-                                                    totalItems: total }">
+                    <tr *ngFor="let club of clubs">
                         <td>
                             {{club.id}}.
                         </td>
@@ -66,11 +63,10 @@
         </div>
     </div>
     <div class="row text-xs-center pagination-row">
-        <pagination-controls  id="club-list"
-                              (pageChange)="pageChanged($event)"
-                              maxSize="9"
-                              directionLinks="true"
-                              autoHide="true">
-        </pagination-controls>
+        <app-pagination [totalItems]="total"
+                        [currentPage]="currentPage"
+                        [pageSize]="perPage"
+                        [path]="path">
+        </app-pagination>
     </div>
 </div>

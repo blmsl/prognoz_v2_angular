@@ -26,6 +26,7 @@ export class GuestbookComponent implements OnInit {
     error: string | Array<string>;
     preloader: boolean = false;
 
+    path: string = '/guestbook/page/';
     currentPage: number;
     lastPage: number;
     perPage: number;
@@ -61,11 +62,7 @@ export class GuestbookComponent implements OnInit {
             });
         }
     }
-
-    pageChanged(event) {
-        this.router.navigate(['/guestbook/page', event]);
-    }
-
+    
     onSubmit() {
         this.preloader = true;
         this.guestbookService.create(this.guestbookAddMessageForm.value).subscribe(

@@ -25,6 +25,7 @@ export class NewsTableComponent implements OnInit {
     /**
      * Variables for pagination work
      */
+    path: string = '/manage/news/page/';
     currentPage: number;
     lastPage: number;
     perPage: number;
@@ -63,16 +64,7 @@ export class NewsTableComponent implements OnInit {
             )
         });
     }
-
-    /**
-     * Navigation from pagination
-     *
-     * @param event
-     */
-    pageChanged(event) {
-        this.router.navigate(['/manage/news/page', event]);
-    }
-
+    
     /**
      * Delete one news
      *
