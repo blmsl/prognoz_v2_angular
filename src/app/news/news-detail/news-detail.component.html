@@ -32,7 +32,7 @@
                 <div *ngFor="let comment of news.comments" class="card">
                     <div class="card-block">
                         <div class="h4 card-title">
-                            <img class="rounded small-image" src="http://s3-us-west-1.amazonaws.com/witty-avatars/default-avatar-4-l.jpg" alt="comment.user.name">
+                            <img class="rounded small-image" src="http://s3-us-west-1.amazonaws.com/witty-avatars/default-avatar-4-l.jpg" alt="{{comment.user.name}}">
                             {{comment.user.name}}
                         </div>
                         <p class="card-text">{{comment.body}}</p>
@@ -43,31 +43,33 @@
         </div>
         <div *ngIf="authenticatedUser" class="row">
             <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
-                <form novalidate (ngSubmit)="onSubmit(addCommentForm)" #addCommentForm="ngForm">
-                    <div class="form-group" [class.has-danger]="(body?.errors?.required || body?.errors?.minlength && body.touched) && body.touched">
-                        <label class="form-control-label" for="body">Добавити коментар:</label>
+                <form novalidate [formGroup]="addCommentForm" (ngSubmit)="onSubmit(addCommentForm.value)">
+                    <input type="hidden" name="user_id" formControlName="user_id">
+                    <input type="hidden" name="news_id" formControlName="news_id">
+                    <div class="form-group"
+                         [class.has-danger]="addCommentForm.get('body').invalid && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)">
+                        <label class="form-control-label" for="body"><strong>Добавити коментар:</strong></label>
                         <textarea id="body"
                                   placeholder="Напишіть щось..."
                                   class="form-control"
-                                  [class.form-control-danger]="(body?.errors?.required || body?.errors?.minlength && body.touched) && body.touched"
-                                  required
-                                  name="body"
-                                  minlength="8"
                                   rows="3"
-                                  ngModel
-                                  #body="ngModel">
+                                  formControlName="body">
                         </textarea>
-                        <div *ngIf="body?.errors?.required && body.touched" class="form-control-feedback">
-                            Текст коментаря обов'язковий
+                        <div *ngIf="addCommentForm.get('body').hasError('required') && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)" class="form-control-feedback">
+                            <small>Текст коментаря обов'язковий.</small>
                         </div>
-                        <div *ngIf="body?.errors?.minlength && body.touched" class="form-control-feedback">
-                            Текст коментаря повинен бути більшим ніж 10 символів
+                        <div *ngIf="addCommentForm.get('body').hasError('minlength') && !addCommentForm.get('body').pristine" class="form-control-feedback">
+                            <small>Текст коментаря повинен бути більшим ніж 10 символів.</small>
+                        </div>
+                        <div *ngIf="addCommentForm.get('body').hasError('maxlength') && !addCommentForm.get('body').pristine" class="form-control-feedback">
+                            <small>Текст коментаря перевищує 1000 символів.</small>
                         </div>
                     </div>
-                    <input type="hidden" name="news_id" [(ngModel)]="news.id">
-                    <input type="hidden" name="user_id" [(ngModel)]="authenticatedUser.id">
-                    <button type="submit" [disabled]="addCommentForm.invalid || preloader" class="btn btn-primary">Добавити</button>
-                    <img *ngIf="preloader" src="../../../img/5.gif" alt="preloader">
+                    <button [disabled]="addCommentForm.invalid"
+                            [hidden]="preloader"
+                            type="submit"
+                            class="btn btn-primary">Добавити</button>
+                    <app-spinner-button [hidden]="!preloader"></app-spinner-button>
                 </form>
             </div>
         </div>

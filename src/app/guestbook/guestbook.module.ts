@@ -1,6 +1,5 @@
 import { NgModule }             from '@angular/core';
 import { CommonModule }         from '@angular/common';
-import { FormsModule }          from '@angular/forms';
 import { ReactiveFormsModule }  from '@angular/forms';
 import { Ng2PaginationModule }  from 'ng2-pagination';
 
@@ -12,7 +11,6 @@ import { GuestbookService }     from './guestbook.service';
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
         Ng2PaginationModule,

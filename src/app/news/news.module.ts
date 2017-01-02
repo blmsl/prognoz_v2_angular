@@ -1,6 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { CommonModule }         from '@angular/common';
-import { FormsModule }          from '@angular/forms';
+import { ReactiveFormsModule }  from '@angular/forms';
 import { Ng2PaginationModule }  from 'ng2-pagination';
 
 import { DirectivesModule }     from '../shared/directives/directives.module';
@@ -13,7 +13,7 @@ import { NewsRoutingModule }    from './news-routing.module';
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
+        ReactiveFormsModule,
         Ng2PaginationModule,
         NewsRoutingModule,
         DirectivesModule

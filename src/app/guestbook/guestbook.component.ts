@@ -77,10 +77,9 @@ export class GuestbookComponent implements OnInit {
                 this.total = response.total;
                 this.router.navigate(['/guestbook']);
                 this.notificationService.success('Успішно', 'Повідомлення додано');
-                this.guestbookAddMessageForm.reset();
-                this.guestbookAddMessageForm.patchValue({
-                    user_id: this.authenticatedUser.id
-                });
+                this.guestbookAddMessageForm.patchValue({body: ''});
+                this.guestbookAddMessageForm.get('body').markAsUntouched();
+                this.guestbookAddMessageForm.get('body').markAsPristine();
                 this.preloader = false;
             },
             errors => {
