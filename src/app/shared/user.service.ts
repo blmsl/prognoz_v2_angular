@@ -147,6 +147,12 @@ export class UserService {
         localStorage.clear();
         this.tokenExists = false;
     }
+    
+    logoutRequest() {
+        return this.headersWithToken.post(API_URL + 'auth/logout', {})
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
 
     /**
      * check if 'auth_token' exists in localStorage

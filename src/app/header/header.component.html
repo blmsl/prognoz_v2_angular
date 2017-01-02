@@ -3,37 +3,30 @@
         Prognoz.org.ua
     </a>
     <div *ngIf="!user">
-        <form novalidate #headerSignin="ngForm" (ngSubmit)="onSubmit(headerSignin)" class="form-inline float-xs-right hidden-sm-down">
+        <form novalidate [formGroup]="headerSigninForm" (ngSubmit)="onSubmit(headerSigninForm)" class="form-inline float-xs-right hidden-sm-down">
+
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
                 <input type="text"
-                   id="name"
-                   placeholder="Ім'я"
-                   class="form-control max-width-150"
-                   minlength="3"
-                   reuired
-                   name="name"
-                   ngModel
-                   #userName="ngModel">
+                       id="name"
+                       placeholder="Ім'я"
+                       class="form-control max-width-150"
+                       formControlName="name">
             </div>
+
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
                 <input type="password"
                        id="password"
                        placeholder="Пароль"
                        class="form-control max-width-150"
-                       required
-                       name="password"
-                       ngModel
-                       #userPassword="ngModel">
+                       formControlName="password">
             </div>
-            <button [hidden]="spinner" [disabled]="headerSignin.invalid" type="submit" class="btn btn-primary">
+
+            <button [hidden]="spinner" [disabled]="headerSigninForm.invalid" type="submit" class="btn btn-primary">
                 <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
             </button>
-            <button *ngIf="spinner" type="button" class="btn btn-primary" >
-                <i class="fa fa-spinner fa-pulse fa-fw"></i>
-                <span class="sr-only">Loading...</span>
-            </button>
+            <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             <div class="btn-group" role="group">
                 <button [disabled]="spinner" routerLink="signup" type="button" class="btn btn-outline-secondary">
                     <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
@@ -57,7 +50,7 @@
             </div>
         </div>
     </div>
-    <form class="form-inline float-xs-right" *ngIf="user">
+    <div class="form-inline float-xs-right" *ngIf="user">
         <h1 class="navbar-brand">
             <span class="text-muted">Привіт,</span> {{user.name}}
         </h1>
@@ -67,7 +60,7 @@
         <button (click)="logout()" class="btn btn-outline-secondary">
             <i class="fa fa-sign-out" aria-hidden="true"></i> Вихід
         </button>
-    </form>
+    </div>
 </nav>
 <div class="container-fluid container-first">
     <div class="row">

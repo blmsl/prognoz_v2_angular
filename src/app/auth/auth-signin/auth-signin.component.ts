@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { Router }                               from '@angular/router';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { UserService } from '../../shared/user.service';
+import { UserService }                          from '../../shared/user.service';
 
 @Component({
   selector: 'app-auth-signin',
@@ -61,6 +61,7 @@ export class AuthSigninComponent implements OnInit {
     }
 
     logout() {
+        this.userService.logoutRequest().subscribe(result => {});
         this.userService.logout();
         this.user = false;
         this.userService.addSharedUser(false);

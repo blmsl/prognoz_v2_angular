@@ -1,6 +1,5 @@
 import { NgModule }                 from '@angular/core';
 import { CommonModule }             from '@angular/common';
-import { FormsModule }              from '@angular/forms';
 import { ReactiveFormsModule }      from '@angular/forms';
 import { Ng2PaginationModule }      from 'ng2-pagination';
 import { ConfirmationPopoverModule }from 'angular-confirmation-popover';
@@ -17,7 +16,6 @@ import { NewsEditComponent }        from './news-edit/news-edit.component';
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
         ReactiveFormsModule,
         ManageNewsRoutingModule,
         Ng2PaginationModule,

@@ -30,6 +30,7 @@ export class MatchCreateComponent implements OnInit {
     clubsImagesUrl: string = API_IMAGE_CLUBS;
     clubs: Array<Club> = [];
     lastEnteredDate: string;
+    spinner: boolean = false;
 
     ngOnInit() {
         this.championshipMatchCreateForm = this.formBuilder.group({
@@ -49,6 +50,7 @@ export class MatchCreateComponent implements OnInit {
     }
 
     onSubmit() {
+        this.spinner = true;
         this.manageChampionshipService.create(this.championshipMatchCreateForm.value).subscribe(
             response => {
                 this.lastEnteredDate = response.match.starts_at;
@@ -56,11 +58,13 @@ export class MatchCreateComponent implements OnInit {
                 this.championshipMatchCreateForm.patchValue({starts_at: this.lastEnteredDate});
                 this.addedMatches.push(response.match);
                 this.notificationService.success('Успішно', 'Матч додано!');
+                this.spinner = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
+                this.spinner = false;
             }
         );
     }

@@ -1,6 +1,6 @@
 import { NgModule }                   from '@angular/core';
 import { BrowserModule }              from '@angular/platform-browser';
-import { FormsModule }                from '@angular/forms';
+import { ReactiveFormsModule }        from '@angular/forms';
 import { HttpModule }                 from '@angular/http';
 import { SimpleNotificationsModule }  from 'angular2-notifications';
 
@@ -34,7 +34,7 @@ import { ImageService }               from './shared/image.service';
     ],
     imports: [
         BrowserModule,
-        FormsModule,
+        ReactiveFormsModule,
         HttpModule,
         SimpleNotificationsModule,
         AppRoutingModule,

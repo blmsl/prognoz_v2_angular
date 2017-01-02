@@ -40,6 +40,7 @@ export class NewsEditComponent implements OnInit {
     newsEditForm: FormGroup;
     newsImagesUrl = API_IMAGE_NEWS;
     errorImage: string;
+    spinner: boolean = false;
   
     ngOnInit() {
         this.newsEditForm = this.formBuilder.group({
@@ -72,15 +73,18 @@ export class NewsEditComponent implements OnInit {
     }
 
     onSubmit() {
+        this.spinner = true;
         this.manageNewsService.update(this.newsEditForm.value).subscribe(
             response => {
                 this.router.navigate(['/news/' + this.news.id]);
                 this.notificationService.success('Успішно', 'Новину змінено!');
+                this.spinner = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
+                this.spinner = false;
             }
         );
     }
