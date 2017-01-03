@@ -7,9 +7,9 @@ import { GuestbookService }                     from './guestbook.service';
 import { UserService }                          from '../shared/user.service';
 
 @Component({
-  selector: 'app-guestbook',
-  templateUrl: './guestbook.component.html',
-  styleUrls: ['./guestbook.component.css']
+    selector: 'app-guestbook',
+    templateUrl: './guestbook.component.html',
+    styleUrls: ['./guestbook.component.css']
 })
 export class GuestbookComponent implements OnInit {
 

@@ -1,0 +1,71 @@
+<div class="container">
+    <app-spinner *ngIf="!error && !authenticatedUser" [height]="250"></app-spinner>
+    <div class="row">
+        <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">{{authenticatedUser.name}}</h4>
+                    <h6 class="card-subtitle text-muted">{{authenticatedUser.created_at}}</h6>
+                </div>
+                <div class="text-xs-center">
+                    <img class="img-fluid" src="{{userImagesUrl}}{{authenticatedUser.image || 'default.png'}}" alt="{{authenticatedUser.name}}">
+                </div>
+                <div class="card-block">
+                    <form novalidate [formGroup]="userEditForm" (ngSubmit)="onSubmit()">
+                        <input type="hidden" formControlName="id">
+
+                        <div class="form-group"
+                             [class.has-danger]="userEditForm.get('first_name').invalid && !userEditForm.get('first_name').pristine">
+                            <label class="form-control-label" for="first_name"><strong>Ім'я:</strong></label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
+                                <input type="text"
+                                       id="first_name"
+                                       placeholder="Напишіть своє ім'я"
+                                       class="form-control"
+                                       formControlName="first_name">
+                            </div>
+                            <div *ngIf="userEditForm.get('first_name').hasError('maxlength') && !userEditForm.get('first_name').pristine" class="form-control-feedback">
+                                <small>Ім'я повинно бути меншим ніж 50 символів</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                             [class.has-danger]="userEditForm.get('hometown').invalid && !userEditForm.get('hometown').pristine">
+                            <label class="form-control-label" for="hometown"><strong>Звідки ви:</strong></label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
+                                <input type="text"
+                                       id="hometown"
+                                       placeholder="Напишіть звідки ви"
+                                       class="form-control"
+                                       formControlName="hometown">
+                            </div>
+                            <div *ngIf="userEditForm.get('hometown').hasError('maxlength') && !userEditForm.get('hometown').pristine" class="form-control-feedback">
+                                <small>Місто повинно бути меншим ніж 50 символів</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                             [class.has-danger]="userEditForm.get('favorite_team').invalid && !userEditForm.get('favorite_team').pristine">
+                            <label class="form-control-label" for="favorite_team"><strong>Улюблена команда:</strong></label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-soccer-ball-o" aria-hidden="true"></i></span>
+                                <input type="text"
+                                       id="favorite_team"
+                                       placeholder="Напишіть свою улюблену команду"
+                                       class="form-control"
+                                       formControlName="favorite_team">
+                            </div>
+                            <div *ngIf="userEditForm.get('favorite_team').hasError('maxlength') && !userEditForm.get('favorite_team').pristine" class="form-control-feedback">
+                                <small>Команда повинна бути меншою ніж 50 символів</small>
+                            </div>
+                        </div>
+
+                        <button type="submit" [disabled]="userEditForm.invalid" class="btn btn-primary">Змінити</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

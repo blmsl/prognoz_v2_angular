@@ -11,6 +11,7 @@ import { HomeModule }                 from './home/home.module';
 import { ManageModule }               from './manage/manage.module';
 import { NewsModule }                 from './news/news.module';
 import { DirectivesModule }           from './shared/directives/directives.module';
+import { UserModule }                 from './user/user.module';
 
 import { AccessDeniedComponent }      from './access-denied/access-denied.component';
 import { AppComponent }               from './app.component';
@@ -43,7 +44,8 @@ import { ImageService }               from './shared/image.service';
         NewsModule,
         HomeModule,
         GuestbookModule,
-        DirectivesModule
+        DirectivesModule,
+        UserModule
     ],
     providers: [
         HeadersWithToken,

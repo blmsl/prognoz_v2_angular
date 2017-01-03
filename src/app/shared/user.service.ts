@@ -116,7 +116,19 @@ export class UserService {
     }
 
     /**
-     * Update token if exists, logout when error occurs
+     * Update user profile data
+     *
+     * @param value
+     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
+     */
+    update(value): Observable<any> {
+        return this.headersWithToken.put(API_URL + 'user/' + value.id, value)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * Update user if exists, logout when error occurs
      */
     initializeUser() {
         if (this.isTokenInLocalStorage()) {
@@ -147,7 +159,12 @@ export class UserService {
         localStorage.clear();
         this.tokenExists = false;
     }
-    
+
+    /**
+     * invalidate token
+     *
+     * @returns {any|Promise<ErrorObservable<T>|T>|Promise<R>|Promise<ErrorObservable<T>>}
+     */
     logoutRequest() {
         return this.headersWithToken.post(API_URL + 'auth/logout', {})
             .map(response => response.json())
