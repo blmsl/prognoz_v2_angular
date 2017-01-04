@@ -13,7 +13,8 @@ export class UserService {
         private headersWithToken: HeadersWithToken
     ){
         this.tokenExists = !!localStorage.getItem('auth_token');
-        this.sharedUser = JSON.parse(localStorage.getItem('user'));
+        // this.sharedUser = JSON.parse(localStorage.getItem('user'));
+        this.sharedUser = null;
         this.sharedUser$ = new Observable(observer => {
             this.sharedUserObserver = observer;
         }).share();
@@ -135,6 +136,7 @@ export class UserService {
             this.refreshUserData()
                 .subscribe(
                     response => {
+                        this.addSharedUser(response.currentUser);
                         this.setUserToLocalStorage(JSON.stringify(response.currentUser));
                         if (response.roles) {
                             this.setRolesToLocalStorage(JSON.stringify(response.roles));
@@ -242,6 +244,9 @@ export class UserService {
                 if (errorObject.errors.name) errorMessage.push(errorObject.errors.name);
                 if (errorObject.errors.password) errorMessage.push(errorObject.errors.password);
                 if (errorObject.errors.email) errorMessage.push(errorObject.errors.email);
+                if (errorObject.errors.first_name) errorMessage.push(errorObject.errors.first_name);
+                if (errorObject.errors.hometown) errorMessage.push(errorObject.errors.hometown);
+                if (errorObject.errors.favorite_team) errorMessage.push(errorObject.errors.favorite_team);
             }
         } else {
             errorMessage.push('Невідома помилка');

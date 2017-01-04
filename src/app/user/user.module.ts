@@ -5,6 +5,7 @@ import { ReactiveFormsModule }  from '@angular/forms';
 import { AppRoutingModule }     from '../app-routing.module';
 import { DirectivesModule }     from '../shared/directives/directives.module';
 import { UserComponent }        from './user.component';
+import { UserGuard }            from './user-guard.service';
 
 @NgModule({
     imports: [
@@ -16,7 +17,9 @@ import { UserComponent }        from './user.component';
     declarations: [
         UserComponent
     ],
-    providers: [],
+    providers: [
+        UserGuard
+    ],
     exports: [
         UserComponent
     ]

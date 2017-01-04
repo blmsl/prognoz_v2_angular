@@ -54,6 +54,9 @@
         <h1 class="navbar-brand">
             <span class="text-muted">Привіт,</span> {{user.name}}
         </h1>
+        <button *ngIf="user" routerLink="user" class="btn btn-outline-secondary">
+            <i class="fa fa-user-circle" aria-hidden="true"></i> Профіль
+        </button>
         <button *ngIf="user.showAdministrationLink" routerLink="manage" class="btn btn-outline-secondary">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Керування
         </button>
