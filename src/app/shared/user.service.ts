@@ -194,6 +194,17 @@ export class UserService {
     }
 
     /**
+     * get last registered user
+     * @returns {Promise<R>|any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>}
+     */
+    getLastUser() {
+        return this.http
+            .get(API_URL + "user/last")
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    /**
      * set token to localStorage
      *
      * @param token

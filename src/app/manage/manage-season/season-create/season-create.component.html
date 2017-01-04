@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 bg-inverse text-white dark-form">
+            <h1>Добавлення сезону</h1>
+            <form novalidate [formGroup]="seasonCreateForm" (ngSubmit)="onSubmit()">
+                <div class="form-group"
+                     [class.has-danger]="seasonCreateForm.get('title').invalid && !seasonCreateForm.get('title').pristine">
+                    <label class="form-control-label" for="title"><strong>Заголовок:</strong></label>
+                    <input type="text"
+                           id="title"
+                           placeholder="Введіть назву сезону"
+                           class="form-control"
+                           formControlName="title">
+                    <div *ngIf="seasonCreateForm.get('title').hasError('required') && !seasonCreateForm.get('title').pristine"
+                         class="form-control-feedback">
+                        <small>Назва сезону обов'язкова</small>
+                    </div>
+                    <div *ngIf="seasonCreateForm.get('title').hasError('minlength') && !seasonCreateForm.get('title').pristine"
+                         class="form-control-feedback">
+                        <small>Назва повинна бути більшою ніж 9 символів</small>
+                    </div>
+                    <div *ngIf="seasonCreateForm.get('title').hasError('maxlength') && !seasonCreateForm.get('title').pristine"
+                         class="form-control-feedback">
+                        <small>Назва перевищує 20 символів</small>
+                    </div>
+                </div>
+                <button [disabled]="seasonCreateForm.invalid" [hidden]="spinner" type="submit" class="btn btn-primary">Добавити</button>
+                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+            </form>
+        </div>
+    </div>
+</div>

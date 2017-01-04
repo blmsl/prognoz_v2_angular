@@ -1,11 +1,11 @@
-import { Component, OnInit }                    from '@angular/core';
-import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
-import { Router }                               from '@angular/router';
+import { Component, OnInit }                                    from '@angular/core';
+import { FormBuilder, FormGroup, Validators }                   from '@angular/forms';
+import { NotificationsService }                                 from 'angular2-notifications';
+import { Router }                                               from '@angular/router';
 
-import { UserService }                          from '../shared/user.service';
-import { API_IMAGE_USERS, IMAGE_SETTINGS }      from '../shared/app.settings';
-import { ImageService }                         from '../shared/image.service';
+import { UserService }                                          from '../shared/user.service';
+import { API_IMAGE_USERS, IMAGE_SETTINGS, IMAGE_USER_DEFAULT }  from '../shared/app.settings';
+import { ImageService }                                         from '../shared/image.service';
 
 @Component({
     selector: 'app-user',
@@ -36,6 +36,7 @@ export class UserComponent implements OnInit {
     spinner: boolean = false;
     authenticatedUser: any = null;
     userImagesUrl: string = API_IMAGE_USERS;
+    userImageDefault: string = IMAGE_USER_DEFAULT;
     userEditForm: FormGroup;
     errorImage: string;
   

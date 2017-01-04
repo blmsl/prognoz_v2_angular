@@ -5,6 +5,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { GuestbookService }                     from './guestbook.service';
 import { UserService }                          from '../shared/user.service';
+import { API_IMAGE_USERS, IMAGE_USER_DEFAULT }  from '../shared/app.settings';
 
 @Component({
     selector: 'app-guestbook',
@@ -25,6 +26,8 @@ export class GuestbookComponent implements OnInit {
     guestbookMessages: any;
     error: string | Array<string>;
     preloader: boolean = false;
+    userImagesUrl: string = API_IMAGE_USERS;
+    userImageDefault: string = IMAGE_USER_DEFAULT;
 
     path: string = '/guestbook/page/';
     currentPage: number;

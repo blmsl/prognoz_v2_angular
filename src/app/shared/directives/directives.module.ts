@@ -5,6 +5,7 @@ import { AppRoutingModule }         from '../../app-routing.module';
 import { SpinnerComponent }         from './spinner/spinner.component';
 import { SpinnerButtonComponent }   from './spinner-button/spinner-button.component';
 import { PaginationComponent }      from './pagination/pagination.component';
+import { LastUserComponent }        from './last-user/last-user.component';
 
 @NgModule({
     imports: [
@@ -14,12 +15,14 @@ import { PaginationComponent }      from './pagination/pagination.component';
     declarations: [
         SpinnerComponent,
         SpinnerButtonComponent,
-        PaginationComponent
+        PaginationComponent,
+        LastUserComponent
     ],
     exports: [
         SpinnerComponent,
         SpinnerButtonComponent,
-        PaginationComponent
+        PaginationComponent,
+        LastUserComponent
     ]
 })
 export class DirectivesModule { }

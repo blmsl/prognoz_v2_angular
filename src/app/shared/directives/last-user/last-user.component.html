@@ -1,0 +1,18 @@
+<div *ngIf="spinner">
+    <app-spinner [height]="200"></app-spinner>
+</div>
+<div *ngIf="lastUser" class="card">
+    <h4 class="card-header text-xs-center">Останній зареєстрований користувач</h4>
+    <div class="text-xs-center">
+        <img class="card-img-top img-fluid"
+             src="{{ userImagesUrl }}{{ lastUser.image || userImageDefault }}"
+             alt="{{ lastUser.name }}">
+    </div>
+    <div class="card-block">
+        <h4 class="card-title">{{ lastUser.name }}</h4>
+        <p class="card-text text-muted">{{ lastUser.created_at }}</p>
+    </div>
+</div>
+<div *ngIf="error" class="alert alert-danger" role="alert">
+    <strong>Помилка!</strong> {{ error }}
+</div>

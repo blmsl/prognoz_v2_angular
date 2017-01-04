@@ -13,7 +13,7 @@
             <div class="col-xs-12 col-lg-5 col-xl-4">
                 <div class="card">
                     <div *ngIf="!userEditForm.value.image" class="text-xs-center">
-                        <img class="img-fluid" src="{{userImagesUrl}}{{authenticatedUser.image || 'default.png'}}" alt="{{authenticatedUser.name}}">
+                        <img class="img-fluid" src="{{userImagesUrl}}{{authenticatedUser.image || userImageDefault}}" alt="{{authenticatedUser.name}}">
                     </div>
                     <div *ngIf="userEditForm.value.image" class="text-xs-center">
                         <img class="img-fluid" src="{{userEditForm.value.image}}" alt="{{authenticatedUser.name}}">

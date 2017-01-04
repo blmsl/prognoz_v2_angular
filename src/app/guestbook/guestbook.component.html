@@ -50,9 +50,9 @@
                         <div class="card-block">
                             <div class="h4 card-title">
                                 <img class="rounded small-image"
-                                     src="http://s3-us-west-1.amazonaws.com/witty-avatars/default-avatar-4-l.jpg"
+                                     src="{{userImagesUrl}}{{message.user.image || userImageDefault}}"
                                      alt="{{message.user.name}}">
-                                {{message.user.name}}
+                                {{message.user.name}} <small *ngIf="message.user.hometown" class="text-muted">({{message.user.hometown}})</small>
                             </div>
                             <p class="card-text">{{message.body}}</p>
                             <p class="card-text">
@@ -80,32 +80,7 @@
         <div class="hidden-sm-down col-md-4 col-lg-3 col-xl-3">
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="card">
-                        <img class="card-img-top img-fluid"
-                             src="http://s3-us-west-1.amazonaws.com/witty-avatars/default-avatar-2-l.jpg"
-                             alt="Card image cap">
-                        <div class="card-block">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title">Card title</h4>
-                            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-                        </div>
-                        <img class="img-fluid"
-                             src="http://s3-us-west-1.amazonaws.com/witty-avatars/default-avatar-1-l.jpg"
-                             alt="Card image">
-                        <div class="card-block">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the card's content.</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
+                    <app-last-user></app-last-user>
                 </div>
             </div>
         </div>
