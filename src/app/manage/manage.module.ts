@@ -8,6 +8,7 @@ import { ManageChampionshipModule } from './manage-championship/manage-champions
 import { ManageSeasonModule }       from './manage-season/manage-season.module';
 import { ManageGuard }              from './shared/manage-guard.service';
 import { ManageRoutingModule }      from './manage-routing.module';
+import { CompetitionService }       from './shared/competition.service';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { ManageRoutingModule }      from './manage-routing.module';
         ManageComponent
     ],
     providers: [
-        ManageGuard
+        ManageGuard,
+        CompetitionService
     ],
     exports: [
         ManageComponent

@@ -31,6 +31,32 @@ export class ManageChampionshipService {
     }
 
     /**
+     * Update active match (no result)
+     *
+     * @param championshipMatch
+     * @returns {any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|Promise<R>}
+     */
+    editActive(championshipMatch: ChampionshipMatch, id: number): Observable<ChampionshipMatch> {
+        const url = `${this.championshipMatchUrl}/${id}`;
+        return this.headersWithToken
+            .put(url, championshipMatch)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
+     * Get all active matches
+     *
+     * @returns {any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|Promise<R>}
+     */
+    getActive(): Observable<ChampionshipMatch[]> {
+        return this.http
+            .get(this.championshipMatchUrl + '/active')
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Transforms to json
      *
      * @param res
@@ -39,6 +65,8 @@ export class ManageChampionshipService {
     private extractData(res: Response) {
         if (res && res.status !== 204) {
             let body = res.json();
+            if (body.match) body = body.match;
+            if (body.championship_matches) body = body.championship_matches;
             return body || {};
         }
 

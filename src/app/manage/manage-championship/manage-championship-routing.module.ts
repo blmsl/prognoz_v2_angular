@@ -4,6 +4,7 @@ import { RouterModule, Routes }             from '@angular/router';
 import { ManageChampionshipComponent }      from './manage-championship.component';
 import { ManageChampionshipGuard }          from './shared/manage-championship-guard.service';
 import { MatchCreateComponent }             from './match-create/match-create.component';
+import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
 import { ChampionshipCreateComponent }      from './championship-create/championship-create.component';
 
 const routes: Routes = [
@@ -17,7 +18,10 @@ const routes: Routes = [
                 canActivateChild: [ ManageChampionshipGuard ],
                 children: [
                     { path: 'matches/create', component: MatchCreateComponent },
-                    { path: 'create', component: ChampionshipCreateComponent}
+                    //{ path: 'matches/edit', component: MatchActiveEditComponent },
+                    { path: 'matches/edit/active', component: MatchEditActiveComponent },
+                    //{ path: 'matches/ended/edit', component: MatchActiveEditComponent },
+                    { path: 'create', component: ChampionshipCreateComponent }
                 ]
             }
         ]

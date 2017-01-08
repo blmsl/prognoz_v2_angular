@@ -62,7 +62,7 @@
                 <strong>{{error}}</strong>
             </div>
         </div>
-        <div class="hidden-sm-down col-md-6 col-lg-6">
+        <div *ngIf="clubs && clubs.length" class="hidden-sm-down col-md-6 col-lg-6">
             <table *ngIf="addedMatches" class="table table-sm table-striped table-bordered">
                 <thead class="thead-inverse">
                     <tr>

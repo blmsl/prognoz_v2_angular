@@ -9,6 +9,7 @@ import { ManageChampionshipService }        from './shared/manage-championship.s
 import { ManageChampionshipGuard }          from './shared/manage-championship-guard.service';
 import { MatchCreateComponent }             from './match-create/match-create.component';
 import { ChampionshipCreateComponent }      from './championship-create/championship-create.component';
+import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { ChampionshipCreateComponent }      from './championship-create/champion
     declarations: [
         ManageChampionshipComponent,
         MatchCreateComponent,
-        ChampionshipCreateComponent
+        ChampionshipCreateComponent,
+        MatchEditActiveComponent,
     ],
     providers: [
         ManageChampionshipService,

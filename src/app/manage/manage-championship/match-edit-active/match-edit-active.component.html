@@ -1,0 +1,96 @@
+<div class="container">
+    <app-spinner *ngIf="spinnerActiveMatches" [height]="100"></app-spinner>
+    <div *ngIf="!spinnerActiveMatches" class="row">
+        <div class="hidden-md-down col-lg-2">
+            <div *ngIf="selectedMatch" class="rounded bg-inverse">
+                <img class="img-fluid" src="{{clubsImagesUrl}}{{selectedMatch.club_first.image}}" alt="{{selectedMatch.club_first.title}}">
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-12 col-lg-8 bg-inverse text-white dark-form">
+            <div class="form-group">
+                <label class="form-control-label" for="active_match"><strong>Виберіть матч:</strong></label>
+                <select id="active_match" class="form-control" (change)="onChange($event.target.value)">
+                    <option *ngFor="let match of activeMatches" [value]="match.id">
+                        ({{match.starts_at}}) {{match.club_first.title}} - {{match.club_second.title}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="hidden-md-down col-lg-2">
+            <div *ngIf="selectedMatch" class="rounded bg-inverse">
+                <img class="img-fluid" src="{{clubsImagesUrl}}{{selectedMatch.club_second.image}}" alt="{{selectedMatch.club_second.title}}">
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="errorActiveMatches">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>{{errorActiveMatches}}</strong>
+            </div>
+        </div>
+    </div>
+    <app-spinner *ngIf="spinnerClubs" [height]="250"></app-spinner>
+    <div *ngIf="!spinnerClubs" class="row">
+        <div class="col-xs-12 col-md-12 col-lg-8 offset-lg-2 bg-inverse text-white dark-form">
+            <h2>Редагування матчу</h2>
+            <form novalidate [formGroup]="championshipMatchEditActiveForm" (ngSubmit)="onSubmit()">
+                <div class="form-group"
+                     [class.has-danger]="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched">
+                    <label class="form-control-label" for="t1_id"><strong>Господарі:</strong></label>
+                    <select id="t1_id"
+                            class="form-control"
+                            formControlName="t1_id"
+                            [class.form-control-danger]="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched">
+                        <option *ngFor="let club of clubs" [value]="club.id">{{club.title}}</option>
+                    </select>
+                    <div *ngIf="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched"
+                         class="form-control-feedback">
+                        <small>Вибір першої команди обов'язковий.</small>
+                    </div>
+                </div>
+
+                <div class="form-group"
+                     [class.has-danger]="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched">
+                    <label class="form-control-label" for="t2_id"><strong>Гості:</strong></label>
+                    <select id="t2_id"
+                            class="form-control"
+                            formControlName="t2_id"
+                            [class.form-control-danger]="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched">
+                        <option *ngFor="let club of clubs" [value]="club.id">{{club.title}}</option>
+                    </select>
+                    <div *ngIf="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched"
+                         class="form-control-feedback">
+                        <small>Вибір другої команди обов'язковий.</small>
+                    </div>
+                </div>
+
+                <div class="form-group"
+                     [class.has-danger]="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched">
+                    <label class="form-control-label" for="starts_at"><strong>Час початку мату:</strong></label>
+                    <input type="text"
+                           id="starts_at"
+                           placeholder="Введіть час початку матчу"
+                           class="form-control"
+                           formControlName="starts_at"
+                           [class.form-control-danger]="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched">
+                    <div *ngIf="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched"
+                         class="form-control-feedback">
+                        <small>Вибір часу початку матчу обов'язковий.</small>
+                    </div>
+                </div>
+
+                <button [hidden]="spinnerButton" [disabled]="championshipMatchEditActiveForm.invalid" [hidden]="spinner" type="submit" class="btn btn-primary">
+                    Змінити
+                </button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
+            </form>
+        </div>
+    </div>
+    <div class="row" *ngIf="errorClubs">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>{{errorClubs}}</strong>
+            </div>
+        </div>
+    </div>
+</div>
