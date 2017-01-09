@@ -12,6 +12,7 @@ import { ManageModule }               from './manage/manage.module';
 import { NewsModule }                 from './news/news.module';
 import { DirectivesModule }           from './shared/directives/directives.module';
 import { UserModule }                 from './user/user.module';
+import { ChampionshipModule }         from './championship/championship.module';
 
 import { AccessDeniedComponent }      from './access-denied/access-denied.component';
 import { AppComponent }               from './app.component';
@@ -41,6 +42,7 @@ import { ImageService }               from './shared/image.service';
         AppRoutingModule,
         AuthModule,
         ManageModule,
+        ChampionshipModule,
         NewsModule,
         HomeModule,
         GuestbookModule,
