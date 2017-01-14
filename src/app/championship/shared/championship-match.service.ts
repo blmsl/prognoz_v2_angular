@@ -5,6 +5,7 @@ import { Observable }                       from 'rxjs/Observable';
 import { API_URL }                          from '../../shared/app.settings';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { ChampionshipMatch }                from '../../manage/manage-championship/shared/championship-match.model';
+import { UserService }                      from '../../shared/user.service';
 
 @Injectable()
 
@@ -12,8 +13,13 @@ export class ChampionshipMatchService {
 
     constructor(
         private http: Http,
-        private headersWithToken: HeadersWithToken
-    ) {}
+        private headersWithToken: HeadersWithToken,
+        private userService: UserService
+    ) {
+        this.authenticatedUser = this.userService.sharedUser;
+    }
+
+    authenticatedUser: any;
 
     private championshipMatchUrl = API_URL + 'championship/matches';
 
@@ -23,8 +29,10 @@ export class ChampionshipMatchService {
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
      */
     getPredictable(): Observable<ChampionshipMatch[]> {
+        let url = this.championshipMatchUrl + '/predictable';
+        if (this.authenticatedUser) url = url + '/' + this.authenticatedUser.id;
         return this.http
-            .get(this.championshipMatchUrl + '/predictable')
+            .get(url)
             .map(this.extractData)
             .catch(this.handleError);
     }

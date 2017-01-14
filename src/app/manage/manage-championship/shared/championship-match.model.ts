@@ -10,4 +10,5 @@ export class ChampionshipMatch {
     dc: number | null;
     active: boolean | null;
     ended: boolean | null;
+    championship_predicts: Array<any>;
 }

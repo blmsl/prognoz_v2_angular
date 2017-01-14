@@ -1,7 +1,8 @@
 <h2>Приймаються прогнози на наступні матчі: </h2>
 <app-spinner *ngIf="spinner" [height]="200"></app-spinner>
-<div *ngIf="matches" class="container-fluid">
-    <form novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
+<!--if user is authenticated-->
+<form *ngIf="matches && authenticatedUser" novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
+    <div class="container-fluid">
         <div *ngFor="let match of matches" class="row predict-match-row">
             <div class="hidden-sm-down col-md-2 vcenter">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}">
@@ -15,9 +16,20 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 text-xs-center text-white">
-                            <input type="number" min="0" max="9" style="width: 40px" formControlName="{{'m' + match.id + '_t1'}}">
-                            {{ match.club_first.title }} - {{ match.club_second.title }}
-                            <input type="number" min="0" max="9" style="width: 40px" formControlName="{{'m' + match.id + '_t2'}}">
+                            <strong>{{ match.club_first.title }}</strong>
+                            <input
+                                    type="number"
+                                    min="0" max="9"
+                                    class="predict-input"
+                                    formControlName="{{match.id + '_home'}}">
+                            :
+                            <input
+                                    type="number"
+                                    min="0"
+                                    max="9"
+                                    class="predict-input"
+                                    formControlName="{{match.id + '_away'}}">
+                            <strong>{{ match.club_second.title }}</strong>
                         </div>
                     </div>
                 </div>
@@ -26,8 +38,41 @@
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Зробити прогнози</button>
-    </form>
+        <div class="row">
+            <div class="col-xs-12 text-xs-center">
+                <button class="btn btn-lg btn-outline-primary">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i> Зробити прогнози
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<!--if user is NOT authenticated-->
+<div *ngIf="matches && !authenticatedUser" class="container-fluid">
+    <div *ngFor="let match of matches" class="row predict-match-row">
+        <div class="hidden-sm-down col-md-2 vcenter">
+            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}">
+        </div><!--
+        --><div class="col-xs-12 col-md-8 predict-match-center-col vcenter">
+        <div>
+            <div class="row">
+                <div class="col-xs-12 text-xs-center text-muted">
+                    {{ match.starts_at }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-xs-center text-white">
+                    <strong>{{ match.club_first.title }}</strong>
+                    -
+                    <strong>{{ match.club_second.title }}</strong>
+                </div>
+            </div>
+        </div>
+    </div><!--
+        --><div class="hidden-sm-down col-md-2 vcenter">
+        <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}">
+    </div>
+    </div>
 </div>
 <div *ngIf="error">
     <div class="col-xs-12">

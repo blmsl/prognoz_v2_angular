@@ -53,10 +53,10 @@ export class MatchCreateComponent implements OnInit {
         this.spinner = true;
         this.manageChampionshipService.create(this.championshipMatchCreateForm.value).subscribe(
             response => {
-                this.lastEnteredDate = response.match.starts_at;
+                this.lastEnteredDate = response.starts_at;
                 this.championshipMatchCreateForm.reset();
                 this.championshipMatchCreateForm.patchValue({starts_at: this.lastEnteredDate});
-                this.addedMatches.push(response.match);
+                this.addedMatches.push(response);
                 this.notificationService.success('Успішно', 'Матч додано!');
                 this.spinner = false;
             },

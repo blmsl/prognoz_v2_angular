@@ -13,8 +13,8 @@ export class UserService {
         private headersWithToken: HeadersWithToken
     ){
         this.tokenExists = !!localStorage.getItem('auth_token');
-        // this.sharedUser = JSON.parse(localStorage.getItem('user'));
-        this.sharedUser = null;
+        this.sharedUser = JSON.parse(localStorage.getItem('user'));
+        //this.sharedUser = null;
         this.sharedUser$ = new Observable(observer => {
             this.sharedUserObserver = observer;
         }).share();
