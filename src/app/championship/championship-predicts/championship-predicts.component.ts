@@ -24,6 +24,7 @@ export class ChampionshipPredictsComponent implements OnInit {
 
     authenticatedUser: any = this.userService.sharedUser;
     spinner: boolean = false;
+    spinnerButton: boolean = false;
     error: string | Array<string>;
     matches: ChampionshipMatch[];
     championshipPredictsForm: FormGroup;
@@ -31,18 +32,9 @@ export class ChampionshipPredictsComponent implements OnInit {
 
     ngOnInit() {
         this.spinner = true;
-        this.championshipMatchService.getPredictable().subscribe(
+        this.championshipMatchService.getPredictable(this.authenticatedUser).subscribe(
             response => {
-                this.matches = response;
-                if (this.authenticatedUser) {
-                    this.championshipPredictsForm = new FormGroup({});
-                    for (let match of this.matches) {
-                        let home = match.championship_predicts[0] ? match.championship_predicts[0].home : null;
-                        let away = match.championship_predicts[0] ? match.championship_predicts[0].away : null;
-                        this.championshipPredictsForm.addControl(match.id + '_home', new FormControl(home));
-                        this.championshipPredictsForm.addControl(match.id + '_away', new FormControl(away));
-                    }
-                }
+                this.updateForm(response);
                 this.spinner = false;
             },
             error => {
@@ -53,38 +45,63 @@ export class ChampionshipPredictsComponent implements OnInit {
     }
 
     onSubmit() {
-        let predicts = {};
+        this.spinnerButton = true;
+        let predicts = [];
         for (let predict in this.championshipPredictsForm.value) {
-            let id = predict.split('_')[0];
+            let id = parseInt(predict.split('_')[0]);
             // if there is no predicts on match
             if ((this.championshipPredictsForm.value[id + '_home'] === null) && (this.championshipPredictsForm.value[id + '_away'] === null)) {
                 continue;
             }
-            // if there is predict only on home team
-            if ((this.championshipPredictsForm.value[id + '_home'] !== null) && (this.championshipPredictsForm.value[id + '_away'] === null)) {
-                predicts[id + '_home'] = this.championshipPredictsForm.value[id + '_home'];
-                predicts[id + '_away'] = 0;
-                continue;
+            let currentMatch = predicts.find(myObj => myObj.params.match_id === id);
+            if (!currentMatch) {
+                // if there is predict only on home team
+                if ((this.championshipPredictsForm.value[id + '_home'] !== null) && (this.championshipPredictsForm.value[id + '_away'] === null)) {
+                    predicts.push({params: {match_id: id}, values: {home: this.championshipPredictsForm.value[id + '_home'], away: 0}});
+                    continue;
+                }
+                // if there is predict only on away team
+                if ((this.championshipPredictsForm.value[id + '_home'] === null) && (this.championshipPredictsForm.value[id + '_away'] !== null)) {
+                    predicts.push({params: {match_id: id}, values: {home: 0, away: this.championshipPredictsForm.value[id + '_away']}});
+                    continue;
+                }
+                // if there is predicts on two teams
+                predicts.push({
+                    params: {
+                        match_id: id,
+                    },
+                    values: {
+                        home: this.championshipPredictsForm.value[id + '_home'],
+                        away: this.championshipPredictsForm.value[id + '_away']
+                    }
+                });
             }
-            // if there is predict only on away team
-            if ((this.championshipPredictsForm.value[id + '_home'] === null) && (this.championshipPredictsForm.value[id + '_away'] !== null)) {
-                predicts[id + '_home'] = 0;
-                predicts[id + '_away'] = this.championshipPredictsForm.value[id + '_away'];
-                continue;
-            }
-            // if there is predicts on two teams
-            predicts[predict] = this.championshipPredictsForm.value[predict];
         }
 
-        //TODO: send predict request; update or create values; return new matches array;
-        this.championshipPredictService.update(this.championshipPredictsForm.value, this.userService.sharedUser)
+        this.championshipPredictService.update(predicts)
             .subscribe(
                 response => {
-
+                    this.updateForm(response);
+                    this.spinnerButton = false;
+                    this.notificationService.success('Успішно', 'Прогнози прийнято');
                 },
                 error => {
-
+                    this.spinnerButton = false;
+                    this.notificationService.error('Помилка', error);
                 }
             );
+    }
+
+    private updateForm(matches: ChampionshipMatch[]) {
+        this.matches = matches;
+        if (this.authenticatedUser) {
+            this.championshipPredictsForm = new FormGroup({});
+            for (let match of this.matches) {
+                let home = match.championship_predicts[0] ? match.championship_predicts[0].home : null;
+                let away = match.championship_predicts[0] ? match.championship_predicts[0].away : null;
+                this.championshipPredictsForm.addControl(match.id + '_home', new FormControl(home));
+                this.championshipPredictsForm.addControl(match.id + '_away', new FormControl(away));
+            }
+        }
     }
 }

@@ -21,10 +21,9 @@ export class ChampionshipPredictService {
      *
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
      */
-    update(value, user): Observable<any> {
-        let id: number = user.id;
+    update(value): Observable<any> {
         return this.headersWithToken
-            .put(this.championshipPredictUrl + '/' + id, value)
+            .put(this.championshipPredictUrl, value)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -38,7 +37,7 @@ export class ChampionshipPredictService {
     private extractData(res: Response) {
         if (res && res.status !== 204) {
             let body = res.json();
-            //if (body.predicts) body = body.predicts;
+            if (body.championship_matches) body = body.championship_matches;
             return body || {};
         }
 

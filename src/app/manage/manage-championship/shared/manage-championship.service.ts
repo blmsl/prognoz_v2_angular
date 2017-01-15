@@ -67,6 +67,7 @@ export class ManageChampionshipService {
             let body = res.json();
             if (body.match) body = body.match;
             if (body.championship_matches) body = body.championship_matches;
+            if (body.championship_match) body = body.championship_match;
             return body || {};
         }
 

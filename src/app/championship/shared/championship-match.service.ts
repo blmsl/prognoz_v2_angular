@@ -28,9 +28,9 @@ export class ChampionshipMatchService {
      *
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
      */
-    getPredictable(): Observable<ChampionshipMatch[]> {
+    getPredictable(user: any = null): Observable<ChampionshipMatch[]> {
         let url = this.championshipMatchUrl + '/predictable';
-        if (this.authenticatedUser) url = url + '/' + this.authenticatedUser.id;
+        if (user) url = url + '/' + user.id;
         return this.http
             .get(url)
             .map(this.extractData)

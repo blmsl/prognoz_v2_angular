@@ -17,18 +17,17 @@
                     <div class="row">
                         <div class="col-xs-12 text-xs-center text-white">
                             <strong>{{ match.club_first.title }}</strong>
-                            <input
-                                    type="number"
-                                    min="0" max="9"
-                                    class="predict-input"
-                                    formControlName="{{match.id + '_home'}}">
+                            <input type="number"
+                                   min="0"
+                                   max="9"
+                                   class="predict-input"
+                                   formControlName="{{match.id + '_home'}}">
                             :
-                            <input
-                                    type="number"
-                                    min="0"
-                                    max="9"
-                                    class="predict-input"
-                                    formControlName="{{match.id + '_away'}}">
+                            <input type="number"
+                                   min="0"
+                                   max="9"
+                                   class="predict-input"
+                                   formControlName="{{match.id + '_away'}}">
                             <strong>{{ match.club_second.title }}</strong>
                         </div>
                     </div>
@@ -40,9 +39,10 @@
         </div>
         <div class="row">
             <div class="col-xs-12 text-xs-center">
-                <button class="btn btn-lg btn-outline-primary">
+                <button [hidden]="spinnerButton" class="btn btn-outline-primary">
                     <i class="fa fa-arrow-right" aria-hidden="true"></i> Зробити прогнози
                 </button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </div>
         </div>
     </div>
