@@ -15,20 +15,25 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 text-xs-center text-white">
-                            <strong>{{ match.club_first.title }}</strong>
-                            <input type="number"
+                        <div class="col-xs-4 col-md-3 col-lg-4 text-xs-center text-white">
+                            <strong><label for="{{match.id + '_home'}}">{{ match.club_first.title }}</label></strong>
+                        </div>
+                        <div class="col-xs-4 col-md-6 col-lg-4 text-xs-center text-white">
+                            <input id="{{match.id + '_home'}}"
+                                   type="number"
                                    min="0"
                                    max="9"
                                    class="predict-input"
-                                   formControlName="{{match.id + '_home'}}">
-                            :
-                            <input type="number"
+                                   formControlName="{{match.id + '_home'}}"><strong>:</strong><!--
+                            --><input id="{{match.id + '_away'}}"
+                                   type="number"
                                    min="0"
                                    max="9"
                                    class="predict-input"
                                    formControlName="{{match.id + '_away'}}">
-                            <strong>{{ match.club_second.title }}</strong>
+                        </div>
+                        <div class="col-xs-4 col-md-3 col-lg-4 text-xs-center text-white">
+                            <strong><label for="{{match.id + '_away'}}">{{ match.club_second.title }}</label></strong>
                         </div>
                     </div>
                 </div>
@@ -61,9 +66,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 text-xs-center text-white">
+                <div class="col-xs-5 text-xs-center text-white">
                     <strong>{{ match.club_first.title }}</strong>
-                    -
+                </div>
+                <div class="col-xs-2 text-xs-center text-white">
+                    vs
+                </div>
+                <div class="col-xs-5 text-xs-center text-white">
                     <strong>{{ match.club_second.title }}</strong>
                 </div>
             </div>
