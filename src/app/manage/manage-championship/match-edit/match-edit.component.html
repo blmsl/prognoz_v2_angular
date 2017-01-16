@@ -1,0 +1,36 @@
+<div class="container">
+    <app-spinner *ngIf="spinnerActiveMatches" [height]="250"></app-spinner>
+    <div *ngIf="activeMatches" class="row">
+        <div class="col-xs-12">
+            <table class="table table-hover table-inverse table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-xs-center">№</th>
+                        <th>Матч</th>
+                        <th colspan="2" class="text-xs-center">Результати</th>
+                        <th class="text-xs-center">Додати</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let match of activeMatches">
+                        <td class="align-middle">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <strong class="fa-stack-1x text-success">{{match.id}}</strong>
+                            </span>
+                        </td>
+                        <td>
+                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.link}}">
+                            <small class="text-muted">{{match.starts_at}}</small>
+                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.link}}"><br>
+                            <strong>{{match.club_first.title}}</strong> - <strong>{{match.club_second.title}}</strong>
+                        </td>
+                        <td class="align-middle text-xs-center"><input class="form-control predict-input" type="number"></td>
+                        <td class="align-middle text-xs-center"><input class="form-control predict-input" type="number"></td>
+                        <td class="align-middle text-xs-center"><button class="btn btn-outline-success">Додати</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

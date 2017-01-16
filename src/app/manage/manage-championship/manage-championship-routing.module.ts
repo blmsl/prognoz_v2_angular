@@ -6,6 +6,7 @@ import { ManageChampionshipGuard }          from './shared/manage-championship-g
 import { MatchCreateComponent }             from './match-create/match-create.component';
 import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
 import { ChampionshipCreateComponent }      from './championship-create/championship-create.component';
+import { MatchEditComponent }               from './match-edit/match-edit.component';
 
 const routes: Routes = [
     {
@@ -18,7 +19,7 @@ const routes: Routes = [
                 canActivateChild: [ ManageChampionshipGuard ],
                 children: [
                     { path: 'matches/create', component: MatchCreateComponent },
-                    //{ path: 'matches/edit', component: MatchActiveEditComponent },
+                    { path: 'matches/edit', component: MatchEditComponent },
                     { path: 'matches/edit/active', component: MatchEditActiveComponent },
                     //{ path: 'matches/ended/edit', component: MatchActiveEditComponent },
                     { path: 'create', component: ChampionshipCreateComponent }
