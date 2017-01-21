@@ -1,6 +1,6 @@
 import { NgModule }                         from '@angular/core';
 import { CommonModule }                     from '@angular/common';
-import { ReactiveFormsModule }              from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DirectivesModule }                 from '../../shared/directives/directives.module';
 import { ManageChampionshipComponent }      from './manage-championship.component';
@@ -15,6 +15,7 @@ import { MatchEditComponent }               from './match-edit/match-edit.compon
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         ManageChampionshipRoutingModule,
         DirectivesModule

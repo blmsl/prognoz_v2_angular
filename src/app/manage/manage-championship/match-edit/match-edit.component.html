@@ -25,9 +25,23 @@
                             <img class="small-image" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.link}}"><br>
                             <strong>{{match.club_first.title}}</strong> - <strong>{{match.club_second.title}}</strong>
                         </td>
-                        <td class="align-middle text-xs-center"><input class="form-control predict-input" type="number"></td>
-                        <td class="align-middle text-xs-center"><input class="form-control predict-input" type="number"></td>
-                        <td class="align-middle text-xs-center"><button class="btn btn-outline-success">Додати</button></td>
+                        <td class="align-middle text-xs-center">
+                            <input type="number"
+                                   class="form-control predict-input"
+                                   min="0"
+                                   max="9"
+                                   [(ngModel)]="match.r1">
+                        </td>
+                        <td class="align-middle text-xs-center">
+                            <input type="number"
+                                   class="form-control predict-input"
+                                   min="0"
+                                   max="9"
+                                   [(ngModel)]="match.r2">
+                        </td>
+                        <td class="align-middle text-xs-center">
+                            <button (click)="onSubmit(match.id, match.r1, match.r2)" class="btn btn-outline-success">Додати</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

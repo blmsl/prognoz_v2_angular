@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }                    from '@angular/core';
+import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../shared/championship-match.model';
 import { ManageChampionshipService }            from '../shared/manage-championship.service';
-//import { Club }                                 from '../../manage-club/shared/club.model';
 import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
 
 @Component({
@@ -12,8 +12,10 @@ import { API_IMAGE_CLUBS }                      from '../../../shared/app.settin
 })
 export class MatchEditComponent implements OnInit {
 
-    constructor(private manageChampionshipService:ManageChampionshipService) {
-    }
+    constructor(
+        private notificationService: NotificationsService,
+        private manageChampionshipService: ManageChampionshipService
+    ) { }
   
     spinnerActiveMatches: boolean = false;
     spinnerButton: boolean = false;
@@ -34,7 +36,30 @@ export class MatchEditComponent implements OnInit {
             }
         );
     }
-  
-    //TODO: get all active matches
-    //TODO: create table
+
+    onSubmit(id: number, home: number, away: number) {
+        if (!this.validateResult(home) || !this.validateResult(away)) {
+            this.notificationService.error('Помилка', 'Результат в матчі ' + id + ' введено неправильно');
+            return;
+        }
+        this.manageChampionshipService.addResult(id, {id: id, home: home, away: away}).subscribe(
+            response => {
+                //TODO: add spinner-button after click
+                //TODO: after successful response disable inputs and button
+                //TODO: (change match in active matches array, add check if match is ended)
+                //TODO: if there is successful added results, in addedResults array, show 'update moving' button
+                //TODO: 'update moving' button click send 'update moving in rating' request and empties an array
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationService.error('Помилка', error);
+                }
+            }
+        );
+    }
+
+    private validateResult(score) {
+        let regExp = /^[0-9]$/;
+        return regExp.test(score);
+    }
 }

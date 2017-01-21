@@ -57,6 +57,21 @@ export class ManageChampionshipService {
     }
 
     /**
+     * Add match result
+     *
+     * @param id
+     * @param scores
+     * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|any|Promise<R>}
+     */
+    addResult(id, scores): Observable<ChampionshipMatch> {
+        const url = `${this.championshipMatchUrl}/${'results'}/${id}`;
+        return this.headersWithToken
+            .put(url, scores)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Transforms to json
      *
      * @param res
@@ -90,14 +105,10 @@ export class ManageChampionshipService {
             } else {
                 if (errorObject.errors.t1_id) errorMessage.push(errorObject.errors.t1_id);
                 if (errorObject.errors.t2_id) errorMessage.push(errorObject.errors.t2_id);
-                if (errorObject.errors.r1) errorMessage.push(errorObject.errors.r1);
-                if (errorObject.errors.r2) errorMessage.push(errorObject.errors.r2);
                 if (errorObject.errors.starts_at) errorMessage.push(errorObject.errors.starts_at);
-                if (errorObject.errors.predicts) errorMessage.push(errorObject.errors.predicts);
-                if (errorObject.errors.points) errorMessage.push(errorObject.errors.points);
-                if (errorObject.errors.dc) errorMessage.push(errorObject.errors.dc);
-                if (errorObject.errors.active) errorMessage.push(errorObject.errors.active);
-                if (errorObject.errors.ended) errorMessage.push(errorObject.errors.ended);
+                if (errorObject.errors.id) errorMessage.push(errorObject.errors.id);
+                if (errorObject.errors.home) errorMessage.push(errorObject.errors.home);
+                if (errorObject.errors.away) errorMessage.push(errorObject.errors.away);
             }
         } else {
             errorMessage.push('Невідома помилка');
