@@ -10,6 +10,7 @@
             <div class="form-group">
                 <label class="form-control-label" for="active_match"><strong>Виберіть матч:</strong></label>
                 <select id="active_match" class="form-control" (change)="onChange($event.target.value)">
+                    <option disabled selected>Виберіть матч</option>
                     <option *ngFor="let match of activeMatches" [value]="match.id">
                         ({{match.starts_at}}) {{match.club_first.title}} - {{match.club_second.title}}
                     </option>
@@ -30,7 +31,7 @@
         </div>
     </div>
     <app-spinner *ngIf="spinnerClubs" [height]="250"></app-spinner>
-    <div *ngIf="!spinnerClubs" class="row">
+    <div *ngIf="!spinnerClubs && selectedMatch" class="row">
         <div class="col-xs-12 col-md-12 col-lg-8 offset-lg-2 bg-inverse text-white dark-form">
             <h2>Редагування матчу</h2>
             <form novalidate [formGroup]="championshipMatchEditActiveForm" (ngSubmit)="onSubmit()">
@@ -79,7 +80,7 @@
                     </div>
                 </div>
 
-                <button [hidden]="spinnerButton" [disabled]="championshipMatchEditActiveForm.invalid" [hidden]="spinner" type="submit" class="btn btn-primary">
+                <button [hidden]="spinnerButton" [disabled]="championshipMatchEditActiveForm.invalid || !selectedMatch" [hidden]="spinner" type="submit" class="btn btn-primary">
                     Змінити
                 </button>
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>

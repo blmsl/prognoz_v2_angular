@@ -8,7 +8,6 @@ import { ManageChampionshipRoutingModule }  from './manage-championship-routing.
 import { ManageChampionshipService }        from './shared/manage-championship.service';
 import { ManageChampionshipGuard }          from './shared/manage-championship-guard.service';
 import { MatchCreateComponent }             from './match-create/match-create.component';
-import { ChampionshipCreateComponent }      from './championship-create/championship-create.component';
 import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
 import { MatchEditComponent }               from './match-edit/match-edit.component';
 
@@ -23,7 +22,6 @@ import { MatchEditComponent }               from './match-edit/match-edit.compon
     declarations: [
         ManageChampionshipComponent,
         MatchCreateComponent,
-        ChampionshipCreateComponent,
         MatchEditActiveComponent,
         MatchEditComponent
     ],

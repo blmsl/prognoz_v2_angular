@@ -1,9 +1,10 @@
 export class ChampionshipMatch {
     id: number;
+    competition_id: number;
     t1_id: number;
     t2_id: number;
-    r1: number | null;
-    r2: number | null;
+    home: number | null;
+    away: number | null;
     starts_at: string;
     predicts: number | null;
     points: number | null;

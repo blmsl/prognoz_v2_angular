@@ -30,14 +30,14 @@
                                    class="form-control predict-input"
                                    min="0"
                                    max="9"
-                                   [(ngModel)]="match.r1">
+                                   [(ngModel)]="match.home">
                         </td>
                         <td class="align-middle text-xs-center">
                             <input type="number"
                                    class="form-control predict-input"
                                    min="0"
                                    max="9"
-                                   [(ngModel)]="match.r2">
+                                   [(ngModel)]="match.away">
                         </td>
                         <td class="align-middle text-xs-center">
                             <button (click)="onSubmit(match.id, match.r1, match.r2)" class="btn btn-outline-success">Додати</button>
