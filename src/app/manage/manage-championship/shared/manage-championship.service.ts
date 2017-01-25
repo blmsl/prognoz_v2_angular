@@ -59,12 +59,11 @@ export class ManageChampionshipService {
     /**
      * Add match result
      *
-     * @param id
      * @param scores
      * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|any|Promise<R>}
      */
-    addResult(id, scores): Observable<ChampionshipMatch> {
-        const url = `${this.championshipMatchUrl}/${'results'}/${id}`;
+    addResult(scores): Observable<ChampionshipMatch> {
+        const url = `${this.championshipMatchUrl}/${'results'}/${scores.id}`;
         return this.headersWithToken
             .put(url, scores)
             .map(this.extractData)
