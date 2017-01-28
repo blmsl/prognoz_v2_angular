@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../shared/championship-match.model';
-import { ManageChampionshipService }            from '../shared/manage-championship.service';
+import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../manage-club/shared/club.model';
 import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
@@ -17,7 +17,7 @@ export class MatchEditActiveComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
                 private notificationService: NotificationsService,
-                private manageChampionshipService: ManageChampionshipService,
+                private manageChampionshipMatchService: ManageChampionshipMatchService,
                 private manageClubService: ManageClubService) {
     }
 
@@ -56,7 +56,7 @@ export class MatchEditActiveComponent implements OnInit {
 
     getActive() {
         this.spinnerActiveMatches = true;
-        this.manageChampionshipService.getActive().subscribe(
+        this.manageChampionshipMatchService.getActive().subscribe(
             response => {
                 this.activeMatches = response;
                 this.spinnerActiveMatches = false;
@@ -71,7 +71,7 @@ export class MatchEditActiveComponent implements OnInit {
     onSubmit() {
         if (this.selectedMatch.id) {
             this.spinnerButton = true;
-            this.manageChampionshipService.editActive(this.championshipMatchEditActiveForm.value, this.selectedMatch.id).subscribe(
+            this.manageChampionshipMatchService.editActive(this.championshipMatchEditActiveForm.value, this.selectedMatch.id).subscribe(
                 response => {
                     this.spinnerButton = false;
                     this.selectedMatch = response;

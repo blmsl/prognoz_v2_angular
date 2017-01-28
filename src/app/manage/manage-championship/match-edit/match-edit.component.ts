@@ -1,8 +1,9 @@
-import { Component, OnInit }                    from '@angular/core';
+import { Component, OnInit, OnDestroy }         from '@angular/core';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../shared/championship-match.model';
-import { ManageChampionshipService }            from '../shared/manage-championship.service';
+import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
+import { ManageChampionshipRatingService }      from '../shared/manage-championship-rating.service';
 import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
 
 @Component({
@@ -10,22 +11,24 @@ import { API_IMAGE_CLUBS }                      from '../../../shared/app.settin
   templateUrl: './match-edit.component.html',
   styleUrls: ['./match-edit.component.css']
 })
-export class MatchEditComponent implements OnInit {
+export class MatchEditComponent implements OnInit, OnDestroy {
 
     constructor(
         private notificationService: NotificationsService,
-        private manageChampionshipService: ManageChampionshipService
+        private manageChampionshipMatchService: ManageChampionshipMatchService,
+        private manageChampionshipRatingService: ManageChampionshipRatingService
     ) { }
   
     spinnerActiveMatches: boolean = false;
     spinnerButton: any = {};
     activeMatches: ChampionshipMatch[];
+    updatedMatches: any = {};
     errorActiveMatches: string | Array<string>;
     clubsImagesUrl: string = API_IMAGE_CLUBS;
   
     ngOnInit() {
         this.spinnerActiveMatches = true;
-        this.manageChampionshipService.getActive().subscribe(
+        this.manageChampionshipMatchService.getActive().subscribe(
             response => {
                 this.activeMatches = response;
                 this.spinnerActiveMatches = false;
@@ -37,28 +40,40 @@ export class MatchEditComponent implements OnInit {
         );
     }
 
+    ngOnDestroy() { 
+        if (Object.keys(this.updatedMatches).length !== 0) {
+           this.updateRating();
+        }
+    }
+
     onSubmit(id: number, home: number, away: number) {
         if (!this.validateResult(home) || !this.validateResult(away)) {
             this.notificationService.error('Помилка', 'Результат в матчі ' + id + ' введено неправильно');
             return;
         }
         this.spinnerButton['match_' + id] = true;
-        this.manageChampionshipService.addResult({id: id, home: home, away: away}).subscribe(
+        this.manageChampionshipMatchService.addResult({id: id, home: home, away: away}).subscribe(
             response => {
                 this.spinnerButton['match_' + id] = false;
-                //TODO: after successful response:
-                //TODO: 1) receive updated match data from rest and add it to 'updateMatches' array
-                //TODO: 2) disable inputs and button of updated match + highlight green color
-                //TODO: 3) if there is items in 'updatedMatches' array, show 'update moving' button
-                //TODO: 4) 'update moving' button click send put request to /championship/rating/?moving and empties an array
+                this.updatedMatches['match_' + id] = response;
+                this.notificationService.success('Успішно', 'Результат в матчі ' + response.id + ' добавлено!');
             },
             errors => {
                 this.spinnerButton['match_' + id] = false;
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
-                //TODO: after bad response:
-                //TODO: 1) highlight table row in red color
+            }
+        );
+    }
+    
+    updateRating() {
+        this.manageChampionshipRatingService.updatePositions().subscribe(
+            response => {
+                this.notificationService.success('Успішно', 'Рейтинг оновлено');
+            },
+            error => {
+                this.notificationService.error('Помилка', 'Оновити рейтинг не вдалось');
             }
         );
     }

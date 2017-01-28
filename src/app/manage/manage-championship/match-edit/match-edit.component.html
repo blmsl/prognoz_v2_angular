@@ -12,7 +12,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let match of activeMatches">
+                    <tr *ngFor="let match of activeMatches" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
                         <td class="align-middle">
                             <span class="fa-stack fa-lg">
                               <i class="fa fa-circle fa-stack-2x"></i>
@@ -30,6 +30,7 @@
                                    class="form-control predict-input"
                                    min="0"
                                    max="9"
+                                   [disabled]="updatedMatches['match_' + match.id]"
                                    [(ngModel)]="match.home">
                         </td>
                         <td class="align-middle text-xs-center">
@@ -37,17 +38,25 @@
                                    class="form-control predict-input"
                                    min="0"
                                    max="9"
+                                   [disabled]="updatedMatches['match_' + match.id]"
                                    [(ngModel)]="match.away">
                         </td>
                         <td class="align-middle text-xs-center">
                             <button (click)="onSubmit(match.id, match.home, match.away)"
-                                    [hidden]="spinnerButton['match_' + match.id]"
+                                    [hidden]="spinnerButton['match_' + match.id] || updatedMatches['match_' + match.id]"
                                     class="btn btn-outline-success">Додати</button>
                             <app-spinner-button [hidden]="!spinnerButton['match_' + match.id]"></app-spinner-button>
+                            <i [hidden]="!updatedMatches['match_' + match.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div *ngIf="updatedMatches" class="row">
+        <div class="col-xs-12 text-xs-center">
+            <button class="btn btn-lg btn-outline-primary" (click)="updateRating()">Оновити рейтинг</button>
+            <p class="text-muted">*Рейтинг оновиться автоматчно після виходу з цієї сторінки</p>
         </div>
     </div>
 </div>

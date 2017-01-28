@@ -5,7 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule }                 from '../../shared/directives/directives.module';
 import { ManageChampionshipComponent }      from './manage-championship.component';
 import { ManageChampionshipRoutingModule }  from './manage-championship-routing.module';
-import { ManageChampionshipService }        from './shared/manage-championship.service';
+import { ManageChampionshipMatchService }   from './shared/manage-championship-match.service';
+import { ManageChampionshipRatingService }  from './shared/manage-championship-rating.service';
 import { ManageChampionshipGuard }          from './shared/manage-championship-guard.service';
 import { MatchCreateComponent }             from './match-create/match-create.component';
 import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
@@ -26,7 +27,8 @@ import { MatchEditComponent }               from './match-edit/match-edit.compon
         MatchEditComponent
     ],
     providers: [
-        ManageChampionshipService,
+        ManageChampionshipMatchService,
+        ManageChampionshipRatingService,
         ManageChampionshipGuard
     ]
 })

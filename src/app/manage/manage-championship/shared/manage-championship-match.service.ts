@@ -8,7 +8,7 @@ import { ChampionshipMatch }                from '../shared/championship-match.m
 
 @Injectable()
 
-export class ManageChampionshipService {
+export class ManageChampionshipMatchService {
 
     constructor(
         private http: Http,

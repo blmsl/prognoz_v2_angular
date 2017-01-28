@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../shared/championship-match.model';
-import { ManageChampionshipService }            from '../shared/manage-championship.service';
+import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../manage-club/shared/club.model';
 import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
@@ -20,7 +20,7 @@ export class MatchCreateComponent implements OnInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private notificationService: NotificationsService,
-        private manageChampionshipService: ManageChampionshipService,
+        private manageChampionshipMatchService: ManageChampionshipMatchService,
         private manageClubService: ManageClubService
     ) { }
     
@@ -51,7 +51,7 @@ export class MatchCreateComponent implements OnInit {
 
     onSubmit() {
         this.spinner = true;
-        this.manageChampionshipService.create(this.championshipMatchCreateForm.value).subscribe(
+        this.manageChampionshipMatchService.create(this.championshipMatchCreateForm.value).subscribe(
             response => {
                 this.lastEnteredDate = response.starts_at;
                 this.championshipMatchCreateForm.reset();

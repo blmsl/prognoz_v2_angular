@@ -42,12 +42,19 @@
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}">
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="matches.length">
             <div class="col-xs-12 text-xs-center">
                 <button [hidden]="spinnerButton" class="btn btn-outline-primary">
                     <i class="fa fa-arrow-right" aria-hidden="true"></i> Зробити прогнози
                 </button>
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
+            </div>
+        </div>
+        <div class="row" *ngIf="!matches.length">
+            <div class="col-xs-12">
+                <div class="alert alert-info" role="alert">
+                    Доступних для прогнозування матчів немає.
+                </div>
             </div>
         </div>
     </div>
