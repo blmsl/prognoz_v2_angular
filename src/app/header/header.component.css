@@ -1,9 +1,12 @@
-/*header grass image*/
-.container-first {
+.logo-background {
     background-image: url("../../img/grass_dew.jpg");
     background-size: cover;
     text-align: center;
 }
-.menu {
+.main-navigation {
     margin-bottom: 10px;
+}
+
+.header-input {
+    max-width: 142px;
 }
