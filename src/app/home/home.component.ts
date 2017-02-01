@@ -18,18 +18,20 @@ export class HomeComponent implements OnInit {
 
     error: string | Array<string>;
     news: News[];
+    spinner: boolean = false;
     newsImagesUrl: string = API_IMAGE_NEWS;
 
     ngOnInit() {
+        this.spinner = true;
         this.newsService.getNews().subscribe(
             result => {
-                if (!result.data) {
-                    this.error = "В базі даних новин немає";
-                } else {
-                    this.news = result.data;
-                }
+                this.news = result.data;
+                this.spinner = false;
             },
-            error => this.error = error
+            error => {
+                this.error = error;
+                this.spinner = false;
+            }
         );
     }
 }

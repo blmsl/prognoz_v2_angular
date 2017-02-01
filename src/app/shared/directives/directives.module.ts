@@ -6,6 +6,7 @@ import { SpinnerComponent }         from './spinner/spinner.component';
 import { SpinnerButtonComponent }   from './spinner-button/spinner-button.component';
 import { PaginationComponent }      from './pagination/pagination.component';
 import { LastUserComponent }        from './last-user/last-user.component';
+import { ErrorComponent }           from './error/error.component';
 
 @NgModule({
     imports: [
@@ -16,13 +17,15 @@ import { LastUserComponent }        from './last-user/last-user.component';
         SpinnerComponent,
         SpinnerButtonComponent,
         PaginationComponent,
-        LastUserComponent
+        LastUserComponent,
+        ErrorComponent
     ],
     exports: [
         SpinnerComponent,
         SpinnerButtonComponent,
         PaginationComponent,
-        LastUserComponent
+        LastUserComponent,
+        ErrorComponent
     ]
 })
 export class DirectivesModule { }

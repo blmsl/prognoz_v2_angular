@@ -6,7 +6,7 @@ import { Router }                                    from '@angular/router';
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent implements OnChanges{
+export class PaginationComponent implements OnChanges {
 
     @Input() totalItems: number;
     @Input() currentPage: number;
