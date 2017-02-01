@@ -7,9 +7,6 @@ body {
 .half-height{
     min-height: 50%;
 }
-.pagination-row {
-    margin-top: 15px;
-}
 /*site form div*/
 .dark-form {
     margin-bottom: 10px;

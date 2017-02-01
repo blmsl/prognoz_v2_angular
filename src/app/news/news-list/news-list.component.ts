@@ -22,6 +22,7 @@ export class NewsListComponent implements OnInit {
     news: News[];
     error: string | Array<string>;
     newsImagesUrl: string = API_IMAGE_NEWS;
+    spinner: boolean = false;
     
     path: string = '/news/page/';
     currentPage: number;
@@ -30,6 +31,7 @@ export class NewsListComponent implements OnInit {
     total: number;
 
     ngOnInit() {
+        this.spinner = true;
         this.activatedRoute.params.subscribe((params: Params) => {
             this.newsService.getNews(params['number']).subscribe(
                 result => {
@@ -42,8 +44,12 @@ export class NewsListComponent implements OnInit {
                         this.total = result.total;
                         this.news = result.data;
                     }
+                    this.spinner = false;
                 },
-                error => this.error = error
+                error => {
+                    this.error = error;
+                    this.spinner = false;
+                }
             )
         });
     }

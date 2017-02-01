@@ -1,49 +1,36 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <h2>Всі новини:</h2>
         </div>
     </div>
-    <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
-    <div *ngFor="let one of news" class="row bg-inverse text-white one-news">
-        <div class="hidden-xs-down col-sm-4 col-md-3 col-lg-2">
-            <img class="img-fluid" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
-        </div>
-        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
-            <h5>{{one.title}}</h5>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <div class="text-xs-left">
-                        <small class="text-muted">{{one.created_at}}</small>
-                    </div>
-                    <div class="text-xs-left">
-                        <a routerLink="/news/{{one.id}}" class="btn btn-sm btn-outline-secondary">Читати далі</a>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6">
-                    <div class="text-xs-right">
-                        <small class="text-muted">Категорія:</small>
-                    </div>
-                    <div class="text-xs-right">
-                        <span *ngIf="one.tournament">{{one.tournament.title}}</span>
-                        <span *ngIf="!one.tournament">Робота сайту</span>
+    <!-- spinner -->
+    <app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <!-- news -->
+    <div *ngIf="news" class="row">
+        <div class="col">
+            <div class="card-columns">
+                <div *ngFor="let one of news" class="card mb-2">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Категорія: {{one.tournament ? one.tournament.title : 'Робота сайту'}}</li>
+                    </ul>
+                    <img class="card-img-top img-fluid p-sm-2" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
+                    <div class="card-block">
+                        <h4 class="card-title">{{one.title}}</h4>
+                        <a routerLink="/news/{{one.id}}" class="btn btn-outline-primary">Читати далі</a>
+                        <p class="card-text"><small class="text-muted">{{one.created_at}}</small></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="error">
-        <div class="col-xs-12">
-            <div class="alert alert-danger" role="alert">
-                <strong>{{error}}</strong>
-            </div>
-        </div>
-    </div>
-    <div class="row text-xs-center pagination-row">
-        <app-pagination [totalItems]="total"
-                        [currentPage]="currentPage"
-                        [pageSize]="perPage"
-                        [path]="path">
-        </app-pagination>
-    </div>
+    <!-- pagination -->
+    <app-pagination *ngIf="news"
+                    [totalItems]="total"
+                    [currentPage]="currentPage"
+                    [pageSize]="perPage"
+                    [path]="path">
+    </app-pagination>
 </div>

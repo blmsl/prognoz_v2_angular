@@ -25,7 +25,11 @@ export class HomeComponent implements OnInit {
         this.spinner = true;
         this.newsService.getNews().subscribe(
             result => {
-                this.news = result.data;
+                if (!result.data) {
+                    this.error = "В базі даних новин немає";
+                } else {
+                    this.news = result.data;
+                }
                 this.spinner = false;
             },
             error => {
