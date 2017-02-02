@@ -1,38 +1,38 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col">
             <h2>Новина:</h2>
         </div>
     </div>
-    <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
+    <!-- spinner -->
+    <app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <!-- news, comments, form -->
     <div *ngIf="news">
+        <!-- news -->
         <div class="row">
-            <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
-                <div class="card card-inverse">
-                    <h5 class="card-header card-inverse">
-                        {{news.title}}
-                    </h5>
-                    <div class="text-xs-center">
-                        <img class="card-img-top img-fluid" src="{{newsImagesUrl}}{{news.image}}" alt="{{news.title}}">
-                    </div>
+            <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+                <div class="card mb-sm-2">
+                    <h4 class="card-header">{{news.title}}</h4>
+                    <img class="card-img-top img-fluid p-sm-2" src="{{newsImagesUrl}}{{news.image}}" alt="{{news.title}}">
                     <div class="card-block">
-                        <div class="card-title"><small class="text-muted">{{news.created_at}}</small></div>
-                        <div class="card-title">
-                            <small class="text-muted">Категорія: </small>
-                            <span *ngIf="news.tournament">{{news.tournament.title}}</span>
-                            <span *ngIf="!news.tournament">Робота сайту</span>
-                        </div>
+                        <p class="card-text">Категорія: {{news.tournament ? news.tournament.title : 'Робота сайту'}}</p>
                         <p class="card-text">{{news.body}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="card-text"><small class="text-muted">{{news.created_at}}</small></p>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- comments -->
         <div *ngIf="news.comments && news.comments.length" class="row">
-            <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
-                <div *ngFor="let comment of news.comments" class="card">
+            <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+                <div *ngFor="let comment of news.comments" class="card mb-sm-2">
                     <div class="card-block">
                         <div class="h4 card-title">
-                            <img class="rounded small-image" src="http://s3-us-west-1.amazonaws.com/witty-avatars/default-avatar-4-l.jpg" alt="{{comment.user.name}}">
+                            <img class="rounded small-image" src="{{userImagesUrl}}{{comment.user.image || userImageDefault}}" alt="{{comment.user.name}}">
                             {{comment.user.name}}
                         </div>
                         <p class="card-text">{{comment.body}}</p>
@@ -41,9 +41,10 @@
                 </div>
             </div>
         </div>
+        <!-- form for adding comments -->
         <div *ngIf="authenticatedUser" class="row">
-            <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
-                <form novalidate [formGroup]="addCommentForm" (ngSubmit)="onSubmit(addCommentForm.value)">
+            <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 text-white">
+                <form novalidate [formGroup]="addCommentForm" (ngSubmit)="onSubmit(addCommentForm.value)" class="bg-inverse p-2 rounded">
                     <input type="hidden" name="user_id" formControlName="user_id">
                     <input type="hidden" name="news_id" formControlName="news_id">
                     <div class="form-group"
@@ -52,6 +53,7 @@
                         <textarea id="body"
                                   placeholder="Напишіть щось..."
                                   class="form-control"
+                                  [class.form-control-danger]="addCommentForm.get('body').invalid && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)"
                                   rows="3"
                                   formControlName="body">
                         </textarea>
@@ -66,24 +68,19 @@
                         </div>
                     </div>
                     <button [disabled]="addCommentForm.invalid"
-                            [hidden]="preloader"
+                            [hidden]="spinnerButton"
                             type="submit"
                             class="btn btn-primary">Добавити</button>
-                    <app-spinner-button [hidden]="!preloader"></app-spinner-button>
+                    <!-- spinner button -->
+                    <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
                 </form>
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="error">
-        <div class="col-xs-12">
-            <div class="alert alert-danger" role="alert">
-                <strong>{{error}}</strong>
-            </div>
-        </div>
-    </div>
+    <!-- previous page button -->
     <div class="row">
-        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-            <a (click)="goBack()" class="btn btn-secondary btn-block">Назад</a>
+        <div class="col text-center mt-2">
+            <a (click)="goBack()" class="btn btn-secondary btn-lg">Назад</a>
         </div>
     </div>
 </div>

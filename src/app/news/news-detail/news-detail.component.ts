@@ -9,6 +9,7 @@ import { NewsService }                          from '../shared/news.service';
 import { UserService }                          from '../../shared/user.service';
 import { CommentService }                       from '../../shared/comment.service';
 import { API_IMAGE_NEWS }                       from '../../shared/app.settings';
+import { API_IMAGE_USERS, IMAGE_USER_DEFAULT }  from '../../shared/app.settings';
 
 @Component({
     selector: 'app-news-datail',
@@ -32,11 +33,15 @@ export class NewsDetailComponent implements OnInit {
     news: News;
     error: string | Array<string>;
     newsImagesUrl: string = API_IMAGE_NEWS;
+    userImagesUrl: string = API_IMAGE_USERS;
+    userImageDefault: string = IMAGE_USER_DEFAULT;
     authenticatedUser: any;
-    preloader: boolean = false;
+    spinner: boolean = false;
+    spinnerButton: boolean = false;
     addCommentForm: FormGroup;
 
     ngOnInit() {
+        this.spinner = true;
         this.authenticatedUser = this.userService.sharedUser;
         this.activatedRoute.params.forEach((params: Params) => {
             let id = +params['id'];
@@ -48,8 +53,12 @@ export class NewsDetailComponent implements OnInit {
                         news_id: [this.news.id, [Validators.required]],
                         body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
                     });
+                    this.spinner = false;
                 },
-                error => this.error = error
+                error => {
+                    this.error = error;
+                    this.spinner = false;
+                }
             );
         });
     }
@@ -59,21 +68,21 @@ export class NewsDetailComponent implements OnInit {
     }
     
     onSubmit(value, valid) {
-        this.preloader = true;
+        this.spinnerButton = true;
         this.commentService.create(value).subscribe(
             response => {
                 this.news.comments = response.comments;
-                this.notificationService.success('Успішно', 'Комеентар додано');
+                this.notificationService.success('Успішно', 'Новий коментар додано');
                 this.addCommentForm.patchValue({body: ''});
                 this.addCommentForm.get('body').markAsUntouched();
                 this.addCommentForm.get('body').markAsPristine();
-                this.preloader = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
-                this.preloader = false;
+                this.spinnerButton = false;
             }
         );
     }
