@@ -1,15 +1,16 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-md-8 col-lg-9 col-xl-9">
+        <!-- left(main) column-->
+        <div class="col col-md-8 col-lg-9 col-xl-9">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col">
                     <h2>Гостьова:</h2>
                 </div>
             </div>
+            <!-- new guestbook messages form-->
             <div *ngIf="authenticatedUser" class="row">
-                <div class="col-xs-12">
-                    <form novalidate [formGroup]="guestbookAddMessageForm"
-                          (ngSubmit)="onSubmit(guestbookAddMessageForm)" class="bg-inverse text-white dark-form">
+                <div class="col text-white">
+                    <form [formGroup]="guestbookAddMessageForm" (ngSubmit)="onSubmit(guestbookAddMessageForm)" novalidate class="bg-inverse bg-inverse mb-sm-2 p-2 rounded">
                         <input type="hidden" name="user_id" formControlName="user_id">
                         <div class="form-group"
                              [class.has-danger]="guestbookAddMessageForm.get('body').invalid && (guestbookAddMessageForm.get('body').touched || !guestbookAddMessageForm.get('body').pristine)">
@@ -17,6 +18,7 @@
                             <textarea id="body"
                                       placeholder="Напишіть щось..."
                                       class="form-control"
+                                      [class.form-control-danger]="guestbookAddMessageForm.get('body').invalid && (guestbookAddMessageForm.get('body').touched || !guestbookAddMessageForm.get('body').pristine)"
                                       name="body"
                                       rows="3"
                                       formControlName="body">
@@ -34,19 +36,24 @@
                                 <small>Текст повідомлення перевищує 1000 символів.</small>
                             </div>
                         </div>
-                        <button [hidden]="preloader"
+                        <button [hidden]="spinnerButton"
                                 [disabled]="guestbookAddMessageForm.invalid"
                                 type="submit"
                                 class="btn btn-primary">Додати
                         </button>
-                        <app-spinner-button [hidden]="!preloader"></app-spinner-button>
+                        <!-- spinner button -->
+                        <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
                     </form>
                 </div>
             </div>
-            <app-spinner *ngIf="!error && !guestbookMessages" [height]="500"></app-spinner>
+            <!-- spinner -->
+            <app-spinner *ngIf="spinnerMessages" [height]="250"></app-spinner>
+            <!-- error -->
+            <app-error *ngIf="error" [message]="error"></app-error>
+            <!-- guestbook messages -->
             <div *ngIf="guestbookMessages" class="row">
-                <div class="col-xs-12">
-                    <div *ngFor="let message of guestbookMessages" class="card">
+                <div class="col">
+                    <div *ngFor="let message of guestbookMessages" class="card mb-sm-2">
                         <div class="card-block">
                             <div class="h4 card-title">
                                 <img class="rounded small-image"
@@ -62,24 +69,18 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="error">
-                <div class="col-xs-12">
-                    <div class="alert alert-danger" role="alert">
-                        <strong>{{error}}</strong>
-                    </div>
-                </div>
-            </div>
-            <div class="row text-xs-center pagination-row">
-                <app-pagination [totalItems]="total"
-                                [currentPage]="currentPage"
-                                [pageSize]="perPage"
-                                [path]="path">
-                </app-pagination>
-            </div>
+            <!-- pagination -->
+            <app-pagination [totalItems]="total"
+                            [currentPage]="currentPage"
+                            [pageSize]="perPage"
+                            [path]="path">
+            </app-pagination>
         </div>
-        <div class="hidden-sm-down col-md-4 col-lg-3 col-xl-3">
+        <!-- right(additional) column -->
+        <div class="col-md-4 col-lg-3 col-xl-3">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col">
+                    <!-- last registered user -->
                     <app-last-user></app-last-user>
                 </div>
             </div>

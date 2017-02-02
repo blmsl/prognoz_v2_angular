@@ -44,7 +44,7 @@
         <!-- form for adding comments -->
         <div *ngIf="authenticatedUser" class="row">
             <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 text-white">
-                <form novalidate [formGroup]="addCommentForm" (ngSubmit)="onSubmit(addCommentForm.value)" class="bg-inverse p-2 rounded">
+                <form [formGroup]="addCommentForm" (ngSubmit)="onSubmit(addCommentForm.value)" novalidate class="bg-inverse p-2 rounded">
                     <input type="hidden" name="user_id" formControlName="user_id">
                     <input type="hidden" name="news_id" formControlName="news_id">
                     <div class="form-group"

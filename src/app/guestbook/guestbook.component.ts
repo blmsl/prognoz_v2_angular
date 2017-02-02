@@ -25,7 +25,8 @@ export class GuestbookComponent implements OnInit {
 
     guestbookMessages: any;
     error: string | Array<string>;
-    preloader: boolean = false;
+    spinnerButton: boolean = false;
+    spinnerMessages: boolean = false;
     userImagesUrl: string = API_IMAGE_USERS;
     userImageDefault: string = IMAGE_USER_DEFAULT;
 
@@ -40,12 +41,12 @@ export class GuestbookComponent implements OnInit {
 
     ngOnInit() {
         this.authenticatedUser = this.userService.sharedUser;
-
+        this.spinnerMessages = true;
         this.activatedRoute.params.subscribe((params: Params) => {
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
                 result => {
                     if (!result.data) {
-                        this.error = "В базі даних новин немає";
+                        this.error = "В базі даних повідомлень немає";
                     } else {
                         this.currentPage = result.current_page;
                         this.lastPage = result.last_page;
@@ -53,8 +54,12 @@ export class GuestbookComponent implements OnInit {
                         this.total = result.total;
                         this.guestbookMessages = result.data;
                     }
+                    this.spinnerMessages = false;
                 },
-                error => this.error = error
+                error => {
+                    this.error = error;
+                    this.spinnerMessages = false;
+                }
             )
         });
         
@@ -67,7 +72,7 @@ export class GuestbookComponent implements OnInit {
     }
     
     onSubmit() {
-        this.preloader = true;
+        this.spinnerButton = true;
         this.guestbookService.create(this.guestbookAddMessageForm.value).subscribe(
             response => {
                 this.guestbookMessages = response.data;
@@ -80,13 +85,13 @@ export class GuestbookComponent implements OnInit {
                 this.guestbookAddMessageForm.patchValue({body: ''});
                 this.guestbookAddMessageForm.get('body').markAsUntouched();
                 this.guestbookAddMessageForm.get('body').markAsPristine();
-                this.preloader = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
-                this.preloader = false;
+                this.spinnerButton = false;
             }
         );
     }
