@@ -1,99 +1,105 @@
-<h2>Приймаються прогнози на наступні матчі: </h2>
-<app-spinner *ngIf="spinner" [height]="200"></app-spinner>
-<!--if user is authenticated-->
+<h2>Прогнози: </h2>
+<!-- spinner -->
+<app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+<!-- error -->
+<app-error *ngIf="error" [message]="error"></app-error>
+<!-- matches form (if user is authenticated) -->
 <form *ngIf="matches && authenticatedUser" novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
     <div class="container-fluid">
-        <div *ngFor="let match of matches" class="row predict-match-row">
-            <div class="hidden-sm-down col-md-2 vcenter">
-                <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}">
-            </div><!--
-            --><div class="col-xs-12 col-md-8 predict-match-center-col vcenter">
-                <div>
-                    <div class="row">
-                        <div class="col-xs-12 text-xs-center text-muted">
-                            {{ match.starts_at }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4 col-md-3 col-lg-4 text-xs-center text-white">
-                            <strong><label for="{{match.id + '_home'}}">{{ match.club_first.title }}</label></strong>
-                        </div>
-                        <div class="col-xs-4 col-md-6 col-lg-4 text-xs-center text-white">
-                            <input id="{{match.id + '_home'}}"
-                                   type="number"
-                                   min="0"
-                                   max="9"
-                                   class="predict-input"
-                                   formControlName="{{match.id + '_home'}}"><strong>:</strong><!--
-                            --><input id="{{match.id + '_away'}}"
-                                   type="number"
-                                   min="0"
-                                   max="9"
-                                   class="predict-input"
-                                   formControlName="{{match.id + '_away'}}">
-                        </div>
-                        <div class="col-xs-4 col-md-3 col-lg-4 text-xs-center text-white">
-                            <strong><label for="{{match.id + '_away'}}">{{ match.club_second.title }}</label></strong>
-                        </div>
+        <!-- one match row -->
+        <div *ngFor="let match of matches" class="row predict-match-row align-items-center mb-2 p-md-1 rounded bg-white">
+            <!-- home club logo -->
+            <div class="hidden-md-down col-md-2">
+                <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
+            </div>
+            <!-- club names, starts_at, inputs -->
+            <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded">
+                <div class="row">
+                    <div class="col-12 text-center text-muted">
+                        {{ match.starts_at }}
                     </div>
                 </div>
-            </div><!--
-            --><div class="hidden-sm-down col-md-2 vcenter">
-                <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}">
+                <div class="row align-items-center">
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-right text-sm-center text-white">
+                        <strong><label for="{{match.id + '_home'}}">{{ match.club_first.title }}</label></strong>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-6 col-lg-4 flex-last flex-sm-unordered text-center text-white mb-2">
+                        <input id="{{match.id + '_home'}}"
+                               type="number"
+                               min="0"
+                               max="9"
+                               class="predict-input"
+                               formControlName="{{match.id + '_home'}}"><strong>:</strong><!--
+                        --><input id="{{match.id + '_away'}}"
+                               type="number"
+                               min="0"
+                               max="9"
+                               class="predict-input"
+                               formControlName="{{match.id + '_away'}}">
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
+                        <strong><label for="{{match.id + '_away'}}">{{ match.club_second.title }}</label></strong>
+                    </div>
+                </div>
+            </div>
+            <!-- away club logo -->
+            <div class="hidden-md-down col-md-2">
+                <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
             </div>
         </div>
-        <div class="row" *ngIf="matches.length">
-            <div class="col-xs-12 text-xs-center">
+        <!-- button row (only if predictable matches exists) -->
+        <div *ngIf="matches.length" class="row">
+            <div class="col-12 text-center">
+                <!-- add/update predicts button -->
                 <button [hidden]="spinnerButton" class="btn btn-outline-primary">
                     <i class="fa fa-arrow-right" aria-hidden="true"></i> Зробити прогнози
                 </button>
+                <!-- spinner button -->
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
-            </div>
-        </div>
-        <div class="row" *ngIf="!matches.length">
-            <div class="col-xs-12">
-                <div class="alert alert-info" role="alert">
-                    Доступних для прогнозування матчів немає.
-                </div>
             </div>
         </div>
     </div>
 </form>
-<!--if user is NOT authenticated-->
+<!-- match list (if user is not authenticated ) -->
 <div *ngIf="matches && !authenticatedUser" class="container-fluid">
-    <div *ngFor="let match of matches" class="row predict-match-row">
-        <div class="hidden-sm-down col-md-2 vcenter">
-            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}">
-        </div><!--
-        --><div class="col-xs-12 col-md-8 predict-match-center-col vcenter">
-        <div>
+    <!-- one match row -->
+    <div *ngFor="let match of matches" class="row predict-match-row align-items-center mb-2 p-md-1 rounded bg-white">
+        <!-- home club logo -->
+        <div class="hidden-sm-down col-md-2">
+            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
+        </div>
+        <!-- club names, starts_at -->
+        <div class="col-12 col-md-8 bg-inverse rounded">
             <div class="row">
-                <div class="col-xs-12 text-xs-center text-muted">
+                <div class="col-12 text-center text-muted">
                     {{ match.starts_at }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-5 text-xs-center text-white">
+            <div class="row align-items-center mb-2">
+                <div class="col-5 text-center text-white">
                     <strong>{{ match.club_first.title }}</strong>
                 </div>
-                <div class="col-xs-2 text-xs-center text-white">
-                    vs
+                <div class="col-2 text-center text-white">
+                    <strong>vs</strong>
                 </div>
-                <div class="col-xs-5 text-xs-center text-white">
+                <div class="col-5 text-center text-white">
                     <strong>{{ match.club_second.title }}</strong>
                 </div>
             </div>
         </div>
-    </div><!--
-        --><div class="hidden-sm-down col-md-2 vcenter">
-        <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}">
-    </div>
+        <!-- away club logo -->
+        <div class="hidden-sm-down col-md-2">
+            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
+        </div>
     </div>
 </div>
-<div *ngIf="error">
-    <div class="col-xs-12">
-        <div class="alert alert-danger" role="alert">
-            <strong>{{error}}</strong>
+<!-- message if no predictable matches -->
+<div *ngIf="matches && !matches.length" class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-info" role="alert">
+                Доступних для прогнозування матчів немає.
+            </div>
         </div>
     </div>
 </div>
