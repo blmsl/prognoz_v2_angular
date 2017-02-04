@@ -32,7 +32,7 @@ export class AuthSigninComponent implements OnInit {
                         this.user = result;
                         this.userService.addSharedUser(result);
                         this.router.navigate(['/']);
-                        this.notificationService.success('Успішно', 'Аутентифікація пройшла успішно');
+                        this.notificationService.success('Успішно', 'Вхід виконано успішно');
                     }
                     this.spinner = false;
                 },

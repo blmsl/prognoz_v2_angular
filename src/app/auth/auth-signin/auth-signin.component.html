@@ -1,9 +1,14 @@
-<div class="container" *ngIf="!user">
+<div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 bg-inverse text-white dark-form">
-            <h1>Вхід на сайт</h1>
-            <form novalidate [formGroup]="signinForm" (ngSubmit)="onSubmit(signinForm)">
-
+        <div class="col-12">
+            <h2>Вхід:</h2>
+        </div>
+    </div>
+    <!-- show sign in form if user is not authenticated -->
+    <div *ngIf="!user" class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
+            <form novalidate [formGroup]="signinForm" (ngSubmit)="onSubmit(signinForm)" class="bg-inverse p-2 rounded">
+                <!-- name input -->
                 <div class="form-group"
                      [class.has-danger]="signinForm.get('name').invalid && (signinForm.get('name').touched || !signinForm.get('name').pristine)">
                     <label class="form-control-label" for="name"><strong>Ім'я:</strong></label>
@@ -13,6 +18,7 @@
                                id="name"
                                placeholder="Введіть ім'я"
                                class="form-control"
+                               [class.form-control-danger]="signinForm.get('name').invalid && (signinForm.get('name').touched || !signinForm.get('name').pristine)"
                                formControlName="name">
                     </div>
                     <div *ngIf="signinForm.get('name').hasError('required') && (signinForm.get('name').touched || !signinForm.get('name').pristine)" class="form-control-feedback">
@@ -22,7 +28,7 @@
                         <small>Ім'я повинно містити мінімум три символи.</small>
                     </div>
                 </div>
-
+                <!-- password input -->
                 <div class="form-group" [class.has-danger]="signinForm.get('password').invalid && (signinForm.get('password').touched || !signinForm.get('password').pristine)">
                     <label class="form-control-label" for="password"><strong>Пароль:</strong></label>
                     <div class="input-group">
@@ -31,34 +37,38 @@
                                id="password"
                                placeholder="Введіть пароль"
                                class="form-control"
+                               [class.form-control-danger]="signinForm.get('password').invalid && (signinForm.get('password').touched || !signinForm.get('password').pristine)"
                                formControlName="password">
                     </div>
                     <div *ngIf="signinForm.get('password').hasError('required') && (signinForm.get('password').touched || !signinForm.get('password').pristine)" class="form-control-feedback">
                         <small>Пароль обов'язковий.</small>
                     </div>
                 </div>
-
+                <!-- submit button -->
                 <button [hidden]="spinner" [disabled]="signinForm.invalid" type="submit" class="btn btn-primary" >
                     <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
                 </button>
+                <!-- spinner button -->
                 <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                <!-- sign up and recovery buttons -->
                 <div class="btn-group" role="group">
                     <button [disabled]="spinner" routerLink="/signup" type="button" class="btn btn-outline-secondary">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> <span class="hidden-sm-down">Реєстрація</span>
                     </button>
                     <button [disabled]="spinner" routerLink="/recovery" type="button" class="btn btn-outline-secondary">
-                        <i class="fa fa-question-circle" aria-hidden="true"></i> Забули пароль
+                        <i class="fa fa-question-circle" aria-hidden="true"></i> <span class="hidden-sm-down">Забули пароль</span>
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</div>
-<div class="container" *ngIf="user">
-    <div class="row">
-        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 bg-inverse text-white dark-form text-xs-center">
-            Привіт, <b>{{user.name}}</b>
-            <button (click)="logout()" class="btn btn-outline-secondary">
+    <!-- show profile and logout buttons if user is authenticated -->
+    <div *ngIf="user" class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
+            <button routerLink="/user" class="btn btn-primary">
+                <i class="fa fa-user-circle" aria-hidden="true"></i> {{user.name}}
+            </button>
+            <button (click)="logout()" class="btn btn-outline-primary">
                 <i class="fa fa-sign-out" aria-hidden="true"></i> Вихід
             </button>
         </div>

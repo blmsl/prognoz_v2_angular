@@ -64,4 +64,12 @@ export class AuthSignupComponent implements OnInit {
             password_confirmation: new FormControl('', [Validators.required]),
         });
     }
+
+    logout() {
+        this.userService.logoutRequest().subscribe(result => {});
+        this.userService.logout();
+        this.authenticatedUser = false;
+        this.userService.addSharedUser(false);
+        this.notificationService.info('Успішно', 'Ви вийшли зі свого аккаунту');
+    }
 }
