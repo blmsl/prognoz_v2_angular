@@ -1,6 +1,7 @@
 import { NgModule }              from '@angular/core';
 import { CommonModule }          from '@angular/common';
 import { ReactiveFormsModule }   from '@angular/forms';
+import { RecaptchaModule }       from 'ng2-recaptcha';
 
 import { AuthComponent }         from './auth.component';
 import { AuthRecoveryComponent } from './auth-recovery/auth-recovery.component';
@@ -16,7 +17,8 @@ import { AuthRoutingModule }     from './auth-routing.module';
       CommonModule,
       AuthRoutingModule,
       ReactiveFormsModule,
-      DirectivesModule
+      DirectivesModule,
+      RecaptchaModule.forRoot()
   ],
   declarations: [
       AuthComponent,

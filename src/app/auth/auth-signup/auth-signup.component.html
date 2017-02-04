@@ -102,8 +102,12 @@
                         <small>Паролі не співпадають.</small>
                     </div>
                 </div>
+                <!-- reCaptcha -->
+                <div class="mb-2">
+                    <recaptcha (resolved)="resolved($event)" siteKey="6LcZUhQUAAAAAO0sLBWgT4DujK8EfRpEG2jdZbLv"></recaptcha>
+                </div>
                 <!-- submit button -->
-                <button [hidden]="spinner" [disabled]="signupForm.invalid || (signupForm.value.password != signupForm.value.password_confirmation)" type="submit" class="btn btn-primary">
+                <button [hidden]="spinner" [disabled]="signupForm.invalid || (signupForm.value.password != signupForm.value.password_confirmation) || !captchaValidity" type="submit" class="btn btn-primary">
                     <i class="fa fa-user-plus" aria-hidden="true"></i> Зареєструватись
                 </button>
                 <!-- spinner button -->

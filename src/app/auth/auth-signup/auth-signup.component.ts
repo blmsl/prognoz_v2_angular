@@ -27,6 +27,7 @@ export class AuthSignupComponent implements OnInit {
     };
     authenticatedUser: any;
     spinner: boolean = false;
+    captchaValidity: boolean = false;
 
     signupForm: FormGroup;
     
@@ -71,5 +72,11 @@ export class AuthSignupComponent implements OnInit {
         this.authenticatedUser = false;
         this.userService.addSharedUser(false);
         this.notificationService.info('Успішно', 'Ви вийшли зі свого аккаунту');
+    }
+
+    resolved(captchaResponse: string) {
+        if (captchaResponse) {
+            this.captchaValidity = true;
+        }
     }
 }
