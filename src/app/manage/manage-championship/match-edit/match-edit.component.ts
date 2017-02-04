@@ -23,6 +23,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     spinnerButton: any = {};
     activeMatches: ChampionshipMatch[];
     updatedMatches: any = {};
+    isUpdatedMatches: boolean = false;
     errorActiveMatches: string | Array<string>;
     clubsImagesUrl: string = API_IMAGE_CLUBS;
   
@@ -41,7 +42,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() { 
-        if (Object.keys(this.updatedMatches).length !== 0) {
+        if (Object.keys(this.updatedMatches).length !== 0 && this.isUpdatedMatches) {
            this.updateRating();
         }
     }
@@ -56,6 +57,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
             response => {
                 this.spinnerButton['match_' + id] = false;
                 this.updatedMatches['match_' + id] = response;
+                this.isUpdatedMatches = true;
                 this.notificationService.success('Успішно', 'Результат в матчі ' + response.id + ' добавлено!');
             },
             errors => {
@@ -70,6 +72,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     updateRating() {
         this.manageChampionshipRatingService.updatePositions().subscribe(
             response => {
+                this.isUpdatedMatches = false;
                 this.notificationService.success('Успішно', 'Рейтинг оновлено');
             },
             error => {

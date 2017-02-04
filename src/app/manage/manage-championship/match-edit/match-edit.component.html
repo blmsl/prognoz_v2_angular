@@ -1,7 +1,13 @@
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Добавити результат:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
     <app-spinner *ngIf="spinnerActiveMatches" [height]="250"></app-spinner>
     <div *ngIf="activeMatches" class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
             <table class="table table-hover table-inverse table-striped">
                 <thead>
                     <tr>
@@ -53,8 +59,8 @@
             </table>
         </div>
     </div>
-    <div *ngIf="updatedMatches" class="row">
-        <div class="col-xs-12 text-xs-center">
+    <div *ngIf="isUpdatedMatches" class="row">
+        <div class="col-12 text-center">
             <button class="btn btn-lg btn-outline-primary" (click)="updateRating()">Оновити рейтинг</button>
             <p class="text-muted">*Рейтинг оновиться автоматчно після виходу з цієї сторінки</p>
         </div>
