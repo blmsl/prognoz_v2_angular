@@ -1,8 +1,14 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 bg-inverse text-white dark-form">
-            <h1>Відновлення паролю</h1>
-            <form novalidate [formGroup]="recoveryForm" (ngSubmit)="onSubmit(recoveryForm)">
+        <div class="col-12">
+            <h2>Відновлення паролю:</h2>
+        </div>
+    </div>
+    <!-- recovery form -->
+    <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
+            <form novalidate [formGroup]="recoveryForm" (ngSubmit)="onSubmit(recoveryForm)" class="bg-inverse p-2 rounded">
+                <!-- email input -->
                 <div class="form-group"
                      [class.has-danger]="recoveryForm.get('email').invalid && (!recoveryForm.get('email').pristine || recoveryForm.get('email').touched)">
                     <label class="form-control-label" for="email"><strong>Email:</strong></label>
@@ -12,6 +18,7 @@
                                id="email"
                                placeholder="Введіть свій email"
                                class="form-control"
+                               [class.form-control-danger]="recoveryForm.get('email').invalid && (!recoveryForm.get('email').pristine || recoveryForm.get('email').touched)"
                                formControlName="email">
                     </div>
                     <div *ngIf="recoveryForm.get('email').hasError('required') && (!recoveryForm.get('email').pristine || recoveryForm.get('email').touched)"
@@ -23,9 +30,11 @@
                         <small>Email введено неправильно.</small>
                     </div>
                 </div>
+                <!-- submit button -->
                 <button [hidden]="spinner" [disabled]="recoveryForm.invalid" type="submit" class="btn btn-primary">
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Продовжити
                 </button>
+                <!-- spinner button -->
                 <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             </form>
         </div>
