@@ -1,22 +1,26 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
-            <h1>Редагувати команду <span *ngIf="club">{{club.title}}</span></h1>
+        <div class="col">
+            <h2>Редагувати команду<span *ngIf="club"> {{club.title}}</span>:</h2>
         </div>
     </div>
+    <!-- spinner -->
     <app-spinner *ngIf="!error && (!club || !clubs)" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
     <div *ngIf="club" class="row">
-        <div class="col-xs-12 col-lg-6">
+        <!-- left column(current club data) -->
+        <div class="col-12 col-lg-6">
             <div class="card card-inverse">
                 <h5 class="card-header card-inverse">
                     Інформація про команду
                 </h5>
                 <br>
                 <div class="row">
-                    <div class="text-xs-center" [ngClass]="{'col-xs-6': club.parent}" [ngClass]="{'col-xs-12': !club.parent}">
+                    <div class="text-center" [ngClass]="{'col-6': club.parent, 'col-12': !club.parent}">
                         <img class="card-img-top img-fluid" src="{{clubImagesUrl}}{{club.image}}" alt="{{club.title}}" title="{{club.title}}">
                     </div>
-                    <div *ngIf="club.parent" class="text-xs-center" [ngClass]="{'col-xs-6': club.parent}">
+                    <div *ngIf="club.parent" class="text-center" [ngClass]="{'col-6': club.parent}">
                         <img class="card-img-top img-fluid" src="{{clubImagesUrl}}{{club.parent.image}}" alt="{{club.parent.title}}" title="{{club.parent.title}}">
                     </div>
                 </div>
@@ -29,10 +33,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-lg-6 bg-inverse text-white dark-form">
-            <form novalidate [formGroup]="clubEditForm" (ngSubmit)="onSubmit(clubEditForm)">
+        <!-- right column (form) -->
+        <div class="col-12 col-lg-6 text-white">
+            <form novalidate [formGroup]="clubEditForm" (ngSubmit)="onSubmit(clubEditForm)" class="bg-inverse p-2 rounded">
                 <input type="hidden" formControlName="id">
-
+                <!-- title -->
                 <div class="form-group"
                      [class.has-danger]="clubEditForm.get('title').invalid && clubEditForm.get('title').touched">
                     <label class="form-control-label" for="title"><strong>Назва:</strong></label>
@@ -40,6 +45,7 @@
                            id="title"
                            placeholder="Введіть назву команди"
                            class="form-control"
+                           [class.form-control-danger]="clubEditForm.get('title').invalid && clubEditForm.get('title').touched"
                            formControlName="title">
                     <div *ngIf="clubEditForm.get('title').hasError('required') && clubEditForm.get('title').touched" class="form-control-feedback">
                         <small>Назва команди обов'язкова</small>
@@ -51,7 +57,7 @@
                         <small>Назва команди перевищує 50 символів</small>
                     </div>
                 </div>
-
+                <!-- link -->
                 <div class="form-group"
                      [class.has-danger]="clubEditForm.get('link').invalid && clubEditForm.get('link').touched">
                     <label class="form-control-label" for="link"><strong>Назва англійською:</strong></label>
@@ -59,6 +65,7 @@
                            id="link"
                            placeholder="Введіть назву команд англійською"
                            class="form-control"
+                           [class.form-control-danger]="clubEditForm.get('link').invalid && clubEditForm.get('link').touched"
                            formControlName="link">
                     <div *ngIf="clubEditForm.get('link').hasError('required') && clubEditForm.get('link').touched" class="form-control-feedback">
                         <small>Назва команди англійською обов'язкова</small>
@@ -70,7 +77,7 @@
                         <small>Назва команди англійською перевищує 50 символів</small>
                     </div>
                 </div>
-
+                <!-- logo -->
                 <div class="form-group" [class.has-danger]="errorImage">
                     <label class="form-control-label" for="image"><strong>Емблема / Прапор:</strong></label>
                     <div *ngIf="!errorImage" class="alert alert-info" role="alert">
@@ -80,13 +87,14 @@
                            id="image"
                            placeholder="Завантажте емблему/прапор для команди"
                            class="form-control"
+                           [class.form-control-danger]="errorImage"
                            (change)="fileChange($event)"
                            accept=".png,.jpg,.gif,.jpeg">
                     <div *ngIf="errorImage" class="form-control-feedback">
                         <small>{{errorImage}}</small>
                     </div>
                 </div>
-
+                <!-- parent -->
                 <div class="form-group">
                     <label class="form-control-label" for="parent_id"><strong>Країна:</strong></label>
                     <select id="parent_id"
@@ -96,8 +104,9 @@
                         <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
                     </select>
                 </div>
-
+                <!-- submit button -->
                 <button [hidden]="spinner" [disabled]="clubEditForm.invalid || errorImage" type="submit" class="btn btn-primary">Змінити</button>
+                <!-- spinner button -->
                 <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             </form>
         </div>

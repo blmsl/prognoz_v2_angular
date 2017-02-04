@@ -1,7 +1,16 @@
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Таблиця новин:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
     <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <!-- news table -->
     <div *ngIf="news && news.length" class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
             <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-inverse">
                     <tr>
@@ -42,18 +51,11 @@
             </table>
         </div>
     </div>
-    <div class="row" *ngIf="error">
-        <div class="col-xs-12">
-            <div class="alert alert-danger" role="alert">
-                <strong>{{error}}</strong>
-            </div>
-        </div>
-    </div>
-    <div class="row text-xs-center pagination-row">
-        <app-pagination [totalItems]="total"
-                        [currentPage]="currentPage"
-                        [pageSize]="perPage"
-                        [path]="path">
-        </app-pagination>
-    </div>
+    <!-- pagination -->
+    <app-pagination *ngIf="news"
+                    [totalItems]="total"
+                    [currentPage]="currentPage"
+                    [pageSize]="perPage"
+                    [path]="path">
+    </app-pagination>
 </div>

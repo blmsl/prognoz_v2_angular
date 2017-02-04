@@ -7,10 +7,6 @@ body {
 .half-height{
     min-height: 50%;
 }
-.margin-10 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
 .small-image {
     height: 25px;
     width: 25px;

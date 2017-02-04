@@ -9,6 +9,8 @@ export class AccessDeniedComponent implements OnInit {
 
   constructor() { }
 
+  error: string = 'Доступ заборонено';
+
   ngOnInit() {
   }
 

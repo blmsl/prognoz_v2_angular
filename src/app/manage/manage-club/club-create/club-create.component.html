@@ -1,10 +1,18 @@
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Створити команду:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
     <app-spinner *ngIf="!error && !clubs" [height]="250"></app-spinner>
-    <div class="row" *ngIf="clubs">
-        <div class="col-xs-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 bg-inverse text-white dark-form">
-            <h1>Створення команди</h1>
-            <form novalidate [formGroup]="clubCreateForm" (ngSubmit)="onSubmit(clubCreateForm)">
-
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <!-- club create form -->
+    <div *ngIf="clubs" class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
+            <form novalidate [formGroup]="clubCreateForm" (ngSubmit)="onSubmit(clubCreateForm)" class="bg-inverse p-2 rounded">
+                <!-- title -->
                 <div class="form-group"
                      [class.has-danger]="clubCreateForm.get('title').invalid && clubCreateForm.get('title').touched">
                     <label class="form-control-label" for="title"><strong>Назва:</strong></label>
@@ -12,6 +20,7 @@
                            id="title"
                            placeholder="Введіть назву команди"
                            class="form-control"
+                           [class.form-control-danger]="clubCreateForm.get('title').invalid && clubCreateForm.get('title').touched"
                            formControlName="title">
                     <div *ngIf="clubCreateForm.get('title').hasError('required') && clubCreateForm.get('title').touched" class="form-control-feedback">
                         <small>Назва команди обов'язкова</small>
@@ -23,7 +32,7 @@
                         <small>Назва перевищує 50 символів</small>
                     </div>
                 </div>
-
+                <!-- link -->
                 <div class="form-group"
                      [class.has-danger]="clubCreateForm.get('link').invalid && clubCreateForm.get('link').touched">
                     <label class="form-control-label" for="link"><strong>Назва англійською:</strong></label>
@@ -31,6 +40,7 @@
                            id="link"
                            placeholder="Введіть назву команди англійською"
                            class="form-control"
+                           [class.form-control-danger]="clubCreateForm.get('link').invalid && clubCreateForm.get('link').touched"
                            formControlName="link">
                     <div *ngIf="clubCreateForm.get('link').hasError('required') && clubCreateForm.get('link').touched" class="form-control-feedback">
                         <small>Назва команди обов'язкова</small>
@@ -42,7 +52,7 @@
                         <small>Назва перевищує 50 символів</small>
                     </div>
                 </div>
-
+                <!-- parent_id -->
                 <div class="form-group">
                     <label class="form-control-label" for="parent_id"><strong>Країна:</strong></label>
                     <select id="parent_id"
@@ -53,30 +63,25 @@
                         <option *ngFor="let club of clubs" [value]="club.id">{{club.title}}</option>
                     </select>
                 </div>
-
+                <!-- logo -->
                 <div class="form-group" [class.has-danger]="errorImage">
                     <label class="form-control-label" for="image"><strong>Зображення:</strong></label>
                     <input type="file"
                            id="image"
                            placeholder="Завантажте зображення для команди"
                            class="form-control"
+                           [class.form-control-danger]="errorImage"
                            (change)="fileChange($event)"
                            accept=".png,.jpg,.gif">
                     <div *ngIf="errorImage" class="form-control-feedback">
                         <small>{{errorImage}}</small>
                     </div>
                 </div>
-
+                <!-- submit button -->
                 <button [hidden]="spinner" [disabled]="clubCreateForm.invalid" type="submit" class="btn btn-primary">Створити</button>
+                <!-- spinner button -->
                 <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             </form>
-        </div>
-    </div>
-    <div class="row" *ngIf="error">
-        <div class="col-xs-12">
-            <div class="alert alert-danger" role="alert">
-                <strong>{{error}}</strong>
-            </div>
         </div>
     </div>
 </div>
