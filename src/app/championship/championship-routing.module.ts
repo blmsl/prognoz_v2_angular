@@ -3,6 +3,7 @@ import { RouterModule, Routes }          from '@angular/router';
 
 import { ChampionshipComponent }         from './championship.component';
 import { ChampionshipPredictsComponent } from './championship-predicts/championship-predicts.component';
+import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
 
 const routes: Routes = [
     {
@@ -12,6 +13,10 @@ const routes: Routes = [
             {
                 path: 'predicts',
                 component: ChampionshipPredictsComponent
+            },
+            {
+                path: 'rating',
+                component: ChampionshipRatingComponent
             },
             {
                 path: '',
