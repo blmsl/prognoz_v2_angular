@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }        from '@angular/core';
+
+import { API_IMAGE_CLUBS }          from '../../shared/app.settings';
+import { ChampionshipMatchService } from '../shared/championship-match.service';
+import { ChampionshipMatch }        from '../shared/championship-match.model';
 
 @Component({
   selector: 'app-championship-results',
@@ -7,9 +11,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChampionshipResultsComponent implements OnInit {
 
-  constructor() { }
+    constructor(private championshipMatchService: ChampionshipMatchService) {
+    }
 
-  ngOnInit() {
-  }
+    spinner: boolean = false;
+    matches: ChampionshipMatch[];
+    error: string;
+    clubsImagesUrl: string = API_IMAGE_CLUBS;
+  
+    ngOnInit() {
+        this.spinner = true;
+        this.championshipMatchService.getEnded().subscribe(
+            response => {
+                this.spinner = false;
+                this.matches = response;
+            },
+            error => {
+                this.error = error;
+                this.spinner = false;
+            }
+        );
+    }
 
 }

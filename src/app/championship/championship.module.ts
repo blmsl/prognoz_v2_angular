@@ -6,12 +6,13 @@ import { DirectivesModule }              from '../shared/directives/directives.m
 import { ChampionshipComponent }         from './championship.component';
 import { ChampionshipPredictsComponent } from './championship-predicts/championship-predicts.component';
 import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
+import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
+import { ChampionshipRulesComponent }    from './championship-rules/championship-rules.component';
 
 import { ChampionshipRoutingModule }     from './championship-routing.module';
 import { ChampionshipMatchService }      from './shared/championship-match.service';
 import { ChampionshipPredictService }    from './shared/championship-predict.service';
 import { ChampionshipRatingService }     from './shared/championship-rating.service';
-import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { ChampionshipResultsComponent }  from './championship-results/championsh
         ChampionshipComponent, 
         ChampionshipPredictsComponent, 
         ChampionshipRatingComponent, 
-        ChampionshipResultsComponent
+        ChampionshipResultsComponent, 
+        ChampionshipRulesComponent
     ],
     exports: [
         ChampionshipComponent

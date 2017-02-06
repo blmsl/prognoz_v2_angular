@@ -5,6 +5,7 @@ import { ChampionshipComponent }         from './championship.component';
 import { ChampionshipPredictsComponent } from './championship-predicts/championship-predicts.component';
 import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
 import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
+import { ChampionshipRulesComponent }    from './championship-rules/championship-rules.component';
 
 const routes: Routes = [
     {
@@ -22,6 +23,10 @@ const routes: Routes = [
             {
                 path: 'results',
                 component: ChampionshipResultsComponent
+            },
+            {
+                path: 'rules',
+                component: ChampionshipRulesComponent
             },
             {
                 path: '',

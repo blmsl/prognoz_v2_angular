@@ -22,4 +22,8 @@ body {
 .bg-white {
     background-color: white;
 }
+.black-shadow {
+    border: 2px solid #333;
+    box-shadow: 0 0 5px #333;
+}
 
