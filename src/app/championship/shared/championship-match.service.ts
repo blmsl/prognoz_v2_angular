@@ -38,6 +38,19 @@ export class ChampionshipMatchService {
     }
 
     /**
+     * Get ended matches of current championship
+     *
+     * @returns {any|Promise<ErrorObservable<T>>|Promise<R>|Promise<ErrorObservable<T>|T>}
+     */
+    getEnded(): Observable<ChampionshipMatch[]> {
+        let url = this.championshipMatchUrl + '/ended';
+        return this.http
+            .get(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Transforms to json
      *
      * @param res

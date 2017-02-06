@@ -4,6 +4,7 @@ import { RouterModule, Routes }          from '@angular/router';
 import { ChampionshipComponent }         from './championship.component';
 import { ChampionshipPredictsComponent } from './championship-predicts/championship-predicts.component';
 import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
+import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
 
 const routes: Routes = [
     {
@@ -17,6 +18,10 @@ const routes: Routes = [
             {
                 path: 'rating',
                 component: ChampionshipRatingComponent
+            },
+            {
+                path: 'results',
+                component: ChampionshipResultsComponent
             },
             {
                 path: '',

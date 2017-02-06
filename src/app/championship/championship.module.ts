@@ -11,6 +11,7 @@ import { ChampionshipRoutingModule }     from './championship-routing.module';
 import { ChampionshipMatchService }      from './shared/championship-match.service';
 import { ChampionshipPredictService }    from './shared/championship-predict.service';
 import { ChampionshipRatingService }     from './shared/championship-rating.service';
+import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { ChampionshipRatingService }     from './shared/championship-rating.serv
     declarations: [
         ChampionshipComponent, 
         ChampionshipPredictsComponent, 
-        ChampionshipRatingComponent
+        ChampionshipRatingComponent, 
+        ChampionshipResultsComponent
     ],
     exports: [
         ChampionshipComponent
