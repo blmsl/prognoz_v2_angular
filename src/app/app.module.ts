@@ -38,7 +38,7 @@ import { ImageService }               from './shared/image.service';
         BrowserModule,
         ReactiveFormsModule,
         HttpModule,
-        SimpleNotificationsModule,
+        SimpleNotificationsModule.forRoot(),
         AppRoutingModule,
         AuthModule,
         ManageModule,
