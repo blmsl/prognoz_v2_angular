@@ -25,7 +25,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let match of matches">
+        <tr *ngFor="let match of matches" routerLink="/championship/matches/{{match.id}}" class="link-table-row">
             <th scope="row" class="text-center">{{match.number_in_competition}}.</th>
             <td>{{match.club_first.title}} - {{match.club_second.title}}</td>
             <td class="text-center hidden-xs-down">{{match.predicts}}</td>

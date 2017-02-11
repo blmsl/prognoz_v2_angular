@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let ratingItem of rating">
+        <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user.id}}" class="link-table-row">
             <th scope="row" class="text-center">{{ratingItem.position}}.</th>
             <!-- no moving -->
             <td *ngIf="!ratingItem.moving" class="text-center">

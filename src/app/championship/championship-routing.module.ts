@@ -6,6 +6,8 @@ import { ChampionshipPredictsComponent } from './championship-predicts/champions
 import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
 import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
 import { ChampionshipRulesComponent }    from './championship-rules/championship-rules.component';
+import { ChampionshipUserComponent }     from './championship-user/championship-user.component';
+import { ChampionshipMatchComponent }    from './championship-match/championship-match.component';
 
 const routes: Routes = [
     {
@@ -27,6 +29,14 @@ const routes: Routes = [
             {
                 path: 'rules',
                 component: ChampionshipRulesComponent
+            },
+            {
+                path: 'users/:id',
+                component: ChampionshipUserComponent
+            },
+            {
+                path: 'matches/:id',
+                component: ChampionshipMatchComponent
             },
             {
                 path: '',

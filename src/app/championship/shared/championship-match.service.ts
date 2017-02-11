@@ -24,6 +24,19 @@ export class ChampionshipMatchService {
     private championshipMatchUrl = API_URL + 'championship/matches';
 
     /**
+     * Get match info with predicts
+     *
+     * @param id
+     * @returns {any|Promise<R>|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>}
+     */
+    getWithPredicts(id: number): Observable<ChampionshipMatch> {
+        let url = this.championshipMatchUrl + '/' + id;
+        return this.http.get(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Get all predictable matches
      *
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
@@ -61,6 +74,7 @@ export class ChampionshipMatchService {
             let body = res.json();
             //if (body.match) body = body.match;
             if (body.championship_matches) body = body.championship_matches;
+            if (body.championship_match) body = body.championship_match;
             return body || {};
         }
 

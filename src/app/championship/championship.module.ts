@@ -8,6 +8,8 @@ import { ChampionshipPredictsComponent } from './championship-predicts/champions
 import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
 import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
 import { ChampionshipRulesComponent }    from './championship-rules/championship-rules.component';
+import { ChampionshipUserComponent }     from './championship-user/championship-user.component';
+import { ChampionshipMatchComponent }    from './championship-match/championship-match.component';
 
 import { ChampionshipRoutingModule }     from './championship-routing.module';
 import { ChampionshipMatchService }      from './shared/championship-match.service';
@@ -26,7 +28,9 @@ import { ChampionshipRatingService }     from './shared/championship-rating.serv
         ChampionshipPredictsComponent, 
         ChampionshipRatingComponent, 
         ChampionshipResultsComponent, 
-        ChampionshipRulesComponent
+        ChampionshipRulesComponent, 
+        ChampionshipUserComponent,
+        ChampionshipMatchComponent
     ],
     exports: [
         ChampionshipComponent

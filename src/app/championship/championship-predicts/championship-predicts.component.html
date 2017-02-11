@@ -7,7 +7,7 @@
 <form *ngIf="matches && authenticatedUser" novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
     <div class="container-fluid">
         <!-- one match row -->
-        <div *ngFor="let match of matches" class="row predict-match-row align-items-center mb-2 p-md-1 rounded bg-white">
+        <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow">
             <!-- home club logo -->
             <div class="hidden-md-down col-md-2">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
@@ -63,7 +63,7 @@
 <!-- match list (if user is not authenticated ) -->
 <div *ngIf="matches && !authenticatedUser" class="container-fluid">
     <!-- one match row -->
-    <div *ngFor="let match of matches" class="row predict-match-row align-items-center mb-2 p-md-1 rounded bg-white">
+    <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow">
         <!-- home club logo -->
         <div class="hidden-sm-down col-md-2">
             <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
