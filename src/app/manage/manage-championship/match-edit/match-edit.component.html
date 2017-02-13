@@ -11,10 +11,10 @@
             <table class="table table-hover table-inverse table-striped">
                 <thead>
                     <tr>
-                        <th class="text-xs-center">№</th>
+                        <th class="text-center">№</th>
                         <th>Матч</th>
-                        <th colspan="2" class="text-xs-center">Результати</th>
-                        <th class="text-xs-center">Додати</th>
+                        <th colspan="2" class="text-center">Результати</th>
+                        <th class="text-center">Додати</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +31,7 @@
                             <img class="small-image" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.link}}"><br>
                             <strong>{{match.club_first.title}}</strong> - <strong>{{match.club_second.title}}</strong>
                         </td>
-                        <td class="align-middle text-xs-center">
+                        <td class="align-middle text-center">
                             <input type="number"
                                    class="form-control predict-input"
                                    min="0"
@@ -39,7 +39,7 @@
                                    [disabled]="updatedMatches['match_' + match.id]"
                                    [(ngModel)]="match.home">
                         </td>
-                        <td class="align-middle text-xs-center">
+                        <td class="align-middle text-center">
                             <input type="number"
                                    class="form-control predict-input"
                                    min="0"
@@ -47,7 +47,7 @@
                                    [disabled]="updatedMatches['match_' + match.id]"
                                    [(ngModel)]="match.away">
                         </td>
-                        <td class="align-middle text-xs-center">
+                        <td class="align-middle text-center">
                             <button (click)="onSubmit(match.id, match.home, match.away)"
                                     [hidden]="spinnerButton['match_' + match.id] || updatedMatches['match_' + match.id]"
                                     class="btn btn-outline-success">Додати</button>

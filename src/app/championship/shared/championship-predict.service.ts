@@ -4,6 +4,7 @@ import { Observable }                       from 'rxjs/Observable';
 
 import { API_URL }                          from '../../shared/app.settings';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
+import { ChampionshipPredict }              from './championship-predict.model';
 
 @Injectable()
 
@@ -29,6 +30,19 @@ export class ChampionshipPredictService {
     }
 
     /**
+     * Get user predicts by id
+     *
+     * @param id
+     * @returns {Promise<ErrorObservable<T>|T>|Promise<R>|any|Promise<ErrorObservable<T>>}
+     */
+    user(id: number): Observable<ChampionshipPredict[]> {
+        let url = API_URL + 'championship/users/' + id;
+        return this.http.get(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Transforms to json
      *
      * @param res
@@ -38,6 +52,7 @@ export class ChampionshipPredictService {
         if (res && res.status !== 204) {
             let body = res.json();
             if (body.championship_matches) body = body.championship_matches;
+            if (body.championship_predicts) body = body.championship_predicts;
             return body || {};
         }
 

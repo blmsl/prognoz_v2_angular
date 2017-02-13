@@ -37,6 +37,8 @@
         </div>
     </div>
 </div>
+<!-- no content -->
+<app-info *ngIf="match && !match.championship_predicts.length" [message]="'Поки що ніхто не зробив прогнози на цей матч'"></app-info>
 <!-- user predicts table -->
 <table *ngIf="match && match.championship_predicts.length" class="table table-striped table-bordered table-hover table-sm black-shadow">
     <thead class="thead-inverse">
@@ -58,11 +60,3 @@
         </tr>
     </tbody>
 </table>
-<!-- message if no predicts -->
-<div *ngIf="match && !match.championship_predicts.length" class="row">
-    <div class="col-12">
-        <div class="alert alert-info" role="alert">
-            Ще ніхто не зробив прогнози на цей матч.
-        </div>
-    </div>
-</div>

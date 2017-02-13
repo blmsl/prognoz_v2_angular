@@ -36,5 +36,7 @@ export class ChampionshipRatingComponent implements OnInit {
         return hometown ? '(' + hometown + ')' : '';
     }
 
-    makeUnsigned(moving: number) {}
+    makeUnsigned(moving: number) {
+        return Math.abs(moving);
+    }
 }
