@@ -57,6 +57,19 @@ export class ManageChampionshipMatchService {
     }
 
     /**
+     * Get ended matches of current championship
+     *
+     * @returns {any|Promise<ErrorObservable<T>>|Promise<R>|Promise<ErrorObservable<T>|T>}
+     */
+    getEnded(): Observable<ChampionshipMatch[]> {
+        let url = this.championshipMatchUrl + '/ended';
+        return this.http
+            .get(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Add match result
      *
      * @param scores
@@ -66,6 +79,20 @@ export class ManageChampionshipMatchService {
         const url = `${this.championshipMatchUrl}/${'results'}/${scores.id}`;
         return this.headersWithToken
             .put(url, scores)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
+     * Update ended match
+     *
+     * @param match
+     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
+     */
+    updateMatch(match): Observable<ChampionshipMatch> {
+        const url = `${this.championshipMatchUrl}/${'ended'}/${match.id}`;
+        return this.headersWithToken
+            .put(url, match)
             .map(this.extractData)
             .catch(this.handleError);
     }

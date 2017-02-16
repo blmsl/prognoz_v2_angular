@@ -1,40 +1,44 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Добавити результат:</h2>
+            <h2>Змінити результат:</h2>
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="spinnerActiveMatches" [height]="250"></app-spinner>
+    <app-spinner *ngIf="spinnerEndedMatches || spinnerClubs" [height]="250"></app-spinner>
     <!-- matches -->
-    <div *ngIf="activeMatches" class="row">
+    <div *ngIf="endedMatches && clubs" class="row">
         <div class="col-12">
-            <table class="table table-hover table-inverse table-striped table-bordered">
-                <thead>
+            <table class="table table-hover table-striped table-bordered">
+                <thead class="thead-inverse">
                     <tr>
                         <th class="text-center">№</th>
-                        <th class="text-center">Матч</th>
+                        <th colspan="2" class="text-center">Матч</th>
                         <th colspan="2" class="text-center">Результати</th>
-                        <th class="text-center">Додати</th>
+                        <th class="text-center">Змінити</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let match of activeMatches" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
+                    <tr *ngFor="let match of endedMatches" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
                         <td class="align-middle text-center">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
-                                <strong class="fa-stack-1x text-success">{{match.number_in_competition}}</strong>
+                                <strong class="fa-stack-1x text-danger">{{match.number_in_competition}}</strong>
                             </span>
                         </td>
                         <td>
-                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.link}}">
-                            <small class="text-muted">{{match.starts_at}}</small>
-                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.link}}"><br>
-                            <strong>{{match.club_first.title}}</strong> - <strong>{{match.club_second.title}}</strong>
+                            <select class="form-control" [(ngModel)]="match.t1_id" [disabled]="updatedMatches['match_' + match.id]">
+                                <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="match.t2_id" [disabled]="updatedMatches['match_' + match.id]">
+                                <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
+                            </select>
                         </td>
                         <td class="align-middle text-center">
                             <input type="number"
-                                   class="form-control predict-input"
+                                   class="form-control"
                                    min="0"
                                    max="9"
                                    [disabled]="updatedMatches['match_' + match.id]"
@@ -42,16 +46,16 @@
                         </td>
                         <td class="align-middle text-center">
                             <input type="number"
-                                   class="form-control predict-input"
+                                   class="form-control"
                                    min="0"
                                    max="9"
                                    [disabled]="updatedMatches['match_' + match.id]"
                                    [(ngModel)]="match.away">
                         </td>
                         <td class="align-middle text-center">
-                            <button (click)="onSubmit(match.id, match.home, match.away)"
+                            <button (click)="onSubmit(match.id, match.t1_id, match.t2_id, match.home, match.away)"
                                     [hidden]="spinnerButton['match_' + match.id] || updatedMatches['match_' + match.id]"
-                                    class="btn btn-outline-success">Додати</button>
+                                    class="btn btn-danger">Змінити</button>
                             <app-spinner-button [hidden]="!spinnerButton['match_' + match.id]"></app-spinner-button>
                             <i [hidden]="!updatedMatches['match_' + match.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>
                         </td>
@@ -60,6 +64,7 @@
             </table>
         </div>
     </div>
+    <!-- update rating button -->
     <div *ngIf="isUpdatedMatches" class="row">
         <div class="col-12 text-center">
             <button class="btn btn-lg btn-outline-primary" (click)="updateRating()">Оновити рейтинг</button>

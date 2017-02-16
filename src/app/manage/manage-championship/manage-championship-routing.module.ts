@@ -6,6 +6,7 @@ import { ManageChampionshipGuard }          from './shared/manage-championship-g
 import { MatchCreateComponent }             from './match-create/match-create.component';
 import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
 import { MatchEditComponent }               from './match-edit/match-edit.component';
+import { MatchEditEndedComponent }          from './match-edit-ended/match-edit-ended.component';
 
 const routes: Routes = [
     {
@@ -20,8 +21,8 @@ const routes: Routes = [
                     { path: 'matches/create', component: MatchCreateComponent },
                     { path: 'matches/edit', component: MatchEditComponent },
                     { path: 'matches/edit/active', component: MatchEditActiveComponent },
+                    { path: 'matches/edit/ended', component: MatchEditEndedComponent },
                     { path: '', component: MatchCreateComponent }
-                    //{ path: 'matches/ended/edit', component: MatchActiveEditComponent },
                 ]
             }
         ]

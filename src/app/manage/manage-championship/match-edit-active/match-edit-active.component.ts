@@ -38,23 +38,11 @@ export class MatchEditActiveComponent implements OnInit {
             t2_id: ['', [Validators.required]],
             starts_at: ['', [Validators.required]]
         });
-
         this.getActive();
-
-        this.spinnerClubs = true;
-        this.manageClubService.getClubs().subscribe(
-            response => {
-                this.clubs = response;
-                this.spinnerClubs = false;
-            },
-            error => {
-                this.errorClubs = error;
-                this.spinnerClubs = false;
-            }
-        );
+        this.getClubs();
     }
 
-    getActive() {
+    private getActive() {
         this.spinnerActiveMatches = true;
         this.manageChampionshipMatchService.getActive().subscribe(
             response => {
@@ -64,6 +52,20 @@ export class MatchEditActiveComponent implements OnInit {
             error => {
                 this.errorActiveMatches = error;
                 this.spinnerActiveMatches = false;
+            }
+        );
+    }
+
+    private getClubs() {
+        this.spinnerClubs = true;
+        this.manageClubService.getClubs().subscribe(
+            response => {
+                this.clubs = response;
+                this.spinnerClubs = false;
+            },
+            error => {
+                this.errorClubs = error;
+                this.spinnerClubs = false;
             }
         );
     }
