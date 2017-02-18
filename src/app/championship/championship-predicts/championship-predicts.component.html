@@ -7,7 +7,7 @@
 <form *ngIf="matches && authenticatedUser" novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
     <div class="container-fluid">
         <!-- one match row -->
-        <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow">
+        <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
             <!-- home club logo -->
             <div class="hidden-md-down col-md-2">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
@@ -63,7 +63,7 @@
 <!-- match list (if user is not authenticated ) -->
 <div *ngIf="matches && !authenticatedUser" class="container-fluid">
     <!-- one match row -->
-    <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow">
+    <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
         <!-- home club logo -->
         <div class="hidden-sm-down col-md-2">
             <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
@@ -90,6 +90,19 @@
         <!-- away club logo -->
         <div class="hidden-sm-down col-md-2">
             <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
+        </div>
+    </div>
+    <!-- login and registration links -->
+    <div *ngIf="matches.length" class="row mb-2">
+        <div class="col-12 text-center">
+            <div class="btn-group" role="group" aria-label="Signin and signup links">
+                <button routerLink="/signin" type="button" class="btn btn-outline-primary">
+                    <i class="fa fa fa-sign-in" aria-hidden="true"></i> Вхід
+                </button>
+                <button routerLink="/signup" type="button" class="btn btn-outline-primary">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
+                </button>
+            </div>
         </div>
     </div>
 </div>

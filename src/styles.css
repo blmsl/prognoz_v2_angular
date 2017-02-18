@@ -15,16 +15,17 @@ body {
     background-color: #333;
     border-color: #333;
 }
-.margin-top-10 {
-    margin-top: 10px;
-}
-
 .bg-white {
     background-color: white;
 }
 .black-shadow {
-    border: 2px solid #333;
     box-shadow: 0 0 5px #333;
+}
+.black-border {
+    border: 2px solid #333;
+}
+.blue-shadow {
+    box-shadow: 0 0 5px #0275D8;
 }
 .link-table-row {
     cursor: pointer;

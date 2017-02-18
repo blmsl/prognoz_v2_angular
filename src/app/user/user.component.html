@@ -9,7 +9,7 @@
     <!-- first full-width row -->
     <div class="row">
         <div class="col">
-            <div class="card mb-sm-2">
+            <div class="card mb-sm-2 black-shadow">
                 <div class="card-block">
                     <h4 class="card-title">{{authenticatedUser.name}}</h4>
                     <h6 class="card-subtitle text-muted">{{authenticatedUser.created_at}}</h6>
@@ -22,7 +22,7 @@
         <div class="row align-items-center">
             <!-- left column (avatar) -->
             <div class="col-12 col-md-5 col-xl-4">
-                <div class="card">
+                <div class="card black-shadow">
                     <!-- if user doesnt have avatar -->
                     <div *ngIf="!userEditForm.value.image" class="text-center">
                         <img class="img-fluid" src="{{userImagesUrl}}{{authenticatedUser.image || userImageDefault}}" alt="{{authenticatedUser.name}}">
@@ -56,7 +56,7 @@
             </div>
             <!-- right column(name, city, club) -->
             <div class="col-12 col-md-7 col-xl-8">
-                <div class="card">
+                <div class="card black-shadow">
                     <div class="card-block">
                         <input type="hidden" formControlName="id">
                         <!-- user name input -->

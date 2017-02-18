@@ -7,7 +7,7 @@
 <app-info *ngIf="predicts && !predicts.length" [message]="'Гравець не зробив жодного прогнозу в цьому чемпіонаті'"></app-info>
 <!-- predicts -->
 <table *ngIf="predicts && predicts.length"
-       class="table table-striped table-bordered table-hover table-sm black-shadow">
+       class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
     <thead class="thead-inverse">
     <tr>
         <th class="text-center" title="Номер матчу в чемпіонаті">#</th>

@@ -5,7 +5,6 @@ export class ChampionshipRating {
     points: number | null;
     x3: number | null;
     x2: number | null;
-    draws: string;
     dc: number | null;
     position: number | null;
     moving: number | null;

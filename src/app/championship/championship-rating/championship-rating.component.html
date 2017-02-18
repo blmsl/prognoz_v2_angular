@@ -6,16 +6,15 @@
 <!-- no content -->
 <app-info *ngIf="rating && !rating.length" [message]="'Чемпіонат ще не почався'"></app-info>
 <!-- rating table -->
-<table *ngIf="rating && rating.length" class="table table-striped table-bordered table-hover table-sm black-shadow">
+<table *ngIf="rating && rating.length" class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
     <thead class="thead-inverse">
         <tr>
-            <th class="text-center">#</th>
-            <th></th>
-            <th class="text-left">Ім'я</th>
-            <th class="text-center text-muted hidden-md-down">Нічиї</th>
-            <th class="text-center hidden-xs-down">x2</th>
-            <th class="text-center">x3</th>
-            <th class="text-center">
+            <th class="text-center" title="Позиція">#</th>
+            <th title="Переміщення в рейтингу"></th>
+            <th class="text-left" title="Ім'я гравця">Ім'я</th>
+            <th class="text-center hidden-xs-down" title="2 очки">x2</th>
+            <th class="text-center" title="3 очки">x3</th>
+            <th class="text-center" title="Очки">
                 <span class="hidden-sm-up">О</span>
                 <span class="hidden-xs-down">Очки</span>
             </th>
@@ -42,7 +41,6 @@
                 <strong>{{ratingItem.user.name}}</strong>
                 <span class="hidden-xs-down">{{getHometown(ratingItem.user.hometown)}}</span>
             </td>
-            <td class="text-center text-muted hidden-md-down">{{ratingItem.draws}}</td>
             <td class="text-center hidden-xs-down">{{ratingItem.x2}}</td>
             <td class="text-center">{{ratingItem.x3}}</td>
             <td class="text-center"><strong>{{ratingItem.points}}</strong></td>

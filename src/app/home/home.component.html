@@ -12,8 +12,8 @@
     <div *ngIf="news && news.length" class="row">
         <div class="col">
             <div class="card-deck">
-                <div *ngFor="let one of news | slice:0:3" class="card">
-                    <img class="card-img-top img-fluid" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
+                <div *ngFor="let one of news | slice:0:3" class="card black-shadow">
+                    <img class="card-img-top img-fluid p-2" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
                     <div class="card-block">
                         <h4 class="card-title">{{one.title}}</h4>
                         <p class="card-text">{{one.body | slice:0:75}}...</p>

@@ -13,7 +13,7 @@
         <!-- news -->
         <div class="row">
             <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
-                <div class="card mb-sm-2">
+                <div class="card mb-sm-2 black-shadow">
                     <h4 class="card-header">{{news.title}}</h4>
                     <img class="card-img-top img-fluid p-sm-2" src="{{newsImagesUrl}}{{news.image}}" alt="{{news.title}}">
                     <div class="card-block">
@@ -29,7 +29,7 @@
         <!-- comments -->
         <div *ngIf="news.comments && news.comments.length" class="row">
             <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
-                <div *ngFor="let comment of news.comments" class="card mb-sm-2">
+                <div *ngFor="let comment of news.comments" class="card mb-sm-2 black-shadow">
                     <div class="card-block">
                         <div class="h4 card-title">
                             <img class="rounded small-image" src="{{userImagesUrl}}{{comment.user.image || userImageDefault}}" alt="{{comment.user.name}}">

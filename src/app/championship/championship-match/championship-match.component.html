@@ -5,7 +5,7 @@
 <app-error *ngIf="error" [message]="error"></app-error>
 <!-- match info -->
 <div *ngIf="match" class="container-fluid">
-    <div class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow">
+    <div class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
         <!-- home club logo -->
         <div class="hidden-sm-down col-md-2">
             <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}"
@@ -40,7 +40,7 @@
 <!-- no content -->
 <app-info *ngIf="match && !match.championship_predicts.length" [message]="'Поки що ніхто не зробив прогнози на цей матч'"></app-info>
 <!-- user predicts table -->
-<table *ngIf="match && match.championship_predicts.length" class="table table-striped table-bordered table-hover table-sm black-shadow">
+<table *ngIf="match && match.championship_predicts.length" class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
     <thead class="thead-inverse">
         <tr>
             <th class="text-center">#</th>
