@@ -45,24 +45,14 @@ export class ManageChampionshipMatchService {
     }
 
     /**
-     * Get all active matches
+     * Universal method for current championship matches get request
+     * Available params: 'active', 'ended', 'last', 'predictable'
      *
-     * @returns {any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|Promise<R>}
+     * @param param
+     * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|any|Promise<R>}
      */
-    getActive(): Observable<ChampionshipMatch[]> {
-        return this.http
-            .get(this.championshipMatchUrl + '/active')
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
-     * Get ended matches of current championship
-     *
-     * @returns {any|Promise<ErrorObservable<T>>|Promise<R>|Promise<ErrorObservable<T>|T>}
-     */
-    getEnded(): Observable<ChampionshipMatch[]> {
-        let url = this.championshipMatchUrl + '/ended';
+    getCurrentCompetitionMatches(param = null): Observable<ChampionshipMatch[]> {
+        let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
         return this.http
             .get(url)
             .map(this.extractData)

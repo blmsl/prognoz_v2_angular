@@ -21,7 +21,7 @@ export class ChampionshipResultsComponent implements OnInit {
   
     ngOnInit() {
         this.spinner = true;
-        this.championshipMatchService.getEnded().subscribe(
+        this.championshipMatchService.getCurrentCompetitionMatches('ended').subscribe(
             response => {
                 this.spinner = false;
                 this.matches = response;
@@ -32,5 +32,4 @@ export class ChampionshipResultsComponent implements OnInit {
             }
         );
     }
-
 }

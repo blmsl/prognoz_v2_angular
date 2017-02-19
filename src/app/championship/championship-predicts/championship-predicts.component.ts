@@ -32,7 +32,7 @@ export class ChampionshipPredictsComponent implements OnInit {
 
     ngOnInit() {
         this.spinner = true;
-        this.championshipMatchService.getPredictable(this.authenticatedUser).subscribe(
+        this.championshipMatchService.getCurrentCompetitionMatches('predictable').subscribe(
             response => {
                 this.updateForm(response);
                 this.spinner = false;

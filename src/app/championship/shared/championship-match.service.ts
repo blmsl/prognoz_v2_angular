@@ -37,33 +37,6 @@ export class ChampionshipMatchService {
     }
 
     /**
-     * Get all predictable matches
-     *
-     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
-     */
-    getPredictable(user: any = null): Observable<ChampionshipMatch[]> {
-        let url = this.championshipMatchUrl + '/predictable';
-        if (user) url = url + '/' + user.id;
-        return this.http
-            .get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
-     * Get ended matches of current championship
-     *
-     * @returns {any|Promise<ErrorObservable<T>>|Promise<R>|Promise<ErrorObservable<T>|T>}
-     */
-    getEnded(): Observable<ChampionshipMatch[]> {
-        let url = this.championshipMatchUrl + '/ended';
-        return this.http
-            .get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
      * Universal method for current championship matches get request
      * Available params: 'active', 'ended', 'last', 'predictable'
      *
@@ -72,10 +45,17 @@ export class ChampionshipMatchService {
      */
     getCurrentCompetitionMatches(param = null): Observable<ChampionshipMatch[]> {
         let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
-        return this.http
-            .get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
+        if (param === 'predictable' && this.userService.sharedUser) {
+            return this.headersWithToken
+                .get(API_URL + 'championship/predicts?filter=' + param)
+                .map(this.extractData)
+                .catch(this.handleError);
+        } else {
+            return this.http
+                .get(url)
+                .map(this.extractData)
+                .catch(this.handleError);
+        }
     }
 
     /**

@@ -45,7 +45,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
   
     private getEnded() {
         this.spinnerEndedMatches = true;
-        this.manageChampionshipMatchService.getEnded().subscribe(
+        this.manageChampionshipMatchService.getCurrentCompetitionMatches('ended').subscribe(
             response => {
               this.endedMatches = response;
               this.spinnerEndedMatches = false;

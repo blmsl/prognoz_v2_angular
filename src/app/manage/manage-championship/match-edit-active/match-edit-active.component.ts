@@ -44,7 +44,7 @@ export class MatchEditActiveComponent implements OnInit {
 
     private getActive() {
         this.spinnerActiveMatches = true;
-        this.manageChampionshipMatchService.getActive().subscribe(
+        this.manageChampionshipMatchService.getCurrentCompetitionMatches('active').subscribe(
             response => {
                 this.activeMatches = response;
                 this.spinnerActiveMatches = false;
