@@ -18,9 +18,10 @@ export class ChampionshipRatingService {
      *
      * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|Promise<R>|any}
      */
-    get(): Observable<ChampionshipRating[]> {
+    get(param = null): Observable<ChampionshipRating[]> {
+        let url = param ? (this.championshipPredictUrl + '?filter=' + param) : this.championshipPredictUrl;
         return this.http
-            .get(this.championshipPredictUrl)
+            .get(url)
             .map(this.extractData)
             .catch(this.handleError);
     }

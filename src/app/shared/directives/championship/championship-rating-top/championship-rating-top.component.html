@@ -1,3 +1,39 @@
-<p>
-  championship-rating-top works!
-</p>
+<!-- spinner -->
+<app-spinner *ngIf="spinner" [height]="700"></app-spinner>
+<!-- error -->
+<app-error *ngIf="error" [message]="error"></app-error>
+<!-- rating leader -->
+<div *ngIf="rating && rating.length" class="card black-shadow mt-2 mb-2">
+    <h4 class="card-header text-xs-center">Лідер рейтингу</h4>
+    <div class="card-block text-center cursor-pointer" routerLink="/championship/users/{{rating[0].user_id}}">
+        <img class="card-img-top img-fluid rounded"
+             src="{{ userImagesUrl }}{{ rating[0].user.image || userImageDefault }}"
+             alt="{{ rating[0].user.name }}">
+    </div>
+    <div class="card-block pt-0 cursor-pointer" routerLink="/championship/users/{{rating[0].user_id}}">
+        <p class="card-text text-center">
+            <strong>{{ rating[0].user.name }}</strong> {{getHometown(rating[0].user.hometown)}}
+        </p>
+    </div>
+</div>
+<!-- rating card -->
+<div *ngIf="rating && rating.length" class="card black-shadow mt-2 mb-2">
+    <h4 class="card-header text-xs-center">Топ-{{rating.length}} рейтингу</h4>
+    <table class="table table-hover mb-0">
+        <tbody>
+            <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user_id}}" class="cursor-pointer">
+                <th scope="row" class="text-center">{{ratingItem.position}}.</th>
+                <td class="text-left">
+                    {{ratingItem.user.name}}
+                </td>
+                <td class="text-center">
+                    <strong>{{ratingItem.points}}</strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="card-footer text-muted">
+        <button (click)="topRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer"><i
+                class="fa fa-refresh fa-fw" aria-hidden="true"></i></button>
+    </div>
+</div>

@@ -27,7 +27,7 @@ body {
 .blue-shadow {
     box-shadow: 0 0 5px #0275D8;
 }
-.cursor-pointer {
+.cursor-pointer, .btn {
     cursor: pointer;
 }
 
