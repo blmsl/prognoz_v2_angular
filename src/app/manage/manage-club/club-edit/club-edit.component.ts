@@ -2,6 +2,7 @@ import { Component, OnInit }                    from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
+import { Location }                             from '@angular/common';
 
 import { Club }                                 from '../shared/club.model';
 import { ManageClubService }                    from '../shared/manage-club.service';
@@ -20,6 +21,7 @@ export class ClubEditComponent implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private formBuilder: FormBuilder,
+        private location: Location,
         private notificationService: NotificationsService,
         private manageClubService: ManageClubService,
         private imageService: ImageService
@@ -83,7 +85,7 @@ export class ClubEditComponent implements OnInit {
         if (this.clubEditForm.value.parent_id === 'country') this.clubEditForm.value.parent_id = null;
         this.manageClubService.update(this.clubEditForm.value).subscribe(
             response => {
-                this.router.navigate(['/manage/clubs']);
+                this.location.back();
                 this.notificationService.success('Успішно', 'Дані команди змінено!');
                 this.spinner = false;
             },

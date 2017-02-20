@@ -15,8 +15,8 @@
             <!-- club names, starts_at, inputs -->
             <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded">
                 <div class="row">
-                    <div class="col-12 text-center text-muted">
-                        {{ match.starts_at }}
+                    <div class="col-12 text-center text-white">
+                        {{ match.starts_at.slice(0, -3) }}
                     </div>
                 </div>
                 <div class="row align-items-center">
@@ -71,8 +71,8 @@
         <!-- club names, starts_at -->
         <div class="col-12 col-md-8 bg-inverse rounded">
             <div class="row">
-                <div class="col-12 text-center text-muted">
-                    {{ match.starts_at }}
+                <div class="col-12 text-center text-white">
+                    {{ match.starts_at.slice(0, -3) }}
                 </div>
             </div>
             <div class="row align-items-center mb-2">

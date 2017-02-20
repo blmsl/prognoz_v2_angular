@@ -27,7 +27,7 @@ body {
 .blue-shadow {
     box-shadow: 0 0 5px #0275D8;
 }
-.link-table-row {
+.cursor-pointer {
     cursor: pointer;
 }
 

@@ -18,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let predict of predicts" routerLink="/championship/matches/{{predict.match_id}}" class="link-table-row">
+    <tr *ngFor="let predict of predicts" routerLink="/championship/matches/{{predict.match_id}}" class="cursor-pointer">
         <th scope="row" class="text-center">{{predict.match.number_in_competition}}.</th>
         <td class="text-left">{{predict.match.club_first.title}} - {{predict.match.club_second.title}}</td>
         <td class="text-center hidden-sm-down">{{predict.updated_at}}</td>

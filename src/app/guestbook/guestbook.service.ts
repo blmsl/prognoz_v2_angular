@@ -14,7 +14,7 @@ export class GuestbookService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private guestbookUrl = API_URL + 'guestbookmessage';
+    private guestbookUrl = API_URL + 'guestbookmessages';
 
     /**
      * Get all guestbook messages of one page

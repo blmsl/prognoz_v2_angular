@@ -199,7 +199,7 @@ export class UserService {
      */
     getLastUser() {
         return this.http
-            .get(API_URL + "user/last")
+            .get(API_URL + "users?last=true")
             .map(response => response.json())
             .catch(this.handleError);
     }
