@@ -54,17 +54,17 @@
             <div *ngIf="guestbookMessages" class="row">
                 <div class="col">
                     <div *ngFor="let message of guestbookMessages" class="card mb-sm-2 black-shadow">
+                        <div class="card-header">
+                            <img class="rounded small-image"
+                                 src="{{userImagesUrl}}{{message.user.image || userImageDefault}}"
+                                 alt="{{message.user.name}}">
+                            <strong class="align-middle">{{message.user.name}}</strong> <small *ngIf="message.user.hometown" class="text-muted">({{message.user.hometown}})</small>
+                        </div>
                         <div class="card-block">
-                            <div class="h4 card-title">
-                                <img class="rounded small-image"
-                                     src="{{userImagesUrl}}{{message.user.image || userImageDefault}}"
-                                     alt="{{message.user.name}}">
-                                {{message.user.name}} <small *ngIf="message.user.hometown" class="text-muted">({{message.user.hometown}})</small>
-                            </div>
                             <p class="card-text">{{message.body}}</p>
-                            <p class="card-text">
-                                <small class="text-muted">{{message.created_at}}</small>
-                            </p>
+                        </div>
+                        <div class="card-footer pt-1 pb-1">
+                            <small class="text-muted">{{message.created_at}}</small>
                         </div>
                     </div>
                 </div>
