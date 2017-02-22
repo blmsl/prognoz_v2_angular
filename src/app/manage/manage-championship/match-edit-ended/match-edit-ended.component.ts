@@ -77,13 +77,12 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
             return;
         }
         this.spinnerButton['match_' + id] = true;
-        this.manageChampionshipMatchService.updateMatch({
-            id: id,
-            t1_id: t1_id,
-            t2_id: t2_id,
-            home: home,
-            away: away
-        }).subscribe(
+        let championshipMatch = new ChampionshipMatch;
+        championshipMatch.t1_id = t1_id;
+        championshipMatch.t2_id = t2_id;
+        championshipMatch.home = home;
+        championshipMatch.away = away;
+        this.manageChampionshipMatchService.update(championshipMatch, id).subscribe(
             response => {
                 this.spinnerButton['match_' + id] = false;
                 this.updatedMatches['match_' + id] = response;

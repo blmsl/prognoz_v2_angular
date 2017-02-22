@@ -31,12 +31,12 @@ export class ManageChampionshipMatchService {
     }
 
     /**
-     * Update active match (no result)
+     * Update championship match
      *
      * @param championshipMatch
-     * @returns {any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|Promise<R>}
+     * @param id
      */
-    editActive(championshipMatch: ChampionshipMatch, id: number): Observable<ChampionshipMatch> {
+    update(championshipMatch: ChampionshipMatch, id: number): Observable<ChampionshipMatch> {
         const url = `${this.championshipMatchUrl}/${id}`;
         return this.headersWithToken
             .put(url, championshipMatch)
@@ -55,34 +55,6 @@ export class ManageChampionshipMatchService {
         let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
         return this.http
             .get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
-     * Add match result
-     *
-     * @param scores
-     * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|any|Promise<R>}
-     */
-    addResult(scores): Observable<ChampionshipMatch> {
-        const url = `${this.championshipMatchUrl}/${'results'}/${scores.id}`;
-        return this.headersWithToken
-            .put(url, scores)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
-     * Update ended match
-     *
-     * @param match
-     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
-     */
-    updateMatch(match): Observable<ChampionshipMatch> {
-        const url = `${this.championshipMatchUrl}/${'ended'}/${match.id}`;
-        return this.headersWithToken
-            .put(url, match)
             .map(this.extractData)
             .catch(this.handleError);
     }

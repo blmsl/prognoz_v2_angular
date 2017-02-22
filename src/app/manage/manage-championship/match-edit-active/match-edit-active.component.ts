@@ -73,7 +73,7 @@ export class MatchEditActiveComponent implements OnInit {
     onSubmit() {
         if (this.selectedMatch.id) {
             this.spinnerButton = true;
-            this.manageChampionshipMatchService.editActive(this.championshipMatchEditActiveForm.value, this.selectedMatch.id).subscribe(
+            this.manageChampionshipMatchService.update(this.championshipMatchEditActiveForm.value, this.selectedMatch.id).subscribe(
                 response => {
                     this.spinnerButton = false;
                     this.selectedMatch = response;
