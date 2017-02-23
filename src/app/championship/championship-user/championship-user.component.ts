@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { ChampionshipPredictService }     from '../shared/championship-predict.service';
 import { ChampionshipPredict }            from '../shared/championship-predict.model';
+import { HelperService }                  from '../../shared/helper.service';
 
 @Component({
   selector: 'app-championship-user',
@@ -14,7 +15,8 @@ export class ChampionshipUserComponent implements OnInit {
     constructor(
         private championshipPredictService: ChampionshipPredictService,
         private activatedRoute: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        public helperService: HelperService
     ) { }
 
     spinner: boolean = false;

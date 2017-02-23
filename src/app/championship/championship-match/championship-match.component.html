@@ -47,6 +47,7 @@
             <th class="text-center" title="Ім'я гравця, який зробив прогноз">Ім'я</th>
             <th class="text-center hidden-xs-down" title="Час зробленого прогнозу">Час</th>
             <th class="text-center">Прогноз</th>
+            <th class="text-center" title="Очки">О</th>
         </tr>
     </thead>
     <tbody>
@@ -56,6 +57,11 @@
             <td class="text-center hidden-xs-down">{{predict.updated_at}}</td>
             <td class="text-center">
                 {{showScore(predict.home, predict.away, '?')}}
+            </td>
+            <td class="text-center">
+                <strong>
+                    {{ helperService.isScore(match.home, match.away) ? helperService.getUserPointsOnMatch(match.home, match.away, predict.home, predict.away) : '-' }}
+                </strong>
             </td>
         </tr>
     </tbody>

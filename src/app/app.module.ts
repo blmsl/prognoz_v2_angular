@@ -23,6 +23,7 @@ import { PageNotFoundComponent }      from './page-not-found/page-not-found.comp
 import { HeadersWithToken }           from './shared/headers-with-token.service';
 import { UserService }                from './shared/user.service';
 import { ImageService }               from './shared/image.service';
+import { HelperService }              from './shared/helper.service';
 
 @NgModule({
     declarations: [
@@ -50,7 +51,8 @@ import { ImageService }               from './shared/image.service';
     providers: [
         HeadersWithToken,
         UserService,
-        ImageService
+        ImageService,
+        HelperService
     ],
     bootstrap: [
         AppComponent

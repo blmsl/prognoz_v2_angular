@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { API_IMAGE_CLUBS }                from '../../shared/app.settings';
 import { ChampionshipMatchService }       from '../shared/championship-match.service';
 import { ChampionshipMatch }              from '../shared/championship-match.model';
+import { HelperService }                  from '../../shared/helper.service';
 
 @Component({
   selector: 'app-championship-match',
@@ -15,7 +16,8 @@ export class ChampionshipMatchComponent implements OnInit {
     constructor(
         private championshipMatchService: ChampionshipMatchService,
         private activatedRoute: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        public helperService: HelperService
     ) {}
 
     spinner: boolean = false;
