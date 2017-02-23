@@ -21,9 +21,7 @@ import { HeaderComponent }            from './header/header.component';
 import { PageNotFoundComponent }      from './page-not-found/page-not-found.component';
 
 import { HeadersWithToken }           from './shared/headers-with-token.service';
-import { LoggedInGuard }              from './shared/logged-in-guard.service';
 import { UserService }                from './shared/user.service';
-import { CommentService }             from './shared/comment.service';
 import { ImageService }               from './shared/image.service';
 
 @NgModule({
@@ -51,9 +49,7 @@ import { ImageService }               from './shared/image.service';
     ],
     providers: [
         HeadersWithToken,
-        LoggedInGuard,
         UserService,
-        CommentService,
         ImageService
     ],
     bootstrap: [

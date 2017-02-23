@@ -7,7 +7,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 import { News }                                 from '../shared/news.model';
 import { NewsService }                          from '../shared/news.service';
 import { UserService }                          from '../../shared/user.service';
-import { CommentService }                       from '../../shared/comment.service';
+import { CommentService }                       from '../shared/comment.service';
 import { API_IMAGE_NEWS }                       from '../../shared/app.settings';
 import { API_IMAGE_USERS, IMAGE_USER_DEFAULT }  from '../../shared/app.settings';
 

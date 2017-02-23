@@ -2,8 +2,8 @@ import { Injectable }       from '@angular/core';
 import { Response }         from '@angular/http';
 import { Observable }       from 'rxjs/Observable';
 
-import { API_URL }          from './app.settings';
-import { HeadersWithToken } from './headers-with-token.service';
+import { API_URL }          from '../../shared/app.settings';
+import { HeadersWithToken } from '../../shared/headers-with-token.service';
 
 @Injectable()
 
