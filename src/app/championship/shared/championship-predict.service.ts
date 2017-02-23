@@ -23,6 +23,7 @@ export class ChampionshipPredictService {
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
      */
     update(value): Observable<any> {
+        console.log(value);
         return this.headersWithToken
             .put(this.championshipPredictUrl, value)
             .map(this.extractData)

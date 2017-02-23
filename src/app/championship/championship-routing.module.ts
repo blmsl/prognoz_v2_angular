@@ -8,6 +8,7 @@ import { ChampionshipResultsComponent }  from './championship-results/championsh
 import { ChampionshipRulesComponent }    from './championship-rules/championship-rules.component';
 import { ChampionshipUserComponent }     from './championship-user/championship-user.component';
 import { ChampionshipMatchComponent }    from './championship-match/championship-match.component';
+import { ChampionshipHomeComponent }     from './championship-home/championship-home.component';
 
 const routes: Routes = [
     {
@@ -40,7 +41,7 @@ const routes: Routes = [
             },
             {
                 path: '',
-                component: ChampionshipPredictsComponent
+                component: ChampionshipHomeComponent
             }
         ]
     }

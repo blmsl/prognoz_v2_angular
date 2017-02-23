@@ -45,7 +45,7 @@ export class ChampionshipMatchService {
      */
     getCurrentCompetitionMatches(param = null): Observable<ChampionshipMatch[]> {
         let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
-        if (param === 'predictable' && this.userService.sharedUser) {
+        if ((param === 'predictable' || param === 'today') && this.userService.sharedUser) {
             return this.headersWithToken
                 .get(API_URL + 'championship/predicts?filter=' + param)
                 .map(this.extractData)
