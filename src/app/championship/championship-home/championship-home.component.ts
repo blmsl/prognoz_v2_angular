@@ -81,7 +81,7 @@ export class ChampionshipHomeComponent implements OnInit {
         this.championshipPredictService.update(predicts)
             .subscribe(
                 response => {
-                  //this.updateForm(response);
+                    // this.updateForm(response);
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
                     this.getMatches();

@@ -81,15 +81,27 @@ export class ChampionshipPredictsComponent implements OnInit {
         this.championshipPredictService.update(predicts)
             .subscribe(
                 response => {
-                    this.updateForm(response);
+                    // this.updateForm(response);
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
+                    this.getMatches();
                 },
                 error => {
                     this.spinnerButton = false;
                     this.notificationService.error('Помилка', error);
                 }
             );
+    }
+
+    private getMatches() {
+        this.championshipMatchService.getCurrentCompetitionMatches('predictable').subscribe(
+            response => {
+                this.updateForm(response);
+            },
+            error => {
+                this.error = error;
+            }
+        );
     }
 
     private updateForm(matches: ChampionshipMatch[]) {
