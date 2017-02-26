@@ -1,11 +1,36 @@
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-8 col-lg-9">
+            <!-- navigation for mobile devices-->
+            <div class="hidden-md-up card mt-2 mb-2 blue-shadow">
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action"
+                       routerLink="/championship/rules"
+                       routerLinkActive="active">
+                        Правила
+                    </a>
+                    <a class="list-group-item list-group-item-action"
+                       routerLink="/championship/predicts"
+                       routerLinkActive="active">
+                        Прогнози
+                    </a>
+                    <a class="list-group-item list-group-item-action"
+                       routerLink="/championship/rating"
+                       routerLinkActive="active">
+                        Рейтинг
+                    </a>
+                    <a class="list-group-item list-group-item-action"
+                       routerLink="/championship/results"
+                       routerLinkActive="active">
+                        Результати
+                    </a>
+                </ul>
+            </div>
             <router-outlet></router-outlet>
         </div>
         <div class="col-12 col-md-4 col-lg-3">
             <!-- navigation -->
-            <div class="card mt-2 blue-shadow">
+            <div class="hidden-sm-down card mt-2 blue-shadow">
                 <ul class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action"
                        routerLink="/championship/rules"

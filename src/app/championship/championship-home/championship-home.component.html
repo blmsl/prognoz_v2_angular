@@ -1,11 +1,20 @@
 <!-- TODAY MATCHES -->
-<h2 *ngIf="matches && matches.length">Прогнози на сьогодні: </h2>
+<h2 *ngIf="matches">Найближчі матчі: </h2>
+<!-- tomorrow and today navigation -->
+<ul *ngIf="matches" class="nav nav-tabs mb-2" role="tablist">
+    <li *ngIf="matchesToday" class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home" role="tab" (click)="getMatches('today')">Сьогодні</a>
+    </li>
+    <li *ngIf="matchesTomorrow" class="nav-item">
+        <a class="nav-link" [ngClass]="{ active: (matchesTomorrow && !matchesToday) }" data-toggle="tab" href="#profile" role="tab" (click)="getMatches('tomorrow')">Завтра</a>
+    </li>
+</ul>
 <!-- spinner -->
 <app-spinner *ngIf="spinnerMatches" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="error" [message]="error"></app-error>
 <!-- matches form (if user is authenticated) -->
-<form *ngIf="matches && authenticatedUser" novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit()">
+<form *ngIf="matches && !spinnerMatches && authenticatedUser && !error" novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit('today')">
     <div class="container-fluid">
         <!-- one match row -->
         <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
@@ -31,12 +40,12 @@
                                max="9"
                                class="predict-input"
                                formControlName="{{match.id + '_home'}}"><strong>:</strong><!--
-                        --><input id="{{match.id + '_away'}}"
-                                  type="number"
-                                  min="0"
-                                  max="9"
-                                  class="predict-input"
-                                  formControlName="{{match.id + '_away'}}">
+                --><input id="{{match.id + '_away'}}"
+                          type="number"
+                          min="0"
+                          max="9"
+                          class="predict-input"
+                          formControlName="{{match.id + '_away'}}">
                     </div>
                     <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
                         <strong><label for="{{match.id + '_away'}}">{{ match.club_second.title }}</label></strong>
@@ -48,8 +57,8 @@
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
             </div>
         </div>
-         <!--button row (only if predictable matches exists)-->
-        <div *ngIf="matches.length" class="row">
+        <!--button row (only if predictable matches exists)-->
+        <div *ngIf="matches.length && !error" class="row">
             <div class="col-12 text-center">
                 <!-- add/update predicts button -->
                 <button [hidden]="spinnerButton" class="btn btn-primary">
@@ -62,7 +71,7 @@
     </div>
 </form>
 <!-- match list (if user is not authenticated ) -->
-<div *ngIf="matches && !authenticatedUser" class="container-fluid">
+<div *ngIf="matches && !spinnerMatches && !authenticatedUser && !error" class="container-fluid">
     <!-- one match row -->
     <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
         <!-- home club logo -->
@@ -94,7 +103,7 @@
         </div>
     </div>
     <!-- login and registration links -->
-    <div *ngIf="matches.length" class="row mb-2">
+    <div *ngIf="matches.length && !error" class="row mb-2">
         <div class="col-12 text-center">
             <div class="btn-group" role="group" aria-label="Signin and signup links">
                 <button routerLink="/signin" type="button" class="btn btn-primary">
@@ -107,6 +116,108 @@
         </div>
     </div>
 </div>
-<!-- LAST PREDICTIONS -->
-<!-- LAST CHAMPIONSHIP NEWS -->
 <!-- RATING TOP -->
+<h2 *ngIf="rating && rating.length" class="mt-2">Топ-{{rating.length}} рейтингу:
+    <button (click)="getTopRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+    </button>
+</h2>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerRating" [height]="700"></app-spinner>
+<!-- error -->
+<app-error *ngIf="errorRating" [message]="error"></app-error>
+<!-- rating table -->
+<table *ngIf="rating && rating.length" class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
+    <thead class="thead-inverse">
+    <tr>
+        <th class="text-center" title="Позиція">#</th>
+        <th title="Переміщення в рейтингу"></th>
+        <th class="text-left" title="Ім'я гравця">Ім'я</th>
+        <th class="text-center hidden-xs-down" title="2 очки">x2</th>
+        <th class="text-center" title="3 очки">x3</th>
+        <th class="text-center" title="Очки">
+            <span class="hidden-sm-up">О</span>
+            <span class="hidden-xs-down">Очки</span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user.id}}" class="cursor-pointer">
+        <th scope="row" class="text-center">{{ratingItem.position}}.</th>
+        <!-- no moving -->
+        <td *ngIf="!ratingItem.moving" class="text-center">
+            <img src="../../../img/stay.png" class="img-fluid" alt="stay">
+        </td>
+        <!-- up moving -->
+        <td *ngIf="ratingItem.moving > 0" class="text-center">
+            <img src="../../../img/up.png" class="img-fluid" alt="up">
+            <strong class="text-success">{{ratingItem.moving}}</strong>
+        </td>
+        <!-- down moving -->
+        <td *ngIf="ratingItem.moving < 0" class="text-center">
+            <img src="../../../img/down.png" class="img-fluid" alt="down">
+            <strong class="text-danger">{{helperService.makeUnsigned(ratingItem.moving)}}</strong>
+        </td>
+        <td class="text-left">
+            <strong>{{ratingItem.user.name}}</strong>
+            <span class="hidden-xs-down">{{helperService.getHometown(ratingItem.user.hometown)}}</span>
+        </td>
+        <td class="text-center hidden-xs-down">{{ratingItem.x2}}</td>
+        <td class="text-center">{{ratingItem.x3}}</td>
+        <td class="text-center"><strong>{{ratingItem.points}}</strong></td>
+    </tr>
+    </tbody>
+</table>
+<!-- LAST PREDICTIONS -->
+<h2 *ngIf="predictions" class="mt-2">Останні прогнози:
+    <button (click)="getLastPredictions()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+    </button>
+</h2>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerPredictions" [height]="250"></app-spinner>
+<!-- predictions -->
+<div *ngIf="predictions && !spinnerPredictions" class="row">
+    <div class="col-12">
+        <div class="card black-shadow">
+            <ul class="list-group list-group-flush">
+                <a *ngFor="let prediction of predictions"
+                   routerLink="/championship/users/{{prediction.user.id}}"
+                   class="list-group-item list-group-item-action">
+                    <div class="col-6">
+                        <img class="rounded-circle small-image mr-2 hidden-xs-down"
+                             src="{{userImagesUrl}}{{prediction.user.image || userImageDefault}}"
+                             alt="{{prediction.user.name}}">
+                        <strong>{{prediction.user.name}}</strong> <span class="text-muted hidden-md-down">{{helperService.getHometown(prediction.user.hometown)}}</span>
+                    </div>
+                    <div class="col-6 text-right">
+                        <span>{{prediction.diffForHumans}}</span>
+                    </div>
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- LAST CHAMPIONSHIP NEWS -->
+<h2 *ngIf="news && news.length" class="mt-2">Новини чемпіонату:</h2>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerNews" [height]="250"></app-spinner>
+<!-- error -->
+<app-error *ngIf="errorNews" [message]="error"></app-error>
+<!-- last 3 news -->
+<div *ngIf="news && news.length" class="row">
+    <div class="col">
+        <div class="card-deck">
+            <div *ngFor="let one of news | slice:0:3" class="card black-shadow">
+                <img class="card-img-top img-fluid p-2" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
+                <div class="card-block">
+                    <h4 class="card-title">{{one.title}}</h4>
+                    <a routerLink="/news/{{one.id}}" class="btn btn-outline-primary">Читати далі</a>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text"><small class="text-muted">{{one.created_at}}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

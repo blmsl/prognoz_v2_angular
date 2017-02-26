@@ -12,7 +12,7 @@
     </div>
     <div class="card-block pt-0 cursor-pointer" routerLink="/championship/users/{{rating[0].user_id}}">
         <p class="card-text text-center">
-            <strong>{{ rating[0].user.name }}</strong> {{getHometown(rating[0].user.hometown)}}
+            <strong>{{ rating[0].user.name }}</strong> {{helperService.getHometown(rating[0].user.hometown)}}
         </p>
     </div>
 </div>
@@ -24,6 +24,9 @@
             <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user_id}}" class="cursor-pointer">
                 <th scope="row" class="text-center">{{ratingItem.position}}.</th>
                 <td class="text-left">
+                    <img class="rounded-circle small-image mr-1"
+                         src="{{userImagesUrl}}{{ratingItem.user.image || userImageDefault}}"
+                         alt="{{ratingItem.user.name}}">
                     {{ratingItem.user.name}}
                 </td>
                 <td class="text-center">

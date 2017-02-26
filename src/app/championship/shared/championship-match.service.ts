@@ -45,12 +45,27 @@ export class ChampionshipMatchService {
      */
     getCurrentCompetitionMatches(param = null): Observable<ChampionshipMatch[]> {
         let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
-        if ((param === 'predictable' || param === 'today') && this.userService.sharedUser) {
+        if (param === 'predictable' && this.userService.sharedUser) {
             return this.headersWithToken
                 .get(API_URL + 'championship/predicts?filter=' + param)
                 .map(this.extractData)
                 .catch(this.handleError);
+        }
+        return this.http
+            .get(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+    
+    getPredictableMatchesByDate(date: string): Observable<ChampionshipMatch[]> {
+        if (this.userService.sharedUser) {
+            let url = API_URL + 'championship/predicts?filter=predictable&date=' + date;
+            return this.headersWithToken
+                .get(url)
+                .map(this.extractData)
+                .catch(this.handleError);
         } else {
+            let url = API_URL + 'championship/matches?filter=predictable&date=' + date;
             return this.http
                 .get(url)
                 .map(this.extractData)

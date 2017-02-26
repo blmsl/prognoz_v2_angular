@@ -31,14 +31,14 @@
                    id="password"
                    placeholder="Пароль">
         </div>
-        <!-- sign in button -->
-        <button [hidden]="spinner" [disabled]="headerSigninForm.invalid" type="submit" class="btn btn-primary">
-            <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
-        </button>
-        <!-- sign in spinner -->
-        <app-spinner-button [hidden]="!spinner"></app-spinner-button>
         <!-- sign up and recovery buttons -->
         <div class="btn-group ml-sm-2" role="group" aria-label="header-buttons">
+            <!-- sign in button -->
+            <button [hidden]="spinner" [disabled]="headerSigninForm.invalid" type="submit" class="btn btn-secondary">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
+            </button>
+            <!-- sign in spinner -->
+            <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             <button [disabled]="spinner" routerLink="signup" type="button" class="btn btn-outline-secondary">
                 <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
             </button>
@@ -49,10 +49,10 @@
     </form>
     <!-- sign in, sign up, recovery buttons(small screens) -->
     <div *ngIf="!user" class="form-inline ml-auto hidden-lg-up ml-2">
-        <button routerLink="/signin" class="btn btn-primary">
-            <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
-        </button>
         <div class="btn-group ml-2" role="group" aria-label="header-buttons">
+            <button routerLink="/signin" class="btn btn-secondary">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
+            </button>
             <button routerLink="/signup" class="btn btn-outline-secondary">
                 <i class="fa fa-user-plus" aria-hidden="true"></i> <span class="hidden-xs-down">Реєстрація</span>
             </button>
@@ -64,13 +64,13 @@
     <!-- user profile buttons -->
     <div *ngIf="user" class="form-inline ml-auto">
         <div class="btn-group" role="group" aria-label="user buttons">
-            <button *ngIf="user" routerLink="/user" class="btn btn-outline-secondary ml-2">
+            <button *ngIf="user" routerLink="/user" class="btn btn-outline-secondary">
                 <i class="fa fa-user-circle" aria-hidden="true"></i> {{user.name}}
             </button>
-            <button *ngIf="user.showAdministrationLink" routerLink="/manage" class="btn btn-outline-secondary ml-2">
+            <button *ngIf="user.showAdministrationLink" routerLink="/manage" class="btn btn-outline-secondary">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span class="hidden-xs-down">Керування</span>
             </button>
-            <button (click)="logout()" class="btn btn-outline-secondary ml-2">
+            <button (click)="logout()" class="btn btn-outline-secondary">
                 <i class="fa fa-sign-out" aria-hidden="true"></i> <span class="hidden-xs-down">Вихід</span>
             </button>
         </div>

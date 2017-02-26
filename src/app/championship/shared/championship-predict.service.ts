@@ -23,7 +23,6 @@ export class ChampionshipPredictService {
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
      */
     update(value): Observable<any> {
-        console.log(value);
         return this.headersWithToken
             .put(this.championshipPredictUrl, value)
             .map(this.extractData)
@@ -44,6 +43,18 @@ export class ChampionshipPredictService {
     }
 
     /**
+     * Get last predictions
+     *
+     * @returns {Promise<ErrorObservable<T>>|any|Promise<ErrorObservable<T>|T>|Promise<R>}
+     */
+    get(): Observable<ChampionshipPredict[]> {
+        let url = API_URL + 'championship/predictions';
+        return this.http.get(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Transforms to json
      *
      * @param res
@@ -54,6 +65,7 @@ export class ChampionshipPredictService {
             let body = res.json();
             if (body.championship_matches) body = body.championship_matches;
             if (body.championship_predicts) body = body.championship_predicts;
+            if (body.championship_predictions) body = body.championship_predictions;
             return body || {};
         }
 

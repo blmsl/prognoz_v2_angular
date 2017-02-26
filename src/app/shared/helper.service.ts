@@ -87,4 +87,23 @@ export class HelperService {
         return points;
     }
 
+    /**
+     * return hometown or nothing
+     *
+     * @param hometown
+     * @returns {string}
+     */
+    getHometown(hometown: string | null) {
+        return hometown ? '(' + hometown + ')' : '';
+    }
+
+    /**
+     * returns unsiged number
+     *
+     * @param moving
+     * @returns {number}
+     */
+    makeUnsigned(moving: number) {
+        return Math.abs(moving);
+    }
 }

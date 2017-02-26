@@ -1,6 +1,7 @@
 import { Component, OnInit }         from '@angular/core';
 
 import { ChampionshipRatingService } from '../shared/championship-rating.service';
+import { HelperService }             from '../../shared/helper.service';
 import { ChampionshipRating }        from '../shared/championship-rating.model';
 
 @Component({
@@ -11,7 +12,8 @@ import { ChampionshipRating }        from '../shared/championship-rating.model';
 export class ChampionshipRatingComponent implements OnInit {
 
     constructor(
-        private championshipRatingService: ChampionshipRatingService
+        private championshipRatingService: ChampionshipRatingService,
+        public helperService: HelperService
     ) { }
     
     rating: ChampionshipRating[];
@@ -30,13 +32,5 @@ export class ChampionshipRatingComponent implements OnInit {
                 this.spinner = false;
             }
         );
-    }
-    
-    getHometown(hometown: string | null) {
-        return hometown ? '(' + hometown + ')' : '';
-    }
-
-    makeUnsigned(moving: number) {
-        return Math.abs(moving);
     }
 }

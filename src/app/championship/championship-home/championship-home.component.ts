@@ -4,9 +4,18 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
-import { ChampionshipMatch }                    from '../../manage/manage-championship/shared/championship-match.model';
+import { ChampionshipRatingService }            from '../shared/championship-rating.service';
+import { NewsService }                          from '../../news/shared/news.service';
 import { UserService }                          from '../../shared/user.service';
+import { HelperService }                        from '../../shared/helper.service';
+import { ChampionshipPredict }                  from '../shared/championship-predict.model';
+import { ChampionshipMatch }                    from '../shared/championship-match.model';
+import { ChampionshipRating }                   from '../shared/championship-rating.model';
+import { News }                                 from '../../news/shared/news.model';
 import { API_IMAGE_CLUBS }                      from '../../shared/app.settings';
+import { API_IMAGE_USERS }                      from '../../shared/app.settings';
+import { API_IMAGE_NEWS }                       from '../../shared/app.settings';
+import { IMAGE_USER_DEFAULT }                   from '../../shared/app.settings';
 
 @Component({
   selector: 'app-championship-home',
@@ -19,32 +28,58 @@ export class ChampionshipHomeComponent implements OnInit {
         private notificationService: NotificationsService,
         private userService: UserService,
         private championshipMatchService: ChampionshipMatchService,
-        private championshipPredictService: ChampionshipPredictService
+        private championshipPredictService: ChampionshipPredictService,
+        private championshipRatingService: ChampionshipRatingService,
+        private newsService: NewsService,
+        public helperService: HelperService,
     ) { }
 
     authenticatedUser: any = this.userService.sharedUser;
+    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    userImagesUrl: string = API_IMAGE_USERS;
+    userImageDefault: string = IMAGE_USER_DEFAULT;
+    newsImagesUrl: string = API_IMAGE_NEWS;
+
+    /* predictions form / matches */
     spinnerMatches: boolean = false;
     spinnerButton: boolean = false;
     error: string | Array<string>;
     matches: ChampionshipMatch[];
     championshipPredictsTodayForm: FormGroup;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    matchesToday: boolean = true;
+    matchesTomorrow: boolean = true;
 
+    /* last predictions */
+    spinnerPredictions: boolean = false;
+    errorPredictions: string | Array<string>;
+    predictions: ChampionshipPredict[];
+
+    /* rating */
+    spinnerRating: boolean = false;
+    errorRating: string | Array<string>;
+    rating: ChampionshipRating[];
+
+    /* news */
+    spinnerNews: boolean = false;
+    errorNews: string | Array<string>;
+    news: News[];
+
+    /**
+     * Get matches, get predictions, get rating, get news
+     */
     ngOnInit() {
-        this.spinnerMatches = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('today').subscribe(
-            response => {
-              this.updateForm(response);
-              this.spinnerMatches = false;
-            },
-            error => {
-              this.error = error;
-              this.spinnerMatches = false;
-            }
-        );
+        this.getMatches('today');
+        this.getTopRating();
+        this.getLastPredictions();
+        this.getLastNews();
     }
 
-    onSubmit() {
+    /**
+     * Submit predictions form
+     *
+     * @param date
+     */
+    onSubmit(date: string = 'today') {
         this.spinnerButton = true;
         let predicts = [];
         for (let predict in this.championshipPredictsTodayForm.value) {
@@ -84,7 +119,8 @@ export class ChampionshipHomeComponent implements OnInit {
                     // this.updateForm(response);
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
-                    this.getMatches();
+                    this.getMatches(date);
+                    this.getLastPredictions();
                 },
                 error => {
                     this.spinnerButton = false;
@@ -93,17 +129,37 @@ export class ChampionshipHomeComponent implements OnInit {
             );
     }
 
-    private getMatches() {
-        this.championshipMatchService.getCurrentCompetitionMatches('today').subscribe(
+    /**
+     * Get matches with/without predictions by date
+     *
+     * @param date
+     */
+    public getMatches(date: string = 'today') {
+        this.spinnerMatches = true;
+        this.championshipMatchService.getPredictableMatchesByDate(date).subscribe(
             response => {
-                this.updateForm(response);
+                if ((date === 'today') && !response.length) {
+                    this.matchesToday = false;
+                    this.getMatches('tomorrow');
+                } else if  ((date === 'tomorrow') && !response.length) {
+                    this.matchesTomorrow = false;
+                } else {
+                    this.updateForm(response);
+                }
+                this.spinnerMatches = false;
             },
             error => {
                 this.error = error;
+                this.spinnerMatches = false;
             }
         );
     }
 
+    /**
+     * Create inputs in predictions form
+     *
+     * @param matches
+     */
     private updateForm(matches: ChampionshipMatch[]) {
         this.matches = matches;
         if (this.authenticatedUser) {
@@ -117,4 +173,54 @@ export class ChampionshipHomeComponent implements OnInit {
         }
     }
 
+    /**
+     * Get last predictions
+     */
+    public getLastPredictions() {
+        this.spinnerPredictions = true;
+        this.championshipPredictService.get().subscribe(
+            response => {
+                this.predictions = response;
+                this.spinnerPredictions = false;
+            },
+            error => {
+                this.errorPredictions = error;
+                this.spinnerPredictions = false;
+            }
+        );
+    }
+
+    /**
+     * Get top rating
+     */
+    public getTopRating() {
+        this.spinnerRating = true;
+        this.championshipRatingService.get('top').subscribe(
+            response => {
+                this.rating = response;
+                this.spinnerRating = false;
+            },
+            error => {
+                this.error = error;
+                this.spinnerRating = false;
+            }
+        );
+    }
+
+    /**
+     * Get last news
+     */
+    public getLastNews() {
+        this.spinnerNews = true;
+        this.newsService.getNews().subscribe(
+            response => {
+                this.news = response.data;
+                this.spinnerNews = false;
+            },
+            error => {
+                this.error = error;
+                this.spinnerNews = false;
+            }
+        );
+    }
 }
