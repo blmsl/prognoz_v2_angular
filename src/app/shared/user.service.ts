@@ -195,12 +195,26 @@ export class UserService {
 
     /**
      * get last registered user
+     *
      * @returns {Promise<R>|any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>}
      */
     getLastUser() {
         return this.http
             .get(API_URL + "users?last=true")
             .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * Get user by id
+     *
+     * @param id
+     * @returns {Promise<R>|any|Promise<ErrorObservable<T>>|Promise<ErrorObservable<T>|T>}
+     */
+    getUser(id: number) {
+        return this.http
+            .get(API_URL + 'users/' + id)
+            .map(this.extractData)
             .catch(this.handleError);
     }
 
@@ -236,6 +250,22 @@ export class UserService {
      */
     private removeRolesFromLocalStorage() {
         localStorage.removeItem('roles');
+    }
+
+    /**
+     * Transforms to json
+     *
+     * @param res
+     * @returns {any}
+     */
+    private extractData(res: Response) {
+        if (res && res.status !== 204) {
+            let body = res.json();
+            if (body.user) body = body.user;
+            if (body.users) body = body.users;
+            return body || {};
+        }
+        return {};
     }
 
     /**

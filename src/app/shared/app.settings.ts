@@ -2,11 +2,13 @@
 // export const API_IMAGE_NEWS = 'http://46.101.159.170/img/news/';
 // export const API_IMAGE_CLUBS = 'http://46.101.159.170/img/clubs/';
 // export const API_IMAGE_USERS = 'http://46.101.159.170/img/users/';
+// export const API_IMAGE_AWARDS = 'http://46.101.159.170/img/awards/';
 
 export const API_URL = 'http://prognoz-rest.local/api/';
 export const API_IMAGE_NEWS = 'http://prognoz-rest.local/img/news/';
 export const API_IMAGE_CLUBS = 'http://prognoz-rest.local/img/clubs/';
 export const API_IMAGE_USERS = 'http://prognoz-rest.local/img/users/';
+export const API_IMAGE_AWARDS = 'http://prognoz-rest.local/img/awards/';
 
 export const IMAGE_USER_DEFAULT = 'default.png';
 export const IMAGE_SETTINGS = {

@@ -106,4 +106,20 @@ export class HelperService {
     makeUnsigned(moving: number) {
         return Math.abs(moving);
     }
+
+    /**
+     * show match scores or string from params
+     *
+     * @param home
+     * @param away
+     * @param noScore
+     * @returns {string}
+     */
+    showScore(home, away, noScore: string) {
+        if ((home != null) && (away != null)) {
+            return home + ' : ' + away;
+        }
+
+        return noScore;
+    }
 }
