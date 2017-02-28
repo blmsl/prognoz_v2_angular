@@ -7,6 +7,7 @@ import { CompetitionCreateComponent }       from './competition-create/competiti
 import { ManageCompetitionRoutingModule }   from './manage-competition-routing.module';
 import { ManageCompetitionGuard }           from './shared/manage-competition-guard.service';
 import { CompetitionService }               from './shared/competition.service';
+import { CompetitionTableComponent }        from './competition-table/competition-table.component';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { CompetitionService }               from './shared/competition.service';
     ],
     declarations: [
         ManageCompetitionComponent,
-        CompetitionCreateComponent
+        CompetitionCreateComponent,
+        CompetitionTableComponent
     ],
     providers: [
         ManageCompetitionGuard,

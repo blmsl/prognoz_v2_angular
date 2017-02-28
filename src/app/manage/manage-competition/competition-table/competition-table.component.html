@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Таблиця змагань:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
+    <app-spinner *ngIf="!spinner" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <div *ngIf="competitions">
+        {{competitions | json}}
+    </div>
+</div>

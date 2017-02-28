@@ -1,5 +1,5 @@
 import { Injectable }                       from '@angular/core';
-import { Http, Response }  from '@angular/http';
+import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { API_URL }                          from '../../../shared/app.settings';
@@ -16,6 +16,21 @@ export class CompetitionService {
     ) {}
 
     private competitionUrl = API_URL + 'competitions';
+
+    /**
+     * Get competitions list
+     *
+     * @param page
+     * @returns {Observable<R>}
+     */
+    get(page:string = '1'): Observable<any> {
+        let params = new URLSearchParams();
+        params.set('page', page);
+        return this.http
+            .get(this.competitionUrl, {search: params})
+            .map(this.extractData)
+            .catch(this.handleError)
+    }
 
     /**
      * Create competition

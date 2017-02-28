@@ -3,9 +3,9 @@ import { RouterModule, Routes }       from '@angular/router';
 
 import { ManageCompetitionComponent } from './manage-competition.component';
 import { CompetitionCreateComponent } from './competition-create/competition-create.component';
-// import { ComponentEditComponent }     from './competition-edit/competition-edit.component';
-// import { ComponentTableComponent }    from './competition-table/competition-table.component';
 import { ManageCompetitionGuard }     from './shared/manage-competition-guard.service';
+import { CompetitionTableComponent }  from './competition-table/competition-table.component';
+// import { ComponentEditComponent }  from './competition-edit/competition-edit.component';
 
 const routes: Routes = [
     {
@@ -17,10 +17,10 @@ const routes: Routes = [
                 path: '',
                 canActivateChild: [ ManageCompetitionGuard ],
                 children: [
-                    // { path: 'page/:number', component: ClubTableComponent },
+                    { path: 'page/:number', component: CompetitionTableComponent },
                     { path: 'create', component: CompetitionCreateComponent },
                     // { path: ':id/edit', component: ClubEditComponent },
-                    { path: '', component: CompetitionCreateComponent }
+                    { path: '', component: CompetitionTableComponent }
                 ]
             }
         ]
