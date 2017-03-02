@@ -7,6 +7,7 @@ import { ManageClubModule }         from './manage-club/manage-club.module';
 import { ManageChampionshipModule } from './manage-championship/manage-championship.module';
 import { ManageSeasonModule }       from './manage-season/manage-season.module';
 import { ManageCompetitionModule }  from './manage-competition/manage-competition.module';
+import { ManageTournamentModule }   from './manage-tournament/manage-tournament.module';
 import { ManageGuard }              from './shared/manage-guard.service';
 import { ManageRoutingModule }      from './manage-routing.module';
 
@@ -18,6 +19,7 @@ import { ManageRoutingModule }      from './manage-routing.module';
         ManageChampionshipModule,
         ManageSeasonModule,
         ManageCompetitionModule,
+        ManageTournamentModule,
         ManageRoutingModule
     ],
     declarations: [

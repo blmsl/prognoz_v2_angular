@@ -31,16 +31,16 @@
             <th scope="row" class="text-center">{{ratingItem.position}}.</th>
             <!-- no moving -->
             <td *ngIf="!ratingItem.moving" class="text-center">
-                <img src="../../../img/stay.png" class="img-fluid" alt="stay">
+                <img src="/src/img/stay.png" class="img-fluid" alt="stay">
             </td>
             <!-- up moving -->
             <td *ngIf="ratingItem.moving > 0" class="text-center">
-                <img src="../../../img/up.png" class="img-fluid" alt="up">
+                <img src="/src/img/up.png" class="img-fluid" alt="up">
                 <strong class="text-success">{{ratingItem.moving}}</strong>
             </td>
             <!-- down moving -->
             <td *ngIf="ratingItem.moving < 0" class="text-center">
-                <img src="../../../img/down.png" class="img-fluid" alt="down">
+                <img src="/src/img/down.png" class="img-fluid" alt="down">
                 <strong class="text-danger">{{helperService.makeUnsigned(ratingItem.moving)}}</strong>
             </td>
             <td class="text-left">

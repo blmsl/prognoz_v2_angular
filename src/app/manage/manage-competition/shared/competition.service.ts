@@ -60,21 +60,6 @@ export class CompetitionService {
             .catch(this.handleError);
     }
 
-
-    // /**
-    //  * Get competitions by tournament id
-    //  *
-    //  * @param tournament_id
-    //  * @returns {Promise<R>|any|Promise<ErrorObservable<T>>|Promise<ErrorObservable<T>|T>}
-    //  */
-    // getCompetitions(tournament_id: number): Observable<Competition[]> {
-    //     let url = this.competitionUrl + '/tournament/' + tournament_id;
-    //     return this.headersWithToken
-    //         .get(url)
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
-
     /**
      * Transforms to json
      *
@@ -107,6 +92,8 @@ export class CompetitionService {
                 errorMessage.push(errorObject.message);
             } else {
                 if (errorObject.errors.title) errorMessage.push(errorObject.errors.title);
+                if (errorObject.errors.season_id) errorMessage.push(errorObject.errors.season_id);
+                if (errorObject.errors.tournament_id) errorMessage.push(errorObject.errors.tournament_id);
                 if (errorObject.errors.active) errorMessage.push(errorObject.errors.active);
                 if (errorObject.errors.ended) errorMessage.push(errorObject.errors.ended);
             }

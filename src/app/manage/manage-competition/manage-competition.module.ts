@@ -1,5 +1,6 @@
 import { NgModule }                         from '@angular/core';
 import { CommonModule }                     from '@angular/common';
+import { ReactiveFormsModule }              from '@angular/forms';
 
 import { DirectivesModule }                 from '../../shared/directives/directives.module';
 import { ManageCompetitionComponent }       from './manage-competition.component';
@@ -12,6 +13,7 @@ import { CompetitionTableComponent }        from './competition-table/competitio
 @NgModule({
     imports: [
         CommonModule,
+        ReactiveFormsModule,
         DirectivesModule,
         ManageCompetitionRoutingModule
     ],
