@@ -1,6 +1,7 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
+import { Location }                             from '@angular/common';
 
 import { CompetitionService }                   from '../shared/competition.service';
 import { ManageSeasonService }                  from '../../manage-season/shared/manage-season.service';
@@ -19,6 +20,7 @@ export class CompetitionCreateComponent implements OnInit {
         private notificationService: NotificationsService,
         private manageSeasonService: ManageSeasonService,
         private competitionService: CompetitionService,
+        private location: Location,
         private manageTournamentService: ManageTournamentService
     ) { }
 
@@ -67,6 +69,7 @@ export class CompetitionCreateComponent implements OnInit {
             response => {
                 this.notificationService.success('Успішно', 'Змагання створено');
                 this.spinnerButton = false;
+                this.location.back();
             },
             errors => {
                 for (let error of errors) {

@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Редагувати змагання: </h2>
+        </div>
+    </div>
+    <!-- spinner -->
+    <app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <!-- competition edit form -->
+    <div *ngIf="seasons && tournaments && competition" class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
+            <form novalidate [formGroup]="competitionEditForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
+                <!-- title -->
+                <div class="form-group"
+                     [class.has-danger]="competitionEditForm.get('title').invalid && competitionEditForm.get('title').touched">
+                    <label class="form-control-label" for="title"><strong>Назва:</strong></label>
+                    <input type="text"
+                           id="title"
+                           placeholder="Введіть назву змагання"
+                           class="form-control"
+                           [class.form-control-danger]="competitionEditForm.get('title').invalid && competitionEditForm.get('title').touched"
+                           formControlName="title">
+                    <div *ngIf="competitionEditForm.get('title').hasError('required') && competitionEditForm.get('title').touched" class="form-control-feedback">
+                        <small>Назва змагання обов'язкова</small>
+                    </div>
+                    <div *ngIf="competitionEditForm.get('title').hasError('minlength') && competitionEditForm.get('title').touched" class="form-control-feedback">
+                        <small>Назва повинна бути більшою ніж 10 символів</small>
+                    </div>
+                    <div *ngIf="competitionEditForm.get('title').hasError('maxlength') && competitionEditForm.get('title').touched" class="form-control-feedback">
+                        <small>Назва перевищує 50 символів</small>
+                    </div>
+                </div>
+                <!-- season id -->
+                <div class="form-group">
+                    <label class="form-control-label" for="season_id"><strong>Сезон:</strong></label>
+                    <select id="season_id"
+                            class="form-control"
+                            formControlName="season_id"
+                            [class.form-control-danger]="competitionEditForm.get('season_id').hasError('required') && competitionEditForm.get('season_id').touched">
+                        <option *ngFor="let season of seasons" [value]="season.id" [disabled]="season.ended == true">{{season.title}}</option>
+                    </select>
+                </div>
+                <!-- tournament id -->
+                <div class="form-group">
+                    <label class="form-control-label" for="tournament_id"><strong>Турнір:</strong></label>
+                    <select id="tournament_id"
+                            class="form-control"
+                            formControlName="tournament_id"
+                            [class.form-control-danger]="competitionEditForm.get('tournament_id').hasError('required') && competitionEditForm.get('season_id').touched">
+                        <option *ngFor="let tournament of tournaments" [value]="tournament.id">{{tournament.title}}</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <!-- active -->
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       formControlName="active">
+                                <strong>Активний</strong>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <!-- ended -->
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       formControlName="ended">
+                                <strong>Завершений</strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <!-- submit -->
+                    <button [hidden]="spinnerButton" [disabled]="competitionEditForm.invalid" type="submit" class="btn btn-primary">Змінити</button>
+                    <!-- spinner button -->
+                    <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

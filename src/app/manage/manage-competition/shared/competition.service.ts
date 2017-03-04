@@ -33,6 +33,19 @@ export class CompetitionService {
     }
 
     /**
+     * Get competition by id
+     *
+     * @param id
+     * @returns {any}
+     */
+    getCompetition(id: number): Observable<Competition> {
+        return this.http
+            .get(this.competitionUrl + "/" + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Create competition
      *
      * @param competition

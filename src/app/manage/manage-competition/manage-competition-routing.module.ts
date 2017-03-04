@@ -5,7 +5,7 @@ import { ManageCompetitionComponent } from './manage-competition.component';
 import { CompetitionCreateComponent } from './competition-create/competition-create.component';
 import { ManageCompetitionGuard }     from './shared/manage-competition-guard.service';
 import { CompetitionTableComponent }  from './competition-table/competition-table.component';
-// import { ComponentEditComponent }  from './competition-edit/competition-edit.component';
+import { CompetitionEditComponent }   from './competition-edit/competition-edit.component';
 
 const routes: Routes = [
     {
@@ -19,7 +19,7 @@ const routes: Routes = [
                 children: [
                     { path: 'page/:number', component: CompetitionTableComponent },
                     { path: 'create', component: CompetitionCreateComponent },
-                    // { path: ':id/edit', component: ClubEditComponent },
+                    { path: ':id/edit', component: CompetitionEditComponent },
                     { path: '', component: CompetitionTableComponent }
                 ]
             }

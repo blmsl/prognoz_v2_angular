@@ -9,6 +9,7 @@ import { ManageCompetitionRoutingModule }   from './manage-competition-routing.m
 import { ManageCompetitionGuard }           from './shared/manage-competition-guard.service';
 import { CompetitionService }               from './shared/competition.service';
 import { CompetitionTableComponent }        from './competition-table/competition-table.component';
+import { CompetitionEditComponent }         from './competition-edit/competition-edit.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { CompetitionTableComponent }        from './competition-table/competitio
     declarations: [
         ManageCompetitionComponent,
         CompetitionCreateComponent,
-        CompetitionTableComponent
+        CompetitionTableComponent,
+        CompetitionEditComponent
     ],
     providers: [
         ManageCompetitionGuard,
