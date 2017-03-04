@@ -5,16 +5,13 @@ import { NotificationsService }                 from 'angular2-notifications';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
-import { NewsService }                          from '../../news/shared/news.service';
 import { UserService }                          from '../../shared/user.service';
 import { HelperService }                        from '../../shared/helper.service';
 import { ChampionshipPredict }                  from '../shared/championship-predict.model';
 import { ChampionshipMatch }                    from '../shared/championship-match.model';
 import { ChampionshipRating }                   from '../shared/championship-rating.model';
-import { News }                                 from '../../news/shared/news.model';
 import { API_IMAGE_CLUBS }                      from '../../shared/app.settings';
 import { API_IMAGE_USERS }                      from '../../shared/app.settings';
-import { API_IMAGE_NEWS }                       from '../../shared/app.settings';
 import { IMAGE_USER_DEFAULT }                   from '../../shared/app.settings';
 
 @Component({
@@ -30,7 +27,6 @@ export class ChampionshipHomeComponent implements OnInit {
         private championshipMatchService: ChampionshipMatchService,
         private championshipPredictService: ChampionshipPredictService,
         private championshipRatingService: ChampionshipRatingService,
-        private newsService: NewsService,
         public helperService: HelperService,
     ) { }
 
@@ -38,7 +34,6 @@ export class ChampionshipHomeComponent implements OnInit {
     clubsImagesUrl: string = API_IMAGE_CLUBS;
     userImagesUrl: string = API_IMAGE_USERS;
     userImageDefault: string = IMAGE_USER_DEFAULT;
-    newsImagesUrl: string = API_IMAGE_NEWS;
 
     /* predictions form / matches */
     spinnerMatches: boolean = false;
@@ -59,11 +54,6 @@ export class ChampionshipHomeComponent implements OnInit {
     errorRating: string | Array<string>;
     rating: ChampionshipRating[];
 
-    /* news */
-    spinnerNews: boolean = false;
-    errorNews: string | Array<string>;
-    news: News[];
-
     /**
      * Get matches, get predictions, get rating, get news
      */
@@ -71,7 +61,6 @@ export class ChampionshipHomeComponent implements OnInit {
         this.getMatches('today');
         this.getTopRating();
         this.getLastPredictions();
-        this.getLastNews();
     }
 
     /**
@@ -203,23 +192,6 @@ export class ChampionshipHomeComponent implements OnInit {
             error => {
                 this.error = error;
                 this.spinnerRating = false;
-            }
-        );
-    }
-
-    /**
-     * Get last news
-     */
-    public getLastNews() {
-        this.spinnerNews = true;
-        this.newsService.getNews().subscribe(
-            response => {
-                this.news = response.data;
-                this.spinnerNews = false;
-            },
-            error => {
-                this.error = error;
-                this.spinnerNews = false;
             }
         );
     }

@@ -117,17 +117,24 @@
     </div>
 </div>
 <!-- RATING TOP -->
-<h2 *ngIf="rating && rating.length" class="mt-2">Топ-{{rating.length}} рейтингу:
-    <button (click)="getTopRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
-        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
-    </button>
-</h2>
+<div *ngIf="rating && rating.length" class="row align-items-end mt-2">
+    <div class="col-12 col-sm-5 col-md-6">
+        <h2>Топ-{{rating.length}} рейтингу:
+            <button (click)="getTopRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+                <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+            </button>
+        </h2>
+    </div>
+    <div class="col-12 col-sm-7 col-md-6 text-right">
+        <small class="text-muted">Рейтинг оновлено {{rating[0].updated_at}}</small>
+    </div>
+</div>
 <!-- spinner -->
-<app-spinner *ngIf="spinnerRating" [height]="700"></app-spinner>
+<app-spinner *ngIf="spinnerRating" [height]="225"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorRating" [message]="error"></app-error>
 <!-- rating table -->
-<table *ngIf="rating && rating.length" class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
+<table *ngIf="rating && rating.length && !spinnerRating" class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
     <thead class="thead-inverse">
     <tr>
         <th class="text-center" title="Позиція">#</th>
@@ -145,18 +152,18 @@
     <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user.id}}" class="cursor-pointer">
         <th scope="row" class="text-center">{{ratingItem.position}}.</th>
         <!-- no moving -->
-        <td *ngIf="!ratingItem.moving" class="text-center">
-            <img src="/src/img/stay.png" class="img-fluid" alt="stay">
+        <td *ngIf="!ratingItem.moving" class="text-center text-muted">
+            <i class="fa fa-circle-thin" aria-hidden="true"></i>
         </td>
         <!-- up moving -->
-        <td *ngIf="ratingItem.moving > 0" class="text-center">
-            <img src="/src/img/up.png" class="img-fluid" alt="up">
-            <strong class="text-success">{{ratingItem.moving}}</strong>
+        <td *ngIf="ratingItem.moving > 0" class="text-center text-success">
+            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+            <strong>{{ratingItem.moving}}</strong>
         </td>
         <!-- down moving -->
-        <td *ngIf="ratingItem.moving < 0" class="text-center">
-            <img src="/src/img/down.png" class="img-fluid" alt="down">
-            <strong class="text-danger">{{helperService.makeUnsigned(ratingItem.moving)}}</strong>
+        <td *ngIf="ratingItem.moving < 0" class="text-center text-danger">
+            <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            <strong>{{helperService.makeUnsigned(ratingItem.moving)}}</strong>
         </td>
         <td class="text-left">
             <strong>{{ratingItem.user.name}}</strong>
@@ -195,29 +202,6 @@
                     </div>
                 </a>
             </ul>
-        </div>
-    </div>
-</div>
-<!-- LAST CHAMPIONSHIP NEWS -->
-<h2 *ngIf="news && news.length" class="mt-2">Новини чемпіонату:</h2>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerNews" [height]="250"></app-spinner>
-<!-- error -->
-<app-error *ngIf="errorNews" [message]="error"></app-error>
-<!-- last 3 news -->
-<div *ngIf="news && news.length" class="row">
-    <div class="col">
-        <div class="card-deck">
-            <div *ngFor="let one of news | slice:0:3" class="card black-shadow">
-                <img class="card-img-top img-fluid p-2" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
-                <div class="card-block">
-                    <h4 class="card-title">{{one.title}}</h4>
-                    <a routerLink="/news/{{one.id}}" class="btn btn-outline-primary">Читати далі</a>
-                </div>
-                <div class="card-footer">
-                    <p class="card-text"><small class="text-muted">{{one.created_at}}</small></p>
-                </div>
-            </div>
         </div>
     </div>
 </div>

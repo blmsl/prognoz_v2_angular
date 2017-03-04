@@ -1,4 +1,11 @@
-<h2>Рейтинг: </h2>
+<div class="row align-items-end">
+    <div class="col-12 col-sm-6 col-md-5">
+        <h2>Рейтинг: </h2>
+    </div>
+    <div *ngIf="rating && rating.length" class="col-12 col-sm-6 col-md-7 text-right">
+        <small class="text-muted">Рейтинг оновлено {{rating[0].updated_at}}</small>
+    </div>
+</div>
 <!-- spinner -->
 <app-spinner *ngIf="spinner" [height]="250"></app-spinner>
 <!-- error -->
@@ -6,9 +13,6 @@
 <!-- no content -->
 <app-info *ngIf="rating && !rating.length" [message]="'Чемпіонат ще не почався'"></app-info>
 <!-- rating table -->
-<div *ngIf="rating && rating.length" class="text-right">
-    <small class="text-muted">Оновлено {{rating[0].updated_at}}</small>
-</div>
 <table *ngIf="rating && rating.length" class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
     <thead class="thead-inverse">
         <tr>
@@ -30,18 +34,18 @@
             [ngClass]="{'table-active': authenticatedUser && (ratingItem.user.id === authenticatedUser.id)}">
             <th scope="row" class="text-center">{{ratingItem.position}}.</th>
             <!-- no moving -->
-            <td *ngIf="!ratingItem.moving" class="text-center">
-                <img src="/src/img/stay.png" class="img-fluid" alt="stay">
+            <td *ngIf="!ratingItem.moving" class="text-center text-muted">
+                <i class="fa fa-circle-thin" aria-hidden="true"></i>
             </td>
             <!-- up moving -->
-            <td *ngIf="ratingItem.moving > 0" class="text-center">
-                <img src="/src/img/up.png" class="img-fluid" alt="up">
-                <strong class="text-success">{{ratingItem.moving}}</strong>
+            <td *ngIf="ratingItem.moving > 0" class="text-center text-success">
+                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                <strong>{{ratingItem.moving}}</strong>
             </td>
             <!-- down moving -->
-            <td *ngIf="ratingItem.moving < 0" class="text-center">
-                <img src="/src/img/down.png" class="img-fluid" alt="down">
-                <strong class="text-danger">{{helperService.makeUnsigned(ratingItem.moving)}}</strong>
+            <td *ngIf="ratingItem.moving < 0" class="text-center text-danger">
+                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                <strong>{{helperService.makeUnsigned(ratingItem.moving)}}</strong>
             </td>
             <td class="text-left">
                 <strong>{{ratingItem.user.name}}</strong>
