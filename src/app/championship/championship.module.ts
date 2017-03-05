@@ -1,6 +1,7 @@
 import { NgModule }                      from '@angular/core';
 import { CommonModule }                  from '@angular/common';
 import { ReactiveFormsModule }           from '@angular/forms';
+import { ChartsModule }                  from 'ng2-charts/ng2-charts';
 
 import { DirectivesModule }              from '../shared/directives/directives.module';
 import { ChampionshipComponent }         from './championship.component';
@@ -22,7 +23,8 @@ import { ChampionshipHomeComponent }     from './championship-home/championship-
         CommonModule,
         ReactiveFormsModule,
         ChampionshipRoutingModule,
-        DirectivesModule
+        DirectivesModule,
+        ChartsModule
     ],
     declarations: [
         ChampionshipComponent, 

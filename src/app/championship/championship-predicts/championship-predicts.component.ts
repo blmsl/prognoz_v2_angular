@@ -30,18 +30,20 @@ export class ChampionshipPredictsComponent implements OnInit {
     championshipPredictsForm: FormGroup;
     clubsImagesUrl: string = API_IMAGE_CLUBS;
 
+    // statistic
+    statistic: any;
+    errorStatistic: string;
+    spinnerStatistic: boolean = false;
+    // result
+    resultChartLabels: string[];
+    resultChartType: string = 'doughnut';
+    resultChartData: number[];
+
+    expandedStatistic: any = {};
+
     ngOnInit() {
         this.spinner = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('predictable').subscribe(
-            response => {
-                this.updateForm(response);
-                this.spinner = false;
-            },
-            error => {
-                this.error = error;
-                this.spinner = false;
-            }
-        );
+        this.getMatches();
     }
 
     onSubmit() {
@@ -81,7 +83,6 @@ export class ChampionshipPredictsComponent implements OnInit {
         this.championshipPredictService.update(predicts)
             .subscribe(
                 response => {
-                    // this.updateForm(response);
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
                     this.getMatches();
@@ -94,12 +95,15 @@ export class ChampionshipPredictsComponent implements OnInit {
     }
 
     private getMatches() {
+        this.spinner = true;
         this.championshipMatchService.getCurrentCompetitionMatches('predictable').subscribe(
             response => {
                 this.updateForm(response);
+                this.spinner = false;
             },
             error => {
                 this.error = error;
+                this.spinner = false;
             }
         );
     }
@@ -115,5 +119,32 @@ export class ChampionshipPredictsComponent implements OnInit {
                 this.championshipPredictsForm.addControl(match.id + '_away', new FormControl(away));
             }
         }
+    }
+
+    getStatistic(match: ChampionshipMatch) {
+        if (!this.expandedStatistic['match_' + match.id]) {
+            this.expandedStatistic['match_' + match.id] = true;
+            this.spinnerStatistic = true;
+            this.championshipMatchService.getStatistic(match.id).subscribe(
+                response => {
+                    this.statistic = response;
+                    this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
+                    this.resultChartData = [response.results.home, response.results.away, response.results.draw];
+                    this.spinnerStatistic = false;
+                },
+                error => {
+                    this.errorStatistic = error;
+                    this.spinnerStatistic = false;
+                }
+            );
+        } else {
+            this.expandedStatistic['match_' + match.id] = false;
+        }
+    }
+
+    onClick(e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
     }
 }

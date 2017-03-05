@@ -37,6 +37,35 @@
         </div>
     </div>
 </div>
+<!-- statistic -->
+<h2 *ngIf="statistic && match && match.championship_predicts.length">
+    Статистика:
+    <button (click)="getStatistic()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+    </button>
+</h2>
+<!-- spinner statistic -->
+<app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
+<!-- error statistic -->
+<app-error *ngIf="errorStatistic" [message]="error"></app-error>
+<div *ngIf="statistic && match && match.championship_predicts.length && !spinnerStatistic" class="container-fluid">
+    <div class="row mt-2 mb-2 black-border bg-white rounded black-shadow">
+        <div class="col-12 offset-md-3 col-md-6 p-2">
+            <canvas baseChart
+                    [data]="resultChartData"
+                    [labels]="resultChartLabels"
+                    [chartType]="resultChartType">
+            </canvas>
+        </div>
+        <!--<div class="col-12 col-md-6 black-border p-2">-->
+            <!--<canvas baseChart-->
+                    <!--[data]="scoresChartData"-->
+                    <!--[labels]="scoresChartLabels"-->
+                    <!--[chartType]="scoresChartType">-->
+            <!--</canvas>-->
+        <!--</div>-->
+    </div>
+</div>
 <!-- no content -->
 <app-info *ngIf="match && !match.championship_predicts.length" [message]="'Поки що ніхто не зробив прогнози на цей матч'"></app-info>
 <!-- user predicts table -->

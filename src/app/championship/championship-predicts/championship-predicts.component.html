@@ -4,10 +4,16 @@
 <!-- error -->
 <app-error *ngIf="error" [message]="error"></app-error>
 <!-- matches form (if user is authenticated) -->
-<form *ngIf="matches && authenticatedUser" novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
+<form *ngIf="matches && authenticatedUser && !spinner" novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
     <div class="container-fluid">
         <!-- one match row -->
-        <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
+        <div *ngFor="let match of matches"
+             class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
+             data-toggle="collapse"
+             [attr.data-target]="'#collapseMatch' + match.id"
+             aria-expanded="true"
+             [attr.aria-controls]="'collapseMatch' + match.id"
+             (click)="getStatistic(match)">
             <!-- home club logo -->
             <div class="hidden-md-down col-md-2">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
@@ -23,7 +29,7 @@
                     <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-right text-sm-center text-white">
                         <strong><label for="{{match.id + '_home'}}">{{ match.club_first.title }}</label></strong>
                     </div>
-                    <div class="col-12 col-sm-4 col-md-6 col-lg-4 flex-last flex-sm-unordered text-center text-white mb-2">
+                    <div class="col-12 col-sm-4 col-md-6 col-lg-4 flex-last flex-sm-unordered text-center text-white mb-2" (click)="onClick($event)">
                         <input id="{{match.id + '_home'}}"
                                type="number"
                                min="0"
@@ -45,6 +51,20 @@
             <!-- away club logo -->
             <div class="hidden-md-down col-md-2">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
+            </div>
+            <div class="collapse col-12" id="{{'collapseMatch' + match.id}}">
+                <!-- spinner statistic -->
+                <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
+                <!-- error statistic -->
+                <app-error *ngIf="errorStatistic" [message]="error"></app-error>
+                <!-- statistic -->
+                <div *ngIf="statistic && match && !spinnerStatistic" class="col-12 offset-md-3 col-md-6 p-2 black-border bg-white rounded black-shadow">
+                    <canvas baseChart
+                            [data]="resultChartData"
+                            [labels]="resultChartLabels"
+                            [chartType]="resultChartType">
+                    </canvas>
+                </div>
             </div>
         </div>
         <!-- button row (only if predictable matches exists) -->

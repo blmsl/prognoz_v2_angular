@@ -12,4 +12,6 @@ export class ChampionshipMatch {
     active: boolean | null;
     ended: boolean | null;
     championship_predicts: Array<any>;
+    club_first: any;
+    club_second: any;
 }

@@ -74,6 +74,19 @@ export class ChampionshipMatchService {
     }
 
     /**
+     * Get match statistic
+     *
+     * @param id
+     * @returns {Promise<ErrorObservable|T>|any|Promise<R>|Promise<ErrorObservable>|Maybe<T>}
+     */
+    getStatistic(id: number): Observable<any> {
+        let url = this.championshipMatchUrl + '/' + id + '?statistic=true';
+        return this.http.get(url)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    /**
      * Transforms to json
      *
      * @param res
