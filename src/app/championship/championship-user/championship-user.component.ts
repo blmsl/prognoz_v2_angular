@@ -5,8 +5,7 @@ import { ChampionshipPredictService }           from '../shared/championship-pre
 import { ChampionshipPredict }                  from '../shared/championship-predict.model';
 import { HelperService }                        from '../../shared/helper.service';
 import { UserService }                          from '../../shared/user.service';
-import { API_IMAGE_USERS, IMAGE_USER_DEFAULT }  from '../../shared/app.settings';
-import { API_IMAGE_AWARDS }                     from '../../shared/app.settings';
+import { environment }                          from '../../../environments/environment';
 
 @Component({
   selector: 'app-championship-user',
@@ -29,9 +28,9 @@ export class ChampionshipUserComponent implements OnInit {
     spinnerUser: boolean = false;
     errorUser: string;
     user: any;
-    userImagesUrl: string = API_IMAGE_USERS;
-    userImageDefault: string = IMAGE_USER_DEFAULT;
-    awardsImagesUrl: string = API_IMAGE_AWARDS;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
+    awardsImagesUrl: string = environment.API_IMAGE_AWARDS;
     
     ngOnInit() {
         this.spinner = true;

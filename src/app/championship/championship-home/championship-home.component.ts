@@ -10,9 +10,7 @@ import { HelperService }                        from '../../shared/helper.servic
 import { ChampionshipPredict }                  from '../shared/championship-predict.model';
 import { ChampionshipMatch }                    from '../shared/championship-match.model';
 import { ChampionshipRating }                   from '../shared/championship-rating.model';
-import { API_IMAGE_CLUBS }                      from '../../shared/app.settings';
-import { API_IMAGE_USERS }                      from '../../shared/app.settings';
-import { IMAGE_USER_DEFAULT }                   from '../../shared/app.settings';
+import { environment }                          from '../../../environments/environment';
 
 @Component({
   selector: 'app-championship-home',
@@ -31,9 +29,9 @@ export class ChampionshipHomeComponent implements OnInit {
     ) { }
 
     authenticatedUser: any = this.userService.sharedUser;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
-    userImagesUrl: string = API_IMAGE_USERS;
-    userImageDefault: string = IMAGE_USER_DEFAULT;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
 
     /* predictions form / matches */
     spinnerMatches: boolean = false;

@@ -5,9 +5,8 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { News }                                 from '../shared/news.model';
 import { ManageNewsService }                    from '../shared/manage-news.service';
-import { API_IMAGE_NEWS }                       from '../../../shared/app.settings';
-import { ImageService }                         from '../../../shared/image.service';
-import { IMAGE_SETTINGS }                       from '../../../shared/app.settings';
+import { ImageService }                         from '../../../shared/image.service';;
+import { environment }                          from '../../../../environments/environment';
 
 @Component({
   selector: 'app-news-edit',
@@ -38,7 +37,7 @@ export class NewsEditComponent implements OnInit {
     news: News;
     error: string | Array<string>;
     newsEditForm: FormGroup;
-    newsImagesUrl = API_IMAGE_NEWS;
+    newsImagesUrl = environment.API_IMAGE_NEWS;
     errorImage: string;
     spinner: boolean = false;
   
@@ -69,7 +68,7 @@ export class NewsEditComponent implements OnInit {
     }
 
     fileChange(event) {
-        this.imageService.fileChange(event, IMAGE_SETTINGS.NEWS);
+        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.NEWS);
     }
 
     onSubmit() {

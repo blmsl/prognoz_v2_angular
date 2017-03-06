@@ -1,6 +1,6 @@
 import { Component, OnInit }        from '@angular/core';
 
-import { API_IMAGE_CLUBS }          from '../../shared/app.settings';
+import { environment }              from '../../../environments/environment';
 import { ChampionshipMatchService } from '../shared/championship-match.service';
 import { ChampionshipMatch }        from '../shared/championship-match.model';
 
@@ -17,7 +17,7 @@ export class ChampionshipResultsComponent implements OnInit {
     spinner: boolean = false;
     matches: ChampionshipMatch[];
     error: string;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
   
     ngOnInit() {
         this.spinner = true;

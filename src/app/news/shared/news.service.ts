@@ -2,8 +2,8 @@ import { Injectable }                        from '@angular/core';
 import { Http, Response, URLSearchParams }   from '@angular/http';
 import { Observable }                        from 'rxjs/Observable';
 
-import { API_URL }                           from '../../shared/app.settings';
 import { News }                              from './news.model';
+import { environment }                       from '../../../environments/environment';
 
 @Injectable()
 export class NewsService {
@@ -12,7 +12,7 @@ export class NewsService {
         private http: Http
     ) {}
     
-    private newsUrl = API_URL + 'news';
+    private newsUrl = environment.API_URL + 'news';
 
     /**
      * Get all paginated news 

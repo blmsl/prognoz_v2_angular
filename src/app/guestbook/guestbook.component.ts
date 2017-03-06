@@ -5,7 +5,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { GuestbookService }                     from './guestbook.service';
 import { UserService }                          from '../shared/user.service';
-import { API_IMAGE_USERS, IMAGE_USER_DEFAULT }  from '../shared/app.settings';
+import { environment }                          from '../../environments/environment';
 
 @Component({
     selector: 'app-guestbook',
@@ -27,8 +27,8 @@ export class GuestbookComponent implements OnInit {
     error: string | Array<string>;
     spinnerButton: boolean = false;
     spinnerMessages: boolean = false;
-    userImagesUrl: string = API_IMAGE_USERS;
-    userImageDefault: string = IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
 
     path: string = '/guestbook/page/';
     currentPage: number;

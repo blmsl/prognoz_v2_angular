@@ -5,7 +5,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { ManageNewsService }                    from '../shared/manage-news.service';
 import { ImageService }                         from '../../../shared/image.service';
-import { IMAGE_SETTINGS }                       from '../../../shared/app.settings';
+import { environment }                          from '../../../../environments/environment';
 
 @Component({
   selector: 'app-news-create',
@@ -62,6 +62,6 @@ export class NewsCreateComponent implements OnInit {
     }
 
     fileChange(event) {
-        this.imageService.fileChange(event, IMAGE_SETTINGS.NEWS);
+        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.NEWS);
     }
 }

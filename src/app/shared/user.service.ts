@@ -2,8 +2,8 @@ import { Injectable }               from '@angular/core';
 import { Http, Headers, Response }  from '@angular/http';
 import { Observable }               from 'rxjs/Observable';
 
-import { API_URL }                  from './app.settings';
 import { HeadersWithToken }         from './headers-with-token.service';
+import { environment }              from '../../environments/environment';
 
 @Injectable()
 export class UserService {
@@ -53,7 +53,7 @@ export class UserService {
     login(name, password): Observable<any> {
         let headers = new Headers();
         headers.append('Content-type', 'application/json');
-        return this.http.post(API_URL + 'auth/signin', JSON.stringify({name, password}), {headers})
+        return this.http.post(environment.API_URL + 'auth/signin', JSON.stringify({name, password}), {headers})
             .map(res => res.json())
             .map((res) => {
                 if (res.token) {
@@ -76,7 +76,7 @@ export class UserService {
     registration(user): Observable<any> {
         let headers = new Headers();
         headers.append('Content-type', 'application/json');
-        return this.http.post(API_URL + 'auth/signup', JSON.stringify(user), {headers})
+        return this.http.post(environment.API_URL + 'auth/signup', JSON.stringify(user), {headers})
             .map(result => result.json())
             .map((result) => {
                 if (result.token) {
@@ -97,7 +97,7 @@ export class UserService {
     recovery(email): Observable<any> {
         let headers = new Headers();
         headers.append('Content-type', 'application/json');
-        return this.http.post(API_URL + 'auth/recovery', JSON.stringify({email: email}), {headers})
+        return this.http.post(environment.API_URL + 'auth/recovery', JSON.stringify({email: email}), {headers})
             .map(response => response)
             .catch(this.handleError);
     }
@@ -111,7 +111,7 @@ export class UserService {
     reset(resetForm): Observable<any> {
         let headers = new Headers();
         headers.append('Content-type', 'application/json');
-        return this.http.post(API_URL + 'auth/reset', JSON.stringify(resetForm), {headers})
+        return this.http.post(environment.API_URL + 'auth/reset', JSON.stringify(resetForm), {headers})
             .map(response => response)
             .catch(this.handleError);
     }
@@ -123,7 +123,7 @@ export class UserService {
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
      */
     update(value): Observable<any> {
-        return this.headersWithToken.put(API_URL + 'user/' + value.id, value)
+        return this.headersWithToken.put(environment.API_URL + 'user/' + value.id, value)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -168,7 +168,7 @@ export class UserService {
      * @returns {any|Promise<ErrorObservable<T>|T>|Promise<R>|Promise<ErrorObservable<T>>}
      */
     logoutRequest() {
-        return this.headersWithToken.post(API_URL + 'auth/logout', {})
+        return this.headersWithToken.post(environment.API_URL + 'auth/logout', {})
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -188,7 +188,7 @@ export class UserService {
      * @returns {Observable<R>}
      */
     private refreshUserData() {
-        return this.headersWithToken.get(API_URL + 'auth/refresh')
+        return this.headersWithToken.get(environment.API_URL + 'auth/refresh')
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -200,7 +200,7 @@ export class UserService {
      */
     getLastUser() {
         return this.http
-            .get(API_URL + "users?last=true")
+            .get(environment.API_URL + "users?last=true")
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -213,7 +213,7 @@ export class UserService {
      */
     getUser(id: number) {
         return this.http
-            .get(API_URL + 'users/' + id)
+            .get(environment.API_URL + 'users/' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }

@@ -7,7 +7,7 @@ import { ChampionshipMatch }                    from '../shared/championship-mat
 import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../manage-club/shared/club.model';
-import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
+import { environment }                          from '../../../../environments/environment';
 
 @Component({
   selector: 'app-match-create',
@@ -27,7 +27,7 @@ export class MatchCreateComponent implements OnInit {
     championshipMatchCreateForm: FormGroup;
     addedMatches: Array<ChampionshipMatch> = [];
     error: string | Array<string>;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
     clubs: Array<Club> = [];
     lastEnteredDate: string;
     spinner: boolean = false;

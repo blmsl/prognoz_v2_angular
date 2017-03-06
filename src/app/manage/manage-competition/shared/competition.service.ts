@@ -2,9 +2,9 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { API_URL }                          from '../../../shared/app.settings';
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
 import { Competition }                      from './competition.model';
+import { environment }                      from '../../../../environments/environment';
 
 @Injectable()
 
@@ -15,7 +15,7 @@ export class CompetitionService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private competitionUrl = API_URL + 'competitions';
+    private competitionUrl = environment.API_URL + 'competitions';
 
     /**
      * Get competitions list

@@ -6,7 +6,7 @@ import { ChampionshipMatch }                    from '../shared/championship-mat
 import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../manage-club/shared/club.model';
-import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
+import { environment }                          from '../../../../environments/environment';
 
 @Component({
     selector: 'app-match-edit-active',
@@ -30,7 +30,7 @@ export class MatchEditActiveComponent implements OnInit {
     spinnerClubs: boolean = false;
     spinnerButton: boolean = false;
     selectedMatch: ChampionshipMatch;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
     ngOnInit() {
         this.championshipMatchEditActiveForm = this.formBuilder.group({

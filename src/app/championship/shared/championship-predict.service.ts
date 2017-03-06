@@ -2,9 +2,9 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response }                   from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { API_URL }                          from '../../shared/app.settings';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { ChampionshipPredict }              from './championship-predict.model';
+import { environment }                      from '../../../environments/environment';
 
 @Injectable()
 
@@ -15,7 +15,7 @@ export class ChampionshipPredictService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private championshipPredictUrl = API_URL + 'championship/predicts';
+    private championshipPredictUrl = environment.API_URL + 'championship/predicts';
 
     /**
      * Update predicts
@@ -36,7 +36,7 @@ export class ChampionshipPredictService {
      * @returns {Promise<ErrorObservable<T>|T>|Promise<R>|any|Promise<ErrorObservable<T>>}
      */
     user(id: number): Observable<ChampionshipPredict[]> {
-        let url = API_URL + 'championship/users/' + id;
+        let url = environment.API_URL + 'championship/users/' + id;
         return this.http.get(url)
             .map(this.extractData)
             .catch(this.handleError);
@@ -48,7 +48,7 @@ export class ChampionshipPredictService {
      * @returns {Promise<ErrorObservable<T>>|any|Promise<ErrorObservable<T>|T>|Promise<R>}
      */
     get(): Observable<ChampionshipPredict[]> {
-        let url = API_URL + 'championship/predictions';
+        let url = environment.API_URL + 'championship/predictions';
         return this.http.get(url)
             .map(this.extractData)
             .catch(this.handleError);

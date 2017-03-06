@@ -4,8 +4,7 @@ import { ChampionshipRatingService } from '../../../../championship/shared/champ
 import { HelperService }             from '../../../../shared/helper.service';
 
 import { ChampionshipRating }        from '../../../../championship/shared/championship-rating.model';
-import { API_IMAGE_USERS }           from '../../../app.settings';
-import { IMAGE_USER_DEFAULT }        from '../../../app.settings';
+import { environment }               from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-championship-rating-top',
@@ -19,8 +18,8 @@ export class ChampionshipRatingTopComponent implements OnInit {
         public helperService: HelperService
     ) { }
 
-    userImagesUrl: string = API_IMAGE_USERS;
-    userImageDefault: string = IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     rating: ChampionshipRating[];
     spinner: boolean = false;
     error: string;

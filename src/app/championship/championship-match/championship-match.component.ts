@@ -1,11 +1,11 @@
 import { Component, OnInit }              from '@angular/core';
 import { ActivatedRoute, Params }         from '@angular/router';
 
-import { API_IMAGE_CLUBS }                from '../../shared/app.settings';
 import { ChampionshipMatchService }       from '../shared/championship-match.service';
 import { ChampionshipMatch }              from '../shared/championship-match.model';
 import { HelperService }                  from '../../shared/helper.service';
 import { UserService }                    from '../../shared/user.service';
+import { environment }                    from '../../../environments/environment';
 
 @Component({
   selector: 'app-championship-match',
@@ -24,7 +24,7 @@ export class ChampionshipMatchComponent implements OnInit {
     spinner: boolean = false;
     match: ChampionshipMatch;
     error: string;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
     authenticatedUser: any;
     
     // statistic

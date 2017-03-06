@@ -2,7 +2,7 @@ import { Component, OnInit }    from '@angular/core';
 
 import { NewsService }          from '../news/shared/news.service';
 import { News }                 from '../news/shared/news.model';
-import { API_IMAGE_NEWS }       from '../shared/app.settings';
+import { environment }          from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     error: string | Array<string>;
     news: News[];
     spinner: boolean = false;
-    newsImagesUrl: string = API_IMAGE_NEWS;
+    newsImagesUrl: string = environment.API_IMAGE_NEWS;
 
     ngOnInit() {
         this.spinner = true;

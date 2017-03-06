@@ -4,7 +4,7 @@ import { NotificationsService }           from 'angular2-notifications';
 
 import { ManageClubService }              from '../shared/manage-club.service';
 import { Club }                           from '../shared/club.model';
-import { API_IMAGE_CLUBS }                from '../../../shared/app.settings';
+import { environment }                    from '../../../../environments/environment';
 
 @Component({
   selector: 'app-club-table',
@@ -22,7 +22,7 @@ export class ClubTableComponent implements OnInit {
 
     clubs: Club[];
     error: string | Array<string>;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
     /**
      * Variables for pagination work

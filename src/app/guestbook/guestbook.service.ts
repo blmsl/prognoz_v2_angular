@@ -2,8 +2,8 @@ import { Injectable }                           from '@angular/core';
 import { Http, Response, URLSearchParams }      from '@angular/http';
 import { Observable }                           from 'rxjs/Observable';
 
-import { API_URL }                              from '../shared/app.settings';
 import { HeadersWithToken }                     from '../shared/headers-with-token.service';
+import { environment }                          from '../../environments/environment';
 
 @Injectable()
 
@@ -14,7 +14,7 @@ export class GuestbookService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private guestbookUrl = API_URL + 'guestbookmessages';
+    private guestbookUrl = environment.API_URL + 'guestbookmessages';
 
     /**
      * Get all guestbook messages of one page

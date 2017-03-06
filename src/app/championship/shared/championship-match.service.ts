@@ -2,10 +2,10 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response }                   from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { API_URL }                          from '../../shared/app.settings';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { ChampionshipMatch }                from '../../manage/manage-championship/shared/championship-match.model';
 import { UserService }                      from '../../shared/user.service';
+import { environment }                      from '../../../environments/environment';
 
 @Injectable()
 
@@ -21,7 +21,7 @@ export class ChampionshipMatchService {
 
     authenticatedUser: any;
 
-    private championshipMatchUrl = API_URL + 'championship/matches';
+    private championshipMatchUrl = environment.API_URL + 'championship/matches';
 
     /**
      * Get match info with predicts
@@ -47,7 +47,7 @@ export class ChampionshipMatchService {
         let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
         if (param === 'predictable' && this.userService.sharedUser) {
             return this.headersWithToken
-                .get(API_URL + 'championship/predicts?filter=' + param)
+                .get(environment.API_URL + 'championship/predicts?filter=' + param)
                 .map(this.extractData)
                 .catch(this.handleError);
         }
@@ -59,13 +59,13 @@ export class ChampionshipMatchService {
     
     getPredictableMatchesByDate(date: string): Observable<ChampionshipMatch[]> {
         if (this.userService.sharedUser) {
-            let url = API_URL + 'championship/predicts?filter=predictable&date=' + date;
+            let url = environment.API_URL + 'championship/predicts?filter=predictable&date=' + date;
             return this.headersWithToken
                 .get(url)
                 .map(this.extractData)
                 .catch(this.handleError);
         } else {
-            let url = API_URL + 'championship/matches?filter=predictable&date=' + date;
+            let url = environment.API_URL + 'championship/matches?filter=predictable&date=' + date;
             return this.http
                 .get(url)
                 .map(this.extractData)

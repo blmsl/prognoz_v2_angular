@@ -8,8 +8,7 @@ import { News }                                 from '../shared/news.model';
 import { NewsService }                          from '../shared/news.service';
 import { UserService }                          from '../../shared/user.service';
 import { CommentService }                       from '../shared/comment.service';
-import { API_IMAGE_NEWS }                       from '../../shared/app.settings';
-import { API_IMAGE_USERS, IMAGE_USER_DEFAULT }  from '../../shared/app.settings';
+import { environment }                          from '../../../environments/environment';
 
 @Component({
     selector: 'app-news-datail',
@@ -32,9 +31,8 @@ export class NewsDetailComponent implements OnInit {
 
     news: News;
     error: string | Array<string>;
-    newsImagesUrl: string = API_IMAGE_NEWS;
-    userImagesUrl: string = API_IMAGE_USERS;
-    userImageDefault: string = IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     authenticatedUser: any;
     spinner: boolean = false;
     spinnerButton: boolean = false;

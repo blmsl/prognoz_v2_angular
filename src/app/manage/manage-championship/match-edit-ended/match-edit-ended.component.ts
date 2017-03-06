@@ -6,7 +6,7 @@ import { ManageChampionshipMatchService }       from '../shared/manage-champions
 import { ManageChampionshipRatingService }      from '../shared/manage-championship-rating.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../manage-club/shared/club.model';
-import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
+import { environment }                          from '../../../../environments/environment';
 
 @Component({
   selector: 'app-match-edit-ended',
@@ -28,7 +28,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     spinnerEndedMatches: boolean = false;
     spinnerClubs: boolean = false;
     spinnerButton: any = {};
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
     updatedMatches: any = {};
     isUpdatedMatches: boolean = false;
 

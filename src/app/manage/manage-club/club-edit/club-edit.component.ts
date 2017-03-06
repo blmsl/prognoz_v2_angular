@@ -7,8 +7,7 @@ import { Location }                             from '@angular/common';
 import { Club }                                 from '../shared/club.model';
 import { ManageClubService }                    from '../shared/manage-club.service';
 import { ImageService }                         from '../../../shared/image.service';
-import { IMAGE_SETTINGS }                       from '../../../shared/app.settings';
-import { API_IMAGE_CLUBS }                      from '../../../shared/app.settings';
+import { environment }                          from '../../../../environments/environment';
 
 @Component({
   selector: 'app-club-edit',
@@ -41,7 +40,7 @@ export class ClubEditComponent implements OnInit {
     clubs: Club[];
     error: string | Array<string>;
     clubEditForm: FormGroup;
-    clubImagesUrl = API_IMAGE_CLUBS;
+    clubImagesUrl = environment.API_IMAGE_CLUBS;
     errorImage: string;
     spinner: boolean = false;
 
@@ -77,7 +76,7 @@ export class ClubEditComponent implements OnInit {
     }
 
     fileChange(event) {
-        this.imageService.fileChange(event, IMAGE_SETTINGS.CLUB);
+        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.CLUB);
     }
 
     onSubmit() {

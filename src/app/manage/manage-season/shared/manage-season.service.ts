@@ -2,9 +2,9 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { API_URL }                          from '../../../shared/app.settings';
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
 import { Season }                           from './season.model';
+import { environment }                      from '../../../../environments/environment';
 
 @Injectable()
 
@@ -15,7 +15,7 @@ export class ManageSeasonService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private seasonsUrl = API_URL + 'seasons';
+    private seasonsUrl = environment.API_URL + 'seasons';
 
     /**
      * Get all seasons

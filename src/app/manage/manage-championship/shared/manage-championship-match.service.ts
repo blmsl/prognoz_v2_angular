@@ -2,9 +2,9 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response }                   from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { API_URL }                          from '../../../shared/app.settings';
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
 import { ChampionshipMatch }                from '../shared/championship-match.model';
+import { environment }                      from '../../../../environments/environment';
 
 @Injectable()
 
@@ -15,7 +15,7 @@ export class ManageChampionshipMatchService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private championshipMatchUrl = API_URL + 'championship/matches';
+    private championshipMatchUrl = environment.API_URL + 'championship/matches';
     
     /**
      * Create championship match

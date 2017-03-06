@@ -1,7 +1,7 @@
 import { Component, OnInit }                    from '@angular/core';
 
 import { UserService }                          from '../../user.service';
-import { API_IMAGE_USERS, IMAGE_USER_DEFAULT }  from '../../app.settings';
+import { environment }                          from '../../../../environments/environment';
 
 @Component({
   selector: 'app-last-user',
@@ -16,8 +16,8 @@ export class LastUserComponent implements OnInit {
     
     error: string | Array<string>;
     spinner: boolean = false;
-    userImagesUrl: string = API_IMAGE_USERS;
-    userImageDefault: string = IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     lastUser: any;
     
     ngOnInit() {

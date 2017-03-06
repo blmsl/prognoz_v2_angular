@@ -4,8 +4,8 @@ import { NotificationsService }                                 from 'angular2-n
 import { Router }                                               from '@angular/router';
 
 import { UserService }                                          from '../shared/user.service';
-import { API_IMAGE_USERS, IMAGE_SETTINGS, IMAGE_USER_DEFAULT }  from '../shared/app.settings';
 import { ImageService }                                         from '../shared/image.service';
+import { environment }                                          from '../../environments/environment';
 
 @Component({
     selector: 'app-user',
@@ -35,8 +35,8 @@ export class UserComponent implements OnInit {
     error: string | Array<string>;
     spinner: boolean = false;
     authenticatedUser: any = null;
-    userImagesUrl: string = API_IMAGE_USERS;
-    userImageDefault: string = IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     userEditForm: FormGroup;
     errorImage: string;
   
@@ -70,6 +70,6 @@ export class UserComponent implements OnInit {
     }
     
     fileChange(event) {
-        this.imageService.fileChange(event, IMAGE_SETTINGS.USER);
+        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.USER);
     }
 }

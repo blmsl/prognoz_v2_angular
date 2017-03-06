@@ -2,8 +2,8 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response }                   from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { API_URL }                          from '../../shared/app.settings';
 import { ChampionshipRating }               from '../shared/championship-rating.model';
+import { environment }                      from '../../../environments/environment';
 
 @Injectable()
 
@@ -11,7 +11,7 @@ export class ChampionshipRatingService {
 
     constructor(private http:Http) {}
 
-    private championshipPredictUrl = API_URL + 'championship/rating';
+    private championshipPredictUrl = environment.API_URL + 'championship/rating';
 
     /**
      * Get current championship rating

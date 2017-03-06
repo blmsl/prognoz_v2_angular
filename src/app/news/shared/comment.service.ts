@@ -2,8 +2,8 @@ import { Injectable }       from '@angular/core';
 import { Response }         from '@angular/http';
 import { Observable }       from 'rxjs/Observable';
 
-import { API_URL }          from '../../shared/app.settings';
 import { HeadersWithToken } from '../../shared/headers-with-token.service';
+import { environment }      from '../../../environments/environment';
 
 @Injectable()
 
@@ -13,7 +13,7 @@ export class CommentService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private commentUrl = API_URL + 'comment';
+    private commentUrl = environment.API_URL + 'comment';
 
     /**
      * Add comment to news

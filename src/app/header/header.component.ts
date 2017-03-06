@@ -4,7 +4,7 @@ import { Router }                               from '@angular/router';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { UserService }                          from '../shared/user.service';
-import { API_SITE_LOGO }                        from '../shared/app.settings';
+import { environment }                          from '../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     headerSigninForm: FormGroup;
     user: any;
     spinner: boolean = false;
-    sitelogo: string = API_SITE_LOGO;
+    sitelogo: string = environment.API_SITE_LOGO;
 
     ngOnInit() {
         this.userService.sharedUser$.subscribe(latestCollection => {

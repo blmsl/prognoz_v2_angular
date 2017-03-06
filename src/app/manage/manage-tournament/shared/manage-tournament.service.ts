@@ -2,9 +2,9 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { API_URL }                          from '../../../shared/app.settings';
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
 import { Tournament }                       from './tournament.model';
+import { environment }                      from '../../../../environments/environment';
 
 @Injectable()
 
@@ -15,7 +15,7 @@ export class ManageTournamentService {
         private headersWithToken: HeadersWithToken
     ) {}
 
-    private tournamentsUrl = API_URL + 'tournaments';
+    private tournamentsUrl = environment.API_URL + 'tournaments';
 
     /**
      * Get all tournaments

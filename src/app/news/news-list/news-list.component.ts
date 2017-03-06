@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params }   from '@angular/router';
 
 import { News }                             from '../shared/news.model';
 import { NewsService }                      from '../shared/news.service';
-import { API_IMAGE_NEWS }                   from '../../shared/app.settings';
+import { environment }                      from '../../../environments/environment';
 
 @Component({
   selector: 'app-news-list',
@@ -21,7 +21,7 @@ export class NewsListComponent implements OnInit {
     
     news: News[];
     error: string | Array<string>;
-    newsImagesUrl: string = API_IMAGE_NEWS;
+    newsImagesUrl: string = environment.API_IMAGE_NEWS;
     spinner: boolean = false;
     
     path: string = '/news/page/';

@@ -6,7 +6,7 @@ import { ChampionshipMatchService }             from '../shared/championship-mat
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
 import { ChampionshipMatch }                    from '../../manage/manage-championship/shared/championship-match.model';
 import { UserService }                          from '../../shared/user.service';
-import { API_IMAGE_CLUBS }                      from '../../shared/app.settings';
+import { environment }                          from '../../../environments/environment';
 
 @Component({
   selector: 'app-championship-predicts',
@@ -28,7 +28,7 @@ export class ChampionshipPredictsComponent implements OnInit {
     error: string | Array<string>;
     matches: ChampionshipMatch[];
     championshipPredictsForm: FormGroup;
-    clubsImagesUrl: string = API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
     // statistic
     statistic: any;
