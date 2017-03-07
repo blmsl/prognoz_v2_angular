@@ -31,14 +31,14 @@ export class ChampionshipPredictsComponent implements OnInit {
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
     // statistic
-    statistic: any;
-    errorStatistic: string;
-    spinnerStatistic: boolean = false;
+    statistic: any = {};
+    errorStatistic: any = {};
+    spinnerStatistic: any = {};
     expandedStatistic: any = {};
     // result
-    resultChartLabels: string[];
+    resultChartLabels: any = {};
     resultChartType: string = 'doughnut';
-    resultChartData: number[];
+    resultChartData: any = {};
 
     ngOnInit() {
         this.spinner = true;
@@ -124,19 +124,21 @@ export class ChampionshipPredictsComponent implements OnInit {
     getStatistic(match: ChampionshipMatch) {
         if (!this.expandedStatistic['match_' + match.id]) {
             this.expandedStatistic['match_' + match.id] = true;
-            this.spinnerStatistic = true;
-            this.championshipMatchService.getStatistic(match.id).subscribe(
-                response => {
-                    this.statistic = response;
-                    this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
-                    this.resultChartData = [response.results.home, response.results.away, response.results.draw];
-                    this.spinnerStatistic = false;
-                },
-                error => {
-                    this.errorStatistic = error;
-                    this.spinnerStatistic = false;
-                }
-            );
+            this.spinnerStatistic['match_' + match.id] = true;
+            setTimeout(() =>
+                this.championshipMatchService.getStatistic(match.id).subscribe(
+                    response => {
+                        this.statistic['match_' + match.id] = response;
+                        this.resultChartLabels['match_' + match.id] = [match.club_first.title, match.club_second.title, 'Нічия'];
+                        this.resultChartData['match_' + match.id] = [response.results.home, response.results.away, response.results.draw];
+                        this.spinnerStatistic['match_' + match.id] = false;
+                    },
+                    error => {
+                        this.errorStatistic['match_' + match.id] = error;
+                        this.spinnerStatistic['match_' + match.id] = false;
+                    }
+                )
+            , 1000);
         } else {
             this.expandedStatistic['match_' + match.id] = false;
         }

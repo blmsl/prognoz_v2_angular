@@ -53,15 +53,15 @@
                                 Статистика
                             </div>
                             <!-- spinner statistic -->
-                            <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
+                            <app-spinner *ngIf="spinnerStatistic['match_' + match.id]" [height]="250"></app-spinner>
                             <!-- error statistic -->
-                            <app-error *ngIf="errorStatistic" [message]="error"></app-error>
+                            <app-error *ngIf="errorStatistic['match_' + match.id]" [message]="error"></app-error>
                             <!-- statistic -->
-                            <div *ngIf="statistic && match && !spinnerStatistic" class="card-block bg-white">
+                            <div *ngIf="statistic['match_' + match.id] && match && !spinnerStatistic['match_' + match.id]" class="card-block bg-white">
                                 <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
                                     <canvas baseChart
-                                            [data]="resultChartData"
-                                            [labels]="resultChartLabels"
+                                            [data]="resultChartData['match_' + match.id]"
+                                            [labels]="resultChartLabels['match_' + match.id]"
                                             [chartType]="resultChartType">
                                     </canvas>
                                 </div>
@@ -126,15 +126,15 @@
                             Статистика
                         </div>
                         <!-- spinner statistic -->
-                        <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
+                        <app-spinner *ngIf="spinnerStatistic['match_' + match.id]" [height]="250"></app-spinner>
                         <!-- error statistic -->
-                        <app-error *ngIf="errorStatistic" [message]="error"></app-error>
+                        <app-error *ngIf="errorStatistic['match_' + match.id]" [message]="error"></app-error>
                         <!-- statistic -->
-                        <div *ngIf="statistic && match && !spinnerStatistic" class="card-block bg-white">
+                        <div *ngIf="statistic['match_' + match.id] && match && !spinnerStatistic['match_' + match.id]" class="card-block bg-white">
                             <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
                                 <canvas baseChart
-                                        [data]="resultChartData"
-                                        [labels]="resultChartLabels"
+                                        [data]="resultChartData['match_' + match.id]"
+                                        [labels]="resultChartLabels['match_' + match.id]"
                                         [chartType]="resultChartType">
                                 </canvas>
                             </div>
