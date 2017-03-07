@@ -46,25 +46,24 @@
                     <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
                         <strong><label for="{{match.id + '_away'}}">{{ match.club_second.title }}</label></strong>
                     </div>
+                    <!-- expandable statistic -->
                     <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
                         <div class="card text-center">
+                            <div class="card-header">
+                                Статистика
+                            </div>
                             <!-- spinner statistic -->
                             <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
                             <!-- error statistic -->
                             <app-error *ngIf="errorStatistic" [message]="error"></app-error>
                             <!-- statistic -->
-                            <div *ngIf="statistic && match && !spinnerStatistic">
-                                <div class="card-header">
-                                    Статистика
-                                </div>
-                                <div class="card-block bg-white">
-                                    <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-                                        <canvas baseChart
-                                                [data]="resultChartData"
-                                                [labels]="resultChartLabels"
-                                                [chartType]="resultChartType">
-                                        </canvas>
-                                    </div>
+                            <div *ngIf="statistic && match && !spinnerStatistic" class="card-block bg-white">
+                                <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                                    <canvas baseChart
+                                            [data]="resultChartData"
+                                            [labels]="resultChartLabels"
+                                            [chartType]="resultChartType">
+                                    </canvas>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +91,13 @@
 <!-- match list (if user is not authenticated ) -->
 <div *ngIf="matches && !authenticatedUser" class="container-fluid">
     <!-- one match row -->
-    <div *ngFor="let match of matches" class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
+    <div *ngFor="let match of matches"
+         class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
+         data-toggle="collapse"
+         [attr.data-target]="'#collapseMatch' + match.id"
+         aria-expanded="true"
+         [attr.aria-controls]="'collapseMatch' + match.id"
+         (click)="getStatistic(match)">
         <!-- home club logo -->
         <div class="hidden-sm-down col-md-2">
             <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
@@ -113,6 +118,28 @@
                 </div>
                 <div class="col-5 text-center text-white">
                     <strong>{{ match.club_second.title }}</strong>
+                </div>
+                <!-- expandable statistic -->
+                <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Статистика
+                        </div>
+                        <!-- spinner statistic -->
+                        <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
+                        <!-- error statistic -->
+                        <app-error *ngIf="errorStatistic" [message]="error"></app-error>
+                        <!-- statistic -->
+                        <div *ngIf="statistic && match && !spinnerStatistic" class="card-block bg-white">
+                            <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                                <canvas baseChart
+                                        [data]="resultChartData"
+                                        [labels]="resultChartLabels"
+                                        [chartType]="resultChartType">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

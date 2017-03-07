@@ -34,12 +34,11 @@ export class ChampionshipPredictsComponent implements OnInit {
     statistic: any;
     errorStatistic: string;
     spinnerStatistic: boolean = false;
+    expandedStatistic: any = {};
     // result
     resultChartLabels: string[];
     resultChartType: string = 'doughnut';
     resultChartData: number[];
-
-    expandedStatistic: any = {};
 
     ngOnInit() {
         this.spinner = true;

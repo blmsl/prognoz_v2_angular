@@ -52,6 +52,16 @@ export class ChampionshipHomeComponent implements OnInit {
     errorRating: string | Array<string>;
     rating: ChampionshipRating[];
 
+    /* statistic */
+    statistic: any;
+    errorStatistic: string;
+    spinnerStatistic: boolean = false;
+    expandedStatistic: any = {};
+    /* result */
+    resultChartLabels: string[];
+    resultChartType: string = 'doughnut';
+    resultChartData: number[];
+
     /**
      * Get matches, get predictions, get rating, get news
      */
@@ -192,5 +202,42 @@ export class ChampionshipHomeComponent implements OnInit {
                 this.spinnerRating = false;
             }
         );
+    }
+
+    /**
+     * Get statistic
+     * @param match
+     */
+    getStatistic(match: ChampionshipMatch) {
+        if (!this.expandedStatistic['match_' + match.id]) {
+            this.expandedStatistic['match_' + match.id] = true;
+            this.spinnerStatistic = true;
+            this.championshipMatchService.getStatistic(match.id).subscribe(
+                response => {
+                    this.statistic = response;
+                    this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
+                    this.resultChartData = [response.results.home, response.results.away, response.results.draw];
+                    this.spinnerStatistic = false;
+                },
+                error => {
+                    this.errorStatistic = error;
+                    this.spinnerStatistic = false;
+                }
+            );
+        } else {
+            this.expandedStatistic['match_' + match.id] = false;
+        }
+    }
+
+    /**
+     * On input click
+     *
+     * @param e
+     * @returns {boolean}
+     */
+    onClick(e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
     }
 }
