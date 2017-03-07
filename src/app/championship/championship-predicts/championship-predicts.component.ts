@@ -49,6 +49,7 @@ export class ChampionshipPredictsComponent implements OnInit {
     onSubmit() {
         this.spinnerButton = true;
         let predicts = [];
+        this.expandedStatistic = {};
         for (let predict in this.championshipPredictsForm.value) {
             let id = parseInt(predict.split('_')[0]);
             // if there is no predicts on match

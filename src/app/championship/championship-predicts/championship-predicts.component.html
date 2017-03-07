@@ -46,25 +46,34 @@
                     <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
                         <strong><label for="{{match.id + '_away'}}">{{ match.club_second.title }}</label></strong>
                     </div>
+                    <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
+                        <div class="card text-center">
+                            <!-- spinner statistic -->
+                            <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
+                            <!-- error statistic -->
+                            <app-error *ngIf="errorStatistic" [message]="error"></app-error>
+                            <!-- statistic -->
+                            <div *ngIf="statistic && match && !spinnerStatistic">
+                                <div class="card-header">
+                                    Статистика
+                                </div>
+                                <div class="card-block bg-white">
+                                    <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                                        <canvas baseChart
+                                                [data]="resultChartData"
+                                                [labels]="resultChartLabels"
+                                                [chartType]="resultChartType">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- away club logo -->
             <div class="hidden-md-down col-md-2">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
-            </div>
-            <div class="collapse col-12" id="{{'collapseMatch' + match.id}}">
-                <!-- spinner statistic -->
-                <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
-                <!-- error statistic -->
-                <app-error *ngIf="errorStatistic" [message]="error"></app-error>
-                <!-- statistic -->
-                <div *ngIf="statistic && match && !spinnerStatistic" class="col-12 offset-md-3 col-md-6 p-2 black-border bg-white rounded black-shadow">
-                    <canvas baseChart
-                            [data]="resultChartData"
-                            [labels]="resultChartLabels"
-                            [chartType]="resultChartType">
-                    </canvas>
-                </div>
             </div>
         </div>
         <!-- button row (only if predictable matches exists) -->
