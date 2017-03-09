@@ -31,7 +31,7 @@ export class NewsDetailComponent implements OnInit {
 
     news: News;
     error: string | Array<string>;
-    userImagesUrl: string = environment.API_IMAGE_USERS;
+    userImagesUrl: string = environment.API_IMAGE_NEWS;
     userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     authenticatedUser: any;
     spinner: boolean = false;

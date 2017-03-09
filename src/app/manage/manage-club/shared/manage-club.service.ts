@@ -53,7 +53,7 @@ export class ManageClubService {
      */
     getAllNationalTeams(): Observable<any> {
         return this.http
-            .get(this.clubUrl + '?filter=national-teams')
+            .get(this.clubUrl + '?filter=national_teams')
             .map(this.extractData)
             .catch(this.handleError);
     }

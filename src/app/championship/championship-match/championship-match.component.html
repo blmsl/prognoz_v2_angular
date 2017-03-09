@@ -40,7 +40,7 @@
 <!-- statistic -->
 <h2 *ngIf="statistic && match && match.championship_predicts.length">
     Статистика:
-    <button (click)="getStatistic()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+    <button *ngIf="!match.ended" (click)="getStatistic()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
