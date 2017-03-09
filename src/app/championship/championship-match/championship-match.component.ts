@@ -1,5 +1,6 @@
 import { Component, OnInit }              from '@angular/core';
 import { ActivatedRoute, Params }         from '@angular/router';
+import { Location }                       from '@angular/common';
 
 import { ChampionshipMatchService }       from '../shared/championship-match.service';
 import { ChampionshipMatch }              from '../shared/championship-match.model';
@@ -18,6 +19,7 @@ export class ChampionshipMatchComponent implements OnInit {
         private championshipMatchService: ChampionshipMatchService,
         private activatedRoute: ActivatedRoute,
         public helperService: HelperService,
+        private location: Location,
         private userService: UserService,
     ) {}
 
@@ -42,8 +44,10 @@ export class ChampionshipMatchComponent implements OnInit {
   
     ngOnInit(){
         this.authenticatedUser = this.userService.sharedUser;
-        this.spinner = true;
         this.activatedRoute.params.forEach((params: Params) => {
+            this.match = null;
+            this.error = null;
+            this.spinner = true;
             let id = +params['id'];
             this.championshipMatchService.getWithPredicts(id).subscribe(
                 response => {
@@ -78,5 +82,9 @@ export class ChampionshipMatchComponent implements OnInit {
                 }
             );
         });
+    }
+
+    goBack() {
+        this.location.back();
     }
 }
