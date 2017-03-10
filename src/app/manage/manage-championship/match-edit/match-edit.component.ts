@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy }         from '@angular/core';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { ChampionshipMatch }                    from '../shared/championship-match.model';
+import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
 import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
 import { ManageChampionshipRatingService }      from '../shared/manage-championship-rating.service';
 import { environment }                          from '../../../../environments/environment';

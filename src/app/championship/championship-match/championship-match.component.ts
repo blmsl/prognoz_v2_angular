@@ -3,7 +3,7 @@ import { ActivatedRoute, Params }         from '@angular/router';
 import { Location }                       from '@angular/common';
 
 import { ChampionshipMatchService }       from '../shared/championship-match.service';
-import { ChampionshipMatch }              from '../shared/championship-match.model';
+import { ChampionshipMatch }              from '../../shared/models/championship-match.model';
 import { HelperService }                  from '../../shared/helper.service';
 import { UserService }                    from '../../shared/user.service';
 import { environment }                    from '../../../environments/environment';

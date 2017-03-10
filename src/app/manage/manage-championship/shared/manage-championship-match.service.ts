@@ -3,7 +3,7 @@ import { Http, Response }                   from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
-import { ChampionshipMatch }                from '../shared/championship-match.model';
+import { ChampionshipMatch }                from '../../../shared/models/championship-match.model';
 import { environment }                      from '../../../../environments/environment';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { Club }                                 from '../shared/club.model';
+import { Club }                                 from '../../../shared/models/club.model';
 import { ManageClubService }                    from '../shared/manage-club.service';
 import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';

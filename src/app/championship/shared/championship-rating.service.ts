@@ -2,7 +2,7 @@ import { Injectable }                       from '@angular/core';
 import { Http, Response }                   from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { ChampionshipRating }               from '../shared/championship-rating.model';
+import { ChampionshipRating }               from '../../shared/models/championship-rating.model';
 import { environment }                      from '../../../environments/environment';
 
 @Injectable()

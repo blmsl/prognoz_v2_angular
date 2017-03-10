@@ -3,7 +3,7 @@ import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
-import { Season }                           from './season.model';
+import { Season }                           from '../../../shared/models/season.model';
 import { environment }                      from '../../../../environments/environment';
 
 @Injectable()

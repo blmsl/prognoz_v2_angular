@@ -3,7 +3,7 @@ import { Component, OnInit }         from '@angular/core';
 import { ChampionshipRatingService } from '../../../../championship/shared/championship-rating.service';
 import { HelperService }             from '../../../../shared/helper.service';
 
-import { ChampionshipRating }        from '../../../../championship/shared/championship-rating.model';
+import { ChampionshipRating }        from '../../../models/championship-rating.model';
 import { environment }               from '../../../../../environments/environment';
 
 @Component({

@@ -7,9 +7,9 @@ import { ChampionshipPredictService }           from '../shared/championship-pre
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { UserService }                          from '../../shared/user.service';
 import { HelperService }                        from '../../shared/helper.service';
-import { ChampionshipPredict }                  from '../shared/championship-predict.model';
-import { ChampionshipMatch }                    from '../shared/championship-match.model';
-import { ChampionshipRating }                   from '../shared/championship-rating.model';
+import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
+import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
+import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { environment }                          from '../../../environments/environment';
 
 @Component({

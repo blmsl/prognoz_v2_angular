@@ -3,7 +3,7 @@ import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
-import { Competition }                      from './competition.model';
+import { Competition }                      from '../../../shared/models/competition.model';
 import { environment }                      from '../../../../environments/environment';
 
 @Injectable()

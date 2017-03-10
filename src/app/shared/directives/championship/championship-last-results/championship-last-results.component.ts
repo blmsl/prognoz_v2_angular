@@ -1,7 +1,7 @@
 import { Component, OnInit }        from '@angular/core';
 
 import { ChampionshipMatchService } from '../../../../championship/shared/championship-match.service';
-import { ChampionshipMatch }        from '../../../../championship/shared/championship-match.model';
+import { ChampionshipMatch }        from '../../../models/championship-match.model';
 import { environment }              from '../../../../../environments/environment';
 
 @Component({

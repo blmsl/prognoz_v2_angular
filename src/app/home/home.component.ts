@@ -1,7 +1,7 @@
 import { Component, OnInit }    from '@angular/core';
 
 import { NewsService }          from '../news/shared/news.service';
-import { News }                 from '../news/shared/news.model';
+import { News }                 from '../shared/models/news.model';
 import { environment }          from '../../environments/environment';
 
 @Component({

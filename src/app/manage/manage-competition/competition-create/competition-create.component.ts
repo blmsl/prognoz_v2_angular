@@ -6,8 +6,8 @@ import { Location }                             from '@angular/common';
 import { CompetitionService }                   from '../shared/competition.service';
 import { ManageSeasonService }                  from '../../manage-season/shared/manage-season.service';
 import { ManageTournamentService }              from '../../manage-tournament/shared/manage-tournament.service';
-import { Season }                               from '../../manage-season/shared/season.model';
-import { Tournament }                           from '../../manage-tournament/shared/tournament.model';
+import { Season }                               from '../../../shared/models/season.model';
+import { Tournament }                           from '../../../shared/models/tournament.model';
 
 @Component({
   selector: 'app-competition-create',

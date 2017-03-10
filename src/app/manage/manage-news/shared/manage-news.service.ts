@@ -3,7 +3,7 @@ import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
-import { News }                             from './news.model';
+import { News }                             from '../../../shared/models/news.model';
 import { environment }                      from '../../../../environments/environment';
 
 @Injectable()

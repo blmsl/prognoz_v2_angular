@@ -43,6 +43,6 @@ export class AuthRecoveryComponent implements OnInit {
                     }
                     this.spinner = false;
                 }
-            )
+            );
     }
 }

@@ -3,9 +3,9 @@ import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { News }                                 from '../shared/news.model';
+import { News }                                 from '../../../shared/models/news.model';
 import { ManageNewsService }                    from '../shared/manage-news.service';
-import { ImageService }                         from '../../../shared/image.service';;
+import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
 
 @Component({

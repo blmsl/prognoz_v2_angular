@@ -2,7 +2,7 @@ import { Component, OnInit }                    from '@angular/core';
 import { ActivatedRoute, Params }               from '@angular/router';
 
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
-import { ChampionshipPredict }                  from '../shared/championship-predict.model';
+import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
 import { HelperService }                        from '../../shared/helper.service';
 import { UserService }                          from '../../shared/user.service';
 import { environment }                          from '../../../environments/environment';

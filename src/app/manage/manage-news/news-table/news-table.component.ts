@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NotificationsService }           from 'angular2-notifications';
 
 import { ManageNewsService }              from '../shared/manage-news.service';
-import { News }                           from '../shared/news.model';
+import { News }                           from '../../../shared/models/news.model';
 
 @Component({
   selector: 'app-news-table',

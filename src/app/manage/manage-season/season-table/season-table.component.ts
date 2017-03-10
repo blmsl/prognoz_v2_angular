@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ManageSeasonService }  from '../shared/manage-season.service';
-import { Season }               from '../shared/season.model';
+import { Season }               from '../../../shared/models/season.model';
 
 @Component({
   selector: 'app-season-table',

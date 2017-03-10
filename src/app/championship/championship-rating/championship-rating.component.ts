@@ -3,7 +3,7 @@ import { Component, OnInit }         from '@angular/core';
 import { ChampionshipRatingService } from '../shared/championship-rating.service';
 import { HelperService }             from '../../shared/helper.service';
 import { UserService }               from '../../shared/user.service';
-import { ChampionshipRating }        from '../shared/championship-rating.model';
+import { ChampionshipRating }        from '../../shared/models/championship-rating.model';
 
 @Component({
   selector: 'app-championship-rating',

@@ -2,7 +2,7 @@ import { Injectable }                        from '@angular/core';
 import { Http, Response, URLSearchParams }   from '@angular/http';
 import { Observable }                        from 'rxjs/Observable';
 
-import { News }                              from './news.model';
+import { News }                              from '../../shared/models/news.model'; 
 import { environment }                       from '../../../environments/environment';
 
 @Injectable()

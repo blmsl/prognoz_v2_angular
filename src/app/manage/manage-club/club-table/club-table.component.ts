@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NotificationsService }           from 'angular2-notifications';
 
 import { ManageClubService }              from '../shared/manage-club.service';
-import { Club }                           from '../shared/club.model';
+import { Club }                           from '../../../shared/models/club.model';
 import { environment }                    from '../../../../environments/environment';
 
 @Component({

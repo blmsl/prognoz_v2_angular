@@ -2,7 +2,7 @@ import { Component, OnInit }        from '@angular/core';
 
 import { environment }              from '../../../environments/environment';
 import { ChampionshipMatchService } from '../shared/championship-match.service';
-import { ChampionshipMatch }        from '../shared/championship-match.model';
+import { ChampionshipMatch }        from '../../shared/models/championship-match.model';
 
 @Component({
   selector: 'app-championship-results',

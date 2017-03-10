@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { Location }                             from '@angular/common';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { News }                                 from '../shared/news.model';
+import { News }                                 from '../../shared/models/news.model';
 import { NewsService }                          from '../shared/news.service';
 import { UserService }                          from '../../shared/user.service';
 import { CommentService }                       from '../shared/comment.service';
@@ -31,7 +31,8 @@ export class NewsDetailComponent implements OnInit {
 
     news: News;
     error: string | Array<string>;
-    userImagesUrl: string = environment.API_IMAGE_NEWS;
+    newsImagesUrl: string = environment.API_IMAGE_NEWS;
+    userImagesUrl: string = environment.API_IMAGE_USERS;
     userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     authenticatedUser: any;
     spinner: boolean = false;

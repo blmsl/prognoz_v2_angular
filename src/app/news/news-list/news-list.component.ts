@@ -1,7 +1,7 @@
 import { Component, OnInit }                from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 
-import { News }                             from '../shared/news.model';
+import { News }                             from '../../shared/models/news.model';
 import { NewsService }                      from '../shared/news.service';
 import { environment }                      from '../../../environments/environment';
 
