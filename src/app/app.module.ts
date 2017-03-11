@@ -11,7 +11,7 @@ import { HomeModule }                 from './home/home.module';
 import { ManageModule }               from './manage/manage.module';
 import { NewsModule }                 from './news/news.module';
 import { DirectivesModule }           from './shared/directives/directives.module';
-import { UserModule }                 from './user/user.module';
+import { MeModule }                   from './me/me.module';
 import { ChampionshipModule }         from './championship/championship.module';
 
 import { AccessDeniedComponent }      from './access-denied/access-denied.component';
@@ -46,7 +46,7 @@ import { HelperService }              from './shared/helper.service';
         HomeModule,
         GuestbookModule,
         DirectivesModule,
-        UserModule
+        MeModule
     ],
     providers: [
         HeadersWithToken,

@@ -17,6 +17,11 @@ const routes: Routes = [
         children: [
             {
                 path: 'predicts',
+                redirectTo: '/championship/predictions',
+                pathMatch: 'full'
+            },
+            {
+                path: 'predictions',
                 component: ChampionshipPredictsComponent
             },
             {

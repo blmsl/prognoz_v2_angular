@@ -4,8 +4,8 @@ import { ReactiveFormsModule }  from '@angular/forms';
 
 import { AppRoutingModule }     from '../app-routing.module';
 import { DirectivesModule }     from '../shared/directives/directives.module';
-import { UserComponent }        from './user.component';
-import { UserGuard }            from './user-guard.service';
+import { MeComponent }          from './me.component';
+import { MeGuard }              from './me-guard.service';
 
 @NgModule({
     imports: [
@@ -15,13 +15,13 @@ import { UserGuard }            from './user-guard.service';
         DirectivesModule
     ],
     declarations: [
-        UserComponent
+        MeComponent
     ],
     providers: [
-        UserGuard
+        MeGuard
     ],
     exports: [
-        UserComponent
+        MeComponent
     ]
 })
-export class UserModule { }
+export class MeModule { }

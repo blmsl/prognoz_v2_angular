@@ -1,0 +1,6 @@
+.custom-file-control::before {
+    content: "Переглянути";
+}
+.custom-file-control::after {
+    content: "Виберіть файл...";
+}

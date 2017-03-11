@@ -64,7 +64,7 @@
     <!-- user profile buttons -->
     <div *ngIf="user" class="form-inline ml-auto">
         <div class="btn-group" role="group" aria-label="user buttons">
-            <button *ngIf="user" routerLink="/user" class="btn btn-outline-secondary">
+            <button *ngIf="user" routerLink="/me" class="btn btn-outline-secondary">
                 <i class="fa fa-user-circle" aria-hidden="true"></i> {{user.name}}
             </button>
             <button *ngIf="user.showAdministrationLink" routerLink="/manage" class="btn btn-outline-secondary">

@@ -4,7 +4,7 @@ import { CanActivate, Router }  from '@angular/router';
 import { UserService }          from '../shared/user.service';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class MeGuard implements CanActivate {
 
     constructor(
         private router: Router,
