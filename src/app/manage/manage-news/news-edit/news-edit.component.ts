@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { News }                                 from '../../../shared/models/news.model';
-import { ManageNewsService }                    from '../shared/manage-news.service';
+import { NewsService }                          from '../../../news/shared/news.service';
 import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
 
@@ -20,7 +20,7 @@ export class NewsEditComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private formBuilder: FormBuilder,
         private notificationService: NotificationsService,
-        private manageNewsService: ManageNewsService,
+        private newsService: NewsService,
         private imageService: ImageService
     ) {
         imageService.uploadedImage$.subscribe(
@@ -52,7 +52,7 @@ export class NewsEditComponent implements OnInit {
 
         this.activatedRoute.params.forEach((params: Params) => {
             let id = +params['id'];
-            this.manageNewsService.getOneNews(id).subscribe(
+            this.newsService.getOneNews(id).subscribe(
                 result => {
                     this.newsEditForm.patchValue({
                         id: result.id,
@@ -73,7 +73,7 @@ export class NewsEditComponent implements OnInit {
 
     onSubmit() {
         this.spinner = true;
-        this.manageNewsService.update(this.newsEditForm.value).subscribe(
+        this.newsService.update(this.newsEditForm.value).subscribe(
             response => {
                 this.router.navigate(['/news/' + this.news.id]);
                 this.notificationService.success('Успішно', 'Новину змінено!');

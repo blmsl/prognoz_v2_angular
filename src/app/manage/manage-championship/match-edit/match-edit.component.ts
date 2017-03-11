@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy }         from '@angular/core';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
-import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
-import { ManageChampionshipRatingService }      from '../shared/manage-championship-rating.service';
+import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
+import { ChampionshipRatingService }            from '../../../championship/shared/championship-rating.service';
 import { environment }                          from '../../../../environments/environment';
 
 @Component({
@@ -15,8 +15,8 @@ export class MatchEditComponent implements OnInit, OnDestroy {
 
     constructor(
         private notificationService: NotificationsService,
-        private manageChampionshipMatchService: ManageChampionshipMatchService,
-        private manageChampionshipRatingService: ManageChampionshipRatingService
+        private championshipMatchService: ChampionshipMatchService,
+        private championshipRatingService: ChampionshipRatingService
     ) { }
   
     spinnerActiveMatches: boolean = false;
@@ -29,7 +29,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
   
     ngOnInit() {
         this.spinnerActiveMatches = true;
-        this.manageChampionshipMatchService.getCurrentCompetitionMatches('active').subscribe(
+        this.championshipMatchService.getCurrentCompetitionMatches('active').subscribe(
             response => {
                 this.activeMatches = response;
                 this.spinnerActiveMatches = false;
@@ -56,7 +56,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
         let championshipMatch = new ChampionshipMatch;
         championshipMatch.home = home;
         championshipMatch.away = away;
-        this.manageChampionshipMatchService.update(championshipMatch, id).subscribe(
+        this.championshipMatchService.update(championshipMatch, id).subscribe(
             response => {
                 this.spinnerButton['match_' + id] = false;
                 this.updatedMatches['match_' + id] = response;
@@ -73,7 +73,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     }
     
     updateRating() {
-        this.manageChampionshipRatingService.updatePositions().subscribe(
+        this.championshipRatingService.updatePositions().subscribe(
             response => {
                 this.isUpdatedMatches = false;
                 this.notificationService.success('Успішно', 'Рейтинг оновлено');

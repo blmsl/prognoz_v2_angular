@@ -2,7 +2,7 @@ import { Component, OnInit }              from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NotificationsService }           from 'angular2-notifications';
 
-import { ManageNewsService }              from '../shared/manage-news.service';
+import { NewsService }              from '../../../news/shared/news.service';
 import { News }                           from '../../../shared/models/news.model';
 
 @Component({
@@ -16,7 +16,7 @@ export class NewsTableComponent implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private notificationService: NotificationsService,
-        private manageNewsService: ManageNewsService
+        private newsService: NewsService
     ) { }
 
     news: News[];
@@ -48,7 +48,7 @@ export class NewsTableComponent implements OnInit {
      */
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.manageNewsService.getNews(params['number']).subscribe(
+            this.newsService.getNews(params['number']).subscribe(
                 result => {
                     if (!result.data) {
                         this.error = "В базі даних новин немає";
@@ -71,7 +71,7 @@ export class NewsTableComponent implements OnInit {
      * @param news
      */
     delete(news) {
-        this.manageNewsService.delete(news.id).subscribe(
+        this.newsService.delete(news.id).subscribe(
             response => {
                 this.total--;
                 this.news = this.news.filter(n => n !== news);

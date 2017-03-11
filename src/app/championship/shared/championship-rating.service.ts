@@ -3,15 +3,31 @@ import { Http, Response }                   from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { ChampionshipRating }               from '../../shared/models/championship-rating.model';
+import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { environment }                      from '../../../environments/environment';
 
 @Injectable()
 
 export class ChampionshipRatingService {
 
-    constructor(private http:Http) {}
+    constructor(
+        private http:Http,
+        private headersWithToken: HeadersWithToken
+    ) {}
 
-    private championshipPredictUrl = environment.API_URL + 'championship/rating';
+    private championshipRatingUrl = environment.API_URL + 'championship/rating';
+
+    /**
+     * Update positions and moving
+     *
+     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
+     */
+    updatePositions(): Observable<any> {
+        return this.headersWithToken
+            .put(this.championshipRatingUrl, {})
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
 
     /**
      * Get current championship rating
@@ -19,7 +35,7 @@ export class ChampionshipRatingService {
      * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|Promise<R>|any}
      */
     get(param = null): Observable<ChampionshipRating[]> {
-        let url = param ? (this.championshipPredictUrl + '?filter=' + param) : this.championshipPredictUrl;
+        let url = param ? (this.championshipRatingUrl + '?filter=' + param) : this.championshipRatingUrl;
         return this.http
             .get(url)
             .map(this.extractData)

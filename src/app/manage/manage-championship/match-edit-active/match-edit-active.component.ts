@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
-import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
+import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../../shared/models/club.model';
 import { environment }                          from '../../../../environments/environment';
@@ -17,7 +17,7 @@ export class MatchEditActiveComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
                 private notificationService: NotificationsService,
-                private manageChampionshipMatchService: ManageChampionshipMatchService,
+                private championshipMatchService: ChampionshipMatchService,
                 private manageClubService: ManageClubService) {
     }
 
@@ -44,7 +44,7 @@ export class MatchEditActiveComponent implements OnInit {
 
     private getActive() {
         this.spinnerActiveMatches = true;
-        this.manageChampionshipMatchService.getCurrentCompetitionMatches('active').subscribe(
+        this.championshipMatchService.getCurrentCompetitionMatches('active').subscribe(
             response => {
                 this.activeMatches = response;
                 this.spinnerActiveMatches = false;
@@ -73,7 +73,7 @@ export class MatchEditActiveComponent implements OnInit {
     onSubmit() {
         if (this.selectedMatch.id) {
             this.spinnerButton = true;
-            this.manageChampionshipMatchService.update(this.championshipMatchEditActiveForm.value, this.selectedMatch.id).subscribe(
+            this.championshipMatchService.update(this.championshipMatchEditActiveForm.value, this.selectedMatch.id).subscribe(
                 response => {
                     this.spinnerButton = false;
                     this.selectedMatch = response;

@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy }         from '@angular/core';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
-import { ManageChampionshipMatchService }       from '../shared/manage-championship-match.service';
-import { ManageChampionshipRatingService }      from '../shared/manage-championship-rating.service';
+import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
+import { ChampionshipRatingService }      from '../../../championship/shared/championship-rating.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../../shared/models/club.model';
 import { environment }                          from '../../../../environments/environment';
@@ -16,8 +16,8 @@ import { environment }                          from '../../../../environments/e
 export class MatchEditEndedComponent implements OnInit, OnDestroy {
 
     constructor(private notificationService: NotificationsService,
-                private manageChampionshipMatchService: ManageChampionshipMatchService,
-                private manageChampionshipRatingService: ManageChampionshipRatingService,
+                private championshipMatchService: ChampionshipMatchService,
+                private championshipRatingService: ChampionshipRatingService,
                 private manageClubService: ManageClubService) {
     }
 
@@ -45,7 +45,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
   
     private getEnded() {
         this.spinnerEndedMatches = true;
-        this.manageChampionshipMatchService.getCurrentCompetitionMatches('ended').subscribe(
+        this.championshipMatchService.getCurrentCompetitionMatches('ended').subscribe(
             response => {
               this.endedMatches = response;
               this.spinnerEndedMatches = false;
@@ -82,7 +82,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
         championshipMatch.t2_id = t2_id;
         championshipMatch.home = home;
         championshipMatch.away = away;
-        this.manageChampionshipMatchService.update(championshipMatch, id).subscribe(
+        this.championshipMatchService.update(championshipMatch, id).subscribe(
             response => {
                 this.spinnerButton['match_' + id] = false;
                 this.updatedMatches['match_' + id] = response;
@@ -99,7 +99,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     }
 
     updateRating() {
-        this.manageChampionshipRatingService.updatePositions().subscribe(
+        this.championshipRatingService.updatePositions().subscribe(
             response => {
                 this.isUpdatedMatches = false;
                 this.notificationService.success('Успішно', 'Рейтинг оновлено');

@@ -6,7 +6,6 @@ import { ConfirmationPopoverModule }from 'angular-confirmation-popover';
 import { DirectivesModule }         from '../../shared/directives/directives.module';
 import { ManageNewsComponent }      from './manage-news.component';
 import { ManageNewsRoutingModule }  from './manage-news-routing.module';
-import { ManageNewsService }        from './shared/manage-news.service';
 import { ManageNewsGuard }          from './shared/manage-news-guard.service';
 import { NewsTableComponent }       from './news-table/news-table.component';
 import { NewsCreateComponent }      from './news-create/news-create.component';
@@ -30,8 +29,7 @@ import { NewsEditComponent }        from './news-edit/news-edit.component';
         NewsEditComponent
     ],
     providers: [
-        ManageNewsGuard,
-        ManageNewsService
+        ManageNewsGuard
     ]
 })
 export class ManageNewsModule { }

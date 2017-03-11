@@ -3,7 +3,7 @@ import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { ManageNewsService }                    from '../shared/manage-news.service';
+import { NewsService }                          from '../../../news/shared/news.service';
 import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
 
@@ -17,7 +17,7 @@ export class NewsCreateComponent implements OnInit {
     constructor(
         private router: Router,
         private notificationService: NotificationsService,
-        private manageNewsService: ManageNewsService,
+        private newsService: NewsService,
         private imageService: ImageService
     ) {
         imageService.uploadedImage$.subscribe(
@@ -46,7 +46,7 @@ export class NewsCreateComponent implements OnInit {
 
     onSubmit() {
         this.spinner = true;
-        this.manageNewsService.create(this.newsCreateForm.value).subscribe(
+        this.newsService.create(this.newsCreateForm.value).subscribe(
             response => {
                 this.router.navigate(['/news/' + response.id]);
                 this.notificationService.success('Успішно', 'Новину створено!');
