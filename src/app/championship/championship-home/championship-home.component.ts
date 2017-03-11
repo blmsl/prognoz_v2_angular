@@ -198,7 +198,7 @@ export class ChampionshipHomeComponent implements OnInit {
                 this.spinnerRating = false;
             },
             error => {
-                this.error = error;
+                this.errorRating = error;
                 this.spinnerRating = false;
             }
         );
