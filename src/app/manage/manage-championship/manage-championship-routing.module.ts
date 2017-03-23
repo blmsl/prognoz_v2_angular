@@ -22,7 +22,7 @@ const routes: Routes = [
                     { path: 'matches/edit', component: MatchEditComponent },
                     { path: 'matches/edit/active', component: MatchEditActiveComponent },
                     { path: 'matches/edit/ended', component: MatchEditEndedComponent },
-                    { path: '', component: MatchCreateComponent }
+                    { path: '', redirectTo: 'matches/edit', pathMatch: 'full'},
                 ]
             }
         ]

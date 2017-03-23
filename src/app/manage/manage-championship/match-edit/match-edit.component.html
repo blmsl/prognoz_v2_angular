@@ -12,7 +12,7 @@
             <table class="table table-hover table-inverse table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center">№</th>
+                        <th class="hidden-sm-down text-center">№</th>
                         <th class="text-center">Матч</th>
                         <th colspan="2" class="text-center">Результати</th>
                         <th class="text-center">Додати</th>
@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let match of activeMatches" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
-                        <td class="align-middle text-center">
+                        <td class="hidden-sm-down align-middle text-center">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <strong class="fa-stack-1x text-success">{{match.number_in_competition}}</strong>

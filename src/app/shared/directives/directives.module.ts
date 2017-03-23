@@ -11,6 +11,7 @@ import { InfoComponent }                     from './info/info.component';
 import { ChampionshipRatingTopComponent }    from './championship/championship-rating-top/championship-rating-top.component';
 import { ChampionshipLastResultsComponent }  from './championship/championship-last-results/championship-last-results.component';
 import { ChampionshipRatingTableComponent }  from './championship/championship-rating-table/championship-rating-table.component';
+import { ChampionshipNavigationComponent }   from './championship/championship-navigation/championship-navigation.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { ChampionshipRatingTableComponent }  from './championship/championship-r
         InfoComponent,
         ChampionshipRatingTopComponent,
         ChampionshipLastResultsComponent,
-        ChampionshipRatingTableComponent
+        ChampionshipRatingTableComponent,
+        ChampionshipNavigationComponent
     ],
     exports: [
         SpinnerComponent,
@@ -37,7 +39,8 @@ import { ChampionshipRatingTableComponent }  from './championship/championship-r
         InfoComponent,
         ChampionshipRatingTopComponent,
         ChampionshipLastResultsComponent,
-        ChampionshipRatingTableComponent
+        ChampionshipRatingTableComponent,
+        ChampionshipNavigationComponent
     ]
 })
 export class DirectivesModule { }
