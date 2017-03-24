@@ -24,7 +24,7 @@
             <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user_id}}" class="cursor-pointer">
                 <th scope="row" class="text-center">{{ratingItem.position}}.</th>
                 <td class="text-left">
-                    <img class="rounded-circle small-image mr-1"
+                    <img class="rounded-circle small-image mr-1 black-shadow"
                          src="{{userImagesUrl}}{{ratingItem.user.image || userImageDefault}}"
                          alt="{{ratingItem.user.name}}">
                     {{ratingItem.user.name}}
