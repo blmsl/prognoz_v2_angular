@@ -1,10 +1,4 @@
 <h2>Результати: </h2>
-<!-- spinner -->
-<app-spinner *ngIf="spinner" [height]="250"></app-spinner>
-<!-- error -->
-<app-error *ngIf="error" [message]="error"></app-error>
-<!-- no content -->
-<app-info *ngIf="matches && !matches.length" [message]="'Чемпіонат ще не почався'"></app-info>
 <!-- Progress -->
 <div *ngIf="matches && matches.length" class="card mb-2 black-shadow">
     <div class="card-block">
