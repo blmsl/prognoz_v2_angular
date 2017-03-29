@@ -1,6 +1,7 @@
 import { NgModule }                                   from '@angular/core';
 import { CommonModule }                               from '@angular/common';
 import { AppRoutingModule }                           from '../../app-routing.module';
+import { ChartsModule }                               from 'ng2-charts/ng2-charts';
 
 import { SpinnerComponent }                           from './spinner/spinner.component';
 import { SpinnerButtonComponent }                     from './spinner-button/spinner-button.component';
@@ -15,11 +16,13 @@ import { ChampionshipNavigationComponent }            from './championship/champ
 import { ChampionshipResultsTableComponent }          from './championship/championship-results-table/championship-results-table.component';
 import { ChampionshipMatchPredictionsTableComponent } from './championship/championship-match-predictions-table/championship-match-predictions-table.component';
 import { ChampionshipUserPredictionsTableComponent }  from './championship/championship-user-predictions-table/championship-user-predictions-table.component';
+import { ChampionshipMatchPredictableComponent }      from './championship/championship-match-predictable/championship-match-predictable.component';
 
 @NgModule({
     imports: [
         CommonModule,
-        AppRoutingModule
+        AppRoutingModule,
+        ChartsModule
     ],
     declarations: [
         SpinnerComponent,
@@ -34,7 +37,8 @@ import { ChampionshipUserPredictionsTableComponent }  from './championship/champ
         ChampionshipNavigationComponent,
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
-        ChampionshipUserPredictionsTableComponent
+        ChampionshipUserPredictionsTableComponent,
+        ChampionshipMatchPredictableComponent
     ],
     exports: [
         SpinnerComponent,
@@ -49,7 +53,8 @@ import { ChampionshipUserPredictionsTableComponent }  from './championship/champ
         ChampionshipNavigationComponent,
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
-        ChampionshipUserPredictionsTableComponent
+        ChampionshipUserPredictionsTableComponent,
+        ChampionshipMatchPredictableComponent
     ]
 })
 export class DirectivesModule { }
