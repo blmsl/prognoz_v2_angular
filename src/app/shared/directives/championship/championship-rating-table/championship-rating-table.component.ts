@@ -10,7 +10,7 @@ import { HelperService }      from '../../../helper.service';
 })
 export class ChampionshipRatingTableComponent {
 
-    @Input() rating: ChampionshipRating;
+    @Input() rating: ChampionshipRating[];
     @Input() spinner: boolean;
     @Input() error: string;
     @Input() authenticatedUser: any;
