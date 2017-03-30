@@ -1,6 +1,7 @@
 import { NgModule }                                   from '@angular/core';
 import { CommonModule }                               from '@angular/common';
 import { AppRoutingModule }                           from '../../app-routing.module';
+import { ReactiveFormsModule }                        from '@angular/forms';
 import { ChartsModule }                               from 'ng2-charts/ng2-charts';
 
 import { SpinnerComponent }                           from './spinner/spinner.component';
@@ -22,7 +23,8 @@ import { ChampionshipMatchPredictableComponent }      from './championship/champ
     imports: [
         CommonModule,
         AppRoutingModule,
-        ChartsModule
+        ChartsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         SpinnerComponent,

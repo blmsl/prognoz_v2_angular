@@ -30,16 +30,6 @@ export class ChampionshipPredictsComponent implements OnInit {
     championshipPredictsForm: FormGroup;
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
-    // statistic
-    statistic: any = {};
-    errorStatistic: any = {};
-    spinnerStatistic: any = {};
-    expandedStatistic: any = {};
-    // result
-    resultChartLabels: any = {};
-    resultChartType: string = 'doughnut';
-    resultChartData: any = {};
-
     ngOnInit() {
         this.spinner = true;
         this.getMatches();
@@ -48,7 +38,6 @@ export class ChampionshipPredictsComponent implements OnInit {
     onSubmit() {
         this.spinnerButton = true;
         let predicts = [];
-        this.expandedStatistic = {};
         for (let predict in this.championshipPredictsForm.value) {
             let id = parseInt(predict.split('_')[0]);
             // if there is no predicts on match
@@ -119,34 +108,5 @@ export class ChampionshipPredictsComponent implements OnInit {
                 this.championshipPredictsForm.addControl(match.id + '_away', new FormControl(away));
             }
         }
-    }
-
-    getStatistic(match: ChampionshipMatch) {
-        if (!this.expandedStatistic['match_' + match.id]) {
-            this.expandedStatistic['match_' + match.id] = true;
-            this.spinnerStatistic['match_' + match.id] = true;
-            setTimeout(() =>
-                this.championshipMatchService.getStatistic(match.id).subscribe(
-                    response => {
-                        this.statistic['match_' + match.id] = response;
-                        this.resultChartLabels['match_' + match.id] = [match.club_first.title, match.club_second.title, 'Нічия'];
-                        this.resultChartData['match_' + match.id] = [response.results.home, response.results.away, response.results.draw];
-                        this.spinnerStatistic['match_' + match.id] = false;
-                    },
-                    error => {
-                        this.errorStatistic['match_' + match.id] = error;
-                        this.spinnerStatistic['match_' + match.id] = false;
-                    }
-                )
-            , 1000);
-        } else {
-            this.expandedStatistic['match_' + match.id] = false;
-        }
-    }
-
-    onClick(e: Event) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
     }
 }

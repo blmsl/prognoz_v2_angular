@@ -13,81 +13,18 @@
 <app-spinner *ngIf="spinnerMatches" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="error" [message]="error"></app-error>
-<!-- matches form (if user is authenticated) -->
-<form *ngIf="matches && !spinnerMatches && authenticatedUser && !error" novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit('today')">
-    <div class="container-fluid">
-        <!-- one match row -->
-        <div *ngFor="let match of matches"
-             class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
-             data-toggle="collapse"
-             [attr.data-target]="'#collapseMatch' + match.id"
-             aria-expanded="true"
-             [attr.aria-controls]="'collapseMatch' + match.id"
-             (click)="getStatistic(match)">
-            <!-- home club logo -->
-            <div class="hidden-md-down col-md-2">
-                <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
-            </div>
-            <!-- club names, starts_at, inputs -->
-            <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded">
-                <div class="row">
-                    <div class="col-12 text-center text-white">
-                        {{ match.starts_at.slice(0, -3) }}
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-right text-sm-center text-white">
-                        <strong><label for="{{match.id + '_home'}}">{{ match.club_first.title }}</label></strong>
-                    </div>
-                    <div class="col-12 col-sm-4 col-md-6 col-lg-4 flex-last flex-sm-unordered text-center text-white mb-2" (click)="onClick($event)">
-                        <input id="{{match.id + '_home'}}"
-                               type="number"
-                               min="0"
-                               max="9"
-                               class="predict-input"
-                               formControlName="{{match.id + '_home'}}"><strong>:</strong><!--
-                --><input id="{{match.id + '_away'}}"
-                          type="number"
-                          min="0"
-                          max="9"
-                          class="predict-input"
-                          formControlName="{{match.id + '_away'}}">
-                    </div>
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
-                        <strong><label for="{{match.id + '_away'}}">{{ match.club_second.title }}</label></strong>
-                    </div>
-                    <!-- expandable statistic -->
-                    <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
-                        <div class="card text-center">
-                            <div class="card-header">
-                                Статистика
-                            </div>
-                            <!-- spinner statistic -->
-                            <app-spinner *ngIf="spinnerStatistic['match_' + match.id]" [height]="250"></app-spinner>
-                            <!-- error statistic -->
-                            <app-error *ngIf="errorStatistic['match_' + match.id]" [message]="errorStatistic['match_' + match.id]"></app-error>
-                            <!-- statistic -->
-                            <div *ngIf="statistic['match_' + match.id] && match && !spinnerStatistic['match_' + match.id]" class="card-block bg-white">
-                                <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-                                    <canvas baseChart
-                                            [data]="resultChartData['match_' + match.id]"
-                                            [labels]="resultChartLabels['match_' + match.id]"
-                                            [chartType]="resultChartType">
-                                    </canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- away club logo -->
-            <div class="hidden-md-down col-md-2">
-                <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
-            </div>
-        </div>
+<!-- championship-match-predictable component-->
+<div *ngIf="matches && !spinnerMatches" class="container-fluid">
+    <form novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit('today')">
+        <app-championship-match-predictable *ngFor="let match of matches"
+                                            [match]="match"
+                                            [authenticatedUser]="authenticatedUser"
+                                            [championshipPredictsForm]="championshipPredictsTodayForm">
+        </app-championship-match-predictable>
         <!--button row (only if predictable matches exists)-->
-        <div *ngIf="matches.length && !error" class="row">
-            <div class="col-12 text-center">
+        <div class="row">
+            <!-- submit form button -->
+            <div *ngIf="matches.length && authenticatedUser" class="col-12 text-center">
                 <!-- add/update predicts button -->
                 <button [hidden]="spinnerButton" class="btn btn-primary">
                     <i class="fa fa-check-circle-o" aria-hidden="true"></i> Зробити прогнози
@@ -95,83 +32,21 @@
                 <!-- spinner button -->
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </div>
-        </div>
-    </div>
-</form>
-<!-- match list (if user is not authenticated ) -->
-<div *ngIf="matches && !spinnerMatches && !authenticatedUser && !error" class="container-fluid">
-    <!-- one match row -->
-    <div *ngFor="let match of matches"
-         class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
-         data-toggle="collapse"
-         [attr.data-target]="'#collapseMatch' + match.id"
-         aria-expanded="true"
-         [attr.aria-controls]="'collapseMatch' + match.id"
-         (click)="getStatistic(match)">
-        <!-- home club logo -->
-        <div class="hidden-sm-down col-md-2">
-            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
-        </div>
-        <!-- club names, starts_at -->
-        <div class="col-12 col-md-8 bg-inverse rounded">
-            <div class="row">
-                <div class="col-12 text-center text-white">
-                    {{ match.starts_at.slice(0, -3) }}
-                </div>
-            </div>
-            <div class="row align-items-center mb-2">
-                <div class="col-5 text-center text-white">
-                    <strong>{{ match.club_first.title }}</strong>
-                </div>
-                <div class="col-2 text-center text-white">
-                    <strong>vs</strong>
-                </div>
-                <div class="col-5 text-center text-white">
-                    <strong>{{ match.club_second.title }}</strong>
-                </div>
-                <!-- expandable statistic -->
-                <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            Статистика
-                        </div>
-                        <!-- spinner statistic -->
-                        <app-spinner *ngIf="spinnerStatistic['match_' + match.id]" [height]="250"></app-spinner>
-                        <!-- error statistic -->
-                        <app-error *ngIf="errorStatistic['match_' + match.id]" [message]="errorStatistic['match_' + match.id]"></app-error>
-                        <!-- statistic -->
-                        <div *ngIf="statistic['match_' + match.id] && match && !spinnerStatistic['match_' + match.id]" class="card-block bg-white">
-                            <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-                                <canvas baseChart
-                                        [data]="resultChartData['match_' + match.id]"
-                                        [labels]="resultChartLabels['match_' + match.id]"
-                                        [chartType]="resultChartType">
-                                </canvas>
-                            </div>
-                        </div>
-                    </div>
+            <!-- login and registration links -->
+            <div *ngIf="matches.length && !authenticatedUser" class="col-12 text-center">
+                <div class="btn-group" role="group" aria-label="Signin and signup links">
+                    <button routerLink="/signin" type="button" class="btn btn-primary">
+                        <i class="fa fa fa-sign-in" aria-hidden="true"></i> Вхід
+                    </button>
+                    <button routerLink="/signup" type="button" class="btn btn-primary">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
+                    </button>
                 </div>
             </div>
         </div>
-        <!-- away club logo -->
-        <div class="hidden-sm-down col-md-2">
-            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
-        </div>
-    </div>
-    <!-- login and registration links -->
-    <div *ngIf="matches.length && !error" class="row mb-2">
-        <div class="col-12 text-center">
-            <div class="btn-group" role="group" aria-label="Signin and signup links">
-                <button routerLink="/signin" type="button" class="btn btn-primary">
-                    <i class="fa fa fa-sign-in" aria-hidden="true"></i> Вхід
-                </button>
-                <button routerLink="/signup" type="button" class="btn btn-primary">
-                    <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
-                </button>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
+
 <!-- RATING TOP -->
 <div *ngIf="rating && rating.length" class="row align-items-end mt-2">
     <div class="col-12 col-sm-5 col-md-6">

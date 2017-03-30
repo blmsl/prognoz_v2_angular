@@ -52,16 +52,6 @@ export class ChampionshipHomeComponent implements OnInit {
     errorRating: string | Array<string>;
     rating: ChampionshipRating[];
 
-    /* statistic */
-    statistic: any = {};
-    errorStatistic: any = {};
-    spinnerStatistic: any = {};
-    expandedStatistic: any = {};
-    /* result */
-    resultChartLabels: any = {};
-    resultChartType: string = 'doughnut';
-    resultChartData: any = {};
-
     /**
      * Get matches, get predictions, get rating, get news
      */
@@ -202,44 +192,5 @@ export class ChampionshipHomeComponent implements OnInit {
                 this.spinnerRating = false;
             }
         );
-    }
-
-    /**
-     * Get statistic
-     * @param match
-     */
-    getStatistic(match: ChampionshipMatch) {
-        if (!this.expandedStatistic['match_' + match.id]) {
-            this.expandedStatistic['match_' + match.id] = true;
-            this.spinnerStatistic['match_' + match.id] = true;
-            setTimeout(() =>
-                    this.championshipMatchService.getStatistic(match.id).subscribe(
-                        response => {
-                            this.statistic['match_' + match.id] = response;
-                            this.resultChartLabels['match_' + match.id] = [match.club_first.title, match.club_second.title, 'Нічия'];
-                            this.resultChartData['match_' + match.id] = [response.results.home, response.results.away, response.results.draw];
-                            this.spinnerStatistic['match_' + match.id] = false;
-                        },
-                        error => {
-                            this.errorStatistic['match_' + match.id] = error;
-                            this.spinnerStatistic['match_' + match.id] = false;
-                        }
-                    )
-                , 1000);
-        } else {
-            this.expandedStatistic['match_' + match.id] = false;
-        }
-    }
-
-    /**
-     * On input click
-     *
-     * @param e
-     * @returns {boolean}
-     */
-    onClick(e: Event) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
     }
 }
