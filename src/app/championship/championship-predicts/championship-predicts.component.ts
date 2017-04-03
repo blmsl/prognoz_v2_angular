@@ -32,6 +32,7 @@ export class ChampionshipPredictsComponent implements OnInit {
 
     ngOnInit() {
         this.spinner = true;
+        this.championshipPredictsForm = new FormGroup({});
         this.getMatches();
     }
 

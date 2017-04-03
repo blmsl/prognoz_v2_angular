@@ -55,7 +55,7 @@
                 <div class="col">
                     <div *ngFor="let message of guestbookMessages" class="card mb-sm-2 black-shadow">
                         <div class="card-header">
-                            <img class="rounded-circle small-image mr-2 black-shadow"
+                            <img class="rounded-circle small-image mr-2"
                                  src="{{userImagesUrl}}{{message.user.image || userImageDefault}}"
                                  alt="{{message.user.name}}">
                             <strong class="align-middle">{{message.user.name}}</strong> <small *ngIf="message.user.hometown" class="text-muted">({{message.user.hometown}})</small>

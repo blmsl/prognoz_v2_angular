@@ -56,6 +56,7 @@ export class ChampionshipHomeComponent implements OnInit {
      * Get matches, get predictions, get rating, get news
      */
     ngOnInit() {
+        this.championshipPredictsTodayForm = new FormGroup({});
         this.getMatches('today');
         this.getTopRating();
         this.getLastPredictions();
