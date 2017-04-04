@@ -3,7 +3,7 @@
 <!-- error -->
 <app-error *ngIf="error" [message]="error"></app-error>
 <!-- rating leader -->
-<div *ngIf="rating && rating.length" class="card mt-2 mb-2">
+<div *ngIf="rating && rating.length" class="card mt-2 mb-2 black-shadow">
     <h4 class="card-header text-xs-center">Лідер рейтингу</h4>
     <div class="card-block text-center cursor-pointer" routerLink="/championship/users/{{rating[0].user_id}}">
         <img class="card-img-top img-fluid rounded"
@@ -24,7 +24,7 @@
             <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user_id}}" class="cursor-pointer">
                 <th scope="row" class="text-center">{{ratingItem.position}}.</th>
                 <td class="text-left">
-                    <img class="rounded-circle small-image mr-1 black-shadow"
+                    <img class="rounded-circle small-image mr-1"
                          src="{{userImagesUrl}}{{ratingItem.user.image || userImageDefault}}"
                          alt="{{ratingItem.user.name}}">
                     {{ratingItem.user.name}}
