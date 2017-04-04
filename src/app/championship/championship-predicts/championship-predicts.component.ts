@@ -31,8 +31,8 @@ export class ChampionshipPredictsComponent implements OnInit {
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
     ngOnInit() {
-        this.championshipPredictsForm = new FormGroup({});
         this.spinner = true;
+        this.championshipPredictsForm = new FormGroup({});
         this.getMatches();
     }
 
