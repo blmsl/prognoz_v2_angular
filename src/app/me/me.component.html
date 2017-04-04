@@ -1,0 +1,127 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Профіль:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
+    <app-spinner *ngIf="!error && !authenticatedUser" [height]="250"></app-spinner>
+    <!-- first full-width row -->
+    <div class="row">
+        <div class="col">
+            <div class="card mb-sm-2 black-shadow">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-3 col-lg-2">
+                            <div *ngIf="!userEditForm.value.image" class="text-center">
+                                <img class="img-fluid rounded-circle p-2" src="{{userImagesUrl}}{{authenticatedUser.image || userImageDefault}}" alt="{{authenticatedUser.name}}">
+                            </div>
+                            <!-- if upload avatar -->
+                            <div *ngIf="userEditForm.value.image" class="text-center">
+                                <img class="img-fluid rounded-circle p-2" src="{{userEditForm.value.image}}" alt="{{authenticatedUser.name}}">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-9 col-lg-10">
+                            <h4 class="h4">{{authenticatedUser.name}}</h4>
+                            <h6 class="h6 text-muted">Дата реєстрації: {{authenticatedUser.created_at.slice(0, -3)}}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- second row with two columns -->
+    <form novalidate [formGroup]="userEditForm" (ngSubmit)="onSubmit()">
+        <div class="row align-items-center">
+            <div class="col-12">
+                <div class="card black-shadow">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <input type="hidden" formControlName="id">
+                                <!-- user name input -->
+                                <div class="form-group"
+                                     [class.has-danger]="userEditForm.get('first_name').invalid && !userEditForm.get('first_name').pristine">
+                                    <label class="form-control-label" for="first_name"><strong>Ім'я:</strong></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
+                                        <input type="text"
+                                               id="first_name"
+                                               placeholder="Напишіть своє ім'я"
+                                               class="form-control"
+                                               [class.form-control-danger]="userEditForm.get('first_name').invalid && !userEditForm.get('first_name').pristine"
+                                               formControlName="first_name">
+                                    </div>
+                                    <div *ngIf="userEditForm.get('first_name').hasError('maxlength') && !userEditForm.get('first_name').pristine" class="form-control-feedback">
+                                        <small>Ім'я повинно бути меншим ніж 50 символів</small>
+                                    </div>
+                                </div>
+                                <!-- image input -->
+                                <div class="form-group" [class.has-danger]="errorImage">
+                                    <label class="form-control-label"><strong>Аватарка:</strong></label><br>
+                                    <label class="custom-file mb-2">
+                                        <input type="file"
+                                               id="image"
+                                               class="custom-file-input"
+                                               (change)="fileChange($event)"
+                                               accept=".png,.jpg,.gif,.jpeg">
+                                        <span class="custom-file-control"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <!-- hometown input -->
+                                <div class="form-group"
+                                     [class.has-danger]="userEditForm.get('hometown').invalid && !userEditForm.get('hometown').pristine">
+                                    <label class="form-control-label" for="hometown"><strong>Звідки ви:</strong></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-building" aria-hidden="true"></i></span>
+                                        <input type="text"
+                                               id="hometown"
+                                               placeholder="Напишіть звідки ви"
+                                               class="form-control"
+                                               [class.form-control-danger]="userEditForm.get('hometown').invalid && !userEditForm.get('hometown').pristine"
+                                               formControlName="hometown">
+                                    </div>
+                                    <div *ngIf="userEditForm.get('hometown').hasError('maxlength') && !userEditForm.get('hometown').pristine" class="form-control-feedback">
+                                        <small>Місто повинно бути меншим ніж 50 символів</small>
+                                    </div>
+                                </div>
+                                <!-- favorite team input -->
+                                <div class="form-group"
+                                     [class.has-danger]="userEditForm.get('favorite_team').invalid && !userEditForm.get('favorite_team').pristine">
+                                    <label class="form-control-label" for="favorite_team"><strong>Улюблена команда:</strong></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-soccer-ball-o" aria-hidden="true"></i></span>
+                                        <input type="text"
+                                               id="favorite_team"
+                                               placeholder="Напишіть свою улюблену команду"
+                                               class="form-control"
+                                               [class.form-control-danger]="userEditForm.get('favorite_team').invalid && !userEditForm.get('favorite_team').pristine"
+                                               formControlName="favorite_team">
+                                    </div>
+                                    <div *ngIf="userEditForm.get('favorite_team').hasError('maxlength') && !userEditForm.get('favorite_team').pristine" class="form-control-feedback">
+                                        <small>Команда повинна бути меншою ніж 50 символів</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="errorImage" class="alert alert-danger" role="alert">
+                            <small>{{errorImage}}</small>
+                        </div>
+                        <!-- help text after new avatar image uploaded -->
+                        <div *ngIf="userEditForm.value.image && !errorImage && hasUnsavedChanges" class="alert alert-info" role="alert">
+                            <small>Натисніть <strong>"Зберегти зміни"</strong> щоб зберегти це зображення для вашого профілю.</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- submit button -->
+                <div class="text-center m-2">
+                    <button [disabled]="userEditForm.invalid || errorImage" [hidden]="spinner" type="submit" class="btn btn-primary">Зберегти зміни</button>
+                    <!-- spinner button -->
+                    <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

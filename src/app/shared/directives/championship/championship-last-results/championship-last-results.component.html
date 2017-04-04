@@ -1,0 +1,19 @@
+<!-- spinner -->
+<app-spinner *ngIf="spinner" [height]="600"></app-spinner>
+<!-- error -->
+<app-error *ngIf="error" [message]="error"></app-error>
+<!-- matches card -->
+<div *ngIf="matches && matches.length" class="card black-shadow mt-2 mb-2">
+    <h4 class="card-header text-xs-center">Останні результати</h4>
+    <ul class="list-group list-group-flush">
+        <a *ngFor="let match of matches" routerLink="/championship/matches/{{match.id}}" class="list-group-item cursor-pointer list-group-item-action">
+            <div class="col-12 text-center">{{ match.club_first.title }} - {{ match.club_second.title }}</div>
+            <div class="col-12 text-center"><strong>{{ match.home }} : {{ match.away }}</strong></div>
+        </a>
+    </ul>
+    <div class="card-footer text-muted">
+        <button (click)="lastMatches()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+            <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Добавити результат:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
+    <app-spinner *ngIf="spinnerActiveMatches" [height]="250"></app-spinner>
+    <!-- matches -->
+    <div *ngIf="activeMatches" class="row">
+        <div class="col-12">
+            <table class="table table-hover table-inverse table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="hidden-sm-down text-center">№</th>
+                        <th class="text-center">Матч</th>
+                        <th colspan="2" class="text-center">Результати</th>
+                        <th class="text-center">Додати</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let match of activeMatches" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
+                        <td class="hidden-sm-down align-middle text-center">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <strong class="fa-stack-1x text-success">{{match.number_in_competition}}</strong>
+                            </span>
+                        </td>
+                        <td>
+                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.link}}">
+                            <small class="text-muted">{{match.starts_at}}</small>
+                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.link}}"><br>
+                            <strong>{{match.club_first.title}}</strong> - <strong>{{match.club_second.title}}</strong>
+                        </td>
+                        <td class="align-middle text-center">
+                            <input type="number"
+                                   class="form-control predict-input"
+                                   min="0"
+                                   max="9"
+                                   [disabled]="updatedMatches['match_' + match.id]"
+                                   [(ngModel)]="match.home">
+                        </td>
+                        <td class="align-middle text-center">
+                            <input type="number"
+                                   class="form-control predict-input"
+                                   min="0"
+                                   max="9"
+                                   [disabled]="updatedMatches['match_' + match.id]"
+                                   [(ngModel)]="match.away">
+                        </td>
+                        <td class="align-middle text-center">
+                            <button (click)="onSubmit(match.id, match.home, match.away)"
+                                    [hidden]="spinnerButton['match_' + match.id] || updatedMatches['match_' + match.id]"
+                                    class="btn btn-outline-success">Додати</button>
+                            <app-spinner-button [hidden]="!spinnerButton['match_' + match.id]"></app-spinner-button>
+                            <i [hidden]="!updatedMatches['match_' + match.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="isUpdatedMatches" class="row">
+        <div class="col-12 text-center">
+            <button class="btn btn-lg btn-outline-primary" (click)="updateRating()">Оновити рейтинг</button>
+            <p class="text-muted">*Рейтинг оновиться автоматчно після виходу з цієї сторінки</p>
+        </div>
+    </div>
+</div>

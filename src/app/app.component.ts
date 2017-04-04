@@ -1,10 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit }    from '@angular/core';
+import { NotificationsService } from 'angular2-notifications';
+
+import { UserService } from './shared/user.service';
+import './rxjs-operators';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'app works!';
+
+export class AppComponent implements OnInit {
+
+    constructor(
+        private notificationService: NotificationsService,
+        private userService: UserService
+    ) {}
+    
+    ngOnInit() {
+        this.userService.initializeUser();
+    }
+
+    public options = {
+        position: ['right', 'bottom'],
+        timeOut: 5000,
+        showProgressBar: false,
+        maxLength: 0,
+        animate: 'scale'
+    };
 }

@@ -1,0 +1,32 @@
+<!-- no content -->
+<app-info *ngIf="match && !match.championship_predicts.length" [message]="'Поки що ніхто не зробив прогнози на цей матч'"></app-info>
+<!-- user predicts table -->
+<table *ngIf="match && match.championship_predicts.length" class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
+    <thead class="thead-inverse">
+    <tr>
+        <th class="text-center">#</th>
+        <th class="text-center" title="Ім'я гравця, який зробив прогноз">Ім'я</th>
+        <th class="text-center hidden-xs-down" title="Час зробленого прогнозу">Час</th>
+        <th class="text-center">Прогноз</th>
+        <th class="text-center" title="Очки">О</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let predict of match.championship_predicts; let i = index"
+        routerLink="/championship/users/{{predict.user_id}}"
+        class="cursor-pointer"
+        [ngClass]="{'table-active': authenticatedUser && (predict.user.id === authenticatedUser.id)}">
+        <th scope="row" class="text-center">{{i + 1}}.</th>
+        <td class="text-left">{{predict.user.name}}</td>
+        <td class="text-center hidden-xs-down">{{predict.updated_at}}</td>
+        <td class="text-center">
+            {{helperService.showScore(predict.home, predict.away, '?')}}
+        </td>
+        <td class="text-center">
+            <strong>
+                {{helperService.isScore(match.home, match.away) ? helperService.getUserPointsOnMatch(match.home, match.away, predict.home, predict.away) : '-'}}
+            </strong>
+        </td>
+    </tr>
+    </tbody>
+</table>

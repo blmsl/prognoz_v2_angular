@@ -1,0 +1,38 @@
+<div class="container">
+    <app-spinner [hidden]="!spinner" [height]="200"></app-spinner>
+    <div class="row" *ngIf="seasons">
+        <div class="col-xs-12">
+            <table class="table table-inverse">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Назва</th>
+                        <th class="text-xs-center">Активний</th>
+                        <th class="text-xs-center">Завершений</th>
+                        <th>Змінено</th>
+                        <th>Створено</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let season of seasons"
+                        [class.bg-danger]="season.ended"
+                        [class.bg-success]="season.active">
+                        <td>{{season.id}}.</td>
+                        <td><strong>{{season.title}}</strong></td>
+                        <td class="text-xs-center">{{season.active ? '+' : '-'}}</td>
+                        <td class="text-xs-center">{{season.ended ? '+' : '-'}}</td>
+                        <td><small>{{season.updated_at}}</small></td>
+                        <td><small>{{season.created_at}}</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" *ngIf="error">
+        <div class="col-xs-12">
+            <div class="alert alert-danger" role="alert">
+                <strong>{{error}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

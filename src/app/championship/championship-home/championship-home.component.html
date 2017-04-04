@@ -1,0 +1,100 @@
+<!-- TODAY MATCHES -->
+<h2 *ngIf="matches">Найближчі матчі: </h2>
+<!-- tomorrow and today navigation -->
+<ul *ngIf="matches" class="nav nav-tabs mb-2" role="tablist">
+    <li *ngIf="matchesToday" class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home" role="tab" (click)="getMatches('today')">Сьогодні</a>
+    </li>
+    <li *ngIf="matchesTomorrow" class="nav-item">
+        <a class="nav-link" [ngClass]="{ active: (matchesTomorrow && !matchesToday) }" data-toggle="tab" href="#profile" role="tab" (click)="getMatches('tomorrow')">Завтра</a>
+    </li>
+</ul>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerMatches" [height]="250"></app-spinner>
+<!-- error -->
+<app-error *ngIf="error" [message]="error"></app-error>
+<!-- championship-match-predictable component-->
+<div *ngIf="matches && !spinnerMatches" class="container-fluid">
+    <form novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit('today')">
+        <app-championship-match-predictable *ngFor="let match of matches"
+                                            [match]="match"
+                                            [authenticatedUser]="authenticatedUser"
+                                            [championshipPredictsForm]="championshipPredictsTodayForm">
+        </app-championship-match-predictable>
+        <!--button row (only if predictable matches exists)-->
+        <div class="row">
+            <!-- submit form button -->
+            <div *ngIf="matches.length && authenticatedUser" class="col-12 text-center">
+                <!-- add/update predicts button -->
+                <button [hidden]="spinnerButton" class="btn btn-primary">
+                    <i class="fa fa-check-circle-o" aria-hidden="true"></i> Зробити прогнози
+                </button>
+                <!-- spinner button -->
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
+            </div>
+            <!-- login and registration links -->
+            <div *ngIf="matches.length && !authenticatedUser" class="col-12 text-center">
+                <div class="btn-group" role="group" aria-label="Signin and signup links">
+                    <button routerLink="/signin" type="button" class="btn btn-primary">
+                        <i class="fa fa fa-sign-in" aria-hidden="true"></i> Вхід
+                    </button>
+                    <button routerLink="/signup" type="button" class="btn btn-primary">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- RATING TOP -->
+<div *ngIf="rating && rating.length" class="row align-items-end mt-2">
+    <div class="col-12 col-sm-5 col-md-6">
+        <h2>Топ-{{rating.length}} рейтингу:
+            <button (click)="getTopRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+                <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+            </button>
+        </h2>
+    </div>
+    <div class="col-12 col-sm-7 col-md-6 text-right">
+        <small class="text-muted">Рейтинг оновлено {{rating[0].updated_at}}</small>
+    </div>
+</div>
+<!-- rating table -->
+<app-championship-rating-table [rating]="rating"
+                               [error]="errorRating"
+                               [spinner]="spinnerRating"
+                               [authenticatedUser]="authenticatedUser">
+</app-championship-rating-table>
+<!-- LAST PREDICTIONS -->
+<h2 *ngIf="predictions" class="mt-2">Останні прогнози:
+    <button (click)="getLastPredictions()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+    </button>
+</h2>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerPredictions" [height]="250"></app-spinner>
+<!-- error -->
+<app-error *ngIf="errorPredictions" [message]="errorPredictions"></app-error>
+<!-- predictions -->
+<div *ngIf="predictions && !spinnerPredictions" class="row">
+    <div class="col-12">
+        <div class="card black-shadow">
+            <ul class="list-group list-group-flush">
+                <a *ngFor="let prediction of predictions"
+                   routerLink="/championship/users/{{prediction.user.id}}"
+                   class="list-group-item list-group-item-action">
+                    <div class="col-6">
+                        <img class="rounded-circle small-image mr-2 hidden-xs-down black-shadow"
+                             src="{{userImagesUrl}}{{prediction.user.image || userImageDefault}}"
+                             alt="{{prediction.user.name}}">
+                        <strong>{{prediction.user.name}}</strong> <span class="text-muted hidden-md-down">{{helperService.getHometown(prediction.user.hometown)}}</span>
+                    </div>
+                    <div class="col-6 text-right">
+                        <span>{{prediction.diffForHumans}}</span>
+                    </div>
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>

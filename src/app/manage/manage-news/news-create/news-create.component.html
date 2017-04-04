@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Створити новину:</h2>
+        </div>
+    </div>
+    <!-- create news form -->
+    <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
+            <form novalidate [formGroup]="newsCreateForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
+                <!-- title -->
+                <div class="form-group"
+                     [class.has-danger]="newsCreateForm.get('title').invalid && newsCreateForm.get('title').touched">
+                    <label class="form-control-label" for="title"><strong>Заголовок:</strong></label>
+                    <input type="text"
+                           id="title"
+                           placeholder="Введіть заголовок новини"
+                           class="form-control"
+                           [class.form-control-danger]="newsCreateForm.get('title').invalid && newsCreateForm.get('title').touched"
+                           formControlName="title">
+                    <div *ngIf="newsCreateForm.get('title').hasError('required') && newsCreateForm.get('title').touched" class="form-control-feedback">
+                        <small>Заголовок новини обов'язковий</small>
+                    </div>
+                    <div *ngIf="newsCreateForm.get('title').hasError('minlength') && newsCreateForm.get('title').touched" class="form-control-feedback">
+                        <small>Заголовок повинен бути більшим ніж 10 символів</small>
+                    </div>
+                    <div *ngIf="newsCreateForm.get('title').hasError('maxlength') && newsCreateForm.get('title').touched" class="form-control-feedback">
+                        <small>Заголовок перевищує сто символів</small>
+                    </div>
+                </div>
+                <!-- body -->
+                <div class="form-group"
+                     [class.has-danger]="newsCreateForm.get('body').invalid && newsCreateForm.get('body').touched">
+                    <label class="form-control-label" for="body"><strong>Текст:</strong></label>
+                    <textarea id="body"
+                              placeholder="Введіть текст новини"
+                              class="form-control"
+                              [class.form-control-danger]="newsCreateForm.get('body').invalid && newsCreateForm.get('body').touched"
+                              rows="3"
+                              formControlName="body">
+                    </textarea>
+                    <div *ngIf="newsCreateForm.get('body').hasError('required') && newsCreateForm.get('body').touched" class="form-control-feedback">
+                        <small>Текст новини обов'язковий</small>
+                    </div>
+                    <div *ngIf="newsCreateForm.get('body').hasError('minlength') && newsCreateForm.get('body').touched" class="form-control-feedback">
+                        <small>Текст новини повинен бути більшим ніж 50 символів</small>
+                    </div>
+                    <div *ngIf="newsCreateForm.get('body').hasError('maxlength') && newsCreateForm.get('body').touched" class="form-control-feedback">
+                        <small>Текст новини перевищує 3000 символів</small>
+                    </div>
+                </div>
+                <!-- image -->
+                <div class="form-group" [class.has-danger]="errorImage">
+                    <label class="form-control-label" for="image"><strong>Зображення:</strong></label>
+                    <input type="file"
+                           id="image"
+                           placeholder="Завантажте зображення для новини"
+                           class="form-control"
+                           [class.form-control-danger]="errorImage"
+                           (change)="fileChange($event)"
+                           accept=".png,.jpg,.gif">
+                    <div *ngIf="errorImage" class="form-control-feedback">
+                        <small>{{errorImage}}</small>
+                    </div>
+                </div>
+                <!-- tournament -->
+                <div class="form-group" [class.has-danger]="newsCreateForm.get('tournament_id').invalid && newsCreateForm.get('tournament_id').touched">
+                    <label class="form-control-label" for="tournament_id"><strong>Категорія:</strong></label>
+                    <select id="tournament_id"
+                            class="form-control"
+                            [class.form-control-danger]="newsCreateForm.get('tournament_id').invalid && newsCreateForm.get('tournament_id').touched"
+                            formControlName="tournament_id">
+                        <option value="1">Чемпіонат</option>
+                        <option value="2">Кубок</option>
+                        <option value="3">Командний</option>
+                    </select>
+                    <div *ngIf="newsCreateForm.get('tournament_id').hasError('required') && newsCreateForm.get('tournament_id').touched" class="form-control-feedback">
+                        <small>Вибір категорії обов'язковий</small>
+                    </div>
+                </div>
+                <!-- submit -->
+                <button [disabled]="newsCreateForm.invalid || errorImage" type="submit" class="btn btn-primary">Створити</button>
+                <!-- spinner button -->
+                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+            </form>
+        </div>
+    </div>
+</div>

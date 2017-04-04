@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Останні новини:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
+    <app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <!-- last 3 news -->
+    <div *ngIf="news && news.length" class="row">
+        <div class="col">
+            <div class="card-deck">
+                <div *ngFor="let one of news | slice:0:3" class="card black-shadow">
+                    <img class="card-img-top img-fluid p-2" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
+                    <div class="card-block">
+                        <h4 class="card-title">{{one.title}}</h4>
+                        <p class="card-text">{{one.body | slice:0:75}}...</p>
+                        <a routerLink="/news/{{one.id}}" class="btn btn-outline-primary">Читати далі</a>
+                    </div>
+                    <div class="card-footer">
+                        <p class="card-text"><small class="text-muted">{{one.created_at}}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- more news button -->
+    <div *ngIf="news && news.length" class="row">
+        <div class="col text-center mt-2">
+            <a routerLink="news" class="btn btn-secondary btn-lg">Більше новин</a>
+        </div>
+    </div>
+</div>
