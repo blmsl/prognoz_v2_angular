@@ -1,38 +1,59 @@
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Таблиця сезонів:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
     <app-spinner [hidden]="!spinner" [height]="200"></app-spinner>
-    <div class="row" *ngIf="seasons">
-        <div class="col-xs-12">
+    <!-- error -->
+    <app-error *ngIf="error" [message]="error"></app-error>
+    <!-- seasons table -->
+    <div *ngIf="seasons" class="row">
+        <div class="col-12">
             <table class="table table-inverse">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Назва</th>
-                        <th class="text-xs-center">Активний</th>
-                        <th class="text-xs-center">Завершений</th>
-                        <th>Змінено</th>
-                        <th>Створено</th>
+                        <th class="hidden-md-down">#</th>
+                        <th class="text-center">Назва</th>
+                        <th class="text-center" title="Активний">
+                            <span class="hidden-md-down">Активний</span>
+                            <i class="hidden-lg-up fa fa-hourglass-half" aria-hidden="true"></i>
+                        </th>
+                        <th class="text-center" title="Завершений">
+                            <span class="hidden-md-down">Завершений</span>
+                            <i class="hidden-lg-up fa fa-hourglass-end" aria-hidden="true"></i>
+                        </th>
+                        <th class="hidden-xs-down text-center">Змінено</th>
+                        <th class="hidden-xs-down text-center">Створено</th>
+                        <th class="text-center" title="Змінити">
+                            <span class="hidden-md-down">Змінити</span>
+                            <i class="hidden-lg-up fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let season of seasons"
-                        [class.bg-danger]="season.ended"
-                        [class.bg-success]="season.active">
-                        <td>{{season.id}}.</td>
-                        <td><strong>{{season.title}}</strong></td>
-                        <td class="text-xs-center">{{season.active ? '+' : '-'}}</td>
-                        <td class="text-xs-center">{{season.ended ? '+' : '-'}}</td>
-                        <td><small>{{season.updated_at}}</small></td>
-                        <td><small>{{season.created_at}}</small></td>
+                    <tr *ngFor="let season of seasons">
+                        <td class="hidden-md-down">{{season.id}}.</td>
+                        <td class="text-center"><strong>{{season.title}}</strong></td>
+                        <td class="text-center">
+                            <i *ngIf="season.active" class="text-success fa fa-check-circle fa-lg" aria-hidden="true"></i>
+                            <i *ngIf="!season.active" class="text-danger fa fa-times fa-lg" aria-hidden="true"></i>
+                        </td>
+                        <td class="text-center">
+                            <i *ngIf="season.ended" class="text-success fa fa-check-circle fa-lg" aria-hidden="true"></i>
+                            <i *ngIf="!season.ended" class="text-danger fa fa-times fa-lg" aria-hidden="true"></i>
+                        </td>
+                        <td class="hidden-xs-down text-center"><small>{{season.updated_at}}</small></td>
+                        <td class="hidden-xs-down text-center"><small>{{season.created_at}}</small></td>
+                        <td class="text-center">
+                            <a type="button" routerLink="/manage/seasons/{{season.id}}/edit" class="btn btn-sm btn-outline-warning">
+                                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    <div class="row" *ngIf="error">
-        <div class="col-xs-12">
-            <div class="alert alert-danger" role="alert">
-                <strong>{{error}}</strong>
-            </div>
         </div>
     </div>
 </div>
