@@ -44,11 +44,11 @@ import { HelperService }              from './shared/helper.service';
         AuthModule,
         ManageModule,
         ChampionshipModule,
-        NewsModule,
-        HomeModule,
         GuestbookModule,
+        HomeModule,
         DirectivesModule,
-        MeModule
+        MeModule,
+        NewsModule
     ],
     providers: [
         HeadersWithToken,

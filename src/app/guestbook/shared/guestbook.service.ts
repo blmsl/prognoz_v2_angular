@@ -2,8 +2,8 @@ import { Injectable }                           from '@angular/core';
 import { Http, Response, URLSearchParams }      from '@angular/http';
 import { Observable }                           from 'rxjs/Observable';
 
-import { HeadersWithToken }                     from '../shared/headers-with-token.service';
-import { environment }                          from '../../environments/environment';
+import { HeadersWithToken }                     from '../../shared/headers-with-token.service';
+import { environment }                          from '../../../environments/environment';
 
 @Injectable()
 

@@ -1,0 +1,29 @@
+import { NgModule }                 from '@angular/core';
+import { RouterModule, Routes }     from '@angular/router';
+
+import { GuestbookComponent }       from './guestbook.component';
+import { GuestbookPageComponent }   from './guestbook-page/guestbook-page.component';
+
+const routes: Routes = [
+    {
+        path: 'guestbook',
+        component: GuestbookComponent,
+        children: [
+            {
+                path: '',
+                component: GuestbookPageComponent
+            },
+            {
+                path: 'page/:number',
+                component: GuestbookPageComponent
+            }
+        ]
+    }
+];
+
+@NgModule({
+    imports: [ RouterModule.forChild(routes) ],
+    exports: [ RouterModule ]
+})
+
+export class GuestbookRoutingModule {}

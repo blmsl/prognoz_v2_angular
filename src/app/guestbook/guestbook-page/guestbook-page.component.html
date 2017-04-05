@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col">
+        <h2>Гостьова:</h2>
+    </div>
+</div>
+<!-- new guestbook messages form-->
+<div *ngIf="authenticatedUser" class="row">
+    <div class="col text-white">
+        <form [formGroup]="guestbookAddMessageForm" (ngSubmit)="onSubmit(guestbookAddMessageForm)" novalidate
+              class="bg-inverse bg-inverse mb-sm-2 p-2 rounded">
+            <input type="hidden" name="user_id" formControlName="user_id">
+            <div class="form-group"
+                 [class.has-danger]="guestbookAddMessageForm.get('body').invalid && (guestbookAddMessageForm.get('body').touched || !guestbookAddMessageForm.get('body').pristine)">
+                <label class="form-control-label" for="body"><strong>Добавити повідомлення:</strong></label>
+                <textarea id="body"
+                          placeholder="Напишіть щось..."
+                          class="form-control"
+                          [class.form-control-danger]="guestbookAddMessageForm.get('body').invalid && (guestbookAddMessageForm.get('body').touched || !guestbookAddMessageForm.get('body').pristine)"
+                          name="body"
+                          rows="3"
+                          formControlName="body">
+                            </textarea>
+                <div *ngIf="guestbookAddMessageForm.get('body').hasError('required') && (guestbookAddMessageForm.get('body').touched || !guestbookAddMessageForm.get('body').pristine)"
+                     class="form-control-feedback">
+                    <small>Текст повідомлення обов'язковий.</small>
+                </div>
+                <div *ngIf="guestbookAddMessageForm.get('body').hasError('minlength') && !guestbookAddMessageForm.get('body').pristine"
+                     class="form-control-feedback">
+                    <small>Текст повідомлення повинен бути більшим ніж 10 символів.</small>
+                </div>
+                <div *ngIf="guestbookAddMessageForm.get('body').hasError('maxlength') && !guestbookAddMessageForm.get('body').pristine"
+                     class="form-control-feedback">
+                    <small>Текст повідомлення перевищує 1000 символів.</small>
+                </div>
+            </div>
+            <button [hidden]="spinnerButton"
+                    [disabled]="guestbookAddMessageForm.invalid"
+                    type="submit"
+                    class="btn btn-primary">Додати
+            </button>
+            <!-- spinner button -->
+            <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
+        </form>
+    </div>
+</div>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerMessages" [height]="250"></app-spinner>
+<!-- error -->
+<app-error *ngIf="error" [message]="error"></app-error>
+<!-- guestbook messages -->
+<div *ngIf="guestbookMessages" class="row">
+    <div class="col">
+        <div *ngFor="let message of guestbookMessages" class="card mb-sm-2 black-shadow">
+            <div class="card-header">
+                <img class="rounded-circle small-image mr-2"
+                     src="{{userImagesUrl}}{{message.user.image || userImageDefault}}"
+                     alt="{{message.user.name}}">
+                <strong class="align-middle">{{message.user.name}}</strong>
+                <small *ngIf="message.user.hometown" class="text-muted">({{message.user.hometown}})</small>
+            </div>
+            <div class="card-block">
+                <p class="card-text break-word">{{message.body}}</p>
+            </div>
+            <div class="card-footer pt-1 pb-1">
+                <small class="text-muted">{{message.created_at}}</small>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- pagination -->
+<app-pagination [totalItems]="total"
+                [currentPage]="currentPage"
+                [pageSize]="perPage"
+                [path]="path">
+</app-pagination>

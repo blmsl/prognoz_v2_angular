@@ -1,21 +1,23 @@
-import { NgModule }             from '@angular/core';
-import { CommonModule }         from '@angular/common';
-import { ReactiveFormsModule }  from '@angular/forms';
+import { NgModule }               from '@angular/core';
+import { CommonModule }           from '@angular/common';
+import { ReactiveFormsModule }    from '@angular/forms';
 
-import { AppRoutingModule }     from '../app-routing.module';
-import { DirectivesModule }     from '../shared/directives/directives.module';
-import { GuestbookComponent }   from './guestbook.component';
-import { GuestbookService }     from './guestbook.service';
+import { DirectivesModule }       from '../shared/directives/directives.module';
+import { GuestbookComponent }     from './guestbook.component';
+import { GuestbookPageComponent } from './guestbook-page/guestbook-page.component';
+import { GuestbookService }       from './shared/guestbook.service';
+import { GuestbookRoutingModule } from './guestbook-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AppRoutingModule,
+        GuestbookRoutingModule,
         DirectivesModule
     ],
     declarations: [
-        GuestbookComponent
+        GuestbookComponent,
+        GuestbookPageComponent
     ],
     providers: [
         GuestbookService
