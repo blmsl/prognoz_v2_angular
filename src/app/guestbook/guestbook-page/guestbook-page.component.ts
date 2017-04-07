@@ -5,6 +5,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { GuestbookService }                     from '../shared/guestbook.service';
 import { UserService }                          from '../../shared/user.service';
+import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { environment }                          from '../../../environments/environment';
 
 @Component({
@@ -21,7 +22,7 @@ export class GuestbookPageComponent implements OnInit {
                 private formBuilder: FormBuilder,
                 private notificationService: NotificationsService) { }
 
-    guestbookMessages: any;
+    guestbookMessages: GuestbookMessage[];
     error: string | Array<string>;
     spinnerButton: boolean = false;
     spinnerMessages: boolean = false;
@@ -36,6 +37,9 @@ export class GuestbookPageComponent implements OnInit {
 
     guestbookAddMessageForm: FormGroup;
     authenticatedUser: any;
+
+    modalMessage: GuestbookMessage = null;
+    guestbookEditMessageForm: FormGroup;
 
     ngOnInit() {
         this.authenticatedUser = this.userService.sharedUser;
@@ -83,6 +87,41 @@ export class GuestbookPageComponent implements OnInit {
                 this.guestbookAddMessageForm.patchValue({body: ''});
                 this.guestbookAddMessageForm.get('body').markAsUntouched();
                 this.guestbookAddMessageForm.get('body').markAsPristine();
+                this.spinnerButton = false;
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationService.error('Помилка', error);
+                }
+                this.spinnerButton = false;
+            }
+        );
+    }
+
+    addMessageToModal(message: GuestbookMessage) {
+        if (this.authenticatedUser.id === message.user_id) {
+
+            this.guestbookEditMessageForm = this.formBuilder.group({
+                id: [message.id, [Validators.required]],
+                user_id: [message.user_id, [Validators.required]],
+                body: [message.body, [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
+            });
+
+            this.modalMessage = message;
+        }
+    }
+
+    updateGuestbookMessage() {
+        // TODO: add message id and user_id in function, not in form
+        // TODO: the same for add message form
+        // TODO: GuestbookMessage everywhere in component
+        // TODO: GuestbookMessage everywhere in service
+        // TODO: update message methotds on REST
+        // TODO: "updated" badge
+        // TODO: test: change and cancel, change and save, invalid message and save, invalid message and cancel
+        this.guestbookService.update(this.guestbookEditMessageForm.value).subscribe(
+            response => {
+                //notification and reset form
                 this.spinnerButton = false;
             },
             errors => {
