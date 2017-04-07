@@ -54,7 +54,7 @@ export class MatchCreateComponent implements OnInit {
         this.championshipMatchService.create(this.championshipMatchCreateForm.value).subscribe(
             response => {
                 this.lastEnteredDate = response.starts_at;
-                this.championshipMatchCreateForm.reset();
+                this.resetForm();
                 this.championshipMatchCreateForm.patchValue({starts_at: this.lastEnteredDate});
                 this.addedMatches.push(response);
                 this.notificationService.success('Успішно', 'Матч додано!');
@@ -67,6 +67,16 @@ export class MatchCreateComponent implements OnInit {
                 this.spinner = false;
             }
         );
+    }
+
+    swapClubs() {
+        let t1_id = this.championshipMatchCreateForm.value.t1_id;
+        let t2_id = this.championshipMatchCreateForm.value.t2_id;
+        this.championshipMatchCreateForm.patchValue({t1_id: t2_id, t2_id: t1_id});
+    }
+
+    resetForm() {
+        this.championshipMatchCreateForm.reset();
     }
 
 }

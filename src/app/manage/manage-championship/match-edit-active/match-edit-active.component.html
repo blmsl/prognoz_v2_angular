@@ -57,6 +57,20 @@
                         <small>Вибір першої команди обов'язковий.</small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-block btn-danger" (click)="resetForm()">
+                                <i class="fa fa-trash" aria-hidden="true"></i> Очистити форму
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-block btn-info" (click)="swapClubs()">
+                                <i class="fa fa-arrows-v" aria-hidden="true"></i> Поміняти місцями
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <!-- away club -->
                 <div class="form-group"
                      [class.has-danger]="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched">

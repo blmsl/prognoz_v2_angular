@@ -98,4 +98,14 @@ export class MatchEditActiveComponent implements OnInit {
         });
     }
 
+    swapClubs() {
+        let t1_id = this.championshipMatchEditActiveForm.value.t1_id;
+        let t2_id = this.championshipMatchEditActiveForm.value.t2_id;
+        this.championshipMatchEditActiveForm.patchValue({t1_id: t2_id, t2_id: t1_id});
+    }
+
+    resetForm() {
+        this.championshipMatchEditActiveForm.reset();
+    }
+
 }
