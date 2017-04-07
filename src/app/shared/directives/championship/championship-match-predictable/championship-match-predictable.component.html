@@ -62,6 +62,8 @@
 <!-- one match row (if user is authenticated)-->
 <div *ngIf="match && authenticatedUser"
      class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
+     [ngClass]="{'green-inset-and-black-shadow': match.championship_predicts[0],
+                 'red-inset-and-black-shadow': !match.championship_predicts[0]}"
      data-toggle="collapse"
      [attr.data-target]="'#collapseMatch' + match.id"
      aria-expanded="false"
@@ -72,7 +74,10 @@
         <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
     </div>
     <!-- club names, starts_at, inputs -->
-    <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded" [formGroup]="championshipPredictsForm">
+    <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded"
+         [ngClass]="{'green-shadow': match.championship_predicts[0],
+                     'red-shadow': !match.championship_predicts[0]}"
+         [formGroup]="championshipPredictsForm">
         <div class="row">
             <div class="col-12 text-center text-white">
                 {{ match.starts_at.slice(0, -3) }}
@@ -88,9 +93,8 @@
                        min="0"
                        max="9"
                        class="predict-input"
-                       [formControlName]="match.id + '_home'">
-                <strong>:</strong><!--
-             --><input [attr.id]="match.id + '_away'"
+                       [formControlName]="match.id + '_home'"><strong>:</strong><!--
+                --><input [attr.id]="match.id + '_away'"
                       type="number"
                       min="0"
                       max="9"
