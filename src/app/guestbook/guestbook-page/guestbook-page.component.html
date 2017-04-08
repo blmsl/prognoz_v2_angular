@@ -8,7 +8,6 @@
     <div class="col text-white">
         <form [formGroup]="guestbookAddMessageForm" (ngSubmit)="onSubmit(guestbookAddMessageForm)" novalidate
               class="bg-inverse mb-sm-2 p-2 rounded">
-            <input type="hidden" name="user_id" formControlName="user_id">
             <div class="form-group"
                  [class.has-danger]="guestbookAddMessageForm.get('body').invalid && (guestbookAddMessageForm.get('body').touched || !guestbookAddMessageForm.get('body').pristine)">
                 <label class="form-control-label" for="body"><strong>Добавити повідомлення:</strong></label>
@@ -72,7 +71,10 @@
                 <p class="card-text break-word">{{message.body}}</p>
             </div>
             <div class="card-footer pt-1 pb-1">
-                <small class="text-muted">{{message.created_at}}</small>
+                <small class="text-muted pull-left">{{message.created_at}}</small>
+                <small class="pull-right">
+                    <span *ngIf="message.created_at !== message.updated_at" class="badge badge-default">Редаговано</span>
+                </small>
             </div>
         </div>
     </div>
@@ -84,12 +86,12 @@
                 [path]="path">
 </app-pagination>
 <!-- Modal -->
-<div *ngIf="modalMessage && authenticatedUser" class="modal fade" id="editMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div *ngIf="modalOpened && authenticatedUser" class="modal fade" id="editMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Редагувати повідомлення</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalMessage = null">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -98,8 +100,6 @@
                     <!-- edit guestbook message form-->
                     <div class="row">
                         <div class="col text-white">
-                            <input type="hidden" name="id" formControlName="id">
-                            <input type="hidden" name="user_id" formControlName="user_id">
                             <div class="form-group"
                                  [class.has-danger]="guestbookEditMessageForm.get('body').invalid && (guestbookEditMessageForm.get('body').touched || !guestbookEditMessageForm.get('body').pristine)">
                                 <textarea id="body"
@@ -109,7 +109,7 @@
                                           name="body"
                                           rows="3"
                                           formControlName="body">
-                            </textarea>
+                                </textarea>
                                 <div *ngIf="guestbookEditMessageForm.get('body').hasError('required') && (guestbookEditMessageForm.get('body').touched || !guestbookEditMessageForm.get('body').pristine)"
                                      class="form-control-feedback">
                                     <small>Текст повідомлення обов'язковий.</small>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalMessage = null">Відмінити</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Відмінити</button>
                     <button [hidden]="spinnerButton"
                             [disabled]="guestbookEditMessageForm.invalid"
                             class="btn btn-primary">Зберегти зміни</button>

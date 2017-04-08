@@ -8,6 +8,8 @@ import { UserService }                          from '../../shared/user.service'
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { environment }                          from '../../../environments/environment';
 
+declare var $:any;
+
 @Component({
     selector: 'app-guestbook-page',
     templateUrl: './guestbook-page.component.html',
@@ -38,11 +40,87 @@ export class GuestbookPageComponent implements OnInit {
     guestbookAddMessageForm: FormGroup;
     authenticatedUser: any;
 
-    modalMessage: GuestbookMessage = null;
+    modalOpened: boolean = false;
+    editedMessage: GuestbookMessage = null;
     guestbookEditMessageForm: FormGroup;
 
     ngOnInit() {
         this.authenticatedUser = this.userService.sharedUser;
+        this.getGuestbookPage();
+        if (this.authenticatedUser) {
+            this.guestbookAddMessageForm = this.formBuilder.group({
+                body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
+            });
+        }
+    }
+
+    onSubmit() {
+        this.spinnerButton = true;
+        this.guestbookService.create
+            ({
+                body: this.guestbookAddMessageForm.value.body,
+                user_id: this.authenticatedUser.id
+            })
+            .subscribe(
+                response => {
+                    this.guestbookMessages = response.data;
+                    this.currentPage = response.current_page;
+                    this.lastPage = response.last_page;
+                    this.perPage = response.per_page;
+                    this.total = response.total;
+                    this.router.navigate(['/guestbook']);
+                    this.notificationService.success('Успішно', 'Повідомлення додано');
+                    this.guestbookAddMessageForm.reset();
+                    this.spinnerButton = false;
+                },
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
+                    }
+                    this.spinnerButton = false;
+                }
+            );
+    }
+
+    addMessageToModal(message: GuestbookMessage) {
+        if (this.authenticatedUser.id === message.user_id) {
+            this.modalOpened = true;
+            this.editedMessage = Object.assign({}, message);
+            this.guestbookEditMessageForm = this.formBuilder.group({
+                body: [message.body, [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
+            });
+        }
+    }
+
+    updateGuestbookMessage() {
+        let updatedMessage = {
+            id: this.editedMessage.id,
+            user_id: this.authenticatedUser.id,
+            body: this.guestbookEditMessageForm.value.body
+        };
+        this.guestbookService.update(updatedMessage).subscribe(
+            response => {
+                this.notificationService.success('Успішно', 'Повідомлення змінено');
+                this.spinnerButton = false;
+                this.closeModal();
+                this.getGuestbookPage();
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationService.error('Помилка', error);
+                }
+                this.spinnerButton = false;
+            }
+        );
+    }
+
+    private closeModal() {
+        this.modalOpened = false;
+        this.editedMessage = null;
+        $('#editMessageModal').modal('hide');
+    }
+
+    private getGuestbookPage() {
         this.spinnerMessages = true;
         this.activatedRoute.params.subscribe((params: Params) => {
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
@@ -64,72 +142,5 @@ export class GuestbookPageComponent implements OnInit {
                 }
             )
         });
-
-        if (this.authenticatedUser) {
-            this.guestbookAddMessageForm = this.formBuilder.group({
-                user_id: [this.authenticatedUser.id, [Validators.required]],
-                body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
-            });
-        }
-    }
-
-    onSubmit() {
-        this.spinnerButton = true;
-        this.guestbookService.create(this.guestbookAddMessageForm.value).subscribe(
-            response => {
-                this.guestbookMessages = response.data;
-                this.currentPage = response.current_page;
-                this.lastPage = response.last_page;
-                this.perPage = response.per_page;
-                this.total = response.total;
-                this.router.navigate(['/guestbook']);
-                this.notificationService.success('Успішно', 'Повідомлення додано');
-                this.guestbookAddMessageForm.patchValue({body: ''});
-                this.guestbookAddMessageForm.get('body').markAsUntouched();
-                this.guestbookAddMessageForm.get('body').markAsPristine();
-                this.spinnerButton = false;
-            },
-            errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
-                this.spinnerButton = false;
-            }
-        );
-    }
-
-    addMessageToModal(message: GuestbookMessage) {
-        if (this.authenticatedUser.id === message.user_id) {
-
-            this.guestbookEditMessageForm = this.formBuilder.group({
-                id: [message.id, [Validators.required]],
-                user_id: [message.user_id, [Validators.required]],
-                body: [message.body, [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
-            });
-
-            this.modalMessage = message;
-        }
-    }
-
-    updateGuestbookMessage() {
-        // TODO: add message id and user_id in function, not in form
-        // TODO: the same for add message form
-        // TODO: GuestbookMessage everywhere in component
-        // TODO: GuestbookMessage everywhere in service
-        // TODO: update message methotds on REST
-        // TODO: "updated" badge
-        // TODO: test: change and cancel, change and save, invalid message and save, invalid message and cancel
-        this.guestbookService.update(this.guestbookEditMessageForm.value).subscribe(
-            response => {
-                //notification and reset form
-                this.spinnerButton = false;
-            },
-            errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
-                this.spinnerButton = false;
-            }
-        );
     }
 }
