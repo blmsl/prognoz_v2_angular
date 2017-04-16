@@ -18,6 +18,7 @@ import { ChampionshipResultsTableComponent }          from './championship/champ
 import { ChampionshipMatchPredictionsTableComponent } from './championship/championship-match-predictions-table/championship-match-predictions-table.component';
 import { ChampionshipUserPredictionsTableComponent }  from './championship/championship-user-predictions-table/championship-user-predictions-table.component';
 import { ChampionshipMatchPredictableComponent }      from './championship/championship-match-predictable/championship-match-predictable.component';
+import { TinyEditorComponent }                        from './tiny-editor/tiny-editor.component';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { ChampionshipMatchPredictableComponent }      from './championship/champ
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
-        ChampionshipMatchPredictableComponent
+        ChampionshipMatchPredictableComponent,
+        TinyEditorComponent
     ],
     exports: [
         SpinnerComponent,
@@ -56,7 +58,8 @@ import { ChampionshipMatchPredictableComponent }      from './championship/champ
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
-        ChampionshipMatchPredictableComponent
+        ChampionshipMatchPredictableComponent,
+        TinyEditorComponent
     ]
 })
 export class DirectivesModule { }

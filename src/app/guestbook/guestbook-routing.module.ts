@@ -5,6 +5,11 @@ import { GuestbookComponent }       from './guestbook.component';
 import { GuestbookPageComponent }   from './guestbook-page/guestbook-page.component';
 
 const routes: Routes = [
+    { 
+        path: 'guestbook/page/1', 
+        redirectTo: '/guestbook', 
+        pathMatch: 'full'
+    },
     {
         path: 'guestbook',
         component: GuestbookComponent,

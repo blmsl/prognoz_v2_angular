@@ -25,6 +25,7 @@ import { HeadersWithToken }           from './shared/headers-with-token.service'
 import { UserService }                from './shared/user.service';
 import { ImageService }               from './shared/image.service';
 import { HelperService }              from './shared/helper.service';
+import { BroadcastService }           from './shared/broadcast.service';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { HelperService }              from './shared/helper.service';
         HeadersWithToken,
         UserService,
         ImageService,
-        HelperService
+        HelperService,
+        BroadcastService
     ],
     bootstrap: [
         AppComponent

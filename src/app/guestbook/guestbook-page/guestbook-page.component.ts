@@ -1,10 +1,11 @@
 import { Component, OnInit }                    from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
-import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
+import { DomSanitizer }                         from '@angular/platform-browser';
 
 import { GuestbookService }                     from '../shared/guestbook.service';
 import { UserService }                          from '../../shared/user.service';
+import { BroadcastService }                     from './../../shared/broadcast.service';
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { environment }                          from '../../../environments/environment';
 
@@ -21,8 +22,9 @@ export class GuestbookPageComponent implements OnInit {
                 private activatedRoute: ActivatedRoute,
                 private guestbookService: GuestbookService,
                 private userService: UserService,
-                private formBuilder: FormBuilder,
-                private notificationService: NotificationsService) { }
+                private domSanitizer: DomSanitizer,
+                private notificationService: NotificationsService,
+                private broadcastService: BroadcastService) { }
 
     guestbookMessages: GuestbookMessage[];
     error: string | Array<string>;
@@ -31,98 +33,34 @@ export class GuestbookPageComponent implements OnInit {
     userImagesUrl: string = environment.API_IMAGE_USERS;
     userImageDefault: string = environment.IMAGE_USER_DEFAULT;
 
+    /* pagination */
     path: string = '/guestbook/page/';
     currentPage: number;
     lastPage: number;
     perPage: number;
     total: number;
 
-    guestbookAddMessageForm: FormGroup;
+    guestbookMessageBody: string;
     authenticatedUser: any;
+    
+    editedMessage: GuestbookMessage = { id: null, user_id: null, body: '' };
+    spinnerEditButton: boolean = false;
+    isEditedMessage: boolean = false;
 
-    modalOpened: boolean = false;
-    editedMessage: GuestbookMessage = null;
-    guestbookEditMessageForm: FormGroup;
+    showEditor: boolean = false;
 
     ngOnInit() {
         this.authenticatedUser = this.userService.sharedUser;
         this.getGuestbookPage();
-        if (this.authenticatedUser) {
-            this.guestbookAddMessageForm = this.formBuilder.group({
-                body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
-            });
-        }
     }
 
-    onSubmit() {
-        this.spinnerButton = true;
-        this.guestbookService.create
-            ({
-                body: this.guestbookAddMessageForm.value.body,
-                user_id: this.authenticatedUser.id
-            })
-            .subscribe(
-                response => {
-                    this.guestbookMessages = response.data;
-                    this.currentPage = response.current_page;
-                    this.lastPage = response.last_page;
-                    this.perPage = response.per_page;
-                    this.total = response.total;
-                    this.router.navigate(['/guestbook']);
-                    this.notificationService.success('Успішно', 'Повідомлення додано');
-                    this.guestbookAddMessageForm.reset();
-                    this.spinnerButton = false;
-                },
-                errors => {
-                    for (let error of errors) {
-                        this.notificationService.error('Помилка', error);
-                    }
-                    this.spinnerButton = false;
-                }
-            );
-    }
-
-    addMessageToModal(message: GuestbookMessage) {
-        if (this.authenticatedUser.id === message.user_id) {
-            this.modalOpened = true;
-            this.editedMessage = Object.assign({}, message);
-            this.guestbookEditMessageForm = this.formBuilder.group({
-                body: [message.body, [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
-            });
-        }
-    }
-
-    updateGuestbookMessage() {
-        let updatedMessage = {
-            id: this.editedMessage.id,
-            user_id: this.authenticatedUser.id,
-            body: this.guestbookEditMessageForm.value.body
-        };
-        this.guestbookService.update(updatedMessage).subscribe(
-            response => {
-                this.notificationService.success('Успішно', 'Повідомлення змінено');
-                this.spinnerButton = false;
-                this.closeModal();
-                this.getGuestbookPage();
-            },
-            errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
-                this.spinnerButton = false;
-            }
-        );
-    }
-
-    private closeModal() {
-        this.modalOpened = false;
-        this.editedMessage = null;
-        $('#editMessageModal').modal('hide');
-    }
-
+    /**
+     * Get guestbook messages on page
+     */
     private getGuestbookPage() {
         this.spinnerMessages = true;
         this.activatedRoute.params.subscribe((params: Params) => {
+            this.showEditor = !params['number'] ? true : false;
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
                 result => {
                     if (!result.data) {
@@ -142,5 +80,106 @@ export class GuestbookPageComponent implements OnInit {
                 }
             )
         });
+    }
+
+    /**
+     * Submitiing new guestbook message
+     */
+    addMessage() {
+        this.spinnerButton = true;
+        this.guestbookService.create
+            ({
+                body: this.guestbookMessageBody,
+                user_id: this.authenticatedUser.id
+            })
+            .subscribe(
+                response => {
+                    this.guestbookMessages = response.data;
+                    this.currentPage = response.current_page;
+                    this.lastPage = response.last_page;
+                    this.perPage = response.per_page;
+                    this.total = response.total;
+                    this.resetGuestbookMessage();
+                    //this.router.navigate(['/guestbook']);
+                    this.spinnerButton = false;
+                    this.notificationService.success('Успішно', 'Повідомлення додано');
+                },
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
+                    }
+                    this.spinnerButton = false;
+                }
+            );
+    }
+
+    /**
+     * Updating existing guestbook message
+     */
+    updateMessage() {
+        this.spinnerEditButton = true;
+        let updatedMessage = {
+            id: this.editedMessage.id,
+            user_id: this.authenticatedUser.id,
+            body: this.guestbookMessageBody
+        };
+        this.guestbookService.update(updatedMessage).subscribe(
+            response => {
+                this.spinnerEditButton = false;
+                this.getGuestbookPage();
+                this.resetGuestbookMessage();
+                this.notificationService.success('Успішно', 'Повідомлення змінено');
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationService.error('Помилка', error);
+                }
+                this.spinnerEditButton = false;
+            }
+        );
+    }
+
+    /**
+     * Add message to editor
+     * @param message
+     */
+    addMessageToEditor(message: GuestbookMessage) {
+        if (this.authenticatedUser.id === message.user_id) {
+            this.editedMessage = Object.assign({}, message);
+            this.isEditedMessage = true;
+            setTimeout(() => {
+                let event = new Event('updateContent');
+                this.broadcastService.next(event);
+                window.scrollTo(0, $('#body-add')[0].scrollTop);
+            });
+        }
+    }
+
+    /**
+     * Handler for tiny-editor component(add message)
+     * @param event
+     */
+    keyupHandler(event) {
+        this.guestbookMessageBody = event;
+    }
+
+    /**
+     * Make html trusted
+     * @param message
+     * @returns {SafeHtml}
+     */
+    assembleHTMLItem(message: string) {
+        return this.domSanitizer.bypassSecurityTrustHtml(message);
+    }
+
+    /**
+     * Reset guestbook input
+     */
+    resetGuestbookMessage() {
+        this.guestbookMessageBody = '';
+        this.editedMessage.body = '';
+        this.isEditedMessage = false;
+        let event = new Event('resetContent');
+        this.broadcastService.next(event);
     }
 }
