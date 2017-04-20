@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let match of endedMatches" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
+                    <tr *ngFor="let match of endedMatches | slice:0:12" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
                         <td class="align-middle text-center">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
@@ -27,12 +27,12 @@
                             </span>
                         </td>
                         <td>
-                            <select class="form-control" [(ngModel)]="match.t1_id" [disabled]="updatedMatches['match_' + match.id]">
+                            <select class="form-control" [(ngModel)]="match.t1_id" [disabled]="true">
                                 <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
                             </select>
                         </td>
                         <td>
-                            <select class="form-control" [(ngModel)]="match.t2_id" [disabled]="updatedMatches['match_' + match.id]">
+                            <select class="form-control" [(ngModel)]="match.t2_id" [disabled]="true">
                                 <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
                             </select>
                         </td>
