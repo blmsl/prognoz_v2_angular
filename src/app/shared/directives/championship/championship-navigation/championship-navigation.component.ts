@@ -16,7 +16,8 @@ export class ChampionshipNavigationComponent implements OnInit {
           {link: '/championship/rules', title: 'Правила'},
           {link: '/championship/predictions', title: 'Прогнози'},
           {link: '/championship/rating', title: 'Рейтинг'},
-          {link: '/championship/results', title: 'Результати'}
+          {link: '/championship/results', title: 'Результати'},
+          {link: '/championship/seasons', title: 'Архів'}
       ];
   }
 

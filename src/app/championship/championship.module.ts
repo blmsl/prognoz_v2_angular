@@ -4,6 +4,7 @@ import { ReactiveFormsModule }           from '@angular/forms';
 import { ChartsModule }                  from 'ng2-charts/ng2-charts';
 
 import { DirectivesModule }              from '../shared/directives/directives.module';
+import { ChampionshipSeasonsModule }     from './championship-seasons/championship-seasons.module';
 import { ChampionshipComponent }         from './championship.component';
 import { ChampionshipPredictsComponent } from './championship-predicts/championship-predicts.component';
 import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
@@ -24,7 +25,8 @@ import { ChampionshipHomeComponent }     from './championship-home/championship-
         ReactiveFormsModule,
         ChampionshipRoutingModule,
         DirectivesModule,
-        ChartsModule
+        ChartsModule,
+        ChampionshipSeasonsModule
     ],
     declarations: [
         ChampionshipComponent, 

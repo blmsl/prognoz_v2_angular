@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Сезони:</h2>
+        </div>
+    </div>
+    <!-- spinner -->
+    <app-spinner *ngIf="spinnerSeasons" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="errorSeasons" [message]="errorSeasons"></app-error>
+    <!-- news -->
+    <div *ngIf="seasons" class="row">
+        <div *ngFor="let season of seasons" class="col-6">
+            <div class="card text-center black-shadow p-2 m-2">
+                <button type="button" class="btn btn-outline-primary btn-block" routerLink="{{season.id}}">
+                    <h3>{{ season.title }}</h3>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>
