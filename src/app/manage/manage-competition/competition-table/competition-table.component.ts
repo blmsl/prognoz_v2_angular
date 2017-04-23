@@ -29,7 +29,7 @@ export class CompetitionTableComponent implements OnInit {
     ngOnInit() {
         this.spinner = true;
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.competitionService.get(params['number']).subscribe(
+            this.competitionService.get(null, null, params['number']).subscribe(
                 response => {
                     if (!response.data) {
                         this.error = "В базі даних змагань немає";

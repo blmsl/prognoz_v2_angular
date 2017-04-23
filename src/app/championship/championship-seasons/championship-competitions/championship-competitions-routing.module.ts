@@ -5,6 +5,7 @@ import { ChampionshipSeasonsRoutingModule }  from '../championship-seasons-routi
 import { ChampionshipComponent }             from '../../championship.component';
 import { ChampionshipSeasonsComponent }      from '../championship-seasons.component';
 import { ChampionshipCompetitionsComponent } from './championship-competitions.component';
+import { ChampionshipCompetitionsListComponent } from './championship-competitions-list/championship-competitions-list.component';
 
 const routes: Routes = [
     {
@@ -16,12 +17,17 @@ const routes: Routes = [
                 component: ChampionshipSeasonsComponent,
                 children: [
                     {
-                        path: ':id/competitions',
+                        path: ':id',
                         component: ChampionshipCompetitionsComponent,
                         children: [
+                            {
+                                path: '',
+                                component: ChampionshipCompetitionsListComponent
+                            },
                             // {
                             //     path: '',
-                            //     component: ChampionshipCompetitionsListComponent
+                            //     redirectTo: 'competitions',
+                            //     pathMatch: 'full'
                             // },
                             // {
                             //     path: ':id',
@@ -40,7 +46,7 @@ const routes: Routes = [
                             //     component: ChampionshipCompetitionUserComponent
                             // }
                         ]
-                    },
+                    }
                 ]
             },
         ]

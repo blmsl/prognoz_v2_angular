@@ -21,11 +21,18 @@ export class CompetitionService {
      * Get competitions list
      *
      * @param page
+     * @param season
+     * @param tournament
      * @returns {Observable<R>}
      */
-    get(page:string = '1'): Observable<any> {
+    get(season = null, tournament = null, page:string = null): Observable<any> {
+        console.log(season, tournament, page);
         let params = new URLSearchParams();
-        params.set('page', page);
+        if (page) params.set('page', page);
+        if (season && tournament) {
+            params.set('season', season);
+            params.set('tournament', tournament);
+        }
         return this.http
             .get(this.competitionUrl, {search: params})
             .map(this.extractData)

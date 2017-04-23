@@ -18,13 +18,13 @@ const routes: Routes = [
                     {
                         path: ':id/rating',
                         component: ChampionshipSeasonRatingComponent
-                    },
-                    {
-                        path: ':id',
-                        //redirectTo: '/championship/seasons/:id/competitions',
-                        redirectTo: ':id/competitions',
-                        pathMatch: 'full'
-                    },
+                    }
+                    // {
+                    //     path: ':id',
+                    //     //redirectTo: '/championship/seasons/:id/competitions',
+                    //     redirectTo: ':id/competitions',
+                    //     pathMatch: 'full'
+                    // },
                 ]
             },
         ]
