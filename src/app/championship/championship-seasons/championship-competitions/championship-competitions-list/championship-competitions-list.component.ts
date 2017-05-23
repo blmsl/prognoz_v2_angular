@@ -1,8 +1,9 @@
-import { Component, OnInit }      from '@angular/core';
-import { RoutesRecognized, ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnInit }                from '@angular/core';
+import { ActivatedRoute, Params, Router }   from '@angular/router';
 
-import { CompetitionService }     from '../../../../manage/manage-competition/shared/competition.service';
-import { Competition }            from '../../../../shared/models/competition.model';
+import { CompetitionService }               from '../../../../manage/manage-competition/shared/competition.service';
+import { Competition }                      from '../../../../shared/models/competition.model';
+import { environment }                      from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-championship-competitions-list',
@@ -22,22 +23,18 @@ export class ChampionshipCompetitionsListComponent implements OnInit {
     errorCompetitions: string | Array<string>;
   
     ngOnInit() {
-        this.spinnerCompetitions = true;
-
-
-        // this.router.events.subscribe(val => {
-        //     console.log('val', val);
-        //     if (val instanceof RoutesRecognized) {
-        //         var strId = val.state.root.firstChild.params["id"];
-        //         console.log(val.state.root.firstChild.params["id"]);
-        //     }});
-
         this.activatedRoute.params.forEach((params: Params) => {
+            this.spinnerCompetitions = true;
+            this.competitions = null;
+            this.errorCompetitions = null;
             let season = +params['id'];
-            console.log(this.activatedRoute.params);
-            this.competitionService.get(season, 1, null).subscribe(
+            this.competitionService.get(null, environment.TOURNAMENTS.CHAMPIONSHIP.ID, season).subscribe(
                 response => {
-                    this.competitions = response.data;
+                    if (response.status === 204) {
+                        this.errorCompetitions = 'Цей сезон немає змагань';
+                    } else {
+                        this.competitions = response;
+                    }
                     this.spinnerCompetitions = false;
                 },
                 error => {

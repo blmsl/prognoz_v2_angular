@@ -11,5 +11,10 @@ export const environment = {
         CLUB: { maxSize: 200000, types: ["image/gif", "image/png"] },
         USER: { maxSize: 500000, types: ["image/gif", "image/png", "image/jpg", "image/jpeg"] },
         NEWS: { maxSize: 500000, types: ["image/jpg", "image/jpeg", "image/png"] }
+    },
+    TOURNAMENTS: {
+        CHAMPIONSHIP: {
+            ID: 1
+        }
     }
 };
