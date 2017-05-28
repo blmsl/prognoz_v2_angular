@@ -33,10 +33,12 @@ export class ChampionshipPredictService {
      * Get user predicts by id
      *
      * @param id
+     * @param competitionId
      * @returns {Promise<ErrorObservable<T>|T>|Promise<R>|any|Promise<ErrorObservable<T>>}
      */
-    user(id: number): Observable<ChampionshipPredict[]> {
+    user(id: number, competitionId: number = null): Observable<ChampionshipPredict[]> {
         let url = environment.API_URL + 'championship/users/' + id;
+        if (competitionId) url += '?competition_id=' + competitionId;
         return this.http.get(url)
             .map(this.extractData)
             .catch(this.handleError);

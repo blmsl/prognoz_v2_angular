@@ -41,6 +41,13 @@ export class ChampionshipRatingService {
             .map(this.extractData)
             .catch(this.handleError);
     }
+    
+    getRatingByCompetition(competitionId: number): Observable<ChampionshipRating[]> {
+        return this.http
+            .get(this.championshipRatingUrl + "/" + competitionId)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
 
     /**
      * Transforms to json

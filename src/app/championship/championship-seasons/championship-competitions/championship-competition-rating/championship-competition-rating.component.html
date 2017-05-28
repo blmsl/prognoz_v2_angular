@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col">
+        <h2>Рейтинг: </h2>
+    </div>
+</div>
+<!-- rating table -->
+<app-championship-rating-table [rating]="championshipRating"
+                               [error]="errorChampionshipRating"
+                               [spinner]="spinnerChampionshipRating"
+                               [authenticatedUser]="authenticatedUser">
+</app-championship-rating-table>

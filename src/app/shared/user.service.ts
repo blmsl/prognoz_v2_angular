@@ -209,11 +209,13 @@ export class UserService {
      * Get user by id
      *
      * @param id
+     * @param competitionId
      * @returns {Promise<R>|any|Promise<ErrorObservable<T>>|Promise<ErrorObservable<T>|T>}
      */
-    getUser(id: number) {
+    getUser(id: number, competitionId: number = null) {
+        let url = environment.API_URL + 'users/' + id;
         return this.http
-            .get(environment.API_URL + 'users/' + id)
+            .get(url)
             .map(this.extractData)
             .catch(this.handleError);
     }

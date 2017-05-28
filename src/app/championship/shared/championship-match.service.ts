@@ -68,10 +68,13 @@ export class ChampionshipMatchService {
      * Available params: 'active', 'ended', 'last', 'predictable'
      *
      * @param param
+     * @param competitionId
      * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|any|Promise<R>}
      */
-    getCurrentCompetitionMatches(param = null): Observable<ChampionshipMatch[]> {
+    getCurrentCompetitionMatches(param = null, competitionId: number = null): Observable<ChampionshipMatch[]> {
         let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
+        if (!param && competitionId) url += '?competition_id=' + competitionId;
+        if (param && competitionId) url += '&competition_id=' + competitionId;
         if (param === 'predictable' && this.userService.sharedUser) {
             return this.headersWithToken
                 .get(environment.API_URL + 'championship/predicts?filter=' + param)

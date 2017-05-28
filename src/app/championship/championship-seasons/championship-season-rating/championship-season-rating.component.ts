@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }      from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-championship-season-rating',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChampionshipSeasonRatingComponent implements OnInit {
 
-  constructor() { }
+    constructor(
+        private activatedRoute: ActivatedRoute
+    ) { }
+  
+    seasonId: number;
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.activatedRoute.params.forEach((params: Params) => {
+            this.seasonId = +params['id'];
+        });
+    }
 
 }

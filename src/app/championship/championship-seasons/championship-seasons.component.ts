@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }   from '@angular/core';
 
 import { Season }              from '../../shared/models/season.model';
 import { ManageSeasonService } from '../../manage/manage-season/shared/manage-season.service';
@@ -18,18 +18,17 @@ export class ChampionshipSeasonsComponent implements OnInit {
     errorSeasons: string | Array<string>;
     spinnerSeasons: boolean = false;
 
-  ngOnInit() {
-      this.spinnerSeasons = true;
-      this.manageSeasonService.getSeasons().subscribe(
-          result => {
-              this.seasons = result;
-              this.spinnerSeasons = false;
-          },
-          error => {
-              this.errorSeasons = error;
-              this.spinnerSeasons = false;
-          }
-      );
-  }
-
+    ngOnInit() {
+        this.spinnerSeasons = true;
+        this.manageSeasonService.getSeasons().subscribe(
+            result => {
+                this.seasons = result;
+                this.spinnerSeasons = false;
+            },
+            error => {
+                this.errorSeasons = error;
+                this.spinnerSeasons = false;
+            }
+        );
+    }
 }

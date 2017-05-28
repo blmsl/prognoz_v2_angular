@@ -1,11 +1,14 @@
-import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule }                                from '@angular/core';
+import { RouterModule, Routes }                    from '@angular/router';
 
-import { ChampionshipSeasonsRoutingModule }  from '../championship-seasons-routing.module';
-import { ChampionshipComponent }             from '../../championship.component';
-import { ChampionshipSeasonsComponent }      from '../championship-seasons.component';
-import { ChampionshipCompetitionsComponent } from './championship-competitions.component';
-import { ChampionshipCompetitionsListComponent } from './championship-competitions-list/championship-competitions-list.component';
+import { ChampionshipSeasonsRoutingModule }        from '../championship-seasons-routing.module';
+import { ChampionshipComponent }                   from '../../championship.component';
+import { ChampionshipSeasonsComponent }            from '../championship-seasons.component';
+import { ChampionshipCompetitionsComponent }       from './championship-competitions.component';
+import { ChampionshipCompetitionUserComponent }    from './championship-competition-user/championship-competition-user.component';
+import { ChampionshipCompetitionRatingComponent }  from './championship-competition-rating/championship-competition-rating.component';
+import { ChampionshipCompetitionResultsComponent } from './championship-competition-results/championship-competition-results.component';
+import { ChampionshipCompetitionWinnersComponent } from './championship-competition-winners/championship-competition-winners.component';
 
 const routes: Routes = [
     {
@@ -17,40 +20,46 @@ const routes: Routes = [
                 component: ChampionshipSeasonsComponent,
                 children: [
                     {
-                        path: ':id',
+                        path: ':id/competitions',
                         component: ChampionshipCompetitionsComponent,
                         children: [
                             {
-                                path: 'competitions',
-                                component: ChampionshipCompetitionsListComponent
-                            }, 
-                            {
-                                path: '',
-                                component: ChampionshipCompetitionsListComponent
+                                path: ':competitionId/users/:userId',
+                                component: ChampionshipCompetitionUserComponent
                             },
+                            {
+                                path: ':competitionId/rating',
+                                component: ChampionshipCompetitionRatingComponent
+                            },
+                            {
+                                path: ':competitionId/results',
+                                component: ChampionshipCompetitionResultsComponent
+                            },
+                            {
+                                path: ':competitionId/winners',
+                                component: ChampionshipCompetitionWinnersComponent
+                            },
+                            {
+                                path: ':competitionId',
+                                redirectTo: ':competitionId/winners',
+                                pathMatch: 'full'
+                            },
+                            // {
+                            //     path: '',
+                            //     component: ChampionshipCompetitionsListComponent
+                            // },
                             // {
                             //     path: '',
                             //     redirectTo: 'competitions',
                             //     pathMatch: 'full'
                             // },
-                            // {
-                            //     path: ':id',
-                            //     component: ChampionshipCompetitionDetailComponent
-                            // },
-                            // {
-                            //     path: ':id/rating',
-                            //     component: ChampionshipCompetitionRatingComponent
-                            // },
-                            // {
-                            //     path: ':id/results',
-                            //     component: ChampionshipCompetitionResultsComponent
-                            // },
-                            // {
-                            //     path: ':id/users/:id',
-                            //     component: ChampionshipCompetitionUserComponent
-                            // }
                         ]
-                    }
+                    },
+                    {
+                        path: ':id',
+                        redirectTo: ':id/competitions',
+                        pathMatch: 'full'
+                    },
                 ]
             },
         ]

@@ -35,7 +35,6 @@ export class ChampionshipUserComponent implements OnInit {
     ngOnInit() {
         this.spinner = true;
         this.activatedRoute.params.forEach((params: Params) => {
-            console.log(this.activatedRoute.params);
             let id = +params['id'];
             this.getUser(id);
             this.championshipPredictService.user(id).subscribe(

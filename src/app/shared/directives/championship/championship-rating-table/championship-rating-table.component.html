@@ -3,7 +3,7 @@
 <!-- error -->
 <app-error *ngIf="error" [message]="error"></app-error>
 <!-- no content -->
-<app-info *ngIf="rating && !rating.length" [message]="'Чемпіонат ще не почався'"></app-info>
+<app-info *ngIf="rating && !rating.length" [message]="'Чемпіонат ще не почався або даних немає'"></app-info>
 <!-- rating table -->
 <table *ngIf="rating && rating.length"
        class="table table-striped table-bordered table-hover table-sm black-shadow black-border">
@@ -22,7 +22,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let ratingItem of rating"
-        routerLink="/championship/users/{{ratingItem.user.id}}"
+        routerLink="../users/{{ratingItem.user_id}}"
         class="cursor-pointer"
         [ngClass]="{'table-active': authenticatedUser && (ratingItem.user.id === authenticatedUser.id)}">
         <th scope="row" class="text-center">{{ratingItem.position}}.</th>

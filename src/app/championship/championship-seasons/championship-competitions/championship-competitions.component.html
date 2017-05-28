@@ -1,4 +1,31 @@
-<p>
-  championship-competitions component with router outlet:
-</p>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerCompetitions" [height]="250"></app-spinner>
+<!-- error -->
+<app-error *ngIf="errorCompetitions" [message]="errorCompetitions"></app-error>
+<!-- competitions -->
+<div *ngIf="competitions && competitions.length" class="row mb-2">
+    <div class="col">
+        <div class="card blue-shadow">
+            <div class="text-center">
+                <div *ngFor="let competition of competitions" class="btn-group m-2">
+                    <button type="button"
+                            class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                        {{competition.number_in_season}}
+                    </button>
+                    <div class="dropdown-menu blue-shadow">
+                        <a routerLink="{{competition.id}}/winners" routerLinkActive="active" class="dropdown-item">Переможці</a>
+                        <div class="dropdown-divider"></div>
+                        <a routerLink="{{competition.id}}/rating" routerLinkActive="active" class="dropdown-item">Рейтинг</a>
+                        <div class="dropdown-divider"></div>
+                        <a routerLink="{{competition.id}}/results" routerLinkActive="active" class="dropdown-item">Результати</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <router-outlet></router-outlet>

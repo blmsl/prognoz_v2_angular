@@ -1,0 +1,31 @@
+<!-- spinner -->
+<app-spinner *ngIf="spinnerCompetition" [height]="250"></app-spinner>
+<!-- error -->
+<app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
+<!-- competition is active -->
+<app-info *ngIf="competition && !competition.winners.length"
+          [message]="'Цей чемпіонат поки що немає переможців'"></app-info>
+<!-- competition winners -->
+<div *ngIf="competition && competition.winners.length">
+    <h2>Переможці:</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card-group black-shadow">
+                <div *ngFor="let winner of competition.winners | slice:0:3"
+                     class="card text-center mb-2 mb-sm-0">
+                    <div routerLink="../users/{{winner.user_id}}" class="card-header cursor-pointer">
+                        <img class="rounded-circle small-image mr-2"
+                             src="{{userImagesUrl}}{{winner.user.image || userImageDefault}}"
+                             alt="{{winner.user.name}}">
+                        <strong class="align-middle">{{winner.user.name}}</strong>
+                    </div>
+                    <div class="card-block">
+                        <img class="img-fluid p-2"
+                             src="{{awardsImagesUrl}}{{winner.award.image}}"
+                             alt="{{winner.award.title}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

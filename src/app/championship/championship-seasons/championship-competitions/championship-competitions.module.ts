@@ -1,10 +1,13 @@
-import { NgModule }                          from '@angular/core';
-import { CommonModule }                      from '@angular/common';
+import { NgModule }                                 from '@angular/core';
+import { CommonModule }                             from '@angular/common';
 
-import { DirectivesModule }                  from '../../../shared/directives/directives.module';
-import { ChampionshipCompetitionsComponent } from './championship-competitions.component';
-import { ChampionshipCompetitionsListComponent } from './championship-competitions-list/championship-competitions-list.component';
-import { ChampionshipCompetitionsRoutingModule } from './championship-competitions-routing.module';
+import { DirectivesModule }                         from '../../../shared/directives/directives.module';
+import { ChampionshipCompetitionsRoutingModule }    from './championship-competitions-routing.module';
+import { ChampionshipCompetitionsComponent }        from './championship-competitions.component';
+import { ChampionshipCompetitionUserComponent }     from './championship-competition-user/championship-competition-user.component';
+import { ChampionshipCompetitionRatingComponent }   from './championship-competition-rating/championship-competition-rating.component';
+import { ChampionshipCompetitionResultsComponent }  from './championship-competition-results/championship-competition-results.component';
+import { ChampionshipCompetitionWinnersComponent }  from './championship-competition-winners/championship-competition-winners.component';
 
 @NgModule({
     imports: [
@@ -14,7 +17,10 @@ import { ChampionshipCompetitionsRoutingModule } from './championship-competitio
     ],
     declarations: [
         ChampionshipCompetitionsComponent,
-        ChampionshipCompetitionsListComponent
+        ChampionshipCompetitionUserComponent,
+        ChampionshipCompetitionRatingComponent,
+        ChampionshipCompetitionResultsComponent,
+        ChampionshipCompetitionWinnersComponent
     ],
     exports: [
         ChampionshipCompetitionsComponent

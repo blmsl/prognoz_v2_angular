@@ -1,0 +1,71 @@
+<h2>Прогнози гравця: </h2>
+<!-- spinner user -->
+<app-spinner *ngIf="spinnerUser" [height]="250"></app-spinner>
+<!-- error user -->
+<app-error *ngIf="errorUser" [message]="error"></app-error>
+<!-- user data -->
+<div *ngIf="user" class="card mb-2">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-12 col-md-4 text-center">
+                <img class="rounded img-fluid mb-2 w-100"
+                     src="{{userImagesUrl}}{{user.image || userImageDefault}}"
+                     alt="{{user.name}}">
+                <strong>{{user.name}}</strong>
+                {{helperService.getHometown(user.hometown)}}
+                <p *ngIf="user.favorite_team">
+                    <span class="small text-muted">Вболіває за: </span>{{user.favorite_team}}
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <table *ngIf="user.championship_rating" class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td>Позиція в рейтингу</td>
+                        <td class="text-center">{{user.championship_rating.position}}</td>
+                    </tr>
+                    <tr>
+                        <td>Очки</td>
+                        <td class="text-center">{{user.championship_rating.points}}</td>
+                    </tr>
+                    <tr>
+                        <td>x3
+                            <small class="text-muted">(Трьохочкові)</small>
+                        </td>
+                        <td class="text-center">{{user.championship_rating.x3}}</td>
+                    </tr>
+                    <tr>
+                        <td>x2
+                            <small class="text-muted">(Двохочкові)</small>
+                        </td>
+                        <td class="text-center">{{user.championship_rating.x2}}</td>
+                    </tr>
+                    <tr>
+                        <td>Коефіцієнт складності</td>
+                        <td class="text-center">{{user.championship_rating.dc}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- user data -->
+<div *ngIf="user && user.winners.length" class="card mb-2">
+    <div class="card-block">
+        <div class="row">
+            <div *ngFor="let win of user.winners" class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card mb-2">
+                    <div class="card-header text-center">
+                        {{win.award.title}}
+                    </div>
+                    <img class="img-fluid p-2" src="{{awardsImagesUrl}}{{win.award.image}}" alt="{{win.award.title}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-championship-user-predictions-table [predictions]="predictions"
+                                         [spinner]="spinnerPredictions"
+                                         [error]="errorPredictions">
+</app-championship-user-predictions-table>
