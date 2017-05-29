@@ -52,6 +52,9 @@ export class ChampionshipHomeComponent implements OnInit {
     errorRating: string | Array<string>;
     rating: ChampionshipRating[];
 
+    /* date */
+    date: string;
+
     /**
      * Get matches, get predictions, get rating, get news
      */
@@ -124,6 +127,7 @@ export class ChampionshipHomeComponent implements OnInit {
      */
     public getMatches(date: string = 'today') {
         this.spinnerMatches = true;
+        this.date = date;
         this.championshipMatchService.getPredictableMatchesByDate(date).subscribe(
             response => {
                 if ((date === 'today') && !response.length) {
