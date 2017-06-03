@@ -183,7 +183,8 @@ export class ChampionshipHomeComponent implements OnInit {
      */
     public getTopRating() {
         this.spinnerRating = true;
-        this.championshipRatingService.get('top').subscribe(
+        let param = [{parameter: 'limit', value: '5'}];
+        this.championshipRatingService.get(param).subscribe(
             response => {
                 this.rating = response;
                 this.spinnerRating = false;

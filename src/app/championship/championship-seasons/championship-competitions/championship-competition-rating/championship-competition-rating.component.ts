@@ -27,9 +27,9 @@ export class ChampionshipCompetitionRatingComponent implements OnInit {
       this.authenticatedUser = this.userService.sharedUser;
       this.activatedRoute.params.forEach((params: Params) => {
           this.spinnerChampionshipRating = true;
-          let competitionId = +params['competitionId'];
           this.reloadComponent();
-          this.championshipRatingService.getRatingByCompetition(competitionId).subscribe(
+          let param = [{parameter: 'competition_id', value: <string>params['competitionId']}];
+          this.championshipRatingService.get(param).subscribe(
                   response => {
                       this.championshipRating = response;
                       this.spinnerChampionshipRating = false;

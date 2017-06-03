@@ -31,7 +31,8 @@ export class ChampionshipRatingTopComponent implements OnInit {
     topRating() {
         this.rating = [];
         this.spinner = true;
-        this.championshipRatingService.get('top').subscribe(
+        let param = [{parameter: 'limit', value: '5'}];
+        this.championshipRatingService.get(param).subscribe(
             response => {
               this.rating = response;
               this.spinner = false;

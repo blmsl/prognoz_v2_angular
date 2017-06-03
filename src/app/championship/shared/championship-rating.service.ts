@@ -1,9 +1,10 @@
 import { Injectable }                       from '@angular/core';
-import { Http, Response }                   from '@angular/http';
+import { Http, Response, URLSearchParams }  from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { ChampionshipRating }               from '../../shared/models/championship-rating.model';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
+import { RequestParams }                    from '../../shared/models/request-params.model';
 import { environment }                      from '../../../environments/environment';
 
 @Injectable()
@@ -19,7 +20,6 @@ export class ChampionshipRatingService {
 
     /**
      * Update positions and moving
-     *
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
      */
     updatePositions(): Observable<any> {
@@ -30,28 +30,26 @@ export class ChampionshipRatingService {
     }
 
     /**
-     * Get current championship rating
-     *
-     * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|Promise<R>|any}
+     * Get championship rating
+     * @param requestParams
+     * @returns {Promise<ErrorObservable|T>|any|Promise<ErrorObservable>|Maybe<T>|Promise<R>}
      */
-    get(param = null): Observable<ChampionshipRating[]> {
-        let url = param ? (this.championshipRatingUrl + '?filter=' + param) : this.championshipRatingUrl;
+    get(requestParams?: RequestParams[]): Observable<ChampionshipRating[]> {
+        if (requestParams) {
+            var params: URLSearchParams = new URLSearchParams();
+            for (let requestParam of requestParams) {
+                params.set(requestParam.parameter, requestParam.value);
+            }
+        }
+        
         return this.http
-            .get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-    
-    getRatingByCompetition(competitionId: number): Observable<ChampionshipRating[]> {
-        return this.http
-            .get(this.championshipRatingUrl + "/" + competitionId)
+            .get(this.championshipRatingUrl, requestParams ? {search: params} : null)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
     /**
      * Transforms to json
-     *
      * @param res
      * @returns {any}
      */
@@ -67,7 +65,6 @@ export class ChampionshipRatingService {
 
     /**
      * Error handling
-     *
      * @param error
      * @returns {ErrorObservable}
      */
