@@ -1,4 +1,11 @@
-<p>
-  championship-season-rating works!
-  Season id: <b>{{ seasonId }}</b>
-</p>
+<div class="row">
+    <div class="col">
+        <h2>Рейтинг сезону: </h2>
+    </div>
+</div>
+<!-- rating table -->
+<app-championship-rating-table [rating]="rating"
+                               [error]="errorRating"
+                               [spinner]="spinnerRating"
+                               [authenticatedUser]="authenticatedUser">
+</app-championship-rating-table>

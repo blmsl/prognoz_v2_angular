@@ -21,11 +21,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let ratingItem of rating"
-        routerLink="../users/{{ratingItem.user_id}}"
+    <tr *ngFor="let ratingItem of rating; let i = index;"
+        routerLink="{{ratingItem.position ? ('../users/' + ratingItem.user_id) : ('../../../users/' + ratingItem.user.id)}}"
         class="cursor-pointer"
         [ngClass]="{'table-active': authenticatedUser && (ratingItem.user.id === authenticatedUser.id)}">
-        <th scope="row" class="text-center">{{ratingItem.position}}.</th>
+        <th scope="row" class="text-center">{{ratingItem.position ? ratingItem.position : i + 1}}.</th>
         <!-- no moving -->
         <td *ngIf="!ratingItem.moving" class="text-center text-muted">
             <i class="fa fa-circle-thin" aria-hidden="true"></i>
