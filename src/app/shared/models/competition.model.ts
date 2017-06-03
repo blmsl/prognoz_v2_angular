@@ -10,4 +10,5 @@ export class Competition {
     first_playoff_stage: number | null;
     number_in_season: number;
     active_round: number | null;
+    winners: any;
 }
