@@ -45,8 +45,13 @@ const routes: Routes = [
                 component: ChampionshipMatchComponent
             },
             {
-                path: '',
+                path: 'home',
                 component: ChampionshipHomeComponent
+            },
+            {
+                path: '',
+                redirectTo: 'home',
+                pathMatch: 'full'
             }
         ]
     }
