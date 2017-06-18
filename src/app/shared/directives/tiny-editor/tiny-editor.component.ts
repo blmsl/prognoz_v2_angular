@@ -66,11 +66,11 @@ export class TinyEditorComponent implements AfterViewInit, OnDestroy {
     }
     
     private resetEditor() {
-        this.editor.setContent('');
+        this.editor.setContent('<p></p>');
     }
 
     private updateContent() {
-        this.editor.setContent(this.content ? this.content.body : '');
+        this.editor.setContent(this.content ? this.content.body : '<p></p>');
     }
 
 }
