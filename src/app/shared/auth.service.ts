@@ -3,6 +3,7 @@ import { Http, Headers, Response }  from '@angular/http';
 import { Observable }               from 'rxjs/Observable';
 
 import { HeadersWithToken }         from './headers-with-token.service';
+import { User }                     from '../shared/models/user.model';
 import { environment }              from '../../environments/environment';
 
 @Injectable()
@@ -69,13 +70,34 @@ export class AuthService {
      * Sends unvalidate token request
      * @returns {any|Promise<R>|Promise<ErrorObservable>|Promise<ErrorObservable|T>|Maybe<T>}
      */
-    logout() {
+    logout(): Observable<any> {
         return this.headersWithToken.post(this.authUrl + 'logout', {})
             .map(response => response.json())
             .map((response) => {
                 localStorage.clear();
                 this.userObserver.next(null);
                 return response;
+            })
+            .catch(this.handleError);
+    }
+
+    /**
+     * Sends registration request
+     * @param user
+     * @returns {any|Promise<ErrorObservable|T>|Maybe<T>|Promise<ErrorObservable>|Promise<R>}
+     */
+    signUp(user: User): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-type', 'application/json');
+        return this.http.post(this.authUrl + 'signup', JSON.stringify(user), {headers})
+            .map(response=> response.json())
+            .map((response) => {
+                if (response.token) {
+                    this.setTokenToLocalStorage(response.token);
+                    this.updateUserInLocalStorage(response.user);
+                    this.userObserver.next(response.user);
+                }
+                return response.user;
             })
             .catch(this.handleError);
     }

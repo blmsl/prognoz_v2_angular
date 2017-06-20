@@ -5,12 +5,12 @@
         </div>
     </div>
     <!-- show sign up form if user is not authenticated -->
-    <div *ngIf="!authenticatedUser" class="row">
+    <div *ngIf="!user" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
-            <form novalidate [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)" class="bg-inverse p-2 rounded">
+            <form novalidate [formGroup]="signUpForm" (ngSubmit)="onSubmit(signUpForm)" class="bg-inverse p-2 rounded">
                 <!-- name (login) input -->
                 <div class="form-group"
-                     [class.has-danger]="signupForm.get('name').invalid && (signupForm.get('name').touched || !signupForm.get('name').pristine)">
+                     [class.has-danger]="signUpForm.get('name').invalid && (signUpForm.get('name').touched || !signUpForm.get('name').pristine)">
                     <label class="form-control-label" for="name"><strong>Ім'я:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
@@ -18,25 +18,25 @@
                                id="name"
                                placeholder="Придумайте собі оригінальне ім'я"
                                class="form-control"
-                               [class.form-control-danger]="signupForm.get('name').invalid && (signupForm.get('name').touched || !signupForm.get('name').pristine)"
+                               [class.form-control-danger]="signUpForm.get('name').invalid && (signUpForm.get('name').touched || !signUpForm.get('name').pristine)"
                                formControlName="name">
                     </div>
-                    <div *ngIf="signupForm.get('name').hasError('required') && (signupForm.get('name').touched || !signupForm.get('name').pristine)"
+                    <div *ngIf="signUpForm.get('name').hasError('required') && (signUpForm.get('name').touched || !signUpForm.get('name').pristine)"
                          class="form-control-feedback">
                         <small>Ім'я обов'язкове.</small>
                     </div>
-                    <div *ngIf="signupForm.get('name').hasError('minlength') && !signupForm.get('name').pristine"
+                    <div *ngIf="signUpForm.get('name').hasError('minlength') && !signUpForm.get('name').pristine"
                          class="form-control-feedback">
                         <small>Ім'я повинно містити мінімум три символи.</small>
                     </div>
-                    <div *ngIf="signupForm.get('name').hasError('maxlength') && !signupForm.get('name').pristine"
+                    <div *ngIf="signUpForm.get('name').hasError('maxlength') && !signUpForm.get('name').pristine"
                          class="form-control-feedback">
                         <small>Ім'я перевищує п'ятдесять символів.</small>
                     </div>
                 </div>
                 <!-- email input -->
                 <div class="form-group"
-                     [class.has-danger]="signupForm.get('email').invalid && (signupForm.get('email').touched || !signupForm.get('email').pristine)">
+                     [class.has-danger]="signUpForm.get('email').invalid && (signUpForm.get('email').touched || !signUpForm.get('email').pristine)">
                     <label class="form-control-label" for="email"><strong>E-mail:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
@@ -44,21 +44,21 @@
                                id="email"
                                placeholder="Введіть свій email"
                                class="form-control"
-                               [class.form-control-danger]="signupForm.get('email').invalid && (signupForm.get('email').touched || !signupForm.get('email').pristine)"
+                               [class.form-control-danger]="signUpForm.get('email').invalid && (signUpForm.get('email').touched || !signUpForm.get('email').pristine)"
                                formControlName="email">
                     </div>
-                    <div *ngIf="signupForm.get('email').hasError('required') && (signupForm.get('email').touched || !signupForm.get('email').pristine)"
+                    <div *ngIf="signUpForm.get('email').hasError('required') && (signUpForm.get('email').touched || !signUpForm.get('email').pristine)"
                          class="form-control-feedback">
                         <small>E-mail обов'язковий.</small>
                     </div>
-                    <div *ngIf="signupForm.get('email').hasError('pattern') && !signupForm.get('email').pristine"
+                    <div *ngIf="signUpForm.get('email').hasError('pattern') && !signUpForm.get('email').pristine"
                          class="form-control-feedback">
                         <small>Email введено неправильно.</small>
                     </div>
                 </div>
                 <!-- password input -->
                 <div class="form-group"
-                     [class.has-danger]="signupForm.get('password').invalid && (signupForm.get('password').touched || !signupForm.get('password').pristine)">
+                     [class.has-danger]="signUpForm.get('password').invalid && (signUpForm.get('password').touched || !signUpForm.get('password').pristine)">
                     <label class="form-control-label" for="password"><strong>Пароль:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
@@ -66,22 +66,22 @@
                                id="password"
                                placeholder="Придумайте пароль"
                                class="form-control"
-                               [class.form-control-danger]="signupForm.get('password').invalid && (signupForm.get('password').touched || !signupForm.get('password').pristine)"
+                               [class.form-control-danger]="signUpForm.get('password').invalid && (signUpForm.get('password').touched || !signUpForm.get('password').pristine)"
                                formControlName="password">
                     </div>
-                    <div *ngIf="signupForm.get('password').hasError('required') && (signupForm.get('password').touched || !signupForm.get('password').pristine)"
+                    <div *ngIf="signUpForm.get('password').hasError('required') && (signUpForm.get('password').touched || !signUpForm.get('password').pristine)"
                          class="form-control-feedback">
                         <small>Пароль обов'язковий.</small>
                     </div>
-                    <div *ngIf="signupForm.get('password').hasError('minlength') && !signupForm.get('password').pristine"
+                    <div *ngIf="signUpForm.get('password').hasError('minlength') && !signUpForm.get('password').pristine"
                          class="form-control-feedback">
                         <small>Пароль повинен бути більшим ніж шість символів.</small>
                     </div>
                 </div>
                 <!-- password repeating input -->
                 <div class="form-group"
-                     [class.has-danger]="(signupForm.get('password_confirmation').invalid || (signupForm.value.password != signupForm.value.password_confirmation))
-                                        && (signupForm.get('password_confirmation').touched || !signupForm.get('password_confirmation').pristine)">
+                     [class.has-danger]="(signUpForm.get('password_confirmation').invalid || (signUpForm.value.password != signUpForm.value.password_confirmation))
+                                        && (signUpForm.get('password_confirmation').touched || !signUpForm.get('password_confirmation').pristine)">
                     <label class="form-control-label" for="password_confirmation"><strong>Повторіть пароль:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
@@ -89,15 +89,15 @@
                                id="password_confirmation"
                                placeholder="Повторіть пароль"
                                class="form-control"
-                               [class.form-control-danger]="(signupForm.get('password_confirmation').invalid || (signupForm.value.password != signupForm.value.password_confirmation))
-                                                            && (signupForm.get('password_confirmation').touched || !signupForm.get('password_confirmation').pristine)"
+                               [class.form-control-danger]="(signUpForm.get('password_confirmation').invalid || (signUpForm.value.password != signUpForm.value.password_confirmation))
+                                                            && (signUpForm.get('password_confirmation').touched || !signUpForm.get('password_confirmation').pristine)"
                                formControlName="password_confirmation">
                     </div>
-                    <div *ngIf="signupForm.get('password_confirmation').hasError('required') && (signupForm.get('password_confirmation').touched || !signupForm.get('password_confirmation').pristine)"
+                    <div *ngIf="signUpForm.get('password_confirmation').hasError('required') && (signUpForm.get('password_confirmation').touched || !signUpForm.get('password_confirmation').pristine)"
                          class="form-control-feedback">
                         <small>Підтвердження паролю обов'язкове.</small>
                     </div>
-                    <div *ngIf="(signupForm.value.password != signupForm.value.password_confirmation) && !signupForm.get('password_confirmation').pristine"
+                    <div *ngIf="(signUpForm.value.password != signUpForm.value.password_confirmation) && !signUpForm.get('password_confirmation').pristine"
                          class="form-control-feedback">
                         <small>Паролі не співпадають.</small>
                     </div>
@@ -107,7 +107,7 @@
                     <recaptcha (resolved)="resolved($event)" siteKey="6LcZUhQUAAAAAO0sLBWgT4DujK8EfRpEG2jdZbLv"></recaptcha>
                 </div>
                 <!-- submit button -->
-                <button [hidden]="spinner" [disabled]="signupForm.invalid || (signupForm.value.password != signupForm.value.password_confirmation) || !captchaValidity" type="submit" class="btn btn-primary">
+                <button [hidden]="spinner" [disabled]="signUpForm.invalid || (signUpForm.value.password != signUpForm.value.password_confirmation) || !captchaValidity" type="submit" class="btn btn-primary">
                     <i class="fa fa-user-plus" aria-hidden="true"></i> Зареєструватись
                 </button>
                 <!-- spinner button -->
@@ -116,10 +116,10 @@
         </div>
     </div>
     <!-- show profile and logout buttons if user is authenticated -->
-    <div *ngIf="authenticatedUser" class="row">
+    <div *ngIf="user" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
-            <button routerLink="/user" class="btn btn-primary">
-                <i class="fa fa-user-circle" aria-hidden="true"></i> {{authenticatedUser.name}}
+            <button routerLink="/me" class="btn btn-primary">
+                <i class="fa fa-user-circle" aria-hidden="true"></i> {{user.name}}
             </button>
             <button (click)="logout()" class="btn btn-outline-primary">
                 <i class="fa fa-sign-out" aria-hidden="true"></i> Вихід
