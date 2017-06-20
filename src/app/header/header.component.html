@@ -4,11 +4,11 @@
     <!-- authentication form(large screens) -->
     <form *ngIf="!user"
           novalidate
-          [formGroup]="headerSigninForm"
-          (ngSubmit)="onSubmit(headerSigninForm)"
+          [formGroup]="headerSignInForm"
+          (ngSubmit)="onSubmit(headerSignInForm)"
           class="form-inline hidden-md-down">
         <!-- name -->
-        <label class="sr-only" for="name">Ім'я</label>
+        <label class="sr-only" for="header-name">Ім'я</label>
         <div class="input-group mr-sm-2">
             <div class="input-group-addon">
                 <i class="fa fa-user fa-fw"></i>
@@ -16,11 +16,11 @@
             <input formControlName="name"
                    type="text"
                    class="form-control header-input"
-                   id="name"
+                   id="header-name"
                    placeholder="Ім'я">
         </div>
         <!-- password -->
-        <label class="sr-only" for="password">Пароль</label>
+        <label class="sr-only" for="header-password">Пароль</label>
         <div class="input-group mr-sm-2">
             <div class="input-group-addon">
                 <i class="fa fa-key" aria-hidden="true"></i>
@@ -28,13 +28,13 @@
             <input formControlName="password"
                    type="password"
                    class="form-control header-input"
-                   id="password"
+                   id="header-password"
                    placeholder="Пароль">
         </div>
         <!-- sign up and recovery buttons -->
         <div class="btn-group ml-sm-2" role="group" aria-label="header-buttons">
             <!-- sign in button -->
-            <button [hidden]="spinner" [disabled]="headerSigninForm.invalid" type="submit" class="btn btn-secondary">
+            <button [hidden]="spinner" [disabled]="headerSignInForm.invalid" type="submit" class="btn btn-secondary">
                 <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
             </button>
             <!-- sign in spinner -->

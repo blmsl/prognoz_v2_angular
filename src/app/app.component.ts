@@ -1,7 +1,7 @@
 import { Component, OnInit }    from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
 
-import { UserService } from './shared/user.service';
+import { CurrentStateService } from './shared/current-state.service';
 import './rxjs-operators';
 
 @Component({
@@ -14,11 +14,11 @@ export class AppComponent implements OnInit {
 
     constructor(
         private notificationService: NotificationsService,
-        private userService: UserService
+        private currentStateService: CurrentStateService
     ) {}
     
     ngOnInit() {
-        this.userService.initializeUser();
+        this.currentStateService.initialize();
     }
 
     public options = {

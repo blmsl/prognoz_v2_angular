@@ -1,9 +1,9 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
-import { Router }                               from '@angular/router';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { UserService }                          from '../shared/user.service';
+import { AuthService }                          from '../shared/auth.service';
+import { User }                                 from '../shared/models/user.model';
 import { environment }                          from '../../environments/environment';
 
 @Component({
@@ -14,57 +14,51 @@ import { environment }                          from '../../environments/environ
 export class HeaderComponent implements OnInit {
 
     constructor(
-        private userService: UserService,
-        private router: Router,
+        private authService: AuthService,
         private notificationService: NotificationsService
     ) { }
-    
-    headerSigninForm: FormGroup;
-    user: any;
-    spinner: boolean = false;
+
+    headerSignInForm: FormGroup;
     sitelogo: string = environment.API_SITE_LOGO;
+    spinner: boolean = false;
+    user: User;
 
     ngOnInit() {
-        this.userService.sharedUser$.subscribe(latestCollection => {
-            this.user = latestCollection;
+        this.authService.getUser.subscribe(result => {
+            this.user = result;
         });
-        this.userService.loadSharedUser();
-        if (!this.user) this.user = JSON.parse(localStorage.getItem('user'));
-        
-        this.headerSigninForm = new FormGroup({
+        this.headerSignInForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3)]),
             password: new FormControl('', [Validators.required])
         });
     }
     
-    onSubmit({value, valid}: {value:any, valid:boolean}) {
-        this.spinner = true;
-        this.userService.login(value.name, value.password)
-            .subscribe(
-                result => {
-                    if (result) {
-                        this.user = result;
-                        this.userService.addSharedUser(result);
-                        this.router.navigate(['/']);
+    onSubmit(headerSignInForm: FormGroup) {
+        if (headerSignInForm.valid) {
+            this.spinner = true;
+            this.authService.signIn(headerSignInForm.value.name, headerSignInForm.value.password)
+                .subscribe(
+                    response => {
                         this.notificationService.success('Успішно', 'Вхід виконано успішно');
-                    }
-                    this.spinner = false;
-                },
-                errors => {
-                    for (let error of errors) {
-                        this.notificationService.error('Помилка', error);
-                    }
-                    this.spinner = false;
-                }
-            );
+                        this.spinner = false;
+                    },
+                    errors => {
+                        for (let error of errors) {
+                            this.notificationService.error('Помилка', error);
+                        }
+                        this.spinner = false;
+                    });   
+        }
     }
     
     logout() {
-        this.userService.logoutRequest().subscribe(result => {});
-        this.userService.logout();
-        this.user = false;
-        this.userService.addSharedUser(false);
-        this.notificationService.info('Успішно', 'Ви вийшли зі свого аккаунту');
-        this.router.navigate(['/']);
+        this.authService.logout().subscribe(
+            response => {
+                this.notificationService.info('Успішно', 'Ви вийшли зі свого аккаунту');
+            },
+            error => {
+                this.notificationService.error('Помилка', error);       
+            }
+        );
     }
 }

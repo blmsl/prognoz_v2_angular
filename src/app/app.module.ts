@@ -23,6 +23,8 @@ import { PageNotFoundComponent }      from './page-not-found/page-not-found.comp
 
 import { HeadersWithToken }           from './shared/headers-with-token.service';
 import { UserService }                from './shared/user.service';
+import { AuthService }                from './shared/auth.service';
+import { CurrentStateService }        from './shared/current-state.service';
 import { ImageService }               from './shared/image.service';
 import { HelperService }              from './shared/helper.service';
 import { BroadcastService }           from './shared/broadcast.service';
@@ -54,6 +56,8 @@ import { BroadcastService }           from './shared/broadcast.service';
     providers: [
         HeadersWithToken,
         UserService,
+        AuthService,
+        CurrentStateService,
         ImageService,
         HelperService,
         BroadcastService
