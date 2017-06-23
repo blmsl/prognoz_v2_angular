@@ -33,10 +33,10 @@ export class AuthSigninComponent implements OnInit {
         });
     }
 
-    onSubmit(signInForm: FormGroup) {
-        if (signInForm.valid) {
+    onSubmit() {
+        if (this.signInForm.valid) {
             this.spinner = true;
-            this.authService.signIn(signInForm.value.name, signInForm.value.password)
+            this.authService.signIn(this.signInForm.value.name, this.signInForm.value.password)
                 .subscribe(
                     response => {
                         this.notificationService.success('Успішно', 'Вхід виконано успішно');

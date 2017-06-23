@@ -5,7 +5,7 @@
     <form *ngIf="!user"
           novalidate
           [formGroup]="headerSignInForm"
-          (ngSubmit)="onSubmit(headerSignInForm)"
+          (ngSubmit)="onSubmit()"
           class="form-inline hidden-md-down">
         <!-- name -->
         <label class="sr-only" for="header-name">Ім'я</label>

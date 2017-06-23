@@ -35,10 +35,10 @@ export class AuthSignupComponent implements OnInit {
         });
     }
     
-    onSubmit(signUpForm: FormGroup) {
-        if (signUpForm.valid) {
+    onSubmit() {
+        if (this.signUpForm.valid) {
             this.spinner = true;
-            this.authService.signUp(signUpForm.value).subscribe(
+            this.authService.signUp(this.signUpForm.value).subscribe(
                 response => {
                     this.notificationService.success('Успішно', 'Реєстрація пройшла успішно', {timeOut: 0});
                     this.spinner = false;

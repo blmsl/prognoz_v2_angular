@@ -33,10 +33,10 @@ export class HeaderComponent implements OnInit {
         });
     }
     
-    onSubmit(headerSignInForm: FormGroup) {
-        if (headerSignInForm.valid) {
+    onSubmit() {
+        if (this.headerSignInForm.valid) {
             this.spinner = true;
-            this.authService.signIn(headerSignInForm.value.name, headerSignInForm.value.password)
+            this.authService.signIn(this.headerSignInForm.value.name, this.headerSignInForm.value.password)
                 .subscribe(
                     response => {
                         this.notificationService.success('Успішно', 'Вхід виконано успішно');
