@@ -1,9 +1,8 @@
 import { Component, OnInit }                    from '@angular/core';
-import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { UserService }                          from '../../shared/user.service';
+import { AuthService }                          from '../../shared/auth.service';
 
 @Component({
   selector: 'app-auth-recovery',
@@ -13,8 +12,7 @@ import { UserService }                          from '../../shared/user.service'
 export class AuthRecoveryComponent implements OnInit {
 
     constructor(
-        private router: Router,
-        private userService: UserService,
+        private authService: AuthService,
         private notificationService: NotificationsService
     ) { }
 
@@ -29,20 +27,22 @@ export class AuthRecoveryComponent implements OnInit {
     }
 
     onSubmit() {
-        this.spinner = true;
-        this.userService.recovery(this.recoveryForm.value.email)
-            .subscribe(
-                result => {
-                    this.router.navigate(['/']);
-                    this.notificationService.success('Успішно', 'Подальші інструкції відправлено на ваш email', {timeOut: 0});
-                    this.spinner = false;
-                },
-                errors => {
-                    for (let error of errors) {
-                        this.notificationService.error('Помилка', error);
+        if (this.recoveryForm.valid) {
+            this.spinner = true;
+            this.authService.recovery(this.recoveryForm.value.email)
+                .subscribe(
+                    response => {
+                        this.notificationService.success('Успішно', 'Подальші інструкції відправлено на ваш email', {timeOut: 0});
+                        this.recoveryForm.get('email').disable();
+                        this.spinner = false;
+                    },
+                    errors => {
+                        for (let error of errors) {
+                            this.notificationService.error('Помилка', error);
+                        }
+                        this.spinner = false;
                     }
-                    this.spinner = false;
-                }
-            );
+                );
+        }
     }
 }

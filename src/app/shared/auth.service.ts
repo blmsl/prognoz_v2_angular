@@ -103,6 +103,19 @@ export class AuthService {
     }
 
     /**
+     * Sends recovery request
+     * @param email
+     * @returns {Observable<R|T>}
+     */
+    recovery(email: string): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-type', 'application/json');
+        return this.http.post(this.authUrl + 'recovery', JSON.stringify({email: email}), {headers})
+            .map(response => response)
+            .catch(this.handleError);
+    }
+
+    /**
      * Refresh user data request (by token)
      * @returns {any|Promise<R>|Promise<ErrorObservable>|Promise<ErrorObservable|T>|Maybe<T>}
      */
