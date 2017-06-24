@@ -1,14 +1,14 @@
 import { Injectable }           from '@angular/core';
 import { CanActivate, Router }  from '@angular/router';
 
-import { UserService }          from '../shared/user.service';
+import { CurrentStateService }  from '../shared/current-state.service';
 
 @Injectable()
 export class MeGuard implements CanActivate {
 
     constructor(
         private router: Router,
-        private userService: UserService
+        private currentStateService: CurrentStateService
     ) {}
 
     canActivate() {
@@ -21,7 +21,7 @@ export class MeGuard implements CanActivate {
      * @returns {boolean}
      */
     checkRoles(): boolean {
-        if (this.userService.sharedUser) {
+        if (this.currentStateService.user) {
             return true;
         }
         this.router.navigate(['/403']);

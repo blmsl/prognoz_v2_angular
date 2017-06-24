@@ -11,114 +11,10 @@ export class UserService {
     constructor(
         private http: Http,
         private headersWithToken: HeadersWithToken
-    ){
-        this.tokenExists = !!localStorage.getItem('auth_token');
-        this.sharedUser = JSON.parse(localStorage.getItem('user'));
-        //this.sharedUser = null;
-        this.sharedUser$ = new Observable(observer => {
-            this.sharedUserObserver = observer;
-        }).share();
-    }
-
-    private tokenExists = false;
-
-    public sharedUser$: Observable<any>;
-    private sharedUserObserver: any;
-    public sharedUser: boolean | Object;
-
-    /**
-     * adds user data to this.sharedUser property
-     *
-     * @param value
-     */
-    addSharedUser(value: boolean | Object) {
-        this.sharedUser = value;
-        this.sharedUserObserver.next(this.sharedUser);
-    }
-
-    /**
-     * watchs for changes in this.sharedUser property
-     */
-    loadSharedUser() {
-        this.sharedUserObserver.next(this.sharedUser);
-    }
-
-    /**
-     * User authentication
-     *
-     * @param name
-     * @param password
-     * @returns {Observable<R>}
-     */
-    login(name, password): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(environment.API_URL + 'auth/signin', JSON.stringify({name, password}), {headers})
-            .map(res => res.json())
-            .map((res) => {
-                if (res.token) {
-                    this.setTokenToLocalStorage(res.token);
-                    this.setUserToLocalStorage(JSON.stringify(res.currentUser));
-                    if (res.roles) this.setRolesToLocalStorage(JSON.stringify(res.roles));
-                    this.tokenExists = true;
-                }
-                return res.currentUser;
-            })
-            .catch(this.handleError);
-    }
-
-    /**
-     * User registration
-     *
-     * @param user
-     * @returns {Observable<R>}
-     */
-    registration(user): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(environment.API_URL + 'auth/signup', JSON.stringify(user), {headers})
-            .map(result => result.json())
-            .map((result) => {
-                if (result.token) {
-                    this.setTokenToLocalStorage(result.token);
-                    this.setUserToLocalStorage(JSON.stringify(result.currentUser));
-                }
-                return result.currentUser;
-            })
-            .catch(this.handleError);
-    }
-
-    /**
-     * User password recovery
-     *
-     * @param email
-     * @returns {Observable<R>}
-     */
-    recovery(email): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(environment.API_URL + 'auth/recovery', JSON.stringify({email: email}), {headers})
-            .map(response => response)
-            .catch(this.handleError);
-    }
-
-    /**
-     * User password reset
-     * 
-     * @param resetForm
-     * @returns {Observable<R>}
-     */
-    reset(resetForm): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(environment.API_URL + 'auth/reset', JSON.stringify(resetForm), {headers})
-            .map(response => response)
-            .catch(this.handleError);
-    }
+    ){ }
 
     /**
      * Update user profile data
-     *
      * @param value
      * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
      */
@@ -129,73 +25,7 @@ export class UserService {
     }
 
     /**
-     * Update user if exists, logout when error occurs
-     */
-    initializeUser() {
-        if (this.isTokenInLocalStorage()) {
-            this.refreshUserData()
-                .subscribe(
-                    response => {
-                        this.addSharedUser(response.currentUser);
-                        this.setUserToLocalStorage(JSON.stringify(response.currentUser));
-                        if (response.roles) {
-                            this.setRolesToLocalStorage(JSON.stringify(response.roles));
-                        } else {
-                            this.removeRolesFromLocalStorage();
-                        }
-                    },
-                    error => {
-                        this.addSharedUser(false);
-                        this.logout();
-                    }
-                );
-        } else {
-            this.logout();
-        }
-    }
-
-    /**
-     * logout method
-     */
-    logout() {
-        localStorage.clear();
-        this.tokenExists = false;
-    }
-
-    /**
-     * invalidate token
-     *
-     * @returns {any|Promise<ErrorObservable<T>|T>|Promise<R>|Promise<ErrorObservable<T>>}
-     */
-    logoutRequest() {
-        return this.headersWithToken.post(environment.API_URL + 'auth/logout', {})
-            .map(response => response.json())
-            .catch(this.handleError);
-    }
-
-    /**
-     * check if 'auth_token' exists in localStorage
-     *
-     * @returns {boolean}
-     */
-    isTokenInLocalStorage() {
-        return this.tokenExists;
-    }
-
-    /**
-     * Refresh user profile data & token
-     *
-     * @returns {Observable<R>}
-     */
-    private refreshUserData() {
-        return this.headersWithToken.get(environment.API_URL + 'auth/refresh')
-            .map(response => response.json())
-            .catch(this.handleError);
-    }
-
-    /**
-     * get last registered user
-     *
+     * Get last registered user
      * @returns {Promise<R>|any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>}
      */
     getLastUser() {
@@ -207,7 +37,6 @@ export class UserService {
 
     /**
      * Get user by id
-     *
      * @param id
      * @param competitionId
      * @returns {Promise<R>|any|Promise<ErrorObservable<T>>|Promise<ErrorObservable<T>|T>}
@@ -218,40 +47,6 @@ export class UserService {
             .get(url)
             .map(this.extractData)
             .catch(this.handleError);
-    }
-
-    /**
-     * set token to localStorage
-     *
-     * @param token
-     */
-    private setTokenToLocalStorage(token) {
-        localStorage.setItem('auth_token', token);
-    }
-
-    /**
-     * set user profile data to localStorage
-     *
-     * @param user
-     */
-    private setUserToLocalStorage(user) {
-        localStorage.setItem('user', user);
-    }
-
-    /**
-     * set user roles to localStorage
-     *
-     * @param roles
-     */
-    private setRolesToLocalStorage(roles) {
-        localStorage.setItem('roles', roles)
-    }
-
-    /**
-     * remove user roles from localStorage
-     */
-    private removeRolesFromLocalStorage() {
-        localStorage.removeItem('roles');
     }
 
     /**

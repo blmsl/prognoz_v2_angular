@@ -1,13 +1,16 @@
-import { Component, OnInit }                    from '@angular/core';
-import { Router, ActivatedRoute, Params }       from '@angular/router';
+import { Component, OnInit, OnDestroy }         from '@angular/core';
+import { ActivatedRoute, Params }               from '@angular/router';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { Location }                             from '@angular/common';
 import { NotificationsService }                 from 'angular2-notifications';
+import { Subscription }                         from 'rxjs/Subscription';
 
-import { News }                                 from '../../shared/models/news.model';
-import { NewsService }                          from '../shared/news.service';
-import { UserService }                          from '../../shared/user.service';
+import { AuthService }                          from '../../shared/auth.service';
 import { CommentService }                       from '../shared/comment.service';
+import { CurrentStateService }                  from '../../shared/current-state.service';
+import { NewsService }                          from '../shared/news.service';
+import { News }                                 from '../../shared/models/news.model';
+import { User }                                 from '../../shared/models/user.model';
 import { environment }                          from '../../../environments/environment';
 
 @Component({
@@ -16,17 +19,17 @@ import { environment }                          from '../../../environments/envi
     styleUrls: ['./news-detail.component.css']
 })
 
-export class NewsDetailComponent implements OnInit {
+export class NewsDetailComponent implements OnInit, OnDestroy {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private router: Router,
         private formBuilder: FormBuilder,
-        private newsService: NewsService,
         private location: Location,
-        private userService: UserService,
+        private notificationService: NotificationsService,
+        private authService: AuthService,
         private commentService: CommentService,
-        private notificationService: NotificationsService
+        private currentStateService: CurrentStateService,
+        private newsService: NewsService,
     ) {}
 
     news: News;
@@ -34,14 +37,17 @@ export class NewsDetailComponent implements OnInit {
     newsImagesUrl: string = environment.API_IMAGE_NEWS;
     userImagesUrl: string = environment.API_IMAGE_USERS;
     userImageDefault: string = environment.IMAGE_USER_DEFAULT;
-    authenticatedUser: any;
+    authenticatedUser: User = this.currentStateService.user;
     spinner: boolean = false;
     spinnerButton: boolean = false;
     addCommentForm: FormGroup;
+    userSubscription: Subscription;
 
     ngOnInit() {
         this.spinner = true;
-        this.authenticatedUser = this.userService.sharedUser;
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+        });
         this.activatedRoute.params.forEach((params: Params) => {
             let id = +params['id'];
             this.newsService.getOneNews(id).subscribe(
@@ -60,6 +66,12 @@ export class NewsDetailComponent implements OnInit {
                 }
             );
         });
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
     }
     
     goBack() {

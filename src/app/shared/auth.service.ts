@@ -3,7 +3,7 @@ import { Http, Headers, Response }  from '@angular/http';
 import { Observable }               from 'rxjs/Observable';
 
 import { HeadersWithToken }         from './headers-with-token.service';
-import { User }                     from '../shared/models/user.model';
+import { User }                     from './models/user.model';
 import { environment }              from '../../environments/environment';
 
 @Injectable()
@@ -142,7 +142,7 @@ export class AuthService {
      * Check if token and user data exists in localStorage
      * @returns {boolean}
      */
-    private isUserAndTokenInLocalStorage() {
+    isUserAndTokenInLocalStorage() {
         return !!localStorage.getItem('auth_token') && !!localStorage.getItem('user');
     }
 

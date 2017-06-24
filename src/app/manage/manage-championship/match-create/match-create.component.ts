@@ -1,5 +1,4 @@
 import { Component, OnInit }                    from '@angular/core';
-import { Router }                               from '@angular/router';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
@@ -17,7 +16,6 @@ import { environment }                          from '../../../../environments/e
 export class MatchCreateComponent implements OnInit {
     
     constructor(
-        private router: Router,
         private formBuilder: FormBuilder,
         private notificationService: NotificationsService,
         private championshipMatchService: ChampionshipMatchService,
@@ -78,5 +76,4 @@ export class MatchCreateComponent implements OnInit {
     resetForm() {
         this.championshipMatchCreateForm.reset();
     }
-
 }

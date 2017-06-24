@@ -1,5 +1,5 @@
 import { Component, OnInit }                from '@angular/core';
-import { Router, ActivatedRoute, Params }   from '@angular/router';
+import { ActivatedRoute, Params }           from '@angular/router';
 
 import { News }                             from '../../shared/models/news.model';
 import { NewsService }                      from '../shared/news.service';
@@ -14,7 +14,6 @@ import { environment }                      from '../../../environments/environm
 export class NewsListComponent implements OnInit {
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private newsService: NewsService
     ) { }

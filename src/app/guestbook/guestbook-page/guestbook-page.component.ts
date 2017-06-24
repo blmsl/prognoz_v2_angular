@@ -1,12 +1,15 @@
-import { Component, OnInit }                    from '@angular/core';
+import { Component, OnInit, OnDestroy }         from '@angular/core';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { NotificationsService }                 from 'angular2-notifications';
 import { DomSanitizer }                         from '@angular/platform-browser';
+import { Subscription }                         from 'rxjs/Subscription';
 
+import { AuthService }                          from '../../shared/auth.service';
+import { BroadcastService }                     from '../../shared/broadcast.service';
+import { CurrentStateService }                  from '../../shared/current-state.service';
 import { GuestbookService }                     from '../shared/guestbook.service';
-import { UserService }                          from '../../shared/user.service';
-import { BroadcastService }                     from './../../shared/broadcast.service';
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
+import { User }                                 from '../../shared/models/user.model';
 import { environment }                          from '../../../environments/environment';
 
 declare var $:any;
@@ -16,15 +19,18 @@ declare var $:any;
     templateUrl: './guestbook-page.component.html',
     styleUrls: ['./guestbook-page.component.css']
 })
-export class GuestbookPageComponent implements OnInit {
+export class GuestbookPageComponent implements OnInit, OnDestroy {
 
-    constructor(private router: Router,
-                private activatedRoute: ActivatedRoute,
-                private guestbookService: GuestbookService,
-                private userService: UserService,
-                private domSanitizer: DomSanitizer,
-                private notificationService: NotificationsService,
-                private broadcastService: BroadcastService) { }
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private domSanitizer: DomSanitizer,
+        private notificationService: NotificationsService,
+        private router: Router,
+        private authService: AuthService,
+        private broadcastService: BroadcastService,
+        private currentStateService: CurrentStateService,
+        private guestbookService: GuestbookService,
+    ) { }
 
     guestbookMessages: GuestbookMessage[];
     error: string | Array<string>;
@@ -41,8 +47,9 @@ export class GuestbookPageComponent implements OnInit {
     total: number;
 
     guestbookMessageBody: string;
-    authenticatedUser: any;
-    
+    authenticatedUser: User = this.currentStateService.user;
+    userSubscription: Subscription;
+
     editedMessage: GuestbookMessage = { id: null, user_id: null, body: '' };
     spinnerEditButton: boolean = false;
     isEditedMessage: boolean = false;
@@ -50,13 +57,18 @@ export class GuestbookPageComponent implements OnInit {
     showEditor: boolean = false;
 
     ngOnInit() {
-        this.authenticatedUser = this.userService.sharedUser;
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+        });
         this.getGuestbookPage();
     }
 
-    /**
-     * Get guestbook messages on page
-     */
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
     private getGuestbookPage() {
         this.spinnerMessages = true;
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -82,9 +94,6 @@ export class GuestbookPageComponent implements OnInit {
         });
     }
 
-    /**
-     * Submitiing new guestbook message
-     */
     addMessage() {
         this.spinnerButton = true;
         this.guestbookService.create
@@ -113,9 +122,6 @@ export class GuestbookPageComponent implements OnInit {
             );
     }
 
-    /**
-     * Updating existing guestbook message
-     */
     updateMessage() {
         this.spinnerEditButton = true;
         let updatedMessage = {
@@ -139,10 +145,6 @@ export class GuestbookPageComponent implements OnInit {
         );
     }
 
-    /**
-     * Add message to editor
-     * @param message
-     */
     addMessageToEditor(message: GuestbookMessage) {
         if (this.authenticatedUser.id === message.user_id) {
             this.editedMessage = Object.assign({}, message);
@@ -155,26 +157,14 @@ export class GuestbookPageComponent implements OnInit {
         }
     }
 
-    /**
-     * Handler for tiny-editor component(add message)
-     * @param event
-     */
     keyupHandler(event) {
         this.guestbookMessageBody = event;
     }
 
-    /**
-     * Make html trusted
-     * @param message
-     * @returns {SafeHtml}
-     */
     assembleHTMLItem(message: string) {
         return this.domSanitizer.bypassSecurityTrustHtml(message);
     }
 
-    /**
-     * Reset guestbook input
-     */
     resetGuestbookMessage() {
         this.guestbookMessageBody = '';
         this.editedMessage.body = '';

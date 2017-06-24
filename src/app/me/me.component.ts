@@ -1,25 +1,31 @@
-import { Component, OnInit }                                    from '@angular/core';
-import { FormBuilder, FormGroup, Validators }                   from '@angular/forms';
-import { NotificationsService }                                 from 'angular2-notifications';
-import { Router }                                               from '@angular/router';
+import { Component, OnInit, OnDestroy }         from '@angular/core';
+import { Router }                               from '@angular/router';
+import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
+import { NotificationsService }                 from 'angular2-notifications';
+import { Subscription }                         from 'rxjs/Subscription';
 
-import { UserService }                                          from '../shared/user.service';
-import { ImageService }                                         from '../shared/image.service';
-import { environment }                                          from '../../environments/environment';
+import { AuthService }                          from '../shared/auth.service';
+import { CurrentStateService }                  from '../shared/current-state.service';
+import { ImageService }                         from '../shared/image.service';
+import { UserService }                          from '../shared/user.service';
+import { User }                                 from '../shared/models/user.model';
+import { environment }                          from '../../environments/environment';
 
 @Component({
     selector: 'app-me',
     templateUrl: './me.component.html',
     styleUrls: ['./me.component.css']
 })
-export class MeComponent implements OnInit {
+export class MeComponent implements OnInit, OnDestroy {
 
     constructor(
         private formBuilder: FormBuilder,
-        private router: Router,
         private notificationService: NotificationsService,
-        private userService: UserService,
-        private imageService: ImageService
+        private router: Router,
+        private authService: AuthService,
+        private currentStateService: CurrentStateService,
+        private imageService: ImageService,
+        private userService: UserService
     ) {
         imageService.uploadedImage$.subscribe(
             result => {
@@ -34,7 +40,8 @@ export class MeComponent implements OnInit {
 
     error: string | Array<string>;
     spinner: boolean = false;
-    authenticatedUser: any = null;
+    authenticatedUser: User = Object.assign({}, this.currentStateService.user);
+    userSubscription: Subscription;
     userImagesUrl: string = environment.API_IMAGE_USERS;
     userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     userEditForm: FormGroup;
@@ -42,7 +49,12 @@ export class MeComponent implements OnInit {
     hasUnsavedChanges: boolean = false;
   
     ngOnInit() {
-        this.authenticatedUser = Object.assign({}, this.userService.sharedUser);
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            if (!result) {
+                this.router.navigate(['/403']);
+            }
+            this.authenticatedUser = Object.assign({}, result);
+        });
 
         this.userEditForm = this.formBuilder.group({
             id: [this.authenticatedUser.id],
@@ -53,6 +65,12 @@ export class MeComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
     onSubmit() {
         this.spinner = true;
         this.userService.update(this.userEditForm.value).subscribe(
@@ -60,7 +78,7 @@ export class MeComponent implements OnInit {
                 this.notificationService.success('Успішно', 'Ваш профіль змінено!');
                 this.spinner = false;
                 this.hasUnsavedChanges = false;
-                this.userService.initializeUser();
+                this.authService.initializeUser();
             },
             errors => {
                 for (let error of errors) {

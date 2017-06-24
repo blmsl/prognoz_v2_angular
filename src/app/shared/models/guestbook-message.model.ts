@@ -1,5 +1,5 @@
 export class GuestbookMessage {
     id:             number;
-    user_id:        string;
+    user_id:        number;
     body:           string;
 }

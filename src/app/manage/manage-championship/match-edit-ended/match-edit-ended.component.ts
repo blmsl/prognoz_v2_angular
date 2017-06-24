@@ -3,7 +3,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
-import { ChampionshipRatingService }      from '../../../championship/shared/championship-rating.service';
+import { ChampionshipRatingService }            from '../../../championship/shared/championship-rating.service';
 import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
 import { Club }                                 from '../../../shared/models/club.model';
 import { environment }                          from '../../../../environments/environment';

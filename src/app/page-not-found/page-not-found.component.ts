@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./page-not-found.component.css']
 })
 export class PageNotFoundComponent {
-    error: string = 'Такої сторінки не існує';
+    error: string = 'Такої сторінки не існує. Перевірте правильність введеної адреси.';
 }
