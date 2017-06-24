@@ -1,30 +1,37 @@
-import { Component, OnInit }            from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params }       from '@angular/router';
+import { Subscription }                 from 'rxjs/Subscription';
 
-import { ChampionshipRatingService }    from '../../../championship/shared/championship-rating.service';
-import { UserService }                  from '../../../shared/user.service';
+import { AuthService }                  from '../../../shared/auth.service';
+import { ChampionshipRatingService }    from '../../shared/championship-rating.service';
+import { CurrentStateService }          from '../../../shared/current-state.service';
 import { ChampionshipRating }           from '../../../shared/models/championship-rating.model';
+import { User }                         from '../../../shared/models/user.model';
 
 @Component({
   selector: 'app-championship-season-rating',
   templateUrl: './championship-season-rating.component.html',
   styleUrls: ['./championship-season-rating.component.css']
 })
-export class ChampionshipSeasonRatingComponent implements OnInit {
+export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
 
     constructor(
         private activatedRoute: ActivatedRoute,
+        private authService: AuthService,
         private championshipRatingService: ChampionshipRatingService,
-        private userService: UserService
+        private currentStateService: CurrentStateService
     ) { }
 
     rating: ChampionshipRating[];
     spinnerRating: boolean = false;
     errorRating: string;
-    authenticatedUser: any;
+    authenticatedUser: User = this.currentStateService.user;
+    userSubscription: Subscription;
 
     ngOnInit() {
-        this.authenticatedUser = this.userService.sharedUser;
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+        });
         this.activatedRoute.params.forEach((params: Params) => {
             this.spinnerRating = true;
             this.reloadComponent();
@@ -40,6 +47,12 @@ export class ChampionshipSeasonRatingComponent implements OnInit {
                 }
             );
         });
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
     }
 
     private reloadComponent() {

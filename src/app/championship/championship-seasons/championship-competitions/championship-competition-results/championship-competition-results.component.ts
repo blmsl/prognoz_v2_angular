@@ -2,7 +2,6 @@ import { Component, OnInit }        from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/router';
 
 import { ChampionshipMatchService } from '../../../shared/championship-match.service';
-import { UserService }              from '../../../../shared/user.service';
 import { ChampionshipMatch }        from '../../../../shared/models/championship-match.model';
 
 @Component({
@@ -14,11 +13,9 @@ export class ChampionshipCompetitionResultsComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private championshipMatchService: ChampionshipMatchService,
-        private userService: UserService
+        private championshipMatchService: ChampionshipMatchService
     ) { }
-    
-    authenticatedUser: any;
+
     matches: ChampionshipMatch[];
     errorMatches: string | Array<string>;
     spinnerMatches: boolean = false;

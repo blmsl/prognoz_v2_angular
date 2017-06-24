@@ -5,8 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './championship.component.html',
   styleUrls: ['./championship.component.css']
 })
-export class ChampionshipComponent {
-
-    constructor() { }
-
-}
+export class ChampionshipComponent { }

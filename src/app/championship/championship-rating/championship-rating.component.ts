@@ -1,30 +1,37 @@
-import { Component, OnInit }         from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription }                 from 'rxjs/Subscription';
 
-import { ChampionshipRatingService } from '../shared/championship-rating.service';
-import { HelperService }             from '../../shared/helper.service';
-import { UserService }               from '../../shared/user.service';
-import { ChampionshipRating }        from '../../shared/models/championship-rating.model';
+import { AuthService }                  from '../../shared/auth.service';
+import { ChampionshipRatingService }    from '../shared/championship-rating.service';
+import { CurrentStateService }          from '../../shared/current-state.service';
+import { HelperService }                from '../../shared/helper.service';
+import { ChampionshipRating }           from '../../shared/models/championship-rating.model';
+import { User }                         from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-championship-rating',
   templateUrl: './championship-rating.component.html',
   styleUrls: ['./championship-rating.component.css']
 })
-export class ChampionshipRatingComponent implements OnInit {
+export class ChampionshipRatingComponent implements OnInit, OnDestroy {
 
     constructor(
+        private authService: AuthService,
         private championshipRatingService: ChampionshipRatingService,
-        private userService: UserService,
+        private currentStateService: CurrentStateService,
         public helperService: HelperService
     ) { }
     
     rating: ChampionshipRating[];
     spinner: boolean = false;
     error: string;
-    authenticatedUser: any;
+    authenticatedUser: User = this.currentStateService.user;
+    userSubscription: Subscription;
   
     ngOnInit() {
-        this.authenticatedUser = this.userService.sharedUser;
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+        });
         this.spinner = true;
         this.championshipRatingService.get().subscribe(
             response => {
@@ -36,5 +43,11 @@ export class ChampionshipRatingComponent implements OnInit {
                 this.spinner = false;
             }
         );
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
     }
 }
