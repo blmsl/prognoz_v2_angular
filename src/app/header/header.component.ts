@@ -24,9 +24,7 @@ export class HeaderComponent implements OnInit {
     user: User;
 
     ngOnInit() {
-        this.authService.getUser.subscribe(result => {
-            this.user = result;
-        });
+        this.authService.getUser.subscribe(result => this.user = result);
         this.headerSignInForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3)]),
             password: new FormControl('', [Validators.required])

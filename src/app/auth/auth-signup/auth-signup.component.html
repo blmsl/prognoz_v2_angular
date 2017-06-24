@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <div *ngIf="!user" class="row">
         <div class="col-12">
             <h2>Реєстрація:</h2>
         </div>
@@ -120,9 +120,6 @@
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
             <button routerLink="/me" class="btn btn-primary">
                 <i class="fa fa-user-circle" aria-hidden="true"></i> {{user.name}}
-            </button>
-            <button (click)="logout()" class="btn btn-outline-primary">
-                <i class="fa fa-sign-out" aria-hidden="true"></i> Вихід
             </button>
         </div>
     </div>

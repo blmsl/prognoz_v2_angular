@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { UserService }                          from '../../shared/user.service';
+import { AuthService }                          from '../../shared/auth.service';
+import { CurrentStateService }                  from '../../shared/current-state.service';
+import { User }                                 from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-auth-reset',
@@ -15,14 +17,17 @@ export class AuthResetComponent implements OnInit {
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private userService: UserService,
+        private authService: AuthService,
+        private currentStateService: CurrentStateService,
         private notificationService: NotificationsService
     ) { }
-  
+
+    user: User = this.currentStateService.user;
     resetForm: FormGroup;
     spinner: boolean = false;
 
     ngOnInit() {
+        this.authService.getUser.subscribe(result => this.user = result);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.activatedRoute.params.subscribe((params: Params) => {
             this.resetForm = new FormGroup({
@@ -35,19 +40,21 @@ export class AuthResetComponent implements OnInit {
     }
 
     onSubmit() {
-        this.spinner = true;
-        this.userService.reset(this.resetForm.value).subscribe(
-            response => {
-                this.router.navigate(['/signin']);
-                this.notificationService.success('Успішно', 'Відновлення паролю пройшло успішно. Тепер ви можете виконати вхід на сайт. ');
-                this.spinner = false;
-            },
-            errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
+        if (this.resetForm.valid) {
+            this.spinner = true;
+            this.authService.reset(this.resetForm.value).subscribe(
+                response => {
+                    this.notificationService.success('Успішно', 'Відновлення паролю пройшло успішно. Тепер ви можете виконати вхід на сайт.', {timeOut: 0});
+                    this.spinner = false;
+                    this.router.navigate(['/signin']);
+                },
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
+                    }
+                    this.spinner = false;
                 }
-                this.spinner = false;
-            }
-        );
+            );
+        }
     }
 }

@@ -116,6 +116,19 @@ export class AuthService {
     }
 
     /**
+     * Sends reset password request
+     * @param user
+     * @returns {Observable<R|T>}
+     */
+    reset(user: User): Observable<any> {
+        let headers = new Headers();
+        headers.append('Content-type', 'application/json');
+        return this.http.post(this.authUrl + 'reset', JSON.stringify(user), {headers})
+            .map(response => response)
+            .catch(this.handleError);
+    }
+
+    /**
      * Refresh user data request (by token)
      * @returns {any|Promise<R>|Promise<ErrorObservable>|Promise<ErrorObservable|T>|Maybe<T>}
      */

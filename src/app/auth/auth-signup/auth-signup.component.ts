@@ -1,8 +1,10 @@
 import { Component, OnInit }                    from '@angular/core';
+import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { AuthService }                          from '../../shared/auth.service';
+import { CurrentStateService }                  from '../../shared/current-state.service';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -14,18 +16,18 @@ export class AuthSignupComponent implements OnInit {
 
     constructor(
         private authService: AuthService,
-        private notificationService: NotificationsService
+        private currentStateService: CurrentStateService,
+        private notificationService: NotificationsService,
+        private router: Router
     ) { }
 
-    user: User;
+    user: User = this.currentStateService.user;
     spinner: boolean = false;
     captchaValidity: boolean = false;
     signUpForm: FormGroup;
 
     ngOnInit() {
-        this.authService.getUser.subscribe(result => {
-            this.user = result;
-        });
+        this.authService.getUser.subscribe(result => this.user = result);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.signUpForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
@@ -42,6 +44,7 @@ export class AuthSignupComponent implements OnInit {
                 response => {
                     this.notificationService.success('Успішно', 'Реєстрація пройшла успішно', {timeOut: 0});
                     this.spinner = false;
+                    this.router.navigate(['/me']);
                 },
                 errors => {
                     for (let error of errors) {
@@ -51,17 +54,6 @@ export class AuthSignupComponent implements OnInit {
                 }
             );
         }
-    }
-
-    logout() {
-        this.authService.logout().subscribe(
-            response => {
-                this.notificationService.info('Успішно', 'Ви вийшли зі свого аккаунту');
-            },
-            error => {
-                this.notificationService.error('Помилка', error);
-            }
-        );
     }
 
     resolved(captchaResponse: string) {

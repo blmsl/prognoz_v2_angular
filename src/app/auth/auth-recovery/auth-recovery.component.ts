@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { AuthService }                          from '../../shared/auth.service';
+import { CurrentStateService }                  from '../../shared/current-state.service';
+import { User }                                 from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-auth-recovery',
@@ -13,13 +15,16 @@ export class AuthRecoveryComponent implements OnInit {
 
     constructor(
         private authService: AuthService,
+        private currentStateService: CurrentStateService,
         private notificationService: NotificationsService
     ) { }
 
+    user: User = this.currentStateService.user;
     recoveryForm: FormGroup;
     spinner: boolean = false;
   
     ngOnInit() {
+        this.authService.getUser.subscribe(result => this.user = result);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.recoveryForm = new FormGroup({
             email: new FormControl('', [Validators.required, Validators.pattern(emailRegex)])

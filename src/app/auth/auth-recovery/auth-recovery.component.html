@@ -1,11 +1,11 @@
 <div class="container">
-    <div class="row">
+    <div *ngIf="!user" class="row">
         <div class="col-12">
             <h2>Відновлення паролю:</h2>
         </div>
     </div>
     <!-- recovery form -->
-    <div class="row">
+    <div *ngIf="!user" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
             <form novalidate [formGroup]="recoveryForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
                 <!-- email input -->
@@ -37,6 +37,14 @@
                 <!-- spinner button -->
                 <app-spinner-button [hidden]="!spinner"></app-spinner-button>
             </form>
+        </div>
+    </div>
+    <!-- show profile and logout buttons if user is authenticated -->
+    <div *ngIf="user" class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-center">
+            <button routerLink="/me" class="btn btn-primary">
+                <i class="fa fa-user-circle" aria-hidden="true"></i> {{user.name}}
+            </button>
         </div>
     </div>
 </div>
