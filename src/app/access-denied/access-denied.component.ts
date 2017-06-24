@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./access-denied.component.css']
 })
 export class AccessDeniedComponent {
-    error: string = 'Доступ заборонено';
+    error: string = 'Доступ заборонено. У вас нема прав для перегляду цієї сторінки.';
 }

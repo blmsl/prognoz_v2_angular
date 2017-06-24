@@ -1,11 +1,14 @@
-import { Component, OnInit }                    from '@angular/core';
+import { Component, OnInit, OnDestroy }         from '@angular/core';
 import { FormControl, FormGroup }               from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
+import { Subscription }                         from 'rxjs/Subscription';
 
+import { AuthService }                          from '../../shared/auth.service';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
+import { CurrentStateService }                  from '../../shared/current-state.service';
 import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
-import { UserService }                          from '../../shared/user.service';
+import { User }                                 from '../../shared/models/user.model';
 import { environment }                          from '../../../environments/environment';
 
 @Component({
@@ -13,27 +16,39 @@ import { environment }                          from '../../../environments/envi
   templateUrl: './championship-predicts.component.html',
   styleUrls: ['./championship-predicts.component.css']
 })
-export class ChampionshipPredictsComponent implements OnInit {
+export class ChampionshipPredictsComponent implements OnInit, OnDestroy {
 
     constructor(
         private notificationService: NotificationsService,
-        private userService: UserService,
+        private authService: AuthService,
         private championshipMatchService: ChampionshipMatchService,
-        private championshipPredictService: ChampionshipPredictService
+        private championshipPredictService: ChampionshipPredictService,
+        private currentStateService: CurrentStateService
     ) { }
 
-    authenticatedUser: any = this.userService.sharedUser;
+    authenticatedUser: User = this.currentStateService.user;
     spinner: boolean = false;
     spinnerButton: boolean = false;
     error: string | Array<string>;
     matches: ChampionshipMatch[];
     championshipPredictsForm: FormGroup;
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    userSubscription: Subscription;
 
     ngOnInit() {
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+            this.getMatches();
+        });
         this.spinner = true;
         this.championshipPredictsForm = new FormGroup({});
         this.getMatches();
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
     }
 
     onSubmit() {
@@ -86,16 +101,17 @@ export class ChampionshipPredictsComponent implements OnInit {
 
     private getMatches() {
         this.spinner = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('predictable').subscribe(
-            response => {
-                this.updateForm(response);
-                this.spinner = false;
-            },
-            error => {
-                this.error = error;
-                this.spinner = false;
-            }
-        );
+        this.championshipMatchService.getCurrentCompetitionMatches('predictable', null, this.authenticatedUser)
+            .subscribe(
+                response => {
+                    this.updateForm(response);
+                    this.spinner = false;
+                },
+                error => {
+                    this.error = error;
+                    this.spinner = false;
+                }
+            );
     }
 
     private updateForm(matches: ChampionshipMatch[]) {
@@ -107,6 +123,11 @@ export class ChampionshipPredictsComponent implements OnInit {
                 let away = match.championship_predicts[0] ? match.championship_predicts[0].away : null;
                 this.championshipPredictsForm.addControl(match.id + '_home', new FormControl(home));
                 this.championshipPredictsForm.addControl(match.id + '_away', new FormControl(away));
+            }
+        } else {
+            for (let match of this.matches) {
+                this.championshipPredictsForm.removeControl(match.id + '_home');
+                this.championshipPredictsForm.removeControl(match.id + '_away');
             }
         }
     }

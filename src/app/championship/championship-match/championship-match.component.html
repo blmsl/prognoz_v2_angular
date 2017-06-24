@@ -81,7 +81,8 @@
         <!--</div>-->
     </div>
 </div>
-<app-championship-match-predictions-table [match]="match">
+<app-championship-match-predictions-table [match]="match"
+                                          [authenticatedUser]="authenticatedUser">
 </app-championship-match-predictions-table>
 <!-- previous page button -->
 <div *ngIf="error" class="row">

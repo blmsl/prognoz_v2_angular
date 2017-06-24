@@ -4,7 +4,7 @@ import { Observable }                       from 'rxjs/Observable';
 
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { ChampionshipMatch }                from '../../shared/models/championship-match.model';
-import { UserService }                      from '../../shared/user.service';
+import { User }                             from '../../shared/models/user.model';
 import { environment }                      from '../../../environments/environment';
 
 @Injectable()
@@ -12,14 +12,9 @@ import { environment }                      from '../../../environments/environm
 export class ChampionshipMatchService {
 
     constructor(
-        private http: Http,
         private headersWithToken: HeadersWithToken,
-        private userService: UserService
-    ) {
-        this.authenticatedUser = this.userService.sharedUser;
-    }
-
-    authenticatedUser: any;
+        private http: Http
+    ) {}
 
     private championshipMatchUrl = environment.API_URL + 'championship/matches';
 
@@ -69,13 +64,14 @@ export class ChampionshipMatchService {
      *
      * @param param
      * @param competitionId
+     * @param authenticatedUser
      * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|any|Promise<R>}
      */
-    getCurrentCompetitionMatches(param = null, competitionId: number = null): Observable<ChampionshipMatch[]> {
+    getCurrentCompetitionMatches(param = null, competitionId: number = null, authenticatedUser?: User): Observable<ChampionshipMatch[]> {
         let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
         if (!param && competitionId) url += '?competition_id=' + competitionId;
         if (param && competitionId) url += '&competition_id=' + competitionId;
-        if (param === 'predictable' && this.userService.sharedUser) {
+        if (param === 'predictable' && authenticatedUser) {
             return this.headersWithToken
                 .get(environment.API_URL + 'championship/predicts?filter=' + param)
                 .map(this.extractData)
@@ -89,12 +85,12 @@ export class ChampionshipMatchService {
 
     /**
      * Get predictable matches by date
-     *
      * @param date
-     * @returns {Promise<ErrorObservable|T>|Promise<ErrorObservable>|any|Maybe<T>|Promise<R>}
+     * @param authenticatedUser
+     * @returns {Observable<R|T>}
      */
-    getPredictableMatchesByDate(date: string): Observable<ChampionshipMatch[]> {
-        if (this.userService.sharedUser) {
+    getPredictableMatchesByDate(date: string, authenticatedUser?: User): Observable<ChampionshipMatch[]> {
+        if (authenticatedUser) {
             let url = environment.API_URL + 'championship/predicts?filter=predictable&date=' + date;
             return this.headersWithToken
                 .get(url)

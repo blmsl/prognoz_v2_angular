@@ -1,7 +1,8 @@
 import { Component, Input }   from '@angular/core';
 
-import { ChampionshipMatch }  from '../../../models/championship-match.model';
 import { HelperService }      from '../../../helper.service';
+import { ChampionshipMatch }  from '../../../models/championship-match.model';
+import { User }               from '../../../models/user.model';
 
 @Component({
   selector: 'app-championship-match-predictions-table',
@@ -11,6 +12,7 @@ import { HelperService }      from '../../../helper.service';
 export class ChampionshipMatchPredictionsTableComponent {
 
   @Input() match: ChampionshipMatch;
+  @Input() authenticatedUser: User;
 
   constructor(
       public helperService: HelperService

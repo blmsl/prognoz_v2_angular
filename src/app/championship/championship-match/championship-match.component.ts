@@ -1,11 +1,14 @@
-import { Component, OnInit }              from '@angular/core';
+import { Component, OnInit, OnDestroy }   from '@angular/core';
 import { ActivatedRoute, Params }         from '@angular/router';
 import { Location }                       from '@angular/common';
+import { Subscription }                   from 'rxjs/Subscription';
 
+import { AuthService }                    from '../../shared/auth.service';
 import { ChampionshipMatchService }       from '../shared/championship-match.service';
 import { ChampionshipMatch }              from '../../shared/models/championship-match.model';
+import { CurrentStateService }            from '../../shared/current-state.service';
 import { HelperService }                  from '../../shared/helper.service';
-import { UserService }                    from '../../shared/user.service';
+import { User }                           from '../../shared/models/user.model';
 import { environment }                    from '../../../environments/environment';
 
 @Component({
@@ -13,21 +16,23 @@ import { environment }                    from '../../../environments/environmen
   templateUrl: './championship-match.component.html',
   styleUrls: ['./championship-match.component.css']
 })
-export class ChampionshipMatchComponent implements OnInit {
+export class ChampionshipMatchComponent implements OnInit, OnDestroy {
 
     constructor(
-        private championshipMatchService: ChampionshipMatchService,
         private activatedRoute: ActivatedRoute,
-        public helperService: HelperService,
         private location: Location,
-        private userService: UserService,
+        private authService: AuthService,
+        private championshipMatchService: ChampionshipMatchService,
+        private currentStateService: CurrentStateService,
+        public helperService: HelperService
     ) {}
 
     spinner: boolean = false;
     match: ChampionshipMatch;
     error: string;
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
-    authenticatedUser: any;
+    authenticatedUser: User = this.currentStateService.user;
+    userSubscription: Subscription;
 
     // statistic
     statistic: any;
@@ -43,7 +48,9 @@ export class ChampionshipMatchComponent implements OnInit {
     // scoresChartData: number[];
   
     ngOnInit(){
-        this.authenticatedUser = this.userService.sharedUser;
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+        });
         this.activatedRoute.params.forEach((params: Params) => {
             this.match = null;
             this.error = null;
@@ -62,6 +69,12 @@ export class ChampionshipMatchComponent implements OnInit {
             );
         });
         this.getStatistic();
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
     }
 
     getStatistic() {
