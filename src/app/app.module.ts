@@ -28,6 +28,7 @@ import { CurrentStateService }        from './shared/current-state.service';
 import { ImageService }               from './shared/image.service';
 import { HelperService }              from './shared/helper.service';
 import { BroadcastService }           from './shared/broadcast.service';
+import { ErrorHandlerService }        from './shared/error-handler.service';
 
 @NgModule({
     declarations: [
@@ -60,7 +61,8 @@ import { BroadcastService }           from './shared/broadcast.service';
         CurrentStateService,
         ImageService,
         HelperService,
-        BroadcastService
+        BroadcastService,
+        ErrorHandlerService
     ],
     bootstrap: [
         AppComponent

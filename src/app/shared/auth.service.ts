@@ -1,7 +1,8 @@
 import { Injectable }               from '@angular/core';
-import { Http, Headers, Response }  from '@angular/http';
+import { Http, Headers }            from '@angular/http';
 import { Observable }               from 'rxjs/Observable';
 
+import { ErrorHandlerService }      from './error-handler.service';
 import { HeadersWithToken }         from './headers-with-token.service';
 import { User }                     from './models/user.model';
 import { environment }              from '../../environments/environment';
@@ -10,6 +11,7 @@ import { environment }              from '../../environments/environment';
 export class AuthService {
     
     constructor(
+        private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
         private http: Http
     ){
@@ -19,7 +21,6 @@ export class AuthService {
     }
 
     private authUrl = environment.API_URL + 'auth/';
-    
     public getUser: Observable<any>;
     private userObserver: any;
 
@@ -63,7 +64,7 @@ export class AuthService {
                 }
                 return response.user;
             })
-            .catch(this.handleError);
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -78,7 +79,7 @@ export class AuthService {
                 this.userObserver.next(null);
                 return response;
             })
-            .catch(this.handleError);
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -99,7 +100,7 @@ export class AuthService {
                 }
                 return response.user;
             })
-            .catch(this.handleError);
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -112,7 +113,7 @@ export class AuthService {
         headers.append('Content-type', 'application/json');
         return this.http.post(this.authUrl + 'recovery', JSON.stringify({email: email}), {headers})
             .map(response => response)
-            .catch(this.handleError);
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -125,7 +126,7 @@ export class AuthService {
         headers.append('Content-type', 'application/json');
         return this.http.post(this.authUrl + 'reset', JSON.stringify(user), {headers})
             .map(response => response)
-            .catch(this.handleError);
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -135,7 +136,7 @@ export class AuthService {
     private refresh(): Observable<any> {
         return this.headersWithToken.get(this.authUrl + 'refresh')
             .map(response => response.json())
-            .catch(this.handleError);
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -178,28 +179,5 @@ export class AuthService {
      */
     private setTokenToLocalStorage(token) {
         localStorage.setItem('auth_token', token);
-    }
-    
-    // TODO: refactor this, and all handleError methods
-    private handleError(error: Response | any) {
-        let errorObject: any;
-        let errorMessage: Array<any> = [];
-        if (error instanceof Response) {
-            errorObject = error.json();
-            if (errorObject.status_code !== 422) {
-                errorMessage.push(errorObject.message);
-            } else {
-                if (errorObject.errors.name) errorMessage.push(errorObject.errors.name);
-                if (errorObject.errors.password) errorMessage.push(errorObject.errors.password);
-                if (errorObject.errors.email) errorMessage.push(errorObject.errors.email);
-                if (errorObject.errors.first_name) errorMessage.push(errorObject.errors.first_name);
-                if (errorObject.errors.hometown) errorMessage.push(errorObject.errors.hometown);
-                if (errorObject.errors.favorite_team) errorMessage.push(errorObject.errors.favorite_team);
-            }
-        } else {
-            errorMessage.push('Невідома помилка');
-        }
-
-        return Observable.throw(errorMessage);
     }
 }

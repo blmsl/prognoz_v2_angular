@@ -1,39 +1,38 @@
 import { Injectable }                       from '@angular/core';
-import { Http, Response }                   from '@angular/http';
+import { Http }                             from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
+import { ErrorHandlerService }              from '../../shared/error-handler.service';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { ChampionshipMatch }                from '../../shared/models/championship-match.model';
 import { User }                             from '../../shared/models/user.model';
 import { environment }                      from '../../../environments/environment';
 
 @Injectable()
-
 export class ChampionshipMatchService {
 
     constructor(
-        private headersWithToken: HeadersWithToken,
-        private http: Http
+        private http: Http,
+        private errorHandlerService: ErrorHandlerService,
+        private headersWithToken: HeadersWithToken
     ) {}
 
     private championshipMatchUrl = environment.API_URL + 'championship/matches';
 
     /**
      * Create championship match
-     *
      * @param championshipMatch
      * @returns {Observable<R>}
      */
-    create(championshipMatch: ChampionshipMatch): Observable<any> {
+    create(championshipMatch: ChampionshipMatch): Observable<ChampionshipMatch> {
         return this.headersWithToken
             .post(this.championshipMatchUrl, championshipMatch)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().championship_match)
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Update championship match
-     *
      * @param championshipMatch
      * @param id
      */
@@ -41,27 +40,25 @@ export class ChampionshipMatchService {
         const url = `${this.championshipMatchUrl}/${id}`;
         return this.headersWithToken
             .put(url, championshipMatch)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().championship_match)
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Get match info with predicts
-     *
      * @param id
      * @returns {any|Promise<R>|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>}
      */
     getWithPredicts(id: number): Observable<ChampionshipMatch> {
         let url = this.championshipMatchUrl + '/' + id;
         return this.http.get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().championship_match)
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Universal method for current championship matches get request
      * Available params: 'active', 'ended', 'last', 'predictable'
-     *
      * @param param
      * @param competitionId
      * @param authenticatedUser
@@ -74,13 +71,13 @@ export class ChampionshipMatchService {
         if (param === 'predictable' && authenticatedUser) {
             return this.headersWithToken
                 .get(environment.API_URL + 'championship/predicts?filter=' + param)
-                .map(this.extractData)
-                .catch(this.handleError);
+                .map(response => response.json().championship_matches || [])
+                .catch(this.errorHandlerService.handle);
         }
         return this.http
             .get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().championship_matches || [])
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -94,73 +91,25 @@ export class ChampionshipMatchService {
             let url = environment.API_URL + 'championship/predicts?filter=predictable&date=' + date;
             return this.headersWithToken
                 .get(url)
-                .map(this.extractData)
-                .catch(this.handleError);
+                .map(response => response.json().championship_matches || [])
+                .catch(this.errorHandlerService.handle);
         } else {
             let url = environment.API_URL + 'championship/matches?filter=predictable&date=' + date;
             return this.http
                 .get(url)
-                .map(this.extractData)
-                .catch(this.handleError);
+                .map(response => response.json().championship_matches || [])
+                .catch(this.errorHandlerService.handle);
         }
     }
 
     /**
      * Get match statistic
-     *
      * @param id
-     * @returns {Promise<ErrorObservable|T>|any|Promise<R>|Promise<ErrorObservable>|Maybe<T>}
      */
     getStatistic(id: number): Observable<any> {
         let url = this.championshipMatchUrl + '/' + id + '?statistic=true';
         return this.http.get(url)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
-     * Transforms to json
-     *
-     * @param res
-     * @returns {any}
-     */
-    private extractData(res: Response) {
-        if (res && res.status !== 204) {
-            let body = res.json();
-            if (body.match) body = body.match;
-            if (body.championship_matches) body = body.championship_matches;
-            if (body.championship_match) body = body.championship_match;
-            return body || {};
-        }
-
-        return res;
-    }
-
-    /**
-     * Error handling
-     *
-     * @param error
-     * @returns {ErrorObservable}
-     */
-    private handleError(error: Response | any) {
-        let errorObject: any;
-        let errorMessage: Array<any> = [];
-        if (error instanceof Response) {
-            errorObject = error.json();
-            if (errorObject.status_code !== 422) {
-                errorMessage.push(errorObject.message);
-            } else {
-                if (errorObject.errors.t1_id) errorMessage.push(errorObject.errors.t1_id);
-                if (errorObject.errors.t2_id) errorMessage.push(errorObject.errors.t2_id);
-                if (errorObject.errors.starts_at) errorMessage.push(errorObject.errors.starts_at);
-                if (errorObject.errors.id) errorMessage.push(errorObject.errors.id);
-                if (errorObject.errors.home) errorMessage.push(errorObject.errors.home);
-                if (errorObject.errors.away) errorMessage.push(errorObject.errors.away);
-            }
-        } else {
-            errorMessage.push('Невідома помилка');
-        }
-
-        return Observable.throw(errorMessage);
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
     }
 }
