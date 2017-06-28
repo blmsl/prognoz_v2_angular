@@ -1,8 +1,9 @@
 import { Injectable }                       from '@angular/core';
-import { Http, Response, URLSearchParams }  from '@angular/http';
+import { Http, URLSearchParams }            from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
+import { ErrorHandlerService }              from '../../../shared/error-handler.service';
 import { Club }                             from '../../../shared/models/club.model';
 import { environment }                      from '../../../../environments/environment';
 
@@ -12,6 +13,7 @@ export class ManageClubService {
 
     constructor(
         private http: Http,
+        private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken
     ) {}
 
@@ -19,7 +21,6 @@ export class ManageClubService {
 
     /**
      * Get all paginated clubs
-     *
      * @param page
      * @param filter
      * @returns {Observable<R>}
@@ -29,51 +30,47 @@ export class ManageClubService {
         params.set('page', page);
         return this.http
             .get(this.clubUrl, {search: params})
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Get one club data
-     *
      * @param id
      * @returns {Observable<R>}
      */
     getClub(id: number): Observable<Club> {
         return this.http
             .get(this.clubUrl + '/' + id)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().club)
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Get all national teams
-     *
      * @returns {Observable<R>}
      */
-    getAllNationalTeams(): Observable<any> {
+    getAllNationalTeams(): Observable<Club[]> {
         return this.http
             .get(this.clubUrl + '?type=national_teams')
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().clubs)
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Create club
-     *
      * @param club
      * @returns {Observable<R>}
      */
-    create(club: Club): Observable<any> {
+    create(club: Club): Observable<Club> {
         return this.headersWithToken
             .post(this.clubUrl, club)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().club)
+            .catch(this.errorHandlerService.handle);
     }
     
     /**
      * Delete one club
-     *
      * @param id
      * @returns {Observable<R>}
      */
@@ -81,13 +78,12 @@ export class ManageClubService {
         const url = `${this.clubUrl}/${id}`;
         return this.headersWithToken
             .delete(url)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Update club
-     *
      * @param club
      * @returns {Observable<R>}
      */
@@ -95,50 +91,7 @@ export class ManageClubService {
         const url = `${this.clubUrl}/${club.id}`;
         return this.headersWithToken
             .put(url, JSON.stringify(club))
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
-     * Transforms to json
-     *
-     * @param res
-     * @returns {any}
-     */
-    private extractData(res: Response) {
-        if (res && res.status !== 204) {
-            let body = res.json();
-            if (body.club) body = body.club;
-            if (body.clubs) body = body.clubs;
-            return body || {};
-        }
-
-        return res;
-    }
-
-    /**
-     * Error handling
-     *
-     * @param error
-     * @returns {ErrorObservable}
-     */
-    private handleError(error: Response | any) {
-        let errorObject: any;
-        let errorMessage: Array<any> = [];
-        if (error instanceof Response) {
-            errorObject = error.json();
-            if (errorObject.status_code !== 422) {
-                errorMessage.push(errorObject.message);
-            } else {
-                if (errorObject.errors.parent_id) errorMessage.push(errorObject.errors.parent_id);
-                if (errorObject.errors.title) errorMessage.push(errorObject.errors.title);
-                if (errorObject.errors.link) errorMessage.push(errorObject.errors.link);
-                if (errorObject.errors.image) errorMessage.push(errorObject.errors.image);
-            }
-        } else {
-            errorMessage.push('Невідома помилка');
-        }
-
-        return Observable.throw(errorMessage);
+            .map(response => response.json().club)
+            .catch(this.errorHandlerService.handle);
     }
 }

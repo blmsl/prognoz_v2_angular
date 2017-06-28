@@ -1,8 +1,9 @@
 import { Injectable }                       from '@angular/core';
-import { Http, Response, URLSearchParams }  from '@angular/http';
+import { Http, URLSearchParams }            from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { ChampionshipRating }               from '../../shared/models/championship-rating.model';
+import { ErrorHandlerService }              from '../../shared/error-handler.service';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { RequestParams }                    from '../../shared/models/request-params.model';
 import { environment }                      from '../../../environments/environment';
@@ -12,7 +13,8 @@ import { environment }                      from '../../../environments/environm
 export class ChampionshipRatingService {
 
     constructor(
-        private http:Http,
+        private http: Http,
+        private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken
     ) {}
 
@@ -25,8 +27,8 @@ export class ChampionshipRatingService {
     updatePositions(): Observable<any> {
         return this.headersWithToken
             .put(this.championshipRatingUrl, {})
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -44,45 +46,7 @@ export class ChampionshipRatingService {
         
         return this.http
             .get(this.championshipRatingUrl, requestParams ? {search: params} : null)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().championship_ratings || [])
+            .catch(this.errorHandlerService.handle);
     }
-
-    /**
-     * Transforms to json
-     * @param res
-     * @returns {any}
-     */
-    private extractData(res: Response) {
-        if (res && res.status !== 204) {
-            let body = res.json();
-            if (body.championship_ratings) body = body.championship_ratings;
-            return body || {};
-        }
-
-        return res;
-    }
-
-    /**
-     * Error handling
-     * @param error
-     * @returns {ErrorObservable}
-     */
-    private handleError(error: Response | any) {
-        let errorObject: any;
-        let errorMessage: Array<any> = [];
-        if (error instanceof Response) {
-            errorObject = error.json();
-            if (errorObject.status_code !== 422) {
-                errorMessage.push(errorObject.message);
-            } else {
-                //
-            }
-        } else {
-            errorMessage.push('Невідома помилка');
-        }
-
-        return Observable.throw(errorMessage);
-    }
-
 }

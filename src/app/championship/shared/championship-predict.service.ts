@@ -32,7 +32,6 @@ export class ChampionshipPredictService {
 
     /**
      * Get user predicts by id
-     *
      * @param id
      * @param competitionId
      * @returns {Promise<ErrorObservable<T>|T>|Promise<R>|any|Promise<ErrorObservable<T>>}
@@ -47,7 +46,6 @@ export class ChampionshipPredictService {
 
     /**
      * Get last predictions
-     *
      * @returns {Promise<ErrorObservable<T>>|any|Promise<ErrorObservable<T>|T>|Promise<R>}
      */
     get(): Observable<ChampionshipPredict[]> {

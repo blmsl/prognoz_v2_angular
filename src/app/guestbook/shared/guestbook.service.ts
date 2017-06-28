@@ -1,7 +1,8 @@
 import { Injectable }                           from '@angular/core';
-import { Http, Response, URLSearchParams }      from '@angular/http';
+import { Http, URLSearchParams }                from '@angular/http';
 import { Observable }                           from 'rxjs/Observable';
 
+import { ErrorHandlerService }                  from '../../shared/error-handler.service';
 import { HeadersWithToken }                     from '../../shared/headers-with-token.service';
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { environment }                          from '../../../environments/environment';
@@ -12,6 +13,7 @@ export class GuestbookService {
 
     constructor(
         private http: Http,
+        private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken
     ) {}
 
@@ -19,7 +21,6 @@ export class GuestbookService {
 
     /**
      * Get all guestbook messages of one page
-     *
      * @param page
      * @returns {Observable<R>}
      */
@@ -27,26 +28,24 @@ export class GuestbookService {
         let params = new URLSearchParams();
         params.set('page', page);
         return this.http.get(this.guestbookUrl, {search: params})
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Create guestbook message
-     *
      * @param message
      * @returns {Observable<R>}
      */
     create(message: {user_id: number, body: string}): Observable<any> {
         return this.headersWithToken
             .post(this.guestbookUrl, message)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(response => response.json().guestbookMessages)
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
-     * Update guestbok message
-     *
+     * Update guestbook message
      * @param message
      * @returns {Observable<R|T>}
      */
@@ -54,47 +53,7 @@ export class GuestbookService {
         const url = `${this.guestbookUrl}/${message.id}`;
         return this.headersWithToken
             .put(url, message)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    /**
-     * Transforms to json
-     *
-     * @param res
-     * @returns {any}
-     */
-    private extractData(res: Response) {
-        if (res && res.status !== 204) {
-            let body = res.json();
-            if (body.guestbookMessages) body = body.guestbookMessages;
-            return body || {};
-        }
-
-        return res;
-    }
-
-    /**
-     * Error handling
-     *
-     * @param error
-     * @returns {ErrorObservable}
-     */
-    private handleError(error: Response | any) {
-        let errorObject: any;
-        let errorMessage: Array<any> = [];
-        if (error instanceof Response) {
-            errorObject = error.json();
-            if (errorObject.status_code !== 422) {
-                errorMessage.push(errorObject.message);
-            } else {
-                if (errorObject.errors.body) errorMessage.push(errorObject.errors.body);
-                if (errorObject.errors.user_id) errorMessage.push(errorObject.errors.user_id);
-            }
-        } else {
-            errorMessage.push('Невідома помилка');
-        }
-
-        return Observable.throw(errorMessage);
+            .map(response => response.json().guestbookMessage)
+            .catch(this.errorHandlerService.handle);
     }
 }
