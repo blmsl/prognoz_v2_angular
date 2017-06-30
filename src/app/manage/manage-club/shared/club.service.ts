@@ -22,47 +22,39 @@ export class ClubService {
     /**
      * Get all paginated clubs
      * @param page
-     * @param filter
-     * @returns {Observable<R>}
+     * @param type
+     * @returns {Observable<any>}
      */
-    getClubs(page = ''): Observable<any> {
+    getClubs(page?: number, type?: string): Observable<any> {
         let params = new URLSearchParams();
-        params.set('page', page);
+        if (page) params.set('page', page.toString());
+        if (type) params.set('type', type);
         return this.http
             .get(this.clubUrl, {search: params})
-            .map(response => response.json())
+            .map(response => {
+                return page ? response.json() : (response.json() ? response.json().clubs : []);
+            })
             .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Get one club data
      * @param id
-     * @returns {Observable<R>}
+     * @returns {Observable<Club>}
      */
     getClub(id: number): Observable<Club> {
         return this.http
-            .get(this.clubUrl + '/' + id)
+            .get(`${this.clubUrl}/${id}`)
             .map(response => response.json().club)
-            .catch(this.errorHandlerService.handle);
-    }
-
-    /**
-     * Get all national teams
-     * @returns {Observable<R>}
-     */
-    getAllNationalTeams(): Observable<Club[]> {
-        return this.http
-            .get(this.clubUrl + '?type=national_teams')
-            .map(response => response.json().clubs)
             .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Create club
      * @param club
-     * @returns {Observable<R>}
+     * @returns {Observable<Club>}
      */
-    create(club: Club): Observable<Club> {
+    createClub(club: Club): Observable<Club> {
         return this.headersWithToken
             .post(this.clubUrl, club)
             .map(response => response.json().club)
@@ -70,14 +62,13 @@ export class ClubService {
     }
     
     /**
-     * Delete one club
+     * Delete club
      * @param id
-     * @returns {Observable<R>}
+     * @returns {Observable<void>}
      */
-    delete(id: number): Observable<void> {
-        const url = `${this.clubUrl}/${id}`;
+    deleteClub(id: number): Observable<void> {
         return this.headersWithToken
-            .delete(url)
+            .delete(`${this.clubUrl}/${id}`)
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
@@ -85,12 +76,11 @@ export class ClubService {
     /**
      * Update club
      * @param club
-     * @returns {Observable<R>}
+     * @returns {Observable<Club>}
      */
-    update(club: Club): Observable<Club> {
-        const url = `${this.clubUrl}/${club.id}`;
+    updateClub(club: Club): Observable<Club> {
         return this.headersWithToken
-            .put(url, JSON.stringify(club))
+            .put(`${this.clubUrl}/${club.id}`, JSON.stringify(club))
             .map(response => response.json().club)
             .catch(this.errorHandlerService.handle);
     }

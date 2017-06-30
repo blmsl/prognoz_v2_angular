@@ -5,9 +5,11 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="!error && !clubs.length" [height]="200"></app-spinner>
+    <app-spinner *ngIf="spinnerClubs" [height]="200"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="error" [message]="error"></app-error>
+    <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
+    <!-- no clubs -->
+    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
     <div class="row">
         <!-- left column (form) -->
         <div *ngIf="clubs && clubs.length" class="col-12 col-md-6 col-lg-6 text-white">

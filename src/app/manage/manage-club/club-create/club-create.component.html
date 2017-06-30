@@ -5,11 +5,13 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="!error && !clubs" [height]="250"></app-spinner>
+    <app-spinner *ngIf="spinnerClubs" [height]="250"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="error" [message]="error"></app-error>
+    <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
+    <!-- no clubs -->
+    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
     <!-- club create form -->
-    <div *ngIf="clubs" class="row">
+    <div *ngIf="clubs && clubs.length" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
             <form novalidate [formGroup]="clubCreateForm" (ngSubmit)="onSubmit(clubCreateForm)" class="bg-inverse p-2 rounded">
                 <!-- title -->
@@ -78,9 +80,9 @@
                     </div>
                 </div>
                 <!-- submit button -->
-                <button [hidden]="spinner" [disabled]="clubCreateForm.invalid" type="submit" class="btn btn-primary">Створити</button>
+                <button [hidden]="spinnerButton" [disabled]="clubCreateForm.invalid" type="submit" class="btn btn-primary">Створити</button>
                 <!-- spinner button -->
-                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </form>
         </div>
     </div>

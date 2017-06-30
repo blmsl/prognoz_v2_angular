@@ -1,5 +1,5 @@
 import { Component, OnInit }              from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params }         from '@angular/router';
 import { NotificationsService }           from 'angular2-notifications';
 
 import { ClubService }                    from '../shared/club.service';
@@ -14,28 +14,23 @@ import { environment }                    from '../../../../environments/environ
 export class ClubTableComponent implements OnInit {
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private notificationService: NotificationsService,
         private clubService: ClubService
     ) { }
 
     clubs: Club[];
-    error: string | Array<string>;
+    errorClubs: string | Array<string>;
+    spinnerClubs: boolean = false;
+    noClubs: string = 'В базі даних команд не знайдено.';
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
-    /**
-     * Variables for pagination work
-     */
     path: string = '/manage/clubs/page/';
     currentPage: number;
     lastPage: number;
     perPage: number;
     total: number;
 
-    /**
-     * Variables for confirmation popup
-     */
     title: string = 'Підтвердження';
     message: string = 'Ви дійсно бажаєте видалити';
     confirmClicked: boolean = false;
@@ -43,42 +38,45 @@ export class ClubTableComponent implements OnInit {
   
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
+            this.resetData();
+            this.spinnerClubs = true;
             let page = params['number'] ? params['number'] : 1;
             this.clubService.getClubs(page).subscribe(
                 result => {
-                    if (!result.data) {
-                        this.error = "В базі даних клубів/збірних немає";
-                    } else {
+                    if (result) {
                         this.currentPage = result.current_page;
                         this.lastPage = result.last_page;
                         this.perPage = result.per_page;
                         this.total = result.total;
-                        this.clubs = result.data;
                     }
+                    this.clubs = result ? result.data : [];
+                    this.spinnerClubs = false;
                 },
-                error => this.error = error
+                error => {
+                    this.errorClubs = error;
+                    this.spinnerClubs = false;
+                }
             )
         });
     }
 
-    /**
-     * Delete one club
-     *
-     * @param club
-     */
-    delete(club) {
-        this.clubService.delete(club.id).subscribe(
-            response => {
-                this.total--;
-                this.clubs = this.clubs.filter(n => n !== club);
-                this.notificationService.success('Успішно', club.title + ' видалено');
-            },
-            errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
-            }
-        );
+    deleteClub(club) {
+        this.clubService.deleteClub(club.id)
+            .subscribe(
+                response => {
+                    this.total--;
+                    this.clubs = this.clubs.filter(n => n !== club);
+                    this.notificationService.success('Успішно', club.title + ' видалено');
+                },
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
+                    }
+                });
     }
 
+    private resetData() {
+        this.clubs = null;
+        this.errorClubs = null;
+    }
 }

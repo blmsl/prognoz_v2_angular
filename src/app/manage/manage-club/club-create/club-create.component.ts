@@ -33,15 +33,26 @@ export class ClubCreateComponent implements OnInit {
     }
 
     clubs: Club[];
+    errorClubs: string | Array<string>;
+    spinnerClubs: boolean = false;
+    noClubs: string = 'В базі даних команд не знайдено.';
+
     clubCreateForm: FormGroup;
-    error: string | Array<string>;
     errorImage: string;
-    spinner: boolean = false;
+    spinnerButton: boolean = false;
 
     ngOnInit() {
-        this.clubService.getAllNationalTeams().subscribe(
-            result => this.clubs = result,
-            error => this.error = error
+        this.spinnerClubs = true;
+        this.clubService.getClubs(null, 'national_teams')
+            .subscribe(
+                result => {
+                    this.clubs = result;
+                    this.spinnerClubs = false;
+                },
+                error => {
+                    this.errorClubs = error;
+                    this.spinnerClubs = false;
+                }
         );
 
         this.clubCreateForm = new FormGroup({
@@ -53,19 +64,19 @@ export class ClubCreateComponent implements OnInit {
     }
 
     onSubmit() {
-        this.spinner = true;
+        this.spinnerButton = true;
         if (this.clubCreateForm.value.parent_id === 'country') this.clubCreateForm.value.parent_id = null;
-        this.clubService.create(this.clubCreateForm.value).subscribe(
+        this.clubService.createClub(this.clubCreateForm.value).subscribe(
             response => {
                 this.router.navigate(['/manage/clubs']);
                 this.notificationService.success('Успішно', 'Команду ' + response.title + ' створено!');
-                this.spinner = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                    this.notificationService.error('Помилка', error);
                 }
-                this.spinner = false;
+                this.spinnerButton = false;
             }
         );
     }

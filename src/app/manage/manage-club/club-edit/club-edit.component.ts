@@ -37,12 +37,18 @@ export class ClubEditComponent implements OnInit {
     }
 
     club: Club;
+    errorClub: string | Array<string>;
+    spinnerClub: boolean = false;
+
     clubs: Club[];
-    error: string | Array<string>;
+    errorClubs: string | Array<string>;
+    spinnerClubs: boolean = false;
+    noClubs: string = 'В базі даних команд не знайдено.';
+
     clubEditForm: FormGroup;
     clubImagesUrl = environment.API_IMAGE_CLUBS;
     errorImage: string;
-    spinner: boolean = false;
+    spinnerButton: boolean = false;
 
     ngOnInit() {
         this.clubEditForm = this.formBuilder.group({
@@ -52,10 +58,10 @@ export class ClubEditComponent implements OnInit {
             image: [''],
             parent_id: ['']
         });
-      
+
         this.activatedRoute.params.forEach((params: Params) => {
-            let id = +params['id'];
-            this.clubService.getClub(id).subscribe(
+            this.spinnerClub = true;
+            this.clubService.getClub(params['id']).subscribe(
                 response => {
                     this.clubEditForm.patchValue({
                         id: response.id,
@@ -64,14 +70,26 @@ export class ClubEditComponent implements OnInit {
                         parent_id: response.parent_id
                     });
                     this.club = response;
+                    this.spinnerClub = false;
                 },
-                error => this.error = error
+                error => {
+                    this.errorClub = error;
+                    this.spinnerClub = false;
+                }
             );
         });
 
-        this.clubService.getAllNationalTeams().subscribe(
-            result => this.clubs = result,
-            error => this.error = error
+        this.spinnerClubs = true;
+        this.clubService.getClubs(null, 'national_teams')
+            .subscribe(
+                result => {
+                    this.clubs = result;
+                    this.spinnerClubs = false;
+                },
+                error => {
+                    this.errorClubs = error;
+                    this.spinnerClubs = false;
+                }
         );
     }
 
@@ -80,21 +98,20 @@ export class ClubEditComponent implements OnInit {
     }
 
     onSubmit() {
-        this.spinner = true;
+        this.spinnerButton = true;
         if (this.clubEditForm.value.parent_id === 'country') this.clubEditForm.value.parent_id = null;
-        this.clubService.update(this.clubEditForm.value).subscribe(
+        this.clubService.updateClub(this.clubEditForm.value).subscribe(
             response => {
                 this.location.back();
                 this.notificationService.success('Успішно', 'Дані команди змінено!');
-                this.spinner = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
-                this.spinner = false;
+                this.spinnerButton = false;
             }
         );
     }
-
 }

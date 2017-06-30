@@ -1,6 +1,7 @@
 import { Injectable }           from '@angular/core';
 import { Observable }           from 'rxjs/Observable';
 
+import { Comment }              from '../../shared/models/comment.model';
 import { ErrorHandlerService }  from '../../shared/error-handler.service';
 import { HeadersWithToken }     from '../../shared/headers-with-token.service';
 import { environment }          from '../../../environments/environment';
@@ -19,12 +20,12 @@ export class CommentService {
     /**
      * Add comment to news
      * @param comment
-     * @returns {Observable<any>}
+     * @returns {Observable<Comment>}
      */
-    create(comment: {body: 'string', news_id: number, user_id: number}): Observable<any> {
+    createComment(comment: Comment): Observable<Comment> {
         return this.headersWithToken
             .post(this.commentUrl, comment)
-            .map(response => response.json())
+            .map(response => response.json().comment)
             .catch(this.errorHandlerService.handle);
     }
 }

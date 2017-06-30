@@ -38,8 +38,10 @@
     <app-spinner *ngIf="spinnerClubs" [height]="250"></app-spinner>
     <!-- error clubs -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
+    <!-- no clubs -->
+    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
     <!-- match edit form -->
-    <div *ngIf="!spinnerClubs && selectedMatch != undefined" class="row">
+    <div *ngIf="clubs && clubs.length && selectedMatch != undefined" class="row">
         <div class="col-12 col-md-12 col-lg-8 offset-lg-2 text-white">
             <form novalidate [formGroup]="championshipMatchEditActiveForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
                 <!-- home club -->

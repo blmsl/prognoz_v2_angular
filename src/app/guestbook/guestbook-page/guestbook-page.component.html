@@ -43,11 +43,13 @@
     </div>
 </div>
 <!-- spinner -->
-<app-spinner *ngIf="spinnerMessages" [height]="250"></app-spinner>
+<app-spinner *ngIf="spinnerGuestbookMessages" [height]="250"></app-spinner>
 <!-- error -->
-<app-error *ngIf="error" [message]="error"></app-error>
+<app-error *ngIf="errorGuestbookMessages" [message]="errorGuestbookMessages"></app-error>
+<!-- no news -->
+<app-info *ngIf="guestbookMessages && !guestbookMessages.length" [message]="noGuestbookMessages"></app-info>
 <!-- guestbook messages -->
-<div *ngIf="guestbookMessages" class="row">
+<div *ngIf="guestbookMessages && guestbookMessages.length" class="row">
     <div class="col">
         <div *ngFor="let message of guestbookMessages" class="card mb-sm-2 black-shadow" [attr.id]="'message' + message.id">
             <div class="card-header">
@@ -82,7 +84,8 @@
     </div>
 </div>
 <!-- pagination -->
-<app-pagination [totalItems]="total"
+<app-pagination *ngIf="guestbookMessages && guestbookMessages.length"
+                [totalItems]="total"
                 [currentPage]="currentPage"
                 [pageSize]="perPage"
                 [path]="path">

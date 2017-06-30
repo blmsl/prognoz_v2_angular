@@ -33,25 +33,25 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
     ) { }
 
     guestbookMessages: GuestbookMessage[];
-    error: string | Array<string>;
-    spinnerButton: boolean = false;
-    spinnerMessages: boolean = false;
+    errorGuestbookMessages: string | Array<string>;
+    spinnerGuestbookMessages: boolean = false;
+    noGuestbookMessages: string = 'В базі даних повідомлень не знайдено.';
     userImagesUrl: string = environment.API_IMAGE_USERS;
     userImageDefault: string = environment.IMAGE_USER_DEFAULT;
-
-    /* pagination */
     path: string = '/guestbook/page/';
+
     currentPage: number;
     lastPage: number;
     perPage: number;
     total: number;
-
     guestbookMessageBody: string;
+
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
-
     editedMessage: GuestbookMessage = { id: null, user_id: null, body: '' };
+
     spinnerEditButton: boolean = false;
+    spinnerButton: boolean = false;
     isEditedMessage: boolean = false;
 
     showEditor: boolean = false;
@@ -70,25 +70,24 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
     }
 
     private getGuestbookPage() {
-        this.spinnerMessages = true;
         this.activatedRoute.params.subscribe((params: Params) => {
+            this.resetData();
+            this.spinnerGuestbookMessages = true;
             this.showEditor = !params['number'] ? true : false;
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
                 result => {
-                    if (!result.data) {
-                        this.error = "В базі даних повідомлень немає";
-                    } else {
+                    if (result) {
                         this.currentPage = result.current_page;
                         this.lastPage = result.last_page;
                         this.perPage = result.per_page;
                         this.total = result.total;
-                        this.guestbookMessages = result.data;
                     }
-                    this.spinnerMessages = false;
+                    this.guestbookMessages = result ? result.data : [];
+                    this.spinnerGuestbookMessages = false;
                 },
                 error => {
-                    this.error = error;
-                    this.spinnerMessages = false;
+                    this.errorGuestbookMessages = error;
+                    this.spinnerGuestbookMessages = false;
                 }
             )
         });
@@ -96,20 +95,16 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
 
     addMessage() {
         this.spinnerButton = true;
-        this.guestbookService.create
+        this.guestbookService.createGuestbookMessage
             ({
                 body: this.guestbookMessageBody,
-                user_id: this.authenticatedUser.id
+                user_id: this.authenticatedUser.id,
+                id: null
             })
             .subscribe(
                 response => {
-                    this.guestbookMessages = response.data;
-                    this.currentPage = response.current_page;
-                    this.lastPage = response.last_page;
-                    this.perPage = response.per_page;
-                    this.total = response.total;
                     this.resetGuestbookMessage();
-                    //this.router.navigate(['/guestbook']);
+                    this.getGuestbookPage();
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Повідомлення додано');
                 },
@@ -129,11 +124,11 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
             user_id: this.authenticatedUser.id,
             body: this.guestbookMessageBody
         };
-        this.guestbookService.update(updatedMessage).subscribe(
+        this.guestbookService.updateGuestbookMessage(updatedMessage).subscribe(
             response => {
-                this.spinnerEditButton = false;
-                this.getGuestbookPage();
                 this.resetGuestbookMessage();
+                this.getGuestbookPage();
+                this.spinnerEditButton = false;
                 this.notificationService.success('Успішно', 'Повідомлення змінено');
             },
             errors => {
@@ -171,5 +166,10 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         this.isEditedMessage = false;
         let event = new Event('resetContent');
         this.broadcastService.next(event);
+    }
+
+    private resetData() {
+        this.guestbookMessages = null;
+        this.errorGuestbookMessages = null;
     }
 }

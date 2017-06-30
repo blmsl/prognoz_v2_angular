@@ -48,6 +48,7 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
+            this.addCommentForm.patchValue({user_id: (result ? result.id : '')});
         });
         this.activatedRoute.params.forEach((params: Params) => {
             this.spinnerNews = true;
@@ -55,7 +56,7 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                 result => {
                     this.news = result;
                     this.addCommentForm = this.formBuilder.group({
-                        user_id: [this.authenticatedUser ? this.authenticatedUser.id : '', [Validators.required]],
+                        user_id: ['', [Validators.required]],
                         news_id: [this.news.id, [Validators.required]],
                         body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
                     });
@@ -81,9 +82,19 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
     
     onSubmit(value, valid) {
         this.spinnerButton = true;
-        this.commentService.create(value).subscribe(
+        this.commentService.createComment(value).subscribe(
             response => {
-                this.news.comments = response.comments;
+                this.spinnerNews = true;
+                this.newsService.getNewsItem(value.news_id)
+                    .subscribe(
+                        result => {
+                            this.news = result;
+                            this.spinnerNews = false;
+                        },
+                        error => {
+                            this.errorNews = error;
+                            this.spinnerNews = false;
+                        });
                 this.notificationService.success('Успішно', 'Новий коментар додано');
                 this.addCommentForm.patchValue({body: ''});
                 this.addCommentForm.get('body').markAsUntouched();

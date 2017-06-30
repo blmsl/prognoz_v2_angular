@@ -21,12 +21,16 @@ export class MatchCreateComponent implements OnInit {
         private championshipMatchService: ChampionshipMatchService,
         private clubService: ClubService
     ) { }
-    
+
+    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubs: Club[];
+    spinnerClubs: boolean = false;
+    errorClubs: string | Array<string>;
+    noClubs: string = 'В базі даних команд не знайдено.';
+
     championshipMatchCreateForm: FormGroup;
     addedMatches: Array<ChampionshipMatch> = [];
     error: string | Array<string>;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
-    clubs: Array<Club> = [];
     lastEnteredDate: string;
     spinner: boolean = false;
 
@@ -37,12 +41,15 @@ export class MatchCreateComponent implements OnInit {
             starts_at: ['', [Validators.required]]
         });
 
+        this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
-                this.clubs = response.clubs;
+                this.clubs = response;
+                this.spinnerClubs = false;
             },
             error => {
-                this.error = error;
+                this.errorClubs = error;
+                this.spinnerClubs = false;
             }
         );
     }

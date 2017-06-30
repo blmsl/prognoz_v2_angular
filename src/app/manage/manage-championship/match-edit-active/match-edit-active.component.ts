@@ -22,13 +22,17 @@ export class MatchEditActiveComponent implements OnInit {
     }
 
     championshipMatchEditActiveForm: FormGroup;
-    activeMatches: Array<ChampionshipMatch> = [];
-    clubs: Array<Club> = [];
-    errorActiveMatches: string | Array<string>;
-    errorClubs: string | Array<string>;
-    spinnerActiveMatches: boolean = false;
-    spinnerClubs: boolean = false;
     spinnerButton: boolean = false;
+
+    activeMatches: Array<ChampionshipMatch> = [];
+    errorActiveMatches: string | Array<string>;
+    spinnerActiveMatches: boolean = false;
+
+    clubs: Club[];
+    errorClubs: string | Array<string>;
+    noClubs: string = 'В базі даних команд не знайдено.';
+    spinnerClubs: boolean = false;
+
     selectedMatch: ChampionshipMatch;
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
@@ -60,7 +64,7 @@ export class MatchEditActiveComponent implements OnInit {
         this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
-                this.clubs = response.clubs;
+                this.clubs = response;
                 this.spinnerClubs = false;
             },
             error => {

@@ -5,9 +5,11 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="!error && !clubs" [height]="250"></app-spinner>
+    <app-spinner *ngIf="spinnerClubs" [height]="250"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="error" [message]="error"></app-error>
+    <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
+    <!-- no clubs -->
+    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
     <!-- clubs table -->
     <div *ngIf="clubs && clubs.length" class="row">
         <div class="col-12">
@@ -54,7 +56,7 @@
                                     [title]="title"
                                     [message]="message + ' ' + club.title + '?'"
                                     placement="left"
-                                    (confirm)="delete(club)"
+                                    (confirm)="deleteClub(club)"
                                     (cancel)="cancelClicked = true">
                                 <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
                             </button>
@@ -64,7 +66,7 @@
             </table>
         </div>
     </div>
-    <app-pagination *ngIf="clubs"
+    <app-pagination *ngIf="clubs && clubs.length"
                     [totalItems]="total"
                     [currentPage]="currentPage"
                     [pageSize]="perPage"

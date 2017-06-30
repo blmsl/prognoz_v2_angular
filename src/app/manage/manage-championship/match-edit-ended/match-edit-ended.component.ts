@@ -22,13 +22,16 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     }
 
     endedMatches: Array<ChampionshipMatch> = [];
-    clubs: Array<Club> = [];
     errorEndedMatches: string | Array<string>;
-    errorClubs: string | Array<string>;
     spinnerEndedMatches: boolean = false;
+
+    clubs: Club[];
+    errorClubs: string | Array<string>;
     spinnerClubs: boolean = false;
-    spinnerButton: any = {};
+    noClubs: string = 'В базі даних команд не знайдено.';
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+
+    spinnerButton: any = {};
     updatedMatches: any = {};
     isUpdatedMatches: boolean = false;
 

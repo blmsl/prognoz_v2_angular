@@ -8,6 +8,7 @@ import { News }                              from '../../shared/models/news.mode
 import { environment }                       from '../../../environments/environment';
 
 @Injectable()
+
 export class NewsService {
     
     constructor(

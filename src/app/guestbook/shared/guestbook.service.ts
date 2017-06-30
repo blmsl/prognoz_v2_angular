@@ -20,14 +20,15 @@ export class GuestbookService {
     private guestbookUrl = environment.API_URL + 'guestbookmessages';
 
     /**
-     * Get all guestbook messages of one page
+     * Get all paginated guestbook messages
      * @param page
-     * @returns {Observable<R>}
+     * @returns {Observable<any>}
      */
-    getGuestbookMessages(page = '1'): Observable<any> {
+    getGuestbookMessages(page: number = 1): Observable<any> {
         let params = new URLSearchParams();
-        params.set('page', page);
-        return this.http.get(this.guestbookUrl, {search: params})
+        params.set('page', page.toString());
+        return this.http
+            .get(this.guestbookUrl, {search: params})
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
@@ -35,24 +36,23 @@ export class GuestbookService {
     /**
      * Create guestbook message
      * @param message
-     * @returns {Observable<R>}
+     * @returns {Observable<GuestbookMessage>}
      */
-    create(message: {user_id: number, body: string}): Observable<any> {
+    createGuestbookMessage(message: GuestbookMessage): Observable<GuestbookMessage> {
         return this.headersWithToken
             .post(this.guestbookUrl, message)
-            .map(response => response.json().guestbookMessages)
+            .map(response => response.json().guestbookMessage)
             .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Update guestbook message
      * @param message
-     * @returns {Observable<R|T>}
+     * @returns {Observable<GuestbookMessage>}
      */
-    update(message: GuestbookMessage): Observable<GuestbookMessage> {
-        const url = `${this.guestbookUrl}/${message.id}`;
+    updateGuestbookMessage(message: GuestbookMessage): Observable<GuestbookMessage> {
         return this.headersWithToken
-            .put(url, message)
+            .put(`${this.guestbookUrl}/${message.id}`, message)
             .map(response => response.json().guestbookMessage)
             .catch(this.errorHandlerService.handle);
     }
