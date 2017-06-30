@@ -1,21 +1,12 @@
 <!-- TODAY MATCHES -->
 <h2 *ngIf="matches">Найближчі матчі: </h2>
-<!-- tomorrow and today navigation -->
-<ul *ngIf="matches" class="nav nav-tabs mb-2" role="tablist">
-    <li *ngIf="matchesToday" class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#today" role="tab" (click)="getMatches('today')">Сьогодні</a>
-    </li>
-    <li *ngIf="matchesTomorrow" class="nav-item">
-        <a class="nav-link" [ngClass]="{ active: (matchesTomorrow && !matchesToday) }" data-toggle="tab" href="#tomorrow" role="tab" (click)="getMatches('tomorrow')">Завтра</a>
-    </li>
-</ul>
 <!-- spinner -->
 <app-spinner *ngIf="spinnerMatches" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="error" [message]="error"></app-error>
 <!-- championship-match-predictable component-->
 <div *ngIf="matches && !spinnerMatches" class="container-fluid">
-    <form novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit(date)">
+    <form novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit()">
         <app-championship-match-predictable *ngFor="let match of matches"
                                             [match]="match"
                                             [authenticatedUser]="authenticatedUser"

@@ -44,8 +44,6 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     error: string | Array<string>;
     matches: ChampionshipMatch[];
     championshipPredictsTodayForm: FormGroup;
-    matchesToday: boolean = true;
-    matchesTomorrow: boolean = true;
 
     /* last predictions */
     spinnerPredictions: boolean = false;
@@ -57,16 +55,13 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     errorRating: string | Array<string>;
     rating: ChampionshipRating[];
 
-    /* date */
-    date: string;
-
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
-            this.getMatches(this.date);
+            this.getMatches();
         });
         this.championshipPredictsTodayForm = new FormGroup({});
-        this.getMatches('today');
+        this.getMatches();
         this.getTopRating();
         this.getLastPredictions();
     }
@@ -77,7 +72,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
         }
     }
 
-    onSubmit(date: string = 'today') {
+    onSubmit() {
         this.spinnerButton = true;
         let predicts = [];
         for (let predict in this.championshipPredictsTodayForm.value) {
@@ -114,10 +109,9 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
         this.championshipPredictService.update(predicts)
             .subscribe(
                 response => {
-                    // this.updateForm(response);
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
-                    this.getMatches(date);
+                    this.getMatches();
                     this.getLastPredictions();
                 },
                 error => {
@@ -127,18 +121,12 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
             );
     }
 
-    public getMatches(date: string = 'today') {
+    public getMatches() {
         this.spinnerMatches = true;
-        this.date = date;
-        this.championshipMatchService.getPredictableMatchesByDate(date, this.authenticatedUser)
+        this.championshipMatchService.getPredictableMatches(this.authenticatedUser, true)
             .subscribe(
                 response => {
-                    if ((date === 'today') && !response.length) {
-                        this.matchesToday = false;
-                        this.getMatches('tomorrow');
-                    } else if  ((date === 'tomorrow') && !response.length) {
-                        this.matchesTomorrow = false;
-                    } else {
+                    if (response.length) {
                         this.updateForm(response);
                     }
                     this.spinnerMatches = false;

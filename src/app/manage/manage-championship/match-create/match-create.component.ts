@@ -39,7 +39,7 @@ export class MatchCreateComponent implements OnInit {
 
         this.manageClubService.getClubs().subscribe(
             response => {
-                this.clubs = response;
+                this.clubs = response.clubs;
             },
             error => {
                 this.error = error;

@@ -82,19 +82,21 @@ export class ChampionshipMatchService {
 
     /**
      * Get predictable matches by date
-     * @param date
      * @param authenticatedUser
-     * @returns {Observable<R|T>}
+     * @param coming
+     * @returns {Observable<ChampionshipMatch[]>}
      */
-    getPredictableMatchesByDate(date: string, authenticatedUser?: User): Observable<ChampionshipMatch[]> {
+    getPredictableMatches(authenticatedUser?: User, coming?: boolean): Observable<ChampionshipMatch[]> {
         if (authenticatedUser) {
-            let url = environment.API_URL + 'championship/predicts?filter=predictable&date=' + date;
+            let url = environment.API_URL + 'championship/predicts?filter=predictable';
+            if (coming) url += '&coming=true';
             return this.headersWithToken
                 .get(url)
                 .map(response => response.json().championship_matches || [])
                 .catch(this.errorHandlerService.handle);
         } else {
-            let url = environment.API_URL + 'championship/matches?filter=predictable&date=' + date;
+            let url = environment.API_URL + 'championship/matches?filter=predictable';
+            if (coming) url += '&coming=true';
             return this.http
                 .get(url)
                 .map(response => response.json().championship_matches || [])

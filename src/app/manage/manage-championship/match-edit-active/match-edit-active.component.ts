@@ -60,7 +60,7 @@ export class MatchEditActiveComponent implements OnInit {
         this.spinnerClubs = true;
         this.manageClubService.getClubs().subscribe(
             response => {
-                this.clubs = response;
+                this.clubs = response.clubs;
                 this.spinnerClubs = false;
             },
             error => {

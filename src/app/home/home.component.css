@@ -1,4 +1,26 @@
-.dark-gray {
-    background-color: #333;
-    border-color: #333;
+#carousel {
+    margin-top: -8px;
+    height: 400px;
+    color: white;
+}
+.logo-block {
+    height: 300px;
+}
+.title-block {
+    height: 100px;
+}
+.title-block .col h2 {
+    font-weight: bold;
+    font-style: italic;
+}
+.logo {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+.vs {
+    height: 400px;
+    background: url("../../img/vs.png") center center no-repeat;
+    background-size: contain;
 }

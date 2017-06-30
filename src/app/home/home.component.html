@@ -1,3 +1,80 @@
+<!-- coming matches slider -->
+<div class="hidden-md-down">
+    <!-- spinner -->
+    <app-spinner *ngIf="spinnerMatches" [height]="400"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="errorMatches" [message]="errorMatches"></app-error>
+    <div *ngIf="matches && matches.length" id="carousel" class="carousel slide bg-black" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            <div *ngFor="let match of matches; let i = index;" class="carousel-item" [class.active]="i === 0">
+                <div class="container">
+                    <div class="row">
+                        <!-- first club -->
+                        <div class="col-md-5">
+                            <div class="row align-items-center">
+                                <!-- image -->
+                                <div class="col-12">
+                                    <div class="row align-items-center logo-block p-4">
+                                        <div class="col logo"
+                                             [style.background-image]="'url(' + clubsImagesUrl + match.club_first.image + ')'">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- title -->
+                                <div class="col text-center" >
+                                    <div class="row align-items-center title-block">
+                                        <div class="col">
+                                            <h2>{{match.club_first.title}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- versus -->
+                        <div class="col-md-2">
+                            <div class="row align-items-center">
+                                <div class="col vs"></div>
+                            </div>
+                        </div>
+                        <!-- second club -->
+                        <div class="col-md-5">
+                            <div class="row">
+                                <!-- title -->
+                                <div class="col text-center">
+                                    <div class="row align-items-center title-block">
+                                        <div class="col">
+                                            <h2>{{match.club_second.title}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- image -->
+                                <div class="col-12">
+                                    <div class="row align-items-center logo-block p-4">
+                                        <div class="col logo"
+                                             [style.background-image]="'url(' + clubsImagesUrl + match.club_second.image + ')'">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3>{{ match.starts_at.slice(0, -3) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+<!-- last news -->
 <div class="container">
     <div class="row">
         <div class="col">
@@ -5,9 +82,9 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+    <app-spinner *ngIf="spinnerNews" [height]="250"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="error" [message]="error"></app-error>
+    <app-error *ngIf="errorNews" [message]="error"></app-error>
     <!-- last 3 news -->
     <div *ngIf="news && news.length" class="row">
         <div class="col">
