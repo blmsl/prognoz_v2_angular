@@ -2,7 +2,7 @@ import { Component, OnInit }              from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NotificationsService }           from 'angular2-notifications';
 
-import { ManageClubService }              from '../shared/manage-club.service';
+import { ClubService }                    from '../shared/club.service';
 import { Club }                           from '../../../shared/models/club.model';
 import { environment }                    from '../../../../environments/environment';
 
@@ -17,7 +17,7 @@ export class ClubTableComponent implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute,
         private notificationService: NotificationsService,
-        private manageClubService: ManageClubService
+        private clubService: ClubService
     ) { }
 
     clubs: Club[];
@@ -44,7 +44,7 @@ export class ClubTableComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
             let page = params['number'] ? params['number'] : 1;
-            this.manageClubService.getClubs(page).subscribe(
+            this.clubService.getClubs(page).subscribe(
                 result => {
                     if (!result.data) {
                         this.error = "В базі даних клубів/збірних немає";
@@ -67,7 +67,7 @@ export class ClubTableComponent implements OnInit {
      * @param club
      */
     delete(club) {
-        this.manageClubService.delete(club.id).subscribe(
+        this.clubService.delete(club.id).subscribe(
             response => {
                 this.total--;
                 this.clubs = this.clubs.filter(n => n !== club);

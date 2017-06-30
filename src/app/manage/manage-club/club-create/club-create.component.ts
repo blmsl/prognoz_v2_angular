@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
 import { Club }                                 from '../../../shared/models/club.model';
-import { ManageClubService }                    from '../shared/manage-club.service';
+import { ClubService }                          from '../shared/club.service';
 import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
 
@@ -18,7 +18,7 @@ export class ClubCreateComponent implements OnInit {
     constructor(
         private router: Router,
         private notificationService: NotificationsService,
-        private manageClubService: ManageClubService,
+        private clubService: ClubService,
         private imageService: ImageService
     ) {
         imageService.uploadedImage$.subscribe(
@@ -39,7 +39,7 @@ export class ClubCreateComponent implements OnInit {
     spinner: boolean = false;
 
     ngOnInit() {
-        this.manageClubService.getAllNationalTeams().subscribe(
+        this.clubService.getAllNationalTeams().subscribe(
             result => this.clubs = result,
             error => this.error = error
         );
@@ -55,7 +55,7 @@ export class ClubCreateComponent implements OnInit {
     onSubmit() {
         this.spinner = true;
         if (this.clubCreateForm.value.parent_id === 'country') this.clubCreateForm.value.parent_id = null;
-        this.manageClubService.create(this.clubCreateForm.value).subscribe(
+        this.clubService.create(this.clubCreateForm.value).subscribe(
             response => {
                 this.router.navigate(['/manage/clubs']);
                 this.notificationService.success('Успішно', 'Команду ' + response.title + ' створено!');

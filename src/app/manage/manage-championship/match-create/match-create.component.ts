@@ -4,7 +4,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
-import { ManageClubService }                    from '../../manage-club/shared/manage-club.service';
+import { ClubService }                    from '../../manage-club/shared/club.service';
 import { Club }                                 from '../../../shared/models/club.model';
 import { environment }                          from '../../../../environments/environment';
 
@@ -19,7 +19,7 @@ export class MatchCreateComponent implements OnInit {
         private formBuilder: FormBuilder,
         private notificationService: NotificationsService,
         private championshipMatchService: ChampionshipMatchService,
-        private manageClubService: ManageClubService
+        private clubService: ClubService
     ) { }
     
     championshipMatchCreateForm: FormGroup;
@@ -37,7 +37,7 @@ export class MatchCreateComponent implements OnInit {
             starts_at: ['', [Validators.required]]
         });
 
-        this.manageClubService.getClubs().subscribe(
+        this.clubService.getClubs().subscribe(
             response => {
                 this.clubs = response.clubs;
             },

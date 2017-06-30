@@ -7,7 +7,7 @@ import { DirectivesModule }         from '../../shared/directives/directives.mod
 import { ManageClubComponent }      from './manage-club.component';
 import { ManageClubRoutingModule }  from './manage-club-routing.module';
 import { ManageClubGuard }          from './shared/manage-club-guard.service';
-import { ManageClubService }        from './shared/manage-club.service';
+import { ClubService }              from './shared/club.service';
 import { ClubCreateComponent }      from './club-create/club-create.component';
 import { ClubEditComponent }        from './club-edit/club-edit.component';
 import { ClubTableComponent }       from './club-table/club-table.component';
@@ -31,7 +31,7 @@ import { ClubTableComponent }       from './club-table/club-table.component';
     ],
     providers: [
         ManageClubGuard,
-        ManageClubService
+        ClubService
     ]
 })
 export class ManageClubModule { }

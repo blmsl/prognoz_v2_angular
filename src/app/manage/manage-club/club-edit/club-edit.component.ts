@@ -5,7 +5,7 @@ import { NotificationsService }                 from 'angular2-notifications';
 import { Location }                             from '@angular/common';
 
 import { Club }                                 from '../../../shared/models/club.model';
-import { ManageClubService }                    from '../shared/manage-club.service';
+import { ClubService }                          from '../shared/club.service';
 import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
 
@@ -22,7 +22,7 @@ export class ClubEditComponent implements OnInit {
         private formBuilder: FormBuilder,
         private location: Location,
         private notificationService: NotificationsService,
-        private manageClubService: ManageClubService,
+        private clubService: ClubService,
         private imageService: ImageService
     ) {
         imageService.uploadedImage$.subscribe(
@@ -55,7 +55,7 @@ export class ClubEditComponent implements OnInit {
       
         this.activatedRoute.params.forEach((params: Params) => {
             let id = +params['id'];
-            this.manageClubService.getClub(id).subscribe(
+            this.clubService.getClub(id).subscribe(
                 response => {
                     this.clubEditForm.patchValue({
                         id: response.id,
@@ -69,7 +69,7 @@ export class ClubEditComponent implements OnInit {
             );
         });
 
-        this.manageClubService.getAllNationalTeams().subscribe(
+        this.clubService.getAllNationalTeams().subscribe(
             result => this.clubs = result,
             error => this.error = error
         );
@@ -82,7 +82,7 @@ export class ClubEditComponent implements OnInit {
     onSubmit() {
         this.spinner = true;
         if (this.clubEditForm.value.parent_id === 'country') this.clubEditForm.value.parent_id = null;
-        this.manageClubService.update(this.clubEditForm.value).subscribe(
+        this.clubService.update(this.clubEditForm.value).subscribe(
             response => {
                 this.location.back();
                 this.notificationService.success('Успішно', 'Дані команди змінено!');

@@ -6,8 +6,8 @@ import { Location }                             from '@angular/common';
 
 import { Competition }                          from '../../../shared/models/competition.model';
 import { CompetitionService }                   from '../shared/competition.service';
-import { ManageSeasonService }                  from '../../manage-season/shared/manage-season.service';
-import { ManageTournamentService }              from '../../manage-tournament/shared/manage-tournament.service';
+import { SeasonService }                        from '../../manage-season/shared/season.service';
+import { TournamentService }                    from '../../manage-tournament/shared/manage-tournament.service';
 import { Season }                               from '../../../shared/models/season.model';
 import { Tournament }                           from '../../../shared/models/tournament.model';
 
@@ -26,8 +26,8 @@ export class CompetitionEditComponent implements OnInit {
         private location: Location,
         private notificationService: NotificationsService,
         private competitionService: CompetitionService,
-        private manageSeasonService: ManageSeasonService,
-        private manageTournamentService: ManageTournamentService
+        private seasonService: SeasonService,
+        private tournamentService: TournamentService
     ) { }
 
     spinner: boolean = false;
@@ -72,7 +72,7 @@ export class CompetitionEditComponent implements OnInit {
         });
 
         this.spinner = true;
-        this.manageSeasonService.getSeasons().subscribe(
+        this.seasonService.getSeasons().subscribe(
             response => {
               this.seasons = response;
               this.spinner = false;
@@ -84,7 +84,7 @@ export class CompetitionEditComponent implements OnInit {
         );
 
         this.spinner = true;
-        this.manageTournamentService.getTournaments().subscribe(
+        this.tournamentService.getTournaments().subscribe(
             response => {
               this.tournaments = response;
               this.spinner = false;

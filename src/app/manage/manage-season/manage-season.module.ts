@@ -5,7 +5,7 @@ import { ReactiveFormsModule }          from '@angular/forms';
 import { DirectivesModule }             from '../../shared/directives/directives.module';
 import { ManageSeasonComponent }        from './manage-season.component';
 import { ManageSeasonRoutingModule }    from './manage-season-routing.module';
-import { ManageSeasonService }          from './shared/manage-season.service';
+import { SeasonService }                from './shared/season.service';
 import { ManageSeasonGuard }            from './shared/manage-season-guard.service';
 import { SeasonCreateComponent }        from './season-create/season-create.component';
 import { SeasonTableComponent }         from './season-table/season-table.component';
@@ -26,7 +26,7 @@ import { SeasonEditComponent }          from './season-edit/season-edit.componen
     ],
     providers: [
         ManageSeasonGuard,
-        ManageSeasonService
+        SeasonService
     ]
 })
 export class ManageSeasonModule { }

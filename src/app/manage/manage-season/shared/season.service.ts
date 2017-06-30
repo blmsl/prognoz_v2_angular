@@ -9,7 +9,7 @@ import { environment }                      from '../../../../environments/envir
 
 @Injectable()
 
-export class ManageSeasonService {
+export class SeasonService {
 
     constructor(
         private http: Http,

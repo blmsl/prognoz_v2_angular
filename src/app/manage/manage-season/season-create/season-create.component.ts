@@ -3,7 +3,7 @@ import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { NotificationsService }                 from 'angular2-notifications';
 
-import { ManageSeasonService }                  from '../shared/manage-season.service';
+import { SeasonService }                        from '../shared/season.service';
 
 @Component({
     selector: 'app-season-create',
@@ -15,7 +15,7 @@ export class SeasonCreateComponent implements OnInit {
     constructor(
         private router: Router,
         private notificationService: NotificationsService,
-        private manageSeasonService: ManageSeasonService
+        private seasonService: SeasonService
     ) { }
 
     seasonCreateForm: FormGroup;
@@ -29,7 +29,7 @@ export class SeasonCreateComponent implements OnInit {
 
     onSubmit() {
         this.spinner = true;
-        this.manageSeasonService.create(this.seasonCreateForm.value).subscribe(
+        this.seasonService.create(this.seasonCreateForm.value).subscribe(
             response => {
                 this.router.navigate(['/manage/seasons']);
                 this.notificationService.success('Успішно', 'Сезон створено!');

@@ -8,7 +8,7 @@ import { environment }                      from '../../../../environments/envir
 
 @Injectable()
 
-export class ManageTournamentService {
+export class TournamentService {
 
     constructor(
         private http: Http,

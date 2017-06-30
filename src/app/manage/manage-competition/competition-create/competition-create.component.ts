@@ -4,8 +4,8 @@ import { NotificationsService }                 from 'angular2-notifications';
 import { Location }                             from '@angular/common';
 
 import { CompetitionService }                   from '../shared/competition.service';
-import { ManageSeasonService }                  from '../../manage-season/shared/manage-season.service';
-import { ManageTournamentService }              from '../../manage-tournament/shared/manage-tournament.service';
+import { SeasonService }                        from '../../manage-season/shared/season.service';
+import { TournamentService }                    from '../../manage-tournament/shared/manage-tournament.service';
 import { Season }                               from '../../../shared/models/season.model';
 import { Tournament }                           from '../../../shared/models/tournament.model';
 
@@ -18,10 +18,10 @@ export class CompetitionCreateComponent implements OnInit {
 
     constructor(
         private notificationService: NotificationsService,
-        private manageSeasonService: ManageSeasonService,
+        private seasonService: SeasonService,
         private competitionService: CompetitionService,
         private location: Location,
-        private manageTournamentService: ManageTournamentService
+        private tournamentService: TournamentService
     ) { }
 
     spinner: boolean = false;
@@ -33,7 +33,7 @@ export class CompetitionCreateComponent implements OnInit {
   
     ngOnInit() {
         this.spinner = true;
-        this.manageSeasonService.getSeasons().subscribe(
+        this.seasonService.getSeasons().subscribe(
             response => {
                 this.seasons = response;
                 this.spinner = false;
@@ -45,7 +45,7 @@ export class CompetitionCreateComponent implements OnInit {
         );
 
         this.spinner = true;
-        this.manageTournamentService.getTournaments().subscribe(
+        this.tournamentService.getTournaments().subscribe(
             response => {
                 this.tournaments = response;
                 this.spinner = false;

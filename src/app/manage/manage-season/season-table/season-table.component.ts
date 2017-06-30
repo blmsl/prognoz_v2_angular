@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ManageSeasonService }  from '../shared/manage-season.service';
-import { Season }               from '../../../shared/models/season.model';
+import { SeasonService }     from '../shared/season.service';
+import { Season }            from '../../../shared/models/season.model';
 
 @Component({
   selector: 'app-season-table',
@@ -11,7 +11,7 @@ import { Season }               from '../../../shared/models/season.model';
 export class SeasonTableComponent implements OnInit {
 
     constructor(
-        private manageSeasonService: ManageSeasonService
+        private seasonService: SeasonService
     ) { }
 
     seasons: Season[];
@@ -20,7 +20,7 @@ export class SeasonTableComponent implements OnInit {
   
     ngOnInit() {
         this.spinner = true;
-        this.manageSeasonService.getSeasons().subscribe(
+        this.seasonService.getSeasons().subscribe(
             response => {
                 this.seasons = response;
                 this.spinner = false;
