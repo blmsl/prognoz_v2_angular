@@ -79,9 +79,14 @@
                     </div>
                 </div>
                 <!-- submit -->
-                <button [disabled]="newsCreateForm.invalid || errorImage" type="submit" class="btn btn-primary">Створити</button>
+                <button [disabled]="newsCreateForm.invalid || errorImage"
+                        [hidden]="spinnerButton"
+                        type="submit"
+                        class="btn btn-primary">
+                    Створити
+                </button>
                 <!-- spinner button -->
-                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </form>
         </div>
     </div>

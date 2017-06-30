@@ -1,8 +1,8 @@
 import { Component, OnInit }              from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params }         from '@angular/router';
 import { NotificationsService }           from 'angular2-notifications';
 
-import { NewsService }              from '../../../news/shared/news.service';
+import { NewsService }                    from '../../../news/shared/news.service';
 import { News }                           from '../../../shared/models/news.model';
 
 @Component({
@@ -13,65 +13,52 @@ import { News }                           from '../../../shared/models/news.mode
 export class NewsTableComponent implements OnInit {
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private notificationService: NotificationsService,
         private newsService: NewsService
     ) { }
 
     news: News[];
-    error: string | Array<string>;
+    errorNews: string | Array<string>;
+    spinnerNews: boolean = false;
+    noNews: string = 'В базі даних новин не знайдено.';
 
-    /**
-     * Variables for pagination work
-     */
     path: string = '/manage/news/page/';
     currentPage: number;
     lastPage: number;
     perPage: number;
     total: number;
 
-    /**
-     * Variables for confirmation modal
-     */
     title: string = 'Підтвердження';
     message: string = 'Ви дійсно бажаєте видалити';
     confirmClicked: boolean = false;
     cancelClicked: boolean = false;
 
-
-    /**
-     * Get page id from url if exists
-     * Send request to get news
-     * If there is no news in DB or error happened
-     * Show error message
-     */
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
+            this.resetData();
+            this.spinnerNews = true;
             this.newsService.getNews(params['number']).subscribe(
                 result => {
-                    if (!result.data) {
-                        this.error = "В базі даних новин немає";
-                    } else {
+                    if (result) {
                         this.currentPage = result.current_page;
                         this.lastPage = result.last_page;
                         this.perPage = result.per_page;
                         this.total = result.total;
-                        this.news = result.data;
                     }
+                    this.news = result ? result.data : [];
+                    this.spinnerNews = false;
                 },
-                error => this.error = error
+                error => {
+                    this.errorNews = error;
+                    this.spinnerNews = false;
+                }
             )
         });
     }
-    
-    /**
-     * Delete one news
-     *
-     * @param news
-     */
-    delete(news) {
-        this.newsService.delete(news.id).subscribe(
+
+    deleteNewsItem(news: News) {
+        this.newsService.deleteNewsItem(news.id).subscribe(
             response => {
                 this.total--;
                 this.news = this.news.filter(n => n !== news);
@@ -83,5 +70,10 @@ export class NewsTableComponent implements OnInit {
                 }
             }
         );
+    }
+
+    private resetData() {
+        this.news = null;
+        this.errorNews = null;
     }
 }

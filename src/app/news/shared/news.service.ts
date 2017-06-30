@@ -23,9 +23,9 @@ export class NewsService {
      * @param page
      * @returns {Observable<any>}
      */
-    getNews(page = '1'): Observable<any> {
+    getNews(page: number = 1): Observable<any> {
         let params = new URLSearchParams();
-        params.set('page', page);
+        params.set('page', page.toString());
         return this.http
             .get(this.newsUrl, {search: params})
             .map(response => response.json())
@@ -33,36 +33,35 @@ export class NewsService {
     }
 
     /**
-     * Get one
+     * Get one news item
      * @param id
      * @returns {Observable<News>}
      */
-    getOneNews(id): Observable<News> {
+    getNewsItem(id: number): Observable<News> {
         return this.http
-            .get(this.newsUrl + "/" + id)
+            .get(`${this.newsUrl}/${id}`)
             .map(response => response.json().news)
             .catch(this.errorHandlerService.handle);
     }
 
     /**
-     * Delete one news
+     * Delete one news item
      * @param id
      * @returns {Observable<void>}
      */
-    delete(id: number): Observable<void> {
-        const url = `${this.newsUrl}/${id}`;
+    deleteNewsItem(id: number): Observable<void> {
         return this.headersWithToken
-            .delete(url)
+            .delete(`${this.newsUrl}/${id}`)
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 
     /**
-     * Create one news
+     * Create one news item
      * @param news
      * @returns {Observable<News>}
      */
-    create(news: News): Observable<News> {
+    createNewsItem(news: News): Observable<News> {
         return this.headersWithToken
             .post(this.newsUrl, news)
             .map(response => response.json().news)
@@ -70,15 +69,13 @@ export class NewsService {
     }
 
     /**
-     * Update one news
-     *
+     * Update one news item
      * @param news
      * @returns {Observable<News>}
      */
-    update(news: News): Observable<News> {
-        const url = `${this.newsUrl}/${news.id}`;
+    updateNewsItem(news: News): Observable<News> {
         return this.headersWithToken
-            .put(url, JSON.stringify(news))
+            .put(`${this.newsUrl}/${news.id}`, JSON.stringify(news))
             .map(response => response.json().news)
             .catch(this.errorHandlerService.handle);
     }

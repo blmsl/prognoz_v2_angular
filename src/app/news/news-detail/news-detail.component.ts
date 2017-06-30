@@ -33,24 +33,25 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
     ) {}
 
     news: News;
-    error: string | Array<string>;
+    errorNews: string | Array<string>;
+    spinnerNews: boolean = false;
     newsImagesUrl: string = environment.API_IMAGE_NEWS;
+
     userImagesUrl: string = environment.API_IMAGE_USERS;
     userImageDefault: string = environment.IMAGE_USER_DEFAULT;
     authenticatedUser: User = this.currentStateService.user;
-    spinner: boolean = false;
-    spinnerButton: boolean = false;
-    addCommentForm: FormGroup;
     userSubscription: Subscription;
 
+    addCommentForm: FormGroup;
+    spinnerButton: boolean = false;
+
     ngOnInit() {
-        this.spinner = true;
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
         });
         this.activatedRoute.params.forEach((params: Params) => {
-            let id = +params['id'];
-            this.newsService.getOneNews(id).subscribe(
+            this.spinnerNews = true;
+            this.newsService.getNewsItem(+params['id']).subscribe(
                 result => {
                     this.news = result;
                     this.addCommentForm = this.formBuilder.group({
@@ -58,11 +59,11 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                         news_id: [this.news.id, [Validators.required]],
                         body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
                     });
-                    this.spinner = false;
+                    this.spinnerNews = false;
                 },
                 error => {
-                    this.error = error;
-                    this.spinner = false;
+                    this.errorNews = error;
+                    this.spinnerNews = false;
                 }
             );
         });

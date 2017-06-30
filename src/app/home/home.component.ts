@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     news: News[];
     spinnerNews: boolean = false;
     errorNews: string | Array<string>;
+    noNews: string = 'В базі даних новин не знайдено.';
     newsImagesUrl: string = environment.API_IMAGE_NEWS;
 
     matches: ChampionshipMatch[];
@@ -30,13 +31,15 @@ export class HomeComponent implements OnInit {
     clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
 
     ngOnInit() {
+        this.getNews();
+        this.getMatches();
+    }
+
+    private getNews() {
         this.spinnerNews = true;
-        this.spinnerMatches = true;
         this.newsService.getNews().subscribe(
             result => {
-                if (result.data) {
-                    this.news = result.data;
-                }
+                this.news = result ? result.data : [];
                 this.spinnerNews = false;
             },
             error => {
@@ -44,6 +47,10 @@ export class HomeComponent implements OnInit {
                 this.spinnerNews = false;
             }
         );
+    }
+
+    private getMatches() {
+        this.spinnerMatches = true;
         this.championshipMatchService.getPredictableMatches(null, true).subscribe(
             response => {
                 this.matches = response;

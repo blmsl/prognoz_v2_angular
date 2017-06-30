@@ -5,9 +5,9 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="!error && !news" [height]="250"></app-spinner>
+    <app-spinner *ngIf="spinnerNews" [height]="250"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="error" [message]="error"></app-error>
+    <app-error *ngIf="errorNews" [message]="errorNews"></app-error>
     <!-- news edit form -->
     <div *ngIf="news" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
@@ -87,9 +87,9 @@
                     </div>
                 </div>
                 <!-- submit button -->
-                <button [hidden]="spinner" [disabled]="newsEditForm.invalid || errorImage" type="submit" class="btn btn-primary">Змінити</button>
+                <button [hidden]="spinnerButton" [disabled]="newsEditForm.invalid || errorImage" type="submit" class="btn btn-primary">Змінити</button>
                 <!-- spinner button -->
-                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </form>
         </div>
     </div>

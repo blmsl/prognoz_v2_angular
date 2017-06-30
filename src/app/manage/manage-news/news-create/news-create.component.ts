@@ -33,7 +33,7 @@ export class NewsCreateComponent implements OnInit {
 
     newsCreateForm: FormGroup;
     errorImage: string;
-    spinner: boolean = false;
+    spinnerButton: boolean = false;
 
     ngOnInit() {
         this.newsCreateForm = new FormGroup({
@@ -45,18 +45,18 @@ export class NewsCreateComponent implements OnInit {
     }
 
     onSubmit() {
-        this.spinner = true;
-        this.newsService.create(this.newsCreateForm.value).subscribe(
+        this.spinnerButton = true;
+        this.newsService.createNewsItem(this.newsCreateForm.value).subscribe(
             response => {
                 this.router.navigate(['/news/' + response.id]);
                 this.notificationService.success('Успішно', 'Новину створено!');
-                this.spinner = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                    this.notificationService.error('Помилка', error);
                 }
-                this.spinner = false;
+                this.spinnerButton = false;
             }
         );
     }

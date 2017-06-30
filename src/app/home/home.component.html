@@ -84,7 +84,9 @@
     <!-- spinner -->
     <app-spinner *ngIf="spinnerNews" [height]="250"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="errorNews" [message]="error"></app-error>
+    <app-error *ngIf="errorNews" [message]="errorNews"></app-error>
+    <!-- no news -->
+    <app-info *ngIf="news && !news.length" [message]="noNews"></app-info>
     <!-- last 3 news -->
     <div *ngIf="news && news.length" class="row">
         <div class="col">

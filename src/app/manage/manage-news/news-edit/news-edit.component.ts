@@ -35,12 +35,14 @@ export class NewsEditComponent implements OnInit {
     }
 
     news: News;
-    error: string | Array<string>;
-    newsEditForm: FormGroup;
+    errorNews: string | Array<string>;
     newsImagesUrl = environment.API_IMAGE_NEWS;
+    spinnerNews: boolean = false;
+
+    newsEditForm: FormGroup;
     errorImage: string;
-    spinner: boolean = false;
-  
+    spinnerButton: boolean = false;
+
     ngOnInit() {
         this.newsEditForm = this.formBuilder.group({
             id: ['', [Validators.required]],
@@ -51,8 +53,8 @@ export class NewsEditComponent implements OnInit {
         });
 
         this.activatedRoute.params.forEach((params: Params) => {
-            let id = +params['id'];
-            this.newsService.getOneNews(id).subscribe(
+            this.spinnerNews = true;
+            this.newsService.getNewsItem(+params['id']).subscribe(
                 result => {
                     this.newsEditForm.patchValue({
                         id: result.id,
@@ -60,10 +62,13 @@ export class NewsEditComponent implements OnInit {
                         body: result.body,
                         tournament_id: result.tournament_id
                     });
-                    this.news = result
+                    this.news = result;
+                    this.spinnerNews = false;
                 },
-                error => this.error = error
-            );
+                error => {
+                    this.errorNews = error;
+                    this.spinnerNews = false;
+                });
         });
     }
 
@@ -72,18 +77,18 @@ export class NewsEditComponent implements OnInit {
     }
 
     onSubmit() {
-        this.spinner = true;
-        this.newsService.update(this.newsEditForm.value).subscribe(
+        this.spinnerButton = true;
+        this.newsService.updateNewsItem(this.newsEditForm.value).subscribe(
             response => {
                 this.router.navigate(['/news/' + this.news.id]);
                 this.notificationService.success('Успішно', 'Новину змінено!');
-                this.spinner = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
-                this.spinner = false;
+                this.spinnerButton = false;
             }
         );
     }

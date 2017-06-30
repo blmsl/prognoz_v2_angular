@@ -19,10 +19,11 @@ export class NewsListComponent implements OnInit {
     ) { }
     
     news: News[];
-    error: string | Array<string>;
+    errorNews: string | Array<string>;
+    spinnerNews: boolean = false;
+    noNews: string = 'В базі даних новин не знайдено.';
     newsImagesUrl: string = environment.API_IMAGE_NEWS;
-    spinner: boolean = false;
-    
+
     path: string = '/news/page/';
     currentPage: number;
     lastPage: number;
@@ -30,26 +31,31 @@ export class NewsListComponent implements OnInit {
     total: number;
 
     ngOnInit() {
-        this.spinner = true;
         this.activatedRoute.params.subscribe((params: Params) => {
+            this.resetData();
+            this.spinnerNews = true;
             this.newsService.getNews(params['number']).subscribe(
                 result => {
-                    if (!result.data) {
-                        this.error = "В базі даних новин немає";
-                    } else {
+                    if (result) {
                         this.currentPage = result.current_page;
                         this.lastPage = result.last_page;
                         this.perPage = result.per_page;
                         this.total = result.total;
                         this.news = result.data;
                     }
-                    this.spinner = false;
+                    this.news = result ? result.data : [];
+                    this.spinnerNews = false;
                 },
                 error => {
-                    this.error = error;
-                    this.spinner = false;
+                    this.errorNews = error;
+                    this.spinnerNews = false;
                 }
             )
         });
+    }
+
+    private resetData() {
+        this.news = null;
+        this.errorNews = null;
     }
 }
