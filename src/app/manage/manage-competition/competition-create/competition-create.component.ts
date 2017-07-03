@@ -5,7 +5,7 @@ import { Location }                             from '@angular/common';
 
 import { CompetitionService }                   from '../shared/competition.service';
 import { SeasonService }                        from '../../manage-season/shared/season.service';
-import { TournamentService }                    from '../../manage-tournament/shared/manage-tournament.service';
+import { TournamentService }                    from '../../manage-tournament/shared/tournament.service';
 import { Season }                               from '../../../shared/models/season.model';
 import { Tournament }                           from '../../../shared/models/tournament.model';
 
@@ -24,35 +24,41 @@ export class CompetitionCreateComponent implements OnInit {
         private tournamentService: TournamentService
     ) { }
 
-    spinner: boolean = false;
-    spinnerButton: boolean = false;
-    error: string | boolean;
-    seasons: Season[];
     tournaments: Tournament[];
+    spinnerTournaments: boolean = false;
+    errorTournaments: string;
+    noTournaments: string = 'В базі даних турнірів не знайдено.';
+
+    seasons: Season[];
+    spinnerSeasons: boolean = false;
+    errorSeasons: string;
+    noSeasons: string = 'В базі даних сезонів не знайдено.';
+
     competitionCreateForm: FormGroup;
-  
+    spinnerButton: boolean = false;
+
     ngOnInit() {
-        this.spinner = true;
+        this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
                 this.seasons = response;
-                this.spinner = false;
+                this.spinnerSeasons = false;
             },
             error => {
-                this.error = error;
-                this.spinner = false;
+                this.errorSeasons = error;
+                this.spinnerSeasons = false;
             }
         );
 
-        this.spinner = true;
+        this.spinnerTournaments = true;
         this.tournamentService.getTournaments().subscribe(
             response => {
                 this.tournaments = response;
-                this.spinner = false;
+                this.spinnerTournaments = false;
             },
             error => {
-                this.error = error;
-                this.spinner = false;
+                this.errorTournaments = error;
+                this.spinnerTournaments = false;
             }
         );
         

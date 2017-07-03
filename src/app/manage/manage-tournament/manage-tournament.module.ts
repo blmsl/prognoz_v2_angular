@@ -2,7 +2,7 @@ import { NgModule }                   from '@angular/core';
 import { CommonModule }               from '@angular/common';
 
 import { ManageTournamentComponent }  from './manage-tournament.component';
-import { TournamentService }          from './shared/manage-tournament.service';
+import { TournamentService }          from './shared/tournament.service';
 
 @NgModule({
     imports: [

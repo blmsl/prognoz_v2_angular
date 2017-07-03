@@ -24,7 +24,9 @@ export class TournamentService {
     getTournaments(): Observable<Tournament[]> {
         return this.http
             .get(this.tournamentsUrl)
-            .map(response => response.json().tournaments || [])
+            .map(response => {
+                return response.json() ? response.json().tournaments : [];
+            })
             .catch(this.errorHandlerService.handle);
     }
 }

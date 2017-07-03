@@ -7,7 +7,7 @@ import { Location }                             from '@angular/common';
 import { Competition }                          from '../../../shared/models/competition.model';
 import { CompetitionService }                   from '../shared/competition.service';
 import { SeasonService }                        from '../../manage-season/shared/season.service';
-import { TournamentService }                    from '../../manage-tournament/shared/manage-tournament.service';
+import { TournamentService }                    from '../../manage-tournament/shared/tournament.service';
 import { Season }                               from '../../../shared/models/season.model';
 import { Tournament }                           from '../../../shared/models/tournament.model';
 
@@ -30,13 +30,22 @@ export class CompetitionEditComponent implements OnInit {
         private tournamentService: TournamentService
     ) { }
 
-    spinner: boolean = false;
-    spinnerButton: boolean = false;
-    error: string | boolean;
-    seasons: Season[];
     tournaments: Tournament[];
+    spinnerTournaments: boolean = false;
+    errorTournaments: string;
+    noTournaments: string = 'В базі даних турнірів не знайдено.';
+
+    seasons: Season[];
+    spinnerSeasons: boolean = false;
+    errorSeasons: string;
+    noSeasons: string = 'В базі даних сезонів не знайдено.';
+
     competition: Competition;
+    spinnerCompetition: boolean = false;
+    errorCompetition: string;
+
     competitionEditForm: FormGroup;
+    spinnerButton: boolean = false;
 
     ngOnInit() {
         this.competitionEditForm = this.formBuilder.group({
@@ -47,9 +56,9 @@ export class CompetitionEditComponent implements OnInit {
             active: ['', [Validators.required]],
             ended: ['', [Validators.required]]
         });  
-      
-        this.spinner = true;
+
         this.activatedRoute.params.forEach((params: Params) => {
+            this.spinnerCompetition = true;
             let id = +params['id'];
             this.competitionService.getCompetition(id).subscribe(
                 response => {
@@ -62,40 +71,41 @@ export class CompetitionEditComponent implements OnInit {
                         active: response.active,
                         ended: response.ended
                     });
-                    this.spinner = false;
+                    this.spinnerCompetition = false;
                 },
                 error => {
-                    this.error = error;
-                    this.spinner = false;
+                    this.errorCompetition = error;
+                    this.spinnerCompetition = false;
                 }
             );
         });
 
-        this.spinner = true;
+        this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
               this.seasons = response;
-              this.spinner = false;
+              this.spinnerSeasons = false;
             },
             error => {
-              this.error = error;
-              this.spinner = false;
+              this.errorSeasons = error;
+              this.spinnerSeasons = false;
             }
         );
 
-        this.spinner = true;
+        this.spinnerTournaments = true;
         this.tournamentService.getTournaments().subscribe(
             response => {
               this.tournaments = response;
-              this.spinner = false;
+              this.spinnerTournaments = false;
             },
             error => {
-              this.error = error;
-              this.spinner = false;
+              this.errorTournaments = error;
+              this.spinnerTournaments = false;
             }
         );
         
     }
+
     onSubmit() {
         this.spinnerButton = true;
         this.competitionService
@@ -114,5 +124,4 @@ export class CompetitionEditComponent implements OnInit {
                 }
             );
     }
-
 }
