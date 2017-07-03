@@ -26,7 +26,7 @@ export class SeasonService {
     getSeasons(): Observable<Season[]> {
         return this.http
             .get(this.seasonsUrl)
-            .map(response => response.json() ? response.json().seasons : []) //adsdsadasdsa
+            .map(response => response.json() ? response.json().seasons : [])
             .catch(this.errorHandlerService.handle);
     }
 
