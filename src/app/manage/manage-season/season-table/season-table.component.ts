@@ -15,19 +15,20 @@ export class SeasonTableComponent implements OnInit {
     ) { }
 
     seasons: Season[];
-    error: string | Array<string>;
-    spinner: boolean = false;
+    errorSeasons: string | Array<string>;
+    spinnerSeasons: boolean = false;
+    noSeasons: string = 'В базі даних сезонів не знайдено.';
   
     ngOnInit() {
-        this.spinner = true;
+        this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
                 this.seasons = response;
-                this.spinner = false;
+                this.spinnerSeasons = false;
             }, 
             error => {
-                this.error = error;
-                this.spinner = false;
+                this.errorSeasons = error;
+                this.spinnerSeasons = false;
             }
         );
     }

@@ -19,7 +19,7 @@ export class SeasonCreateComponent implements OnInit {
     ) { }
 
     seasonCreateForm: FormGroup;
-    spinner: boolean = false;
+    spinnerButton: boolean = false;
 
     ngOnInit() {
         this.seasonCreateForm = new FormGroup({
@@ -28,18 +28,18 @@ export class SeasonCreateComponent implements OnInit {
     }
 
     onSubmit() {
-        this.spinner = true;
-        this.seasonService.create(this.seasonCreateForm.value).subscribe(
+        this.spinnerButton = true;
+        this.seasonService.createSeason(this.seasonCreateForm.value).subscribe(
             response => {
                 this.router.navigate(['/manage/seasons']);
                 this.notificationService.success('Успішно', 'Сезон створено!');
-                this.spinner = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                   this.notificationService.error('Помилка', error);
                 }
-                this.spinner = false;
+                this.spinnerButton = false;
             }
         );
     }

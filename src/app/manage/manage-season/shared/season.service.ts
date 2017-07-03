@@ -26,7 +26,7 @@ export class SeasonService {
     getSeasons(): Observable<Season[]> {
         return this.http
             .get(this.seasonsUrl)
-            .map(response => response.json().seasons || [])
+            .map(response => response.json() ? response.json().seasons : []) //adsdsadasdsa
             .catch(this.errorHandlerService.handle);
     }
 
@@ -35,20 +35,19 @@ export class SeasonService {
      * @param id
      * @returns {Observable<Season>}
      */
-    getSeason(id): Observable<Season> {
+    getSeason(id: number): Observable<Season> {
         return this.http
-            .get(this.seasonsUrl + "/" + id)
+            .get(`${this.seasonsUrl}/${id}`)
             .map(response => response.json().season)
             .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Create season
-     *
      * @param season
      * @returns {Observable<Season>}
      */
-    create(season: Season): Observable<Season> {
+    createSeason(season: Season): Observable<Season> {
         return this.headersWithToken
             .post(this.seasonsUrl, season)
             .map(response => response.json().season)
@@ -60,10 +59,9 @@ export class SeasonService {
      * @param season
      * @returns {Observable<Season>}
      */
-    update(season: Season): Observable<Season> {
-        const url = `${this.seasonsUrl}/${season.id}`;
+    updateSeason(season: Season): Observable<Season> {
         return this.headersWithToken
-            .put(url, JSON.stringify(season))
+            .put(`${this.seasonsUrl}/${season.id}`, JSON.stringify(season))
             .map(response => response.json().season)
             .catch(this.errorHandlerService.handle);
     }

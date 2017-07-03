@@ -5,11 +5,13 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner [hidden]="!spinner" [height]="200"></app-spinner>
+    <app-spinner *ngIf="spinnerSeasons" [height]="200"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="error" [message]="error"></app-error>
+    <app-error *ngIf="errorSeasons" [message]="errorSeasons"></app-error>
+    <!-- no seasons -->
+    <app-info *ngIf="seasons && !seasons.length" [message]="noSeasons"></app-info>
     <!-- seasons table -->
-    <div *ngIf="seasons" class="row">
+    <div *ngIf="seasons && seasons.length" class="row">
         <div class="col-12">
             <table class="table table-inverse">
                 <thead>
