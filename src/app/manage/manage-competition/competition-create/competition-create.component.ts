@@ -71,16 +71,14 @@ export class CompetitionCreateComponent implements OnInit {
     
     onSubmit() {
         this.spinnerButton = true;
-        this.competitionService.create(this.competitionCreateForm.value).subscribe(
+        this.competitionService.createCompetition(this.competitionCreateForm.value).subscribe(
             response => {
                 this.notificationService.success('Успішно', 'Змагання створено');
                 this.spinnerButton = false;
                 this.location.back();
             },
             errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
+                errors.forEach(error => this.notificationService.error('Помилка', error));
                 this.spinnerButton = false;
             }
         );

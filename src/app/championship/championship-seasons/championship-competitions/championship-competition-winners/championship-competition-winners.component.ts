@@ -28,9 +28,8 @@ export class ChampionshipCompetitionWinnersComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.params.forEach((params:Params) => {
             this.spinnerCompetition = true;
-            let competitionId = +params['competitionId'];
-            this.reloadComponent();
-            this.competitionService.getCompetition(competitionId).subscribe(
+            this.resetData();
+            this.competitionService.getCompetition(params['competitionId']).subscribe(
                 response => {
                     if (response.tournament_id != environment.TOURNAMENTS.CHAMPIONSHIP.ID) {
                         this.router.navigate(['/404']);
@@ -46,9 +45,8 @@ export class ChampionshipCompetitionWinnersComponent implements OnInit {
         });
     }
 
-    private reloadComponent() {
+    private resetData(): void {
         this.competition = null;
         this.errorCompetition = null;
     }
-
 }

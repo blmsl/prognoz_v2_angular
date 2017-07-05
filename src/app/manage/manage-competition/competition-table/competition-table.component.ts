@@ -16,9 +16,10 @@ export class CompetitionTableComponent implements OnInit {
         private competitionService: CompetitionService
     ) { }
 
-    spinner: boolean = false;
-    error: string | Array<string>;
     competitions: Competition[];
+    spinnerCompetitions: boolean = false;
+    errorCompetitions: string;
+    noCompetitions: string;
 
     path: string = '/manage/competitions/page/';
     currentPage: number;
@@ -27,26 +28,32 @@ export class CompetitionTableComponent implements OnInit {
     total: number;
 
     ngOnInit() {
-        this.spinner = true;
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.competitionService.get(params['number'] || 1, null, null).subscribe(
+            this.resetData();
+            this.spinnerCompetitions = true;
+            this.competitionService.getCompetitions(params['number'] || 1).subscribe(
                 response => {
-                    if (!response.data) {
-                        this.error = "В базі даних змагань немає";
-                    } else {
+                    if (response.data) {
                         this.currentPage = response.current_page;
                         this.lastPage = response.last_page;
                         this.perPage = response.per_page;
                         this.total = response.total;
                         this.competitions = response.data;
+                    } else {
+                        this.noCompetitions = 'В базі даних змагань не знайдено.'
                     }
-                    this.spinner = false;
+                    this.spinnerCompetitions = false;
                 },
                 error => {
-                    this.error = error;
-                    this.spinner = false;
+                    this.errorCompetitions = error;
+                    this.spinnerCompetitions = false;
                 }
             );
         });
+    }
+
+    private resetData(): void {
+        this.competitions = null;
+        this.errorCompetitions = null;
     }
 }

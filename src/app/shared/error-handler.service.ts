@@ -10,14 +10,16 @@ export class ErrorHandlerService {
      * @param error
      * @returns {any}
      */
-    handle(error: Response) {
+    handle(error: Response | any) {
         let errorObject: any;
         let errorMessage: Array<any> = [];
         if (error instanceof Response) {
-            errorObject = error.json();
-            if (errorObject.status_code !== 422) {
-                errorMessage.push(errorObject.message);
+            if (error.status !== 422) {
+                const body = error.json() || '';
+                const err = body.message || JSON.stringify(body);
+                errorMessage.push(`${error.status} - ${error.statusText || ''} ${err}`);
             } else {
+                errorObject = error.json();
                 Object.keys(errorObject.errors).forEach(function(key) {
                     errorMessage.push(errorObject.errors[key]);
                 });

@@ -59,8 +59,7 @@ export class CompetitionEditComponent implements OnInit {
 
         this.activatedRoute.params.forEach((params: Params) => {
             this.spinnerCompetition = true;
-            let id = +params['id'];
-            this.competitionService.getCompetition(id).subscribe(
+            this.competitionService.getCompetition(params['id']).subscribe(
                 response => {
                     this.competition = response;
                     this.competitionEditForm.patchValue({
@@ -108,18 +107,15 @@ export class CompetitionEditComponent implements OnInit {
 
     onSubmit() {
         this.spinnerButton = true;
-        this.competitionService
-            .update(this.competition.id, this.competitionEditForm.value)
+        this.competitionService.updateCompetition(this.competitionEditForm.value)
             .subscribe(
                 response => {
-                    this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Змагання змінено');
+                    this.spinnerButton = false;
                     this.location.back();
                 },
                 errors => {
-                    for (let error of errors) {
-                      this.notificationService.error('Помилка', error);
-                    }
+                    errors.forEach(error => this.notificationService.error('Помилка', error));
                     this.spinnerButton = false;
                 }
             );

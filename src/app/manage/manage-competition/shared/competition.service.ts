@@ -24,27 +24,27 @@ export class CompetitionService {
      * @param page
      * @param season
      * @param tournament
-     * @returns {Observable<R>}
+     * @returns {Observable<any>}
      */
-    get(page = null, tournament = null, season = null): Observable<any> {
+    getCompetitions(page?: number, tournament?: number, season?: number): Observable<any> {
         let params = new URLSearchParams();
-        if (page) params.set('page', page);
-        if (tournament) params.set('tournament', tournament);
-        if (season) params.set('season', season);
+        if (page) params.set('page', page.toString());
+        if (tournament) params.set('tournament', tournament.toString());
+        if (season) params.set('season', season.toString());
         return this.http
             .get(this.competitionUrl, {search: params})
             .map(response => response.json())
-            .catch(this.errorHandlerService.handle)
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Get competition by id
      * @param id
-     * @returns {any}
+     * @returns {Competition}
      */
     getCompetition(id: number): Observable<Competition> {
         return this.http
-            .get(this.competitionUrl + "/" + id)
+            .get(`${this.competitionUrl}/${id}`)
             .map(response => response.json().competition)
             .catch(this.errorHandlerService.handle);
     }
@@ -52,9 +52,9 @@ export class CompetitionService {
     /**
      * Create competition
      * @param competition
-     * @returns {Observable<R>}
+     * @returns {Observable<Competition>}
      */
-    create(competition): Observable<Competition> {
+    createCompetition(competition: Competition): Observable<Competition> {
         return this.headersWithToken
             .post(this.competitionUrl, competition)
             .map(response => response.json().competition)
@@ -63,14 +63,12 @@ export class CompetitionService {
 
     /**
      * Update competition
-     * @param id
-     * @param params
-     * @returns {Promise<R>|any|Promise<ErrorObservable<T>>|Promise<ErrorObservable<T>|T>}
+     * @param competition
+     * @returns {Observable<Competition>}
      */
-    update(id: number, params): Observable<Competition> {
-        const url = `${this.competitionUrl}/${id}`;
+    updateCompetition(competition: Competition): Observable<Competition> {
         return this.headersWithToken
-            .put(url, params)
+            .put(`${this.competitionUrl}/${competition.id}`, competition)
             .map(response => response.json().competition)
             .catch(this.errorHandlerService.handle);
     }

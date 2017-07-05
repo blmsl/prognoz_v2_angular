@@ -2,8 +2,10 @@
 <app-spinner *ngIf="spinnerCompetitions" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorCompetitions" [message]="errorCompetitions"></app-error>
+<!-- no data -->
+<app-info *ngIf="noCompetitions" [message]="noCompetitions"></app-info>
 <!-- competitions -->
-<div *ngIf="competitions && competitions.length" class="row mb-2">
+<div *ngIf="competitions" class="row mb-2">
     <div class="col">
         <div class="card blue-shadow">
             <div class="text-center">
