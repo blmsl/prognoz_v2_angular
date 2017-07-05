@@ -33,7 +33,7 @@ export class CompetitionEditComponent implements OnInit {
     tournaments: Tournament[];
     spinnerTournaments: boolean = false;
     errorTournaments: string;
-    noTournaments: string = 'В базі даних турнірів не знайдено.';
+    noTournaments: string;
 
     seasons: Season[];
     spinnerSeasons: boolean = false;
@@ -55,7 +55,7 @@ export class CompetitionEditComponent implements OnInit {
             tournament_id: ['', [Validators.required]],
             active: ['', [Validators.required]],
             ended: ['', [Validators.required]]
-        });  
+        });
 
         this.activatedRoute.params.forEach((params: Params) => {
             this.spinnerCompetition = true;
@@ -82,27 +82,30 @@ export class CompetitionEditComponent implements OnInit {
         this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
-              this.seasons = response;
-              this.spinnerSeasons = false;
+                this.seasons = response;
+                this.spinnerSeasons = false;
             },
             error => {
-              this.errorSeasons = error;
-              this.spinnerSeasons = false;
+                this.errorSeasons = error;
+                this.spinnerSeasons = false;
             }
         );
 
         this.spinnerTournaments = true;
         this.tournamentService.getTournaments().subscribe(
             response => {
-              this.tournaments = response;
-              this.spinnerTournaments = false;
+                if (!response) {
+                    this.noTournaments = 'В базі даних турнірів не знайдено.'
+                } else {
+                    this.tournaments = response.tournaments;
+                }
+                this.spinnerTournaments = false;
             },
             error => {
-              this.errorTournaments = error;
-              this.spinnerTournaments = false;
+                this.errorTournaments = error;
+                this.spinnerTournaments = false;
             }
         );
-        
     }
 
     onSubmit() {

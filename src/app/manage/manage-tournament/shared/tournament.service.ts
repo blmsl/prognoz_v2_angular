@@ -3,7 +3,6 @@ import { Http }                             from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { ErrorHandlerService }              from '../../../shared/error-handler.service';
-import { Tournament }                       from '../../../shared/models/tournament.model';
 import { environment }                      from '../../../../environments/environment';
 
 @Injectable()
@@ -19,12 +18,12 @@ export class TournamentService {
 
     /**
      * Get all tournaments
-     * @returns {Observable<Tournament[]>}
+     * @returns {Observable<any>}
      */
-    getTournaments(): Observable<Tournament[]> {
+    getTournaments(): Observable<any> {
         return this.http
             .get(this.tournamentsUrl)
-            .map(response => response.json() ? response.json().tournaments : [])
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }
