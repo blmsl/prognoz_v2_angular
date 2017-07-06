@@ -27,7 +27,7 @@ export class CompetitionCreateComponent implements OnInit {
     tournaments: Tournament[];
     spinnerTournaments: boolean = false;
     errorTournaments: string;
-    noTournaments: string = 'В базі даних турнірів не знайдено.';
+    noTournaments: string;
 
     seasons: Season[];
     spinnerSeasons: boolean = false;
@@ -53,7 +53,11 @@ export class CompetitionCreateComponent implements OnInit {
         this.spinnerTournaments = true;
         this.tournamentService.getTournaments().subscribe(
             response => {
-                this.tournaments = response;
+                if (!response) {
+                    this.noTournaments = 'В базі даних турнірів не знайдено.'
+                } else {
+                    this.tournaments = response.tournaments;
+                }
                 this.spinnerTournaments = false;
             },
             error => {

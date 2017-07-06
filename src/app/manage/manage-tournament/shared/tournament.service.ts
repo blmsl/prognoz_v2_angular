@@ -19,12 +19,12 @@ export class TournamentService {
 
     /**
      * Get all tournaments
-     * @returns {Observable<Tournament[]>}
+     * @returns {Observable<any>}
      */
-    getTournaments(): Observable<Tournament[]> {
+    getTournaments(): Observable<any> {
         return this.http
             .get(this.tournamentsUrl)
-            .map(response => response.json() ? response.json().tournaments : [])
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }
