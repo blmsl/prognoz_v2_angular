@@ -1,12 +1,12 @@
 import { Component, OnInit }                    from '@angular/core';
-import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
+import { Router }                               from '@angular/router';
 
 import { Club }                                 from '../../../shared/models/club.model';
 import { ClubService }                          from '../shared/club.service';
-import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
+import { ImageService }                         from '../../../shared/image.service';
+import { NotificationsService }                 from 'angular2-notifications';
 
 @Component({
   selector: 'app-club-create',
@@ -16,10 +16,10 @@ import { environment }                          from '../../../../environments/e
 export class ClubCreateComponent implements OnInit {
 
     constructor(
-        private router: Router,
-        private notificationService: NotificationsService,
         private clubService: ClubService,
-        private imageService: ImageService
+        private imageService: ImageService,
+        private notificationService: NotificationsService,
+        private router: Router
     ) {
         imageService.uploadedImage$.subscribe(
             result => {
@@ -82,6 +82,6 @@ export class ClubCreateComponent implements OnInit {
     }
 
     fileChange(event) {
-        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.CLUB);
+        this.imageService.fileChange(event, environment.imageSettings.club);
     }
 }

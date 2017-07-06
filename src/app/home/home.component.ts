@@ -1,10 +1,10 @@
 import { Component, OnInit }        from '@angular/core';
 
-import { ChampionshipMatchService } from '../championship/shared/championship-match.service'
-import { NewsService }              from '../news/shared/news.service';
 import { ChampionshipMatch }        from '../shared/models/championship-match.model';
-import { News }                     from '../shared/models/news.model';
+import { ChampionshipMatchService } from '../championship/shared/championship-match.service'
 import { environment }              from '../../environments/environment';
+import { News }                     from '../shared/models/news.model';
+import { NewsService }              from '../news/shared/news.service';
 
 @Component({
   selector: 'app-home',
@@ -23,12 +23,12 @@ export class HomeComponent implements OnInit {
     spinnerNews: boolean = false;
     errorNews: string | Array<string>;
     noNews: string = 'В базі даних новин не знайдено.';
-    newsImagesUrl: string = environment.API_IMAGE_NEWS;
+    newsImagesUrl: string = environment.apiImageNews;
 
     matches: ChampionshipMatch[];
     spinnerMatches: boolean = false;
     errorMatches: string | Array<string>;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
 
     ngOnInit() {
         this.getNews();

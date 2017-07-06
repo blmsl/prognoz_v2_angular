@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
-import { NotificationsService }                 from 'angular2-notifications';
+import { Component, OnDestroy, OnInit }         from '@angular/core';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
 import { ChampionshipRatingService }            from '../../../championship/shared/championship-rating.service';
-import { ClubService }                          from '../../manage-club/shared/club.service';
 import { Club }                                 from '../../../shared/models/club.model';
+import { ClubService }                          from '../../manage-club/shared/club.service';
 import { environment }                          from '../../../../environments/environment';
+import { NotificationsService }                 from 'angular2-notifications';
 
 @Component({
   selector: 'app-match-edit-ended',
@@ -15,11 +15,12 @@ import { environment }                          from '../../../../environments/e
 })
 export class MatchEditEndedComponent implements OnInit, OnDestroy {
 
-    constructor(private notificationService: NotificationsService,
-                private championshipMatchService: ChampionshipMatchService,
-                private championshipRatingService: ChampionshipRatingService,
-                private clubService: ClubService) {
-    }
+    constructor(
+        private notificationService: NotificationsService,
+        private championshipMatchService: ChampionshipMatchService,
+        private championshipRatingService: ChampionshipRatingService,
+        private clubService: ClubService
+    ) { }
 
     endedMatches: Array<ChampionshipMatch> = [];
     errorEndedMatches: string | Array<string>;
@@ -29,7 +30,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     errorClubs: string | Array<string>;
     spinnerClubs: boolean = false;
     noClubs: string = 'В базі даних команд не знайдено.';
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
 
     spinnerButton: any = {};
     updatedMatches: any = {};

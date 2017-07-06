@@ -1,15 +1,15 @@
-import { Component, OnInit }                    from '@angular/core';
-import { Router, ActivatedRoute, Params }       from '@angular/router';
-import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
 import { Location }                             from '@angular/common';
+import { Component, OnInit }                    from '@angular/core';
+import { ActivatedRoute, Params, Router }       from '@angular/router';
+import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 
 import { Competition }                          from '../../../shared/models/competition.model';
 import { CompetitionService }                   from '../shared/competition.service';
-import { SeasonService }                        from '../../manage-season/shared/season.service';
-import { TournamentService }                    from '../../manage-tournament/shared/tournament.service';
+import { NotificationsService }                 from 'angular2-notifications';
 import { Season }                               from '../../../shared/models/season.model';
+import { SeasonService }                        from '../../manage-season/shared/season.service';
 import { Tournament }                           from '../../../shared/models/tournament.model';
+import { TournamentService }                    from '../../manage-tournament/shared/tournament.service';
 
 
 @Component({
@@ -20,12 +20,11 @@ import { Tournament }                           from '../../../shared/models/tou
 export class CompetitionEditComponent implements OnInit {
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
+        private competitionService: CompetitionService,
         private formBuilder: FormBuilder,
         private location: Location,
         private notificationService: NotificationsService,
-        private competitionService: CompetitionService,
         private seasonService: SeasonService,
         private tournamentService: TournamentService
     ) { }

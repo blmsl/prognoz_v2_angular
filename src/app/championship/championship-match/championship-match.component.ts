@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy }   from '@angular/core';
-import { ActivatedRoute, Params }         from '@angular/router';
 import { Location }                       from '@angular/common';
+import { Component, OnDestroy, OnInit }   from '@angular/core';
+import { ActivatedRoute, Params }         from '@angular/router';
 import { Subscription }                   from 'rxjs/Subscription';
 
 import { AuthService }                    from '../../shared/auth.service';
-import { ChampionshipMatchService }       from '../shared/championship-match.service';
 import { ChampionshipMatch }              from '../../shared/models/championship-match.model';
+import { ChampionshipMatchService }       from '../shared/championship-match.service';
 import { CurrentStateService }            from '../../shared/current-state.service';
+import { environment }                    from '../../../environments/environment';
 import { HelperService }                  from '../../shared/helper.service';
 import { User }                           from '../../shared/models/user.model';
-import { environment }                    from '../../../environments/environment';
 
 @Component({
   selector: 'app-championship-match',
@@ -20,17 +20,17 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private location: Location,
         private authService: AuthService,
         private championshipMatchService: ChampionshipMatchService,
         private currentStateService: CurrentStateService,
-        public helperService: HelperService
-    ) {}
+        public helperService: HelperService,
+        private location: Location
+    ) { }
 
     spinner: boolean = false;
     match: ChampionshipMatch;
     error: string;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
 

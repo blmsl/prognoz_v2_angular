@@ -1,8 +1,8 @@
 import { Component, OnInit }              from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { CompetitionService }             from '../../../../manage/manage-competition/shared/competition.service';
 import { Competition }                    from '../../../../shared/models/competition.model';
+import { CompetitionService }             from '../../../../manage/manage-competition/shared/competition.service';
 import { environment }                    from '../../../../../environments/environment';
 
 @Component({
@@ -12,18 +12,19 @@ import { environment }                    from '../../../../../environments/envi
 })
 export class ChampionshipCompetitionWinnersComponent implements OnInit {
 
-    constructor(private competitionService: CompetitionService,
-                private activatedRoute: ActivatedRoute,
-                private router: Router) {
-    }
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private competitionService: CompetitionService,
+        private router: Router
+    ) { }
 
     competition: Competition;
     spinnerCompetition: boolean = false;
     errorCompetition: string | Array<string>;
 
-    userImagesUrl: string = environment.API_IMAGE_USERS;
-    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
-    awardsImagesUrl: string = environment.API_IMAGE_AWARDS;
+    userImagesUrl: string = environment.apiImageUsers;
+    userImageDefault: string = environment.imageUserDefault;
+    awardsImagesUrl: string = environment.apiImageAwards;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params:Params) => {
@@ -31,7 +32,7 @@ export class ChampionshipCompetitionWinnersComponent implements OnInit {
             this.resetData();
             this.competitionService.getCompetition(params['competitionId']).subscribe(
                 response => {
-                    if (response.tournament_id != environment.TOURNAMENTS.CHAMPIONSHIP.ID) {
+                    if (response.tournament_id != environment.tournaments.championship.id) {
                         this.router.navigate(['/404']);
                     }
                     this.competition = response;

@@ -1,9 +1,9 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
 
 import { AuthService }                          from '../../shared/auth.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
+import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({

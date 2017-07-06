@@ -1,15 +1,15 @@
-import { NgModule }                 from '@angular/core';
 import { CommonModule }             from '@angular/common';
+import { NgModule }                 from '@angular/core';
 
-import { ManageComponent }          from './manage.component';
-import { ManageNewsModule }         from './manage-news/manage-news.module';
-import { ManageClubModule }         from './manage-club/manage-club.module';
 import { ManageChampionshipModule } from './manage-championship/manage-championship.module';
-import { ManageSeasonModule }       from './manage-season/manage-season.module';
 import { ManageCompetitionModule }  from './manage-competition/manage-competition.module';
-import { ManageTournamentModule }   from './manage-tournament/manage-tournament.module';
+import { ManageComponent }          from './manage.component';
+import { ManageClubModule }         from './manage-club/manage-club.module';
 import { ManageGuard }              from './shared/manage-guard.service';
+import { ManageNewsModule }         from './manage-news/manage-news.module';
 import { ManageRoutingModule }      from './manage-routing.module';
+import { ManageSeasonModule }       from './manage-season/manage-season.module';
+import { ManageTournamentModule }   from './manage-tournament/manage-tournament.module';
 
 @NgModule({
     imports: [

@@ -7,8 +7,8 @@ import { CurrentStateService }  from '../shared/current-state.service';
 export class MeGuard implements CanActivate {
 
     constructor(
-        private router: Router,
-        private currentStateService: CurrentStateService
+        private currentStateService: CurrentStateService,
+        private router: Router
     ) {}
 
     canActivate() {

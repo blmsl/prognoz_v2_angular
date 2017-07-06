@@ -2,10 +2,10 @@ import { NgModule }                 from '@angular/core';
 import { RouterModule, Routes }     from '@angular/router';
 
 import { ManageNewsComponent }      from './manage-news.component';
-import { NewsTableComponent }       from './news-table/news-table.component';
+import { ManageNewsGuard }          from './shared/manage-news-guard.service';
 import { NewsCreateComponent }      from './news-create/news-create.component';
 import { NewsEditComponent }        from './news-edit/news-edit.component';
-import { ManageNewsGuard }          from './shared/manage-news-guard.service';
+import { NewsTableComponent }       from './news-table/news-table.component';
 
 const routes: Routes = [
     {

@@ -1,12 +1,12 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
-import { ClubService }                          from '../../manage-club/shared/club.service';
 import { Club }                                 from '../../../shared/models/club.model';
+import { ClubService }                          from '../../manage-club/shared/club.service';
 import { environment }                          from '../../../../environments/environment';
+import { NotificationsService }                 from 'angular2-notifications';
 
 @Component({
     selector: 'app-match-edit-active',
@@ -15,11 +15,12 @@ import { environment }                          from '../../../../environments/e
 })
 export class MatchEditActiveComponent implements OnInit {
 
-    constructor(private formBuilder: FormBuilder,
-                private notificationService: NotificationsService,
-                private championshipMatchService: ChampionshipMatchService,
-                private clubService: ClubService) {
-    }
+    constructor(
+        private formBuilder: FormBuilder,
+        private notificationService: NotificationsService,
+        private championshipMatchService: ChampionshipMatchService,
+        private clubService: ClubService
+    ) { }
 
     championshipMatchEditActiveForm: FormGroup;
     spinnerButton: boolean = false;
@@ -34,7 +35,7 @@ export class MatchEditActiveComponent implements OnInit {
     spinnerClubs: boolean = false;
 
     selectedMatch: ChampionshipMatch;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
 
     ngOnInit() {
         this.championshipMatchEditActiveForm = this.formBuilder.group({

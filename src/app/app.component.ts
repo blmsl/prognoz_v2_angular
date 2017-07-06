@@ -1,8 +1,8 @@
 import { Component, OnInit }    from '@angular/core';
-import { NotificationsService } from 'angular2-notifications';
-
-import { CurrentStateService } from './shared/current-state.service';
 import './rxjs-operators';
+
+import { CurrentStateService }  from './shared/current-state.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
     selector: 'app-root',
@@ -13,8 +13,8 @@ import './rxjs-operators';
 export class AppComponent implements OnInit {
 
     constructor(
-        private notificationService: NotificationsService,
-        private currentStateService: CurrentStateService
+        private currentStateService: CurrentStateService,
+        private notificationService: NotificationsService
     ) {}
     
     ngOnInit() {

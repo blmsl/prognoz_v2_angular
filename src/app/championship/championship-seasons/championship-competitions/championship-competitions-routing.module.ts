@@ -1,14 +1,14 @@
 import { NgModule }                                from '@angular/core';
 import { RouterModule, Routes }                    from '@angular/router';
 
-import { ChampionshipSeasonsRoutingModule }        from '../championship-seasons-routing.module';
 import { ChampionshipComponent }                   from '../../championship.component';
-import { ChampionshipSeasonsComponent }            from '../championship-seasons.component';
-import { ChampionshipCompetitionsComponent }       from './championship-competitions.component';
-import { ChampionshipCompetitionUserComponent }    from './championship-competition-user/championship-competition-user.component';
 import { ChampionshipCompetitionRatingComponent }  from './championship-competition-rating/championship-competition-rating.component';
 import { ChampionshipCompetitionResultsComponent } from './championship-competition-results/championship-competition-results.component';
+import { ChampionshipCompetitionsComponent }       from './championship-competitions.component';
+import { ChampionshipCompetitionUserComponent }    from './championship-competition-user/championship-competition-user.component';
 import { ChampionshipCompetitionWinnersComponent } from './championship-competition-winners/championship-competition-winners.component';
+import { ChampionshipSeasonsComponent }            from '../championship-seasons.component';
+import { ChampionshipSeasonsRoutingModule }        from '../championship-seasons-routing.module';
 
 const routes: Routes = [
     {

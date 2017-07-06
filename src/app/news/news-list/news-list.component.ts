@@ -1,9 +1,9 @@
 import { Component, OnInit }                from '@angular/core';
 import { ActivatedRoute, Params }           from '@angular/router';
 
+import { environment }                      from '../../../environments/environment';
 import { News }                             from '../../shared/models/news.model';
 import { NewsService }                      from '../shared/news.service';
-import { environment }                      from '../../../environments/environment';
 
 @Component({
   selector: 'app-news-list',
@@ -22,7 +22,7 @@ export class NewsListComponent implements OnInit {
     errorNews: string | Array<string>;
     spinnerNews: boolean = false;
     noNews: string = 'В базі даних новин не знайдено.';
-    newsImagesUrl: string = environment.API_IMAGE_NEWS;
+    newsImagesUrl: string = environment.apiImageNews;
 
     path: string = '/news/page/';
     currentPage: number;

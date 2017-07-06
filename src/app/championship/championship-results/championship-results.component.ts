@@ -1,8 +1,8 @@
 import { Component, OnInit }        from '@angular/core';
 
-import { environment }              from '../../../environments/environment';
-import { ChampionshipMatchService } from '../shared/championship-match.service';
 import { ChampionshipMatch }        from '../../shared/models/championship-match.model';
+import { ChampionshipMatchService } from '../shared/championship-match.service';
+import { environment }              from '../../../environments/environment';
 
 @Component({
   selector: 'app-championship-results',
@@ -11,13 +11,14 @@ import { ChampionshipMatch }        from '../../shared/models/championship-match
 })
 export class ChampionshipResultsComponent implements OnInit {
 
-    constructor(private championshipMatchService: ChampionshipMatchService) {
-    }
+    constructor(
+        private championshipMatchService: ChampionshipMatchService
+    ) { }
 
     spinner: boolean = false;
     matches: ChampionshipMatch[];
     error: string;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
   
     ngOnInit() {
         this.spinner = true;

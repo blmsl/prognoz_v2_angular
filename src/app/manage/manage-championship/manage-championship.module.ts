@@ -1,11 +1,11 @@
-import { NgModule }                         from '@angular/core';
 import { CommonModule }                     from '@angular/common';
+import { NgModule }                         from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DirectivesModule }                 from '../../shared/directives/directives.module';
 import { ManageChampionshipComponent }      from './manage-championship.component';
-import { ManageChampionshipRoutingModule }  from './manage-championship-routing.module';
 import { ManageChampionshipGuard }          from './shared/manage-championship-guard.service';
+import { ManageChampionshipRoutingModule }  from './manage-championship-routing.module';
 import { MatchCreateComponent }             from './match-create/match-create.component';
 import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
 import { MatchEditComponent }               from './match-edit/match-edit.component';
