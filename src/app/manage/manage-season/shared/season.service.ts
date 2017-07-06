@@ -2,22 +2,22 @@ import { Injectable }                       from '@angular/core';
 import { Http }                             from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
-import { ErrorHandlerService }              from '../../../shared/error-handler.service';
-import { Season }                           from '../../../shared/models/season.model';
 import { environment }                      from '../../../../environments/environment';
+import { ErrorHandlerService }              from '../../../shared/error-handler.service';
+import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
+import { Season }                           from '../../../shared/models/season.model';
 
 @Injectable()
 
 export class SeasonService {
 
     constructor(
-        private http: Http,
         private errorHandlerService: ErrorHandlerService,
-        private headersWithToken: HeadersWithToken
+        private headersWithToken: HeadersWithToken,
+        private http: Http
     ) {}
 
-    private seasonsUrl = environment.API_URL + 'seasons';
+    private seasonsUrl = environment.apiUrl + 'seasons';
 
     /**
      * Get all seasons

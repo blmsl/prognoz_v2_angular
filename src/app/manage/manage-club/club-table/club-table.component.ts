@@ -1,10 +1,10 @@
 import { Component, OnInit }              from '@angular/core';
 import { ActivatedRoute, Params }         from '@angular/router';
-import { NotificationsService }           from 'angular2-notifications';
 
-import { ClubService }                    from '../shared/club.service';
 import { Club }                           from '../../../shared/models/club.model';
+import { ClubService }                    from '../shared/club.service';
 import { environment }                    from '../../../../environments/environment';
+import { NotificationsService }           from 'angular2-notifications';
 
 @Component({
   selector: 'app-club-table',
@@ -15,15 +15,15 @@ export class ClubTableComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private notificationService: NotificationsService,
-        private clubService: ClubService
+        private clubService: ClubService,
+        private notificationService: NotificationsService
     ) { }
 
     clubs: Club[];
     errorClubs: string | Array<string>;
     spinnerClubs: boolean = false;
     noClubs: string = 'В базі даних команд не знайдено.';
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
 
     path: string = '/manage/clubs/page/';
     currentPage: number;

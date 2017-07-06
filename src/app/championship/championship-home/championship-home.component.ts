@@ -1,19 +1,19 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
+import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { FormControl, FormGroup }               from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AuthService }                          from '../../shared/auth.service';
+import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
+import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
+import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
-import { HelperService }                        from '../../shared/helper.service';
-import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
-import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
-import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
-import { User }                                 from '../../shared/models/user.model';
 import { environment }                          from '../../../environments/environment';
+import { HelperService }                        from '../../shared/helper.service';
+import { NotificationsService }                 from 'angular2-notifications';
+import { User }                                 from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-championship-home',
@@ -23,20 +23,20 @@ import { environment }                          from '../../../environments/envi
 export class ChampionshipHomeComponent implements OnInit, OnDestroy {
 
     constructor(
-        private notificationService: NotificationsService,
-        private currentStateService: CurrentStateService,
         private authService: AuthService,
         private championshipMatchService: ChampionshipMatchService,
         private championshipPredictService: ChampionshipPredictService,
         private championshipRatingService: ChampionshipRatingService,
+        private currentStateService: CurrentStateService,
         public helperService: HelperService,
+        private notificationService: NotificationsService,
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
-    userImagesUrl: string = environment.API_IMAGE_USERS;
-    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
+    clubsImagesUrl: string = environment.apiImageClubs;
+    userImagesUrl: string = environment.apiImageUsers;
+    userImageDefault: string = environment.imageUserDefault;
 
     /* predictions form / matches */
     spinnerMatches: boolean = false;

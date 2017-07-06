@@ -1,10 +1,10 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
 
 import { AuthService }                          from '../shared/auth.service';
-import { User }                                 from '../shared/models/user.model';
 import { environment }                          from '../../environments/environment';
+import { NotificationsService }                 from 'angular2-notifications';
+import { User }                                 from '../shared/models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
     ) { }
 
     headerSignInForm: FormGroup;
-    sitelogo: string = environment.API_SITE_LOGO;
+    sitelogo: string = environment.apiSiteLogo;
     spinner: boolean = false;
     user: User;
 

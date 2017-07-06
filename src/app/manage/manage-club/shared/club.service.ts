@@ -2,22 +2,22 @@ import { Injectable }                       from '@angular/core';
 import { Http, URLSearchParams }            from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
-import { ErrorHandlerService }              from '../../../shared/error-handler.service';
 import { Club }                             from '../../../shared/models/club.model';
 import { environment }                      from '../../../../environments/environment';
+import { ErrorHandlerService }              from '../../../shared/error-handler.service';
+import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
 
 @Injectable()
 
 export class ClubService {
 
     constructor(
-        private http: Http,
         private errorHandlerService: ErrorHandlerService,
-        private headersWithToken: HeadersWithToken
+        private headersWithToken: HeadersWithToken,
+        private http: Http
     ) {}
 
-    private clubUrl = environment.API_URL + 'clubs';
+    private clubUrl = environment.apiUrl + 'clubs';
 
     /**
      * Get all paginated clubs

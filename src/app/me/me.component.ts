@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
-import { Router }                               from '@angular/router';
+import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
+import { Router }                               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AuthService }                          from '../shared/auth.service';
 import { CurrentStateService }                  from '../shared/current-state.service';
-import { ImageService }                         from '../shared/image.service';
-import { UserService }                          from '../shared/user.service';
-import { User }                                 from '../shared/models/user.model';
 import { environment }                          from '../../environments/environment';
+import { ImageService }                         from '../shared/image.service';
+import { NotificationsService }                 from 'angular2-notifications';
+import { User }                                 from '../shared/models/user.model';
+import { UserService }                          from '../shared/user.service';
 
 @Component({
     selector: 'app-me',
@@ -19,12 +19,12 @@ import { environment }                          from '../../environments/environ
 export class MeComponent implements OnInit, OnDestroy {
 
     constructor(
-        private formBuilder: FormBuilder,
-        private notificationService: NotificationsService,
-        private router: Router,
         private authService: AuthService,
         private currentStateService: CurrentStateService,
+        private formBuilder: FormBuilder,
         private imageService: ImageService,
+        private notificationService: NotificationsService,
+        private router: Router,
         private userService: UserService
     ) {
         imageService.uploadedImage$.subscribe(
@@ -42,8 +42,8 @@ export class MeComponent implements OnInit, OnDestroy {
     spinner: boolean = false;
     authenticatedUser: User = Object.assign({}, this.currentStateService.user);
     userSubscription: Subscription;
-    userImagesUrl: string = environment.API_IMAGE_USERS;
-    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.apiImageUsers;
+    userImageDefault: string = environment.imageUserDefault;
     userEditForm: FormGroup;
     errorImage: string;
     hasUnsavedChanges: boolean = false;
@@ -92,6 +92,6 @@ export class MeComponent implements OnInit, OnDestroy {
     
     fileChange(event) {
         this.hasUnsavedChanges = true;
-        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.USER);
+        this.imageService.fileChange(event, environment.imageSettings.user);
     }
 }

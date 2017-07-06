@@ -1,10 +1,10 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
-import { NotificationsService }                 from 'angular2-notifications';
 
 import { AuthService }                          from '../../shared/auth.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
+import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -15,11 +15,11 @@ import { User }                                 from '../../shared/models/user.m
 export class AuthResetComponent implements OnInit {
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private currentStateService: CurrentStateService,
-        private notificationService: NotificationsService
+        private notificationService: NotificationsService,
+        private router: Router
     ) { }
 
     user: User = this.currentStateService.user;

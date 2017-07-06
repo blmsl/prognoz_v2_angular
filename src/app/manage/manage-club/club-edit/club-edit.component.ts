@@ -1,13 +1,13 @@
-import { Component, OnInit }                    from '@angular/core';
-import { Router, ActivatedRoute, Params }       from '@angular/router';
-import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
 import { Location }                             from '@angular/common';
+import { Component, OnInit }                    from '@angular/core';
+import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
+import { ActivatedRoute, Router, Params }       from '@angular/router';
 
 import { Club }                                 from '../../../shared/models/club.model';
 import { ClubService }                          from '../shared/club.service';
-import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
+import { ImageService }                         from '../../../shared/image.service';
+import { NotificationsService }                 from 'angular2-notifications';
 
 @Component({
   selector: 'app-club-edit',
@@ -17,13 +17,12 @@ import { environment }                          from '../../../../environments/e
 export class ClubEditComponent implements OnInit {
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
+        private clubService: ClubService,
         private formBuilder: FormBuilder,
+        private imageService: ImageService,
         private location: Location,
         private notificationService: NotificationsService,
-        private clubService: ClubService,
-        private imageService: ImageService
     ) {
         imageService.uploadedImage$.subscribe(
             result => {
@@ -46,7 +45,7 @@ export class ClubEditComponent implements OnInit {
     noClubs: string = 'В базі даних команд не знайдено.';
 
     clubEditForm: FormGroup;
-    clubImagesUrl = environment.API_IMAGE_CLUBS;
+    clubImagesUrl = environment.apiImageClubs;
     errorImage: string;
     spinnerButton: boolean = false;
 
@@ -94,7 +93,7 @@ export class ClubEditComponent implements OnInit {
     }
 
     fileChange(event) {
-        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.CLUB);
+        this.imageService.fileChange(event, environment.imageSettings.club);
     }
 
     onSubmit() {

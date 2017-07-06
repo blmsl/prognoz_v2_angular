@@ -1,8 +1,8 @@
 import { Component, OnInit }        from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/router';
 
-import { CompetitionService }       from '../../../manage/manage-competition/shared/competition.service';
 import { Competition }              from '../../../shared/models/competition.model';
+import { CompetitionService }       from '../../../manage/manage-competition/shared/competition.service';
 import { environment }              from '../../../../environments/environment';
 
 @Component({
@@ -26,7 +26,7 @@ export class ChampionshipCompetitionsComponent implements OnInit {
         this.activatedRoute.params.forEach((params: Params) => {
             this.spinnerCompetitions = true;
             this.resetData();
-            this.competitionService.getCompetitions(null, environment.TOURNAMENTS.CHAMPIONSHIP.ID, params['id'])
+            this.competitionService.getCompetitions(null, environment.tournaments.championship.id, params['id'])
                 .subscribe(
                     response => {
                         if (!response) {

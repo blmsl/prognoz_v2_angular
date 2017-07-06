@@ -1,5 +1,5 @@
 import { Injectable }                            from '@angular/core';
-import { CanActivate, Router, CanActivateChild } from '@angular/router';
+import { CanActivate, CanActivateChild, Router } from '@angular/router';
 
 @Injectable()
 export class ManageClubGuard implements CanActivate, CanActivateChild {

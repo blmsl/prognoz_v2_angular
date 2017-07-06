@@ -2,22 +2,22 @@ import { Injectable }                           from '@angular/core';
 import { Http, URLSearchParams }                from '@angular/http';
 import { Observable }                           from 'rxjs/Observable';
 
-import { ErrorHandlerService }                  from '../../shared/error-handler.service';
-import { HeadersWithToken }                     from '../../shared/headers-with-token.service';
-import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { environment }                          from '../../../environments/environment';
+import { ErrorHandlerService }                  from '../../shared/error-handler.service';
+import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
+import { HeadersWithToken }                     from '../../shared/headers-with-token.service';
 
 @Injectable()
 
 export class GuestbookService {
 
     constructor(
-        private http: Http,
         private errorHandlerService: ErrorHandlerService,
-        private headersWithToken: HeadersWithToken
+        private headersWithToken: HeadersWithToken,
+        private http: Http
     ) {}
 
-    private guestbookUrl = environment.API_URL + 'guestbookmessages';
+    private guestbookUrl = environment.apiUrl + 'guestbookmessages';
 
     /**
      * Get all paginated guestbook messages

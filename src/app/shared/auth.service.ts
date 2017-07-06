@@ -2,10 +2,10 @@ import { Injectable }               from '@angular/core';
 import { Http, Headers }            from '@angular/http';
 import { Observable }               from 'rxjs/Observable';
 
+import { environment }              from '../../environments/environment';
 import { ErrorHandlerService }      from './error-handler.service';
 import { HeadersWithToken }         from './headers-with-token.service';
 import { User }                     from './models/user.model';
-import { environment }              from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +20,7 @@ export class AuthService {
         }).share();
     }
 
-    private authUrl = environment.API_URL + 'auth/';
+    private authUrl = environment.apiUrl + 'auth/';
     public getUser: Observable<any>;
     private userObserver: any;
 

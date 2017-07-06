@@ -1,7 +1,7 @@
 import { Component, Input }   from '@angular/core';
 
-import { HelperService }      from '../../../helper.service';
 import { ChampionshipMatch }  from '../../../models/championship-match.model';
+import { HelperService }      from '../../../helper.service';
 import { User }               from '../../../models/user.model';
 
 @Component({

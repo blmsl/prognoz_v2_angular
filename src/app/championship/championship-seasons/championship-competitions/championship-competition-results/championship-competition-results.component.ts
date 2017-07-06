@@ -1,8 +1,8 @@
 import { Component, OnInit }        from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/router';
 
-import { ChampionshipMatchService } from '../../../shared/championship-match.service';
 import { ChampionshipMatch }        from '../../../../shared/models/championship-match.model';
+import { ChampionshipMatchService } from '../../../shared/championship-match.service';
 
 @Component({
   selector: 'app-championship-competition-results',

@@ -2,22 +2,22 @@ import { Injectable }                       from '@angular/core';
 import { Http }                             from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
+import { ChampionshipMatch }                from '../../shared/models/championship-match.model';
+import { environment }                      from '../../../environments/environment';
 import { ErrorHandlerService }              from '../../shared/error-handler.service';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
-import { ChampionshipMatch }                from '../../shared/models/championship-match.model';
 import { User }                             from '../../shared/models/user.model';
-import { environment }                      from '../../../environments/environment';
 
 @Injectable()
 export class ChampionshipMatchService {
 
     constructor(
-        private http: Http,
         private errorHandlerService: ErrorHandlerService,
-        private headersWithToken: HeadersWithToken
+        private headersWithToken: HeadersWithToken,
+        private http: Http
     ) {}
 
-    private championshipMatchUrl = environment.API_URL + 'championship/matches';
+    private championshipMatchUrl = environment.apiUrl + 'championship/matches';
 
     /**
      * Create championship match
@@ -70,7 +70,7 @@ export class ChampionshipMatchService {
         if (param && competitionId) url += '&competition_id=' + competitionId;
         if (param === 'predictable' && authenticatedUser) {
             return this.headersWithToken
-                .get(environment.API_URL + 'championship/predicts?filter=' + param)
+                .get(environment.apiUrl + 'championship/predicts?filter=' + param)
                 .map(response => response.json().championship_matches || [])
                 .catch(this.errorHandlerService.handle);
         }
@@ -88,14 +88,14 @@ export class ChampionshipMatchService {
      */
     getPredictableMatches(authenticatedUser?: User, coming?: boolean): Observable<ChampionshipMatch[]> {
         if (authenticatedUser) {
-            let url = environment.API_URL + 'championship/predicts?filter=predictable';
+            let url = environment.apiUrl + 'championship/predicts?filter=predictable';
             if (coming) url += '&coming=true';
             return this.headersWithToken
                 .get(url)
                 .map(response => response.json().championship_matches || [])
                 .catch(this.errorHandlerService.handle);
         } else {
-            let url = environment.API_URL + 'championship/matches?filter=predictable';
+            let url = environment.apiUrl + 'championship/matches?filter=predictable';
             if (coming) url += '&coming=true';
             return this.http
                 .get(url)

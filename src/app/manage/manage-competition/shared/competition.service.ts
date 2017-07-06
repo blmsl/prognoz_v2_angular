@@ -2,22 +2,22 @@ import { Injectable }                       from '@angular/core';
 import { Http, URLSearchParams }            from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
-import { ErrorHandlerService }              from '../../../shared/error-handler.service';
 import { Competition }                      from '../../../shared/models/competition.model';
+import { ErrorHandlerService }              from '../../../shared/error-handler.service';
 import { environment }                      from '../../../../environments/environment';
+import { HeadersWithToken }                 from '../../../shared/headers-with-token.service';
 
 @Injectable()
 
 export class CompetitionService {
 
     constructor(
-        private http: Http,
         private errorHandlerService: ErrorHandlerService,
-        private headersWithToken: HeadersWithToken
+        private headersWithToken: HeadersWithToken,
+        private http: Http
     ) {}
 
-    private competitionUrl = environment.API_URL + 'competitions';
+    private competitionUrl = environment.apiUrl + 'competitions';
 
     /**
      * Get competitions list

@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
-import { NotificationsService }                 from 'angular2-notifications';
+import { Component, OnDestroy, OnInit }         from '@angular/core';
 
 import { ChampionshipMatch }                    from '../../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../../../championship/shared/championship-match.service';
 import { ChampionshipRatingService }            from '../../../championship/shared/championship-rating.service';
 import { environment }                          from '../../../../environments/environment';
+import { NotificationsService }                 from 'angular2-notifications';
 
 @Component({
   selector: 'app-match-edit',
@@ -14,9 +14,9 @@ import { environment }                          from '../../../../environments/e
 export class MatchEditComponent implements OnInit, OnDestroy {
 
     constructor(
-        private notificationService: NotificationsService,
         private championshipMatchService: ChampionshipMatchService,
-        private championshipRatingService: ChampionshipRatingService
+        private championshipRatingService: ChampionshipRatingService,
+        private notificationService: NotificationsService
     ) { }
   
     spinnerActiveMatches: boolean = false;
@@ -25,7 +25,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     updatedMatches: any = {};
     isUpdatedMatches: boolean = false;
     errorActiveMatches: string | Array<string>;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
   
     ngOnInit() {
         this.spinnerActiveMatches = true;

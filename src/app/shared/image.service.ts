@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
+
 export class ImageService {
     
     private uploadedImage = new Subject<string>();

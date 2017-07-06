@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
+import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { FormControl, FormGroup }               from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AuthService }                          from '../../shared/auth.service';
+import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
-import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
-import { User }                                 from '../../shared/models/user.model';
 import { environment }                          from '../../../environments/environment';
+import { NotificationsService }                 from 'angular2-notifications';
+import { User }                                 from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-championship-predicts',
@@ -19,11 +19,11 @@ import { environment }                          from '../../../environments/envi
 export class ChampionshipPredictsComponent implements OnInit, OnDestroy {
 
     constructor(
-        private notificationService: NotificationsService,
         private authService: AuthService,
         private championshipMatchService: ChampionshipMatchService,
         private championshipPredictService: ChampionshipPredictService,
-        private currentStateService: CurrentStateService
+        private currentStateService: CurrentStateService,
+        private notificationService: NotificationsService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -32,7 +32,7 @@ export class ChampionshipPredictsComponent implements OnInit, OnDestroy {
     error: string | Array<string>;
     matches: ChampionshipMatch[];
     championshipPredictsForm: FormGroup;
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
     userSubscription: Subscription;
 
     ngOnInit() {

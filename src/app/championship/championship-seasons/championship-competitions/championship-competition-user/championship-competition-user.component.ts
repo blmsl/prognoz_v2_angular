@@ -1,11 +1,11 @@
 import { Component, OnInit }          from '@angular/core';
 import { ActivatedRoute, Params }     from '@angular/router';
 
-import { ChampionshipPredictService } from '../../../shared/championship-predict.service';
 import { ChampionshipPredict }        from '../../../../shared/models/championship-predict.model';
+import { ChampionshipPredictService } from '../../../shared/championship-predict.service';
+import { environment }                from '../../../../../environments/environment';
 import { HelperService }              from '../../../../shared/helper.service';
 import { UserService }                from '../../../../shared/user.service';
-import { environment }                from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-championship-competition-user',
@@ -15,8 +15,8 @@ import { environment }                from '../../../../../environments/environm
 export class ChampionshipCompetitionUserComponent implements OnInit {
 
     constructor(
-        private championshipPredictService: ChampionshipPredictService,
         private activatedRoute: ActivatedRoute,
+        private championshipPredictService: ChampionshipPredictService,
         public helperService: HelperService,
         private userService: UserService
     ) { }
@@ -29,9 +29,9 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
     spinnerUser: boolean = false;
     errorUser: string | Array<string>;
 
-    userImagesUrl: string = environment.API_IMAGE_USERS;
-    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
-    awardsImagesUrl: string = environment.API_IMAGE_AWARDS;
+    userImagesUrl: string = environment.apiImageUsers;
+    userImageDefault: string = environment.imageUserDefault;
+    awardsImagesUrl: string = environment.apiImageAwards;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {

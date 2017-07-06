@@ -1,5 +1,5 @@
-import { NgModule }                   from '@angular/core';
 import { CommonModule }               from '@angular/common';
+import { NgModule }                   from '@angular/core';
 
 import { ManageTournamentComponent }  from './manage-tournament.component';
 import { TournamentService }          from './shared/tournament.service';

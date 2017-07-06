@@ -1,12 +1,12 @@
 import { Component, OnInit }                    from '@angular/core';
-import { Router, ActivatedRoute, Params }       from '@angular/router';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
+import { ActivatedRoute, Router, Params }       from '@angular/router';
 
+import { environment }                          from '../../../../environments/environment';
+import { ImageService }                         from '../../../shared/image.service';
+import { NotificationsService }                 from 'angular2-notifications';
 import { News }                                 from '../../../shared/models/news.model';
 import { NewsService }                          from '../../../news/shared/news.service';
-import { ImageService }                         from '../../../shared/image.service';
-import { environment }                          from '../../../../environments/environment';
 
 @Component({
   selector: 'app-news-edit',
@@ -16,12 +16,12 @@ import { environment }                          from '../../../../environments/e
 export class NewsEditComponent implements OnInit {
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private formBuilder: FormBuilder,
+        private imageService: ImageService,
         private notificationService: NotificationsService,
         private newsService: NewsService,
-        private imageService: ImageService
+        private router: Router
     ) {
         imageService.uploadedImage$.subscribe(
             result => {
@@ -36,7 +36,7 @@ export class NewsEditComponent implements OnInit {
 
     news: News;
     errorNews: string | Array<string>;
-    newsImagesUrl = environment.API_IMAGE_NEWS;
+    newsImagesUrl = environment.apiImageNews;
     spinnerNews: boolean = false;
 
     newsEditForm: FormGroup;
@@ -73,7 +73,7 @@ export class NewsEditComponent implements OnInit {
     }
 
     fileChange(event) {
-        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.NEWS);
+        this.imageService.fileChange(event, environment.imageSettings.news);
     }
 
     onSubmit() {

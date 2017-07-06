@@ -1,13 +1,13 @@
+import { Location }                             from '@angular/common';
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
-import { Location }                             from '@angular/common';
 
 import { CompetitionService }                   from '../shared/competition.service';
-import { SeasonService }                        from '../../manage-season/shared/season.service';
-import { TournamentService }                    from '../../manage-tournament/shared/tournament.service';
+import { NotificationsService }                 from 'angular2-notifications';
 import { Season }                               from '../../../shared/models/season.model';
+import { SeasonService }                        from '../../manage-season/shared/season.service';
 import { Tournament }                           from '../../../shared/models/tournament.model';
+import { TournamentService }                    from '../../manage-tournament/shared/tournament.service';
 
 @Component({
   selector: 'app-competition-create',
@@ -17,10 +17,10 @@ import { Tournament }                           from '../../../shared/models/tou
 export class CompetitionCreateComponent implements OnInit {
 
     constructor(
-        private notificationService: NotificationsService,
-        private seasonService: SeasonService,
         private competitionService: CompetitionService,
         private location: Location,
+        private notificationService: NotificationsService,
+        private seasonService: SeasonService,
         private tournamentService: TournamentService
     ) { }
 

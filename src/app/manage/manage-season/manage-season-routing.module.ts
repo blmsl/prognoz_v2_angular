@@ -2,10 +2,10 @@ import { NgModule }                 from '@angular/core';
 import { RouterModule, Routes }     from '@angular/router';
 
 import { ManageSeasonComponent }    from './manage-season.component';
-import { SeasonTableComponent }     from './season-table/season-table.component';
+import { ManageSeasonGuard }        from './shared/manage-season-guard.service';
 import { SeasonCreateComponent }    from './season-create/season-create.component';
 import { SeasonEditComponent }      from './season-edit/season-edit.component';
-import { ManageSeasonGuard }        from './shared/manage-season-guard.service';
+import { SeasonTableComponent }     from './season-table/season-table.component';
 
 const routes: Routes = [
     {

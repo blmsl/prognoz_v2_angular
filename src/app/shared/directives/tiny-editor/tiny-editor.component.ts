@@ -1,19 +1,10 @@
-import {
-    Component,
-    AfterViewInit,
-    EventEmitter,
-    OnDestroy,
-    Input,
-    Output
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
+import { BroadcastService }                                                 from '../../broadcast.service';
 import 'tinymce';
-import 'tinymce/themes/modern';
-
-import 'tinymce/plugins/table';
 import 'tinymce/plugins/link';
-
-import { BroadcastService } from './../../broadcast.service';
+import 'tinymce/plugins/table';
+import 'tinymce/themes/modern';
 
 declare var tinymce: any;
 
@@ -30,7 +21,9 @@ export class TinyEditorComponent implements AfterViewInit, OnDestroy {
 
     editor;
 
-    constructor (private broadcastService: BroadcastService) {
+    constructor (
+        private broadcastService: BroadcastService
+    ) {
         let eventReset = new Event('resetContent');
         broadcastService.getEvents(eventReset).subscribe(eventValue => {
             this.resetEditor();

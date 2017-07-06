@@ -4,7 +4,10 @@ import { Observable }       from 'rxjs/Observable';
 
 @Injectable()
 export class HeadersWithToken {
-    constructor(private http: Http) {}
+
+    constructor(
+        private http: Http
+    ) {}
 
     checkTokenExistance(){
         return !!localStorage.getItem('auth_token');

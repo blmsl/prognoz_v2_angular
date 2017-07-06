@@ -2,19 +2,20 @@ import { Injectable }                       from '@angular/core';
 import { Http }                             from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { ErrorHandlerService }              from '../../../shared/error-handler.service';
 import { environment }                      from '../../../../environments/environment';
+import { ErrorHandlerService }              from '../../../shared/error-handler.service';
+import { Tournament }                       from '../../../shared/models/tournament.model';
 
 @Injectable()
 
 export class TournamentService {
 
     constructor(
-        private http: Http,
-        private errorHandlerService: ErrorHandlerService
+        private errorHandlerService: ErrorHandlerService,
+        private http: Http
     ) {}
 
-    private tournamentsUrl = environment.API_URL + 'tournaments';
+    private tournamentsUrl = environment.apiUrl + 'tournaments';
 
     /**
      * Get all tournaments

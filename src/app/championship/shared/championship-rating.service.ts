@@ -4,21 +4,21 @@ import { Observable }                       from 'rxjs/Observable';
 
 import { ChampionshipRating }               from '../../shared/models/championship-rating.model';
 import { ErrorHandlerService }              from '../../shared/error-handler.service';
+import { environment }                      from '../../../environments/environment';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { RequestParams }                    from '../../shared/models/request-params.model';
-import { environment }                      from '../../../environments/environment';
 
 @Injectable()
 
 export class ChampionshipRatingService {
 
     constructor(
-        private http: Http,
         private errorHandlerService: ErrorHandlerService,
-        private headersWithToken: HeadersWithToken
+        private headersWithToken: HeadersWithToken,
+        private http: Http
     ) {}
 
-    private championshipRatingUrl = environment.API_URL + 'championship/rating';
+    private championshipRatingUrl = environment.apiUrl + 'championship/rating';
 
     /**
      * Update positions and moving

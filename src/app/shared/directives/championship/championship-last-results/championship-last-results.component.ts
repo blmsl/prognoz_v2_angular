@@ -1,7 +1,7 @@
 import { Component, OnInit }        from '@angular/core';
 
-import { ChampionshipMatchService } from '../../../../championship/shared/championship-match.service';
 import { ChampionshipMatch }        from '../../../models/championship-match.model';
+import { ChampionshipMatchService } from '../../../../championship/shared/championship-match.service';
 import { environment }              from '../../../../../environments/environment';
 
 @Component({
@@ -15,7 +15,7 @@ export class ChampionshipLastResultsComponent implements OnInit {
         private championshipMatchService: ChampionshipMatchService
     ) { }
 
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
     matches: ChampionshipMatch[];
     error: string | Array<string>;
     spinner: boolean = false;

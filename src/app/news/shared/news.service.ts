@@ -2,22 +2,22 @@ import { Injectable }                        from '@angular/core';
 import { Http, URLSearchParams }             from '@angular/http';
 import { Observable }                        from 'rxjs/Observable';
 
+import { environment }                       from '../../../environments/environment';
 import { ErrorHandlerService }               from '../../shared/error-handler.service';
 import { HeadersWithToken }                  from '../../shared/headers-with-token.service';
 import { News }                              from '../../shared/models/news.model'; 
-import { environment }                       from '../../../environments/environment';
 
 @Injectable()
 
 export class NewsService {
     
     constructor(
-        private http: Http,
         private errorHandlerService: ErrorHandlerService,
-        private headersWithToken: HeadersWithToken
+        private headersWithToken: HeadersWithToken,
+        private http: Http
     ) {}
     
-    private newsUrl = environment.API_URL + 'news';
+    private newsUrl = environment.apiUrl + 'news';
 
     /**
      * Get all paginated news

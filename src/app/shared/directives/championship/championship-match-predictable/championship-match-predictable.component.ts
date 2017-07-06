@@ -1,9 +1,9 @@
-import { Component, Input }   from '@angular/core';
-import { FormGroup }          from '@angular/forms';
+import { Component, Input }         from '@angular/core';
+import { FormGroup }                from '@angular/forms';
 
-import { environment }        from '../../../../../environments/environment';
-import { ChampionshipMatch }  from '../../../models/championship-match.model';
+import { ChampionshipMatch }        from '../../../models/championship-match.model';
 import { ChampionshipMatchService } from '../../../../championship/shared/championship-match.service';
+import { environment }              from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-championship-match-predictable',
@@ -20,7 +20,7 @@ export class ChampionshipMatchPredictableComponent {
       private championshipMatchService: ChampionshipMatchService
     ) { }
 
-    clubsImagesUrl: string = environment.API_IMAGE_CLUBS;
+    clubsImagesUrl: string = environment.apiImageClubs;
 
     // statistic
     statistic: any = false;

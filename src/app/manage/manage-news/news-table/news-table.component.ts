@@ -1,9 +1,9 @@
 import { Component, OnInit }              from '@angular/core';
 import { ActivatedRoute, Params }         from '@angular/router';
-import { NotificationsService }           from 'angular2-notifications';
 
-import { NewsService }                    from '../../../news/shared/news.service';
+import { NotificationsService }           from 'angular2-notifications';
 import { News }                           from '../../../shared/models/news.model';
+import { NewsService }                    from '../../../news/shared/news.service';
 
 @Component({
   selector: 'app-news-table',

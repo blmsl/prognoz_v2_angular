@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy }         from '@angular/core';
-import { Router, ActivatedRoute, Params }       from '@angular/router';
-import { NotificationsService }                 from 'angular2-notifications';
+import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { DomSanitizer }                         from '@angular/platform-browser';
+import { ActivatedRoute, Params }               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AuthService }                          from '../../shared/auth.service';
 import { BroadcastService }                     from '../../shared/broadcast.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
-import { GuestbookService }                     from '../shared/guestbook.service';
-import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
-import { User }                                 from '../../shared/models/user.model';
 import { environment }                          from '../../../environments/environment';
+import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
+import { GuestbookService }                     from '../shared/guestbook.service';
+import { NotificationsService }                 from 'angular2-notifications';
+import { User }                                 from '../../shared/models/user.model';
 
 declare var $:any;
 
@@ -23,21 +23,20 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private domSanitizer: DomSanitizer,
-        private notificationService: NotificationsService,
-        private router: Router,
         private authService: AuthService,
         private broadcastService: BroadcastService,
         private currentStateService: CurrentStateService,
+        private domSanitizer: DomSanitizer,
         private guestbookService: GuestbookService,
+        private notificationService: NotificationsService
     ) { }
 
     guestbookMessages: GuestbookMessage[];
     errorGuestbookMessages: string | Array<string>;
     spinnerGuestbookMessages: boolean = false;
     noGuestbookMessages: string = 'В базі даних повідомлень не знайдено.';
-    userImagesUrl: string = environment.API_IMAGE_USERS;
-    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.apiImageUsers;
+    userImageDefault: string = environment.imageUserDefault;
     path: string = '/guestbook/page/';
 
     currentPage: number;

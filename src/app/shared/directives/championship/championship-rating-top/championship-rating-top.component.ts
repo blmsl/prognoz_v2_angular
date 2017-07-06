@@ -1,10 +1,9 @@
 import { Component, OnInit }         from '@angular/core';
 
-import { ChampionshipRatingService } from '../../../../championship/shared/championship-rating.service';
-import { HelperService }             from '../../../helper.service';
-
 import { ChampionshipRating }        from '../../../models/championship-rating.model';
+import { ChampionshipRatingService } from '../../../../championship/shared/championship-rating.service';
 import { environment }               from '../../../../../environments/environment';
+import { HelperService }             from '../../../helper.service';
 
 @Component({
   selector: 'app-championship-rating-top',
@@ -18,8 +17,8 @@ export class ChampionshipRatingTopComponent implements OnInit {
         public helperService: HelperService
     ) { }
 
-    userImagesUrl: string = environment.API_IMAGE_USERS;
-    userImageDefault: string = environment.IMAGE_USER_DEFAULT;
+    userImagesUrl: string = environment.apiImageUsers;
+    userImageDefault: string = environment.imageUserDefault;
     rating: ChampionshipRating[];
     spinner: boolean = false;
     error: string;

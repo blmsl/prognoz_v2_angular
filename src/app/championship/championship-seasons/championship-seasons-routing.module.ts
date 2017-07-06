@@ -1,10 +1,10 @@
 import { NgModule }                          from '@angular/core';
 import { RouterModule, Routes }              from '@angular/router';
 
-import { ChampionshipRoutingModule }         from '../championship-routing.module';
 import { ChampionshipComponent }             from '../championship.component';
-import { ChampionshipSeasonsComponent }      from './championship-seasons.component';
+import { ChampionshipRoutingModule }         from '../championship-routing.module';
 import { ChampionshipSeasonRatingComponent } from './championship-season-rating/championship-season-rating.component';
+import { ChampionshipSeasonsComponent }      from './championship-seasons.component';
 
 const routes: Routes = [
     {

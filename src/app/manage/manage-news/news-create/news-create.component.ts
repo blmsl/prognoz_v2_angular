@@ -1,11 +1,11 @@
 import { Component, OnInit }                    from '@angular/core';
-import { Router }                               from '@angular/router';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
-import { NotificationsService }                 from 'angular2-notifications';
+import { Router }                               from '@angular/router';
 
-import { NewsService }                          from '../../../news/shared/news.service';
-import { ImageService }                         from '../../../shared/image.service';
 import { environment }                          from '../../../../environments/environment';
+import { ImageService }                         from '../../../shared/image.service';
+import { NotificationsService }                 from 'angular2-notifications';
+import { NewsService }                          from '../../../news/shared/news.service';
 
 @Component({
   selector: 'app-news-create',
@@ -15,10 +15,10 @@ import { environment }                          from '../../../../environments/e
 export class NewsCreateComponent implements OnInit {
 
     constructor(
-        private router: Router,
+        private imageService: ImageService,
         private notificationService: NotificationsService,
         private newsService: NewsService,
-        private imageService: ImageService
+        private router: Router
     ) {
         imageService.uploadedImage$.subscribe(
             result => {
@@ -62,6 +62,6 @@ export class NewsCreateComponent implements OnInit {
     }
 
     fileChange(event) {
-        this.imageService.fileChange(event, environment.IMAGE_SETTINGS.NEWS);
+        this.imageService.fileChange(event, environment.imageSettings.news);
     }
 }
