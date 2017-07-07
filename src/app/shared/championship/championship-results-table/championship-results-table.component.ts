@@ -1,6 +1,6 @@
 import { Component, Input }   from '@angular/core';
 
-import { ChampionshipMatch }  from '../../../models/championship-match.model';
+import { ChampionshipMatch }  from '../../models/championship-match.model';
 
 @Component({
   selector: 'app-championship-results-table',

@@ -1,7 +1,7 @@
 import { Component, Input }     from '@angular/core';
 
-import { ChampionshipPredict }  from '../../../models/championship-predict.model';
-import { HelperService }        from '../../../helper.service';
+import { ChampionshipPredict }  from '../../models/championship-predict.model';
+import { HelperService }        from '../../helper.service';
 
 @Component({
   selector: 'app-championship-user-predictions-table',

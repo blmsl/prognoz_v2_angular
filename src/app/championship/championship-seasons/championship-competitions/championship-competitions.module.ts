@@ -7,12 +7,12 @@ import { ChampionshipCompetitionsComponent }        from './championship-competi
 import { ChampionshipCompetitionsRoutingModule }    from './championship-competitions-routing.module';
 import { ChampionshipCompetitionUserComponent }     from './championship-competition-user/championship-competition-user.component';
 import { ChampionshipCompetitionWinnersComponent }  from './championship-competition-winners/championship-competition-winners.component';
-import { DirectivesModule }                         from '../../../shared/directives/directives.module';
+import { SharedModule }                             from '../../../shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        DirectivesModule,
+        SharedModule,
         ChampionshipCompetitionsRoutingModule
     ],
     declarations: [

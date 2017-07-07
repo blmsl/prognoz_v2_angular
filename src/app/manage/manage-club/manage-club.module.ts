@@ -7,10 +7,10 @@ import { ClubEditComponent }         from './club-edit/club-edit.component';
 import { ClubService }               from './shared/club.service';
 import { ClubTableComponent }        from './club-table/club-table.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import { DirectivesModule }          from '../../shared/directives/directives.module';
 import { ManageClubComponent }       from './manage-club.component';
 import { ManageClubGuard }           from './shared/manage-club-guard.service';
 import { ManageClubRoutingModule }   from './manage-club-routing.module';
+import { SharedModule }              from '../../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -21,7 +21,7 @@ import { ManageClubRoutingModule }   from './manage-club-routing.module';
             confirmButtonType: 'danger',
             focusButton: 'confirm'
         }),
-        DirectivesModule
+        SharedModule
     ],
     declarations: [
         ManageClubComponent,

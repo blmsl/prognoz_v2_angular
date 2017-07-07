@@ -2,7 +2,7 @@ import { CommonModule }                               from '@angular/common';
 import { NgModule }                                   from '@angular/core';
 import { ReactiveFormsModule }                        from '@angular/forms';
 
-import { AppRoutingModule }                           from '../../app-routing.module';
+import { AppRoutingModule }                           from '../app-routing.module';
 import { ChartsModule }                               from 'ng2-charts/ng2-charts';
 import { ChampionshipLastResultsComponent }           from './championship/championship-last-results/championship-last-results.component';
 import { ChampionshipMatchPredictableComponent }      from './championship/championship-match-predictable/championship-match-predictable.component';
@@ -62,4 +62,4 @@ import { TinyEditorComponent }                        from './tiny-editor/tiny-e
         TinyEditorComponent
     ]
 })
-export class DirectivesModule { }
+export class SharedModule { }

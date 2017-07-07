@@ -3,16 +3,16 @@ import { NgModule }             from '@angular/core';
 import { ReactiveFormsModule }  from '@angular/forms';
 
 import { AppRoutingModule }     from '../app-routing.module';
-import { DirectivesModule }     from '../shared/directives/directives.module';
 import { MeComponent }          from './me.component';
 import { MeGuard }              from './me-guard.service';
+import { SharedModule }         from '../shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         AppRoutingModule,
-        DirectivesModule
+        SharedModule
     ],
     declarations: [
         MeComponent
