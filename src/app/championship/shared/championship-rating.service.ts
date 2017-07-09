@@ -22,9 +22,9 @@ export class ChampionshipRatingService {
 
     /**
      * Update positions and moving
-     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
+     * @returns {Observable<void>}
      */
-    updatePositions(): Observable<any> {
+    updateRatingPositions(): Observable<void> {
         return this.headersWithToken
             .put(this.championshipRatingUrl, {})
             .map(response => response.json())
@@ -34,19 +34,25 @@ export class ChampionshipRatingService {
     /**
      * Get championship rating
      * @param requestParams
-     * @returns {Promise<ErrorObservable|T>|any|Promise<ErrorObservable>|Maybe<T>|Promise<R>}
+     * @returns {Observable<any>}
      */
-    get(requestParams?: RequestParams[]): Observable<ChampionshipRating[]> {
+    getChampionshipRating(requestParams?: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
         if (requestParams) {
-            var params: URLSearchParams = new URLSearchParams();
             for (let requestParam of requestParams) {
                 params.set(requestParam.parameter, requestParam.value);
             }
         }
-        
         return this.http
             .get(this.championshipRatingUrl, requestParams ? {search: params} : null)
-            .map(response => response.json().championship_ratings || [])
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
+    }
+
+    /**
+     * Get championship rating item
+     */
+    getChampionshipRatingItem() {
+
     }
 }

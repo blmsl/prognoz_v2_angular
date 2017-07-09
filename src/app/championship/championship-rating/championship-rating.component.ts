@@ -23,8 +23,9 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
     ) { }
     
     rating: ChampionshipRating[];
-    spinner: boolean = false;
-    error: string;
+    spinnerRating: boolean = false;
+    errorRating: string;
+
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
   
@@ -32,15 +33,17 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
         });
-        this.spinner = true;
-        this.championshipRatingService.get().subscribe(
+        this.spinnerRating = true;
+        this.championshipRatingService.getChampionshipRating().subscribe(
             response => {
-                this.rating = response;
-                this.spinner = false;
+                if (response) {
+                    this.rating = response.championship_ratings;
+                }
+                this.spinnerRating = false;
             },
             error => {
-                this.error = error;
-                this.spinner = false;
+                this.errorRating = error;
+                this.spinnerRating = false;
             }
         );
     }

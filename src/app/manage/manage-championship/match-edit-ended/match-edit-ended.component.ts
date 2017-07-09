@@ -35,6 +35,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     spinnerButton: any = {};
     updatedMatches: any = {};
     isUpdatedMatches: boolean = false;
+    spinnerUpdateRatingButton: boolean = false;
 
     ngOnInit() {
         this.getEnded();
@@ -103,13 +104,16 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     }
 
     updateRating() {
-        this.championshipRatingService.updatePositions().subscribe(
+        this.spinnerUpdateRatingButton = true;
+        this.championshipRatingService.updateRatingPositions().subscribe(
             response => {
                 this.isUpdatedMatches = false;
                 this.notificationService.success('Успішно', 'Рейтинг оновлено');
+                this.spinnerUpdateRatingButton = false;
             },
             error => {
                 this.notificationService.error('Помилка', 'Оновити рейтинг не вдалось');
+                this.spinnerUpdateRatingButton = false;
             }
         );
     }

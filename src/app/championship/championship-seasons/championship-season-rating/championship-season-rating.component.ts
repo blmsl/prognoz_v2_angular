@@ -25,6 +25,7 @@ export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
     rating: ChampionshipRating[];
     spinnerRating: boolean = false;
     errorRating: string;
+
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
 
@@ -33,10 +34,10 @@ export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
             this.authenticatedUser = result;
         });
         this.activatedRoute.params.forEach((params: Params) => {
+            this.resetData();
             this.spinnerRating = true;
-            this.reloadComponent();
             let param = [{parameter: 'season_id', value: <string>params['id']}];
-            this.championshipRatingService.get(param).subscribe(
+            this.championshipRatingService.getChampionshipRating(param).subscribe(
                 response => {
                     this.rating = response;
                     this.spinnerRating = false;
@@ -55,7 +56,7 @@ export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
         }
     }
 
-    private reloadComponent() {
+    private resetData() {
         this.rating = null;
         this.errorRating = null;
     }

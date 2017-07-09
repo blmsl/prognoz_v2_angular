@@ -1,9 +1,9 @@
 <!-- spinner -->
-<app-spinner *ngIf="spinner" [height]="700"></app-spinner>
+<app-spinner *ngIf="spinnerRating" [height]="700"></app-spinner>
 <!-- error -->
-<app-error *ngIf="error" [message]="error"></app-error>
+<app-error *ngIf="errorRating" [message]="errorRating"></app-error>
 <!-- rating leader -->
-<div *ngIf="rating && rating.length" class="card mt-2 mb-2 black-shadow">
+<div *ngIf="rating" class="card mt-2 mb-2 black-shadow">
     <h4 class="card-header text-xs-center">Лідер рейтингу</h4>
     <div class="card-block text-center cursor-pointer" routerLink="/championship/users/{{rating[0].user_id}}">
         <img class="card-img-top img-fluid rounded"
@@ -17,7 +17,7 @@
     </div>
 </div>
 <!-- rating card -->
-<div *ngIf="rating && rating.length" class="card black-shadow mt-2 mb-2">
+<div *ngIf="rating" class="card black-shadow mt-2 mb-2">
     <h4 class="card-header text-xs-center">Топ-{{rating.length}} рейтингу</h4>
     <table class="table table-hover mb-0">
         <tbody>

@@ -52,7 +52,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
 
     /* rating */
     spinnerRating: boolean = false;
-    errorRating: string | Array<string>;
+    errorRating: string;
     rating: ChampionshipRating[];
 
     ngOnInit() {
@@ -171,11 +171,14 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     }
 
     public getTopRating() {
+        this.resetRatingData();
         this.spinnerRating = true;
         let param = [{parameter: 'limit', value: '5'}];
-        this.championshipRatingService.get(param).subscribe(
+        this.championshipRatingService.getChampionshipRating(param).subscribe(
             response => {
-                this.rating = response;
+                if (response) {
+                    this.rating = response.championship_ratings;
+                }
                 this.spinnerRating = false;
             },
             error => {
@@ -183,5 +186,10 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
                 this.spinnerRating = false;
             }
         );
+    }
+
+    private resetRatingData() {
+        this.rating = null;
+        this.errorRating = null;
     }
 }

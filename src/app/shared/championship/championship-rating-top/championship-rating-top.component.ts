@@ -17,29 +17,37 @@ export class ChampionshipRatingTopComponent implements OnInit {
         public helperService: HelperService
     ) { }
 
+    rating: ChampionshipRating[];
+    spinnerRating: boolean = false;
+    errorRating: string;
+
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
-    rating: ChampionshipRating[];
-    spinner: boolean = false;
-    error: string;
   
     ngOnInit() {
         this.topRating();
     }
   
     topRating() {
-        this.rating = [];
-        this.spinner = true;
+        this.resetData();
+        this.spinnerRating = true;
         let param = [{parameter: 'limit', value: '5'}];
-        this.championshipRatingService.get(param).subscribe(
+        this.championshipRatingService.getChampionshipRating(param).subscribe(
             response => {
-              this.rating = response;
-              this.spinner = false;
+                if (response) {
+                    this.rating = response.championship_ratings;
+                }
+                this.spinnerRating = false;
             },
             error => {
-              this.error = error;
-              this.spinner = false;
+                this.errorRating = error;
+                this.spinnerRating = false;
             }
         );
+    }
+
+    private resetData(): void {
+        this.rating = null;
+        this.errorRating = null
     }
 }

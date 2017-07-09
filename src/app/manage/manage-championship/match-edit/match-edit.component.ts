@@ -18,13 +18,16 @@ export class MatchEditComponent implements OnInit, OnDestroy {
         private championshipRatingService: ChampionshipRatingService,
         private notificationService: NotificationsService
     ) { }
-  
-    spinnerActiveMatches: boolean = false;
-    spinnerButton: any = {};
+
     activeMatches: ChampionshipMatch[];
+    spinnerActiveMatches: boolean = false;
+    errorActiveMatches: string;
+
+    spinnerButton: any = {};
     updatedMatches: any = {};
     isUpdatedMatches: boolean = false;
-    errorActiveMatches: string | Array<string>;
+    spinnerUpdateRatingButton: boolean = false;
+
     clubsImagesUrl: string = environment.apiImageClubs;
   
     ngOnInit() {
@@ -73,13 +76,16 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     }
     
     updateRating() {
-        this.championshipRatingService.updatePositions().subscribe(
+        this.spinnerUpdateRatingButton = true;
+        this.championshipRatingService.updateRatingPositions().subscribe(
             response => {
                 this.isUpdatedMatches = false;
                 this.notificationService.success('Успішно', 'Рейтинг оновлено');
+                this.spinnerUpdateRatingButton = false;
             },
             error => {
                 this.notificationService.error('Помилка', 'Оновити рейтинг не вдалось');
+                this.spinnerUpdateRatingButton = false;
             }
         );
     }

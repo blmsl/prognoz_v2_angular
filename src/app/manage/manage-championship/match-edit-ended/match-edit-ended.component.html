@@ -71,7 +71,8 @@
     <!-- update rating button -->
     <div *ngIf="isUpdatedMatches" class="row">
         <div class="col-12 text-center">
-            <button class="btn btn-lg btn-outline-primary" (click)="updateRating()">Оновити рейтинг</button>
+            <button [hidden]="spinnerUpdateRatingButton" class="btn btn-lg btn-outline-primary" (click)="updateRating()">Оновити рейтинг</button>
+            <app-spinner-button [hidden]="!spinnerUpdateRatingButton"></app-spinner-button>
             <p class="text-muted">*Рейтинг оновиться автоматчно після виходу з цієї сторінки</p>
         </div>
     </div>
