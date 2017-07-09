@@ -1,8 +1,8 @@
 import { Component, OnInit }        from '@angular/core';
 
-import { ChampionshipMatch }        from '../../../models/championship-match.model';
-import { ChampionshipMatchService } from '../../../../championship/shared/championship-match.service';
-import { environment }              from '../../../../../environments/environment';
+import { ChampionshipMatch }        from '../../models/championship-match.model';
+import { ChampionshipMatchService } from '../../../championship/shared/championship-match.service';
+import { environment }              from '../../../../environments/environment';
 
 @Component({
   selector: 'app-championship-last-results',

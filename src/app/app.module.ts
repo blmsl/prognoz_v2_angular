@@ -12,7 +12,6 @@ import { AuthService }                from './shared/auth.service';
 import { BroadcastService }           from './shared/broadcast.service';
 import { ChampionshipModule }         from './championship/championship.module';
 import { CurrentStateService }        from './shared/current-state.service';
-import { DirectivesModule }           from './shared/directives/directives.module';
 import { ErrorHandlerService }        from './shared/error-handler.service';
 import { FooterComponent }            from './footer/footer.component';
 import { GuestbookModule }            from './guestbook/guestbook.module';
@@ -25,6 +24,7 @@ import { ManageModule }               from './manage/manage.module';
 import { MeModule }                   from './me/me.module';
 import { NewsModule }                 from './news/news.module';
 import { PageNotFoundComponent }      from './page-not-found/page-not-found.component';
+import { SharedModule }               from './shared/shared.module';
 import { SimpleNotificationsModule }  from 'angular2-notifications';
 import { UserService }                from './shared/user.service';
 
@@ -48,7 +48,7 @@ import { UserService }                from './shared/user.service';
         ChampionshipModule,
         GuestbookModule,
         HomeModule,
-        DirectivesModule,
+        SharedModule,
         MeModule,
         NewsModule
     ],

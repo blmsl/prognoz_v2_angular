@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
-import { BroadcastService }                                                 from '../../broadcast.service';
+import { BroadcastService }                                                 from '../broadcast.service';
 import 'tinymce';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/table';

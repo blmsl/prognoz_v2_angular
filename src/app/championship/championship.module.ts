@@ -17,14 +17,14 @@ import { ChampionshipRoutingModule }     from './championship-routing.module';
 import { ChampionshipRulesComponent }    from './championship-rules/championship-rules.component';
 import { ChampionshipSeasonsModule }     from './championship-seasons/championship-seasons.module';
 import { ChampionshipUserComponent }     from './championship-user/championship-user.component';
-import { DirectivesModule }              from '../shared/directives/directives.module';
+import { SharedModule }                  from '../shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         ChampionshipRoutingModule,
-        DirectivesModule,
+        SharedModule,
         ChartsModule,
         ChampionshipSeasonsModule
     ],

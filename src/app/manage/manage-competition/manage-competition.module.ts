@@ -6,7 +6,7 @@ import { CompetitionCreateComponent }       from './competition-create/competiti
 import { CompetitionEditComponent }         from './competition-edit/competition-edit.component';
 import { CompetitionService }               from './shared/competition.service';
 import { CompetitionTableComponent }        from './competition-table/competition-table.component';
-import { DirectivesModule }                 from '../../shared/directives/directives.module';
+import { SharedModule }                     from '../../shared/shared.module';
 import { ManageCompetitionComponent }       from './manage-competition.component';
 import { ManageCompetitionGuard }           from './shared/manage-competition-guard.service';
 import { ManageCompetitionRoutingModule }   from './manage-competition-routing.module';
@@ -15,7 +15,7 @@ import { ManageCompetitionRoutingModule }   from './manage-competition-routing.m
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        DirectivesModule,
+        SharedModule,
         ManageCompetitionRoutingModule
     ],
     declarations: [

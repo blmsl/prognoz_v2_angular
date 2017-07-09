@@ -5,12 +5,12 @@ import { ChampionshipCompetitionsModule }    from './championship-competitions/c
 import { ChampionshipSeasonRatingComponent } from './championship-season-rating/championship-season-rating.component';
 import { ChampionshipSeasonsComponent }      from './championship-seasons.component';
 import { ChampionshipSeasonsRoutingModule }  from './championship-seasons-routing.module';
-import { DirectivesModule }                  from '../../shared/directives/directives.module';
+import { SharedModule }                      from '../../shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        DirectivesModule,
+        SharedModule,
         ChampionshipSeasonsRoutingModule,
         ChampionshipCompetitionsModule
     ],
