@@ -5,6 +5,7 @@ import { ChampionshipPredict }        from '../../../../shared/models/championsh
 import { ChampionshipPredictService } from '../../../shared/championship-predict.service';
 import { environment }                from '../../../../../environments/environment';
 import { HelperService }              from '../../../../shared/helper.service';
+import { User }                       from '../../../../shared/models/user.model';
 import { UserService }                from '../../../../shared/user.service';
 
 @Component({
@@ -25,9 +26,9 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
     spinnerPredictions: boolean = false;
     errorPredictions: string | Array<string>;
 
-    user: any;
+    user: User;
     spinnerUser: boolean = false;
-    errorUser: string | Array<string>;
+    errorUser: string;
 
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
@@ -35,27 +36,16 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
-            this.spinnerPredictions = true;
-            this.spinnerUser = true;
             let userId = +params['userId'];
             let competitionId = +params['competitionId'];
-            this.getUser(userId, competitionId);
-            this.championshipPredictService.user(userId, competitionId).subscribe(
-                response => {
-                    this.predictions = response;
-                    this.spinnerPredictions = false;
-                },
-                error => {
-                    this.spinnerPredictions = false;
-                    this.errorPredictions = error;
-                }
-            );
+            this.getUserData(params['userId']);
+            this.getUserPredictions(userId, competitionId);
         });
     }
 
-    private getUser(id: number, competitionId: number) {
+    private getUserData(id: number) {
         this.spinnerUser = true;
-        this.userService.getUser(id, competitionId).subscribe(
+        this.userService.getUser(id).subscribe(
             response => {
                 this.user = response;
                 this.spinnerUser = false;
@@ -63,6 +53,20 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
             error => {
                 this.errorUser = error;
                 this.spinnerUser = false;
+            }
+        );
+    }
+
+    private getUserPredictions(userId: number, competitionId: number) {
+        this.spinnerPredictions = true;
+        this.championshipPredictService.user(userId, competitionId).subscribe(
+            response => {
+                this.predictions = response;
+                this.spinnerPredictions = false;
+            },
+            error => {
+                this.spinnerPredictions = false;
+                this.errorPredictions = error;
             }
         );
     }

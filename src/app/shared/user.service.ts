@@ -1,10 +1,11 @@
 import { Injectable }               from '@angular/core';
-import { Http }                     from '@angular/http';
+import { Http, URLSearchParams }    from '@angular/http';
 import { Observable }               from 'rxjs/Observable';
 
 import { environment }              from '../../environments/environment';
 import { ErrorHandlerService }      from './error-handler.service';
 import { HeadersWithToken }         from './headers-with-token.service';
+import { User }                     from './models/user.model';
 
 @Injectable()
 
@@ -16,24 +17,22 @@ export class UserService {
         private http: Http
     ){ }
 
-    /**
-     * Update user profile data
-     * @param value
-     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<R>|Promise<ErrorObservable<T>>}
-     */
-    update(value): Observable<void> {
-        return this.headersWithToken.put(environment.apiUrl + 'user/' + value.id, value)
-            .map(response => response.json())
-            .catch(this.errorHandlerService.handle);
-    }
+    private usersUrl = environment.apiUrl + 'users';
 
     /**
-     * Get last registered user
-     * @returns {Promise<R>|any|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>}
+     * Get users
+     * @param order
+     * @param limit
+     * @param sequence
+     * @returns {Observable<any>}
      */
-    getLastUser() {
+    getUsers(limit?: number, order?: string, sequence?: string): Observable<any> {
+        let params = new URLSearchParams();
+        if (limit) params.set('limit', limit.toString());
+        if (order) params.set('order', order);
+        if (sequence) params.set('sequence', sequence);
         return this.http
-            .get(environment.apiUrl + "users?last=true")
+            .get(this.usersUrl, {search: params})
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
@@ -41,14 +40,24 @@ export class UserService {
     /**
      * Get user by id
      * @param id
-     * @param competitionId
-     * @returns {Promise<R>|any|Promise<ErrorObservable<T>>|Promise<ErrorObservable<T>|T>}
+     * @returns {Observable<User>}
      */
-    getUser(id: number, competitionId: number = null) {
-        let url = environment.apiUrl + 'users/' + id;
+    getUser(id: number): Observable<User> {
         return this.http
-            .get(url)
+            .get(`${this.usersUrl}/${id}`)
             .map(response => response.json().user)
+            .catch(this.errorHandlerService.handle);
+    }
+
+    /**
+     * Update user profile data
+     * @param user
+     * @returns {Observable<User>}
+     */
+    updateUser(user: User): Observable<User> {
+        return this.headersWithToken
+            .put(`${this.usersUrl}/${user.id}`, user)
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }

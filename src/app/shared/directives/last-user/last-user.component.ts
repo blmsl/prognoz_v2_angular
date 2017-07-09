@@ -1,6 +1,7 @@
 import { Component, OnInit }                    from '@angular/core';
 
 import { environment }                          from '../../../../environments/environment';
+import { User }                                 from '../../models/user.model';
 import { UserService }                          from '../../user.service';
 
 @Component({
@@ -13,22 +14,22 @@ export class LastUserComponent implements OnInit {
     constructor(
       private userService: UserService
     ) { }
-    
-    error: string | Array<string>;
-    spinner: boolean = false;
+
+    lastUser: User;
+    errorUser: string | Array<string>;
+    spinnerUser: boolean = false;
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
-    lastUser: any;
-    
+
     ngOnInit() {
-        this.spinner = true;
-        this.userService.getLastUser().subscribe(
+        this.spinnerUser = true;
+        this.userService.getUsers(1, 'created_at', 'desc').subscribe(
             response => {
-                this.lastUser = response.user;
-                this.spinner = false;
+                this.lastUser = response.users[0];
+                this.spinnerUser = false;
             }, error => {
-                this.error = error;
-                this.spinner = false;
+                this.errorUser = error;
+                this.spinnerUser = false;
             }
         );
     }

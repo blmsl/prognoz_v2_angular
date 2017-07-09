@@ -4,7 +4,6 @@ import { Observable }                       from 'rxjs/Observable';
 
 import { environment }                      from '../../../../environments/environment';
 import { ErrorHandlerService }              from '../../../shared/error-handler.service';
-import { Tournament }                       from '../../../shared/models/tournament.model';
 
 @Injectable()
 

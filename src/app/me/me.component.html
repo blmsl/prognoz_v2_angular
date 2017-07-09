@@ -4,8 +4,6 @@
             <h2>Профіль:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="!error && !authenticatedUser" [height]="250"></app-spinner>
     <!-- first full-width row -->
     <div class="row">
         <div class="col">
@@ -117,9 +115,9 @@
                 </div>
                 <!-- submit button -->
                 <div class="text-center m-2">
-                    <button [disabled]="userEditForm.invalid || errorImage" [hidden]="spinner" type="submit" class="btn btn-primary">Зберегти зміни</button>
+                    <button [disabled]="userEditForm.invalid || errorImage" [hidden]="spinnerButton" type="submit" class="btn btn-primary">Зберегти зміни</button>
                     <!-- spinner button -->
-                    <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                    <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
                 </div>
             </div>
         </div>

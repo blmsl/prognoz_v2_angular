@@ -38,9 +38,8 @@ export class MeComponent implements OnInit, OnDestroy {
         );
     }
 
-    error: string | Array<string>;
-    spinner: boolean = false;
     authenticatedUser: User = Object.assign({}, this.currentStateService.user);
+    spinnerButton: boolean = false;
     userSubscription: Subscription;
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
@@ -72,20 +71,18 @@ export class MeComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        this.spinner = true;
-        this.userService.update(this.userEditForm.value).subscribe(
+        this.spinnerButton = true;
+        this.userService.updateUser(this.userEditForm.value).subscribe(
             response => {
-                this.notificationService.success('Успішно', 'Ваш профіль змінено!');
-                this.spinner = false;
-                this.hasUnsavedChanges = false;
                 this.authService.initializeUser();
+                this.notificationService.success('Успішно', 'Ваш профіль змінено!');
+                this.spinnerButton = false;
+                this.hasUnsavedChanges = false;
             },
             errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
+                errors.forEach(error => this.notificationService.error('Помилка', error));
                 this.hasUnsavedChanges = false;
-                this.spinner = false;
+                this.spinnerButton = false;
             }
         );
     }
