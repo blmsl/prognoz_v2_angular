@@ -21,22 +21,11 @@ export class ChampionshipRatingService {
     private championshipRatingUrl = environment.apiUrl + 'championship/rating';
 
     /**
-     * Update positions and moving
-     * @returns {Observable<void>}
-     */
-    updateRatingPositions(): Observable<void> {
-        return this.headersWithToken
-            .put(this.championshipRatingUrl, {})
-            .map(response => response.json())
-            .catch(this.errorHandlerService.handle);
-    }
-
-    /**
      * Get championship rating
      * @param requestParams
      * @returns {Observable<any>}
      */
-    getChampionshipRating(requestParams?: RequestParams[]): Observable<any> {
+    getChampionshipRatingItems(requestParams?: RequestParams[]): Observable<any> {
         let params: URLSearchParams = new URLSearchParams();
         if (requestParams) {
             for (let requestParam of requestParams) {
@@ -51,8 +40,27 @@ export class ChampionshipRatingService {
 
     /**
      * Get championship rating item
+     * @param userId
+     * @param competitionId
+     * @returns {Observable<ChampionshipRating>}
      */
-    getChampionshipRatingItem() {
+    getChampionshipRatingItem(userId: number, competitionId?: number): Observable<ChampionshipRating> {
+        let params = new URLSearchParams();
+        if (competitionId) params.set('competition_id', competitionId.toString());
+        return this.http
+            .get(`${this.championshipRatingUrl}/${userId}`, {search: params})
+            .map(response => response.json().ratingItem)
+            .catch(this.errorHandlerService.handle)
+    }
 
+    /**
+     * Update positions and moving
+     * @returns {Observable<void>}
+     */
+    updateChampionshipRatingItems(): Observable<void> {
+        return this.headersWithToken
+            .put(this.championshipRatingUrl, {})
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
     }
 }

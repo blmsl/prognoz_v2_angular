@@ -1,8 +1,52 @@
 <h2>Прогнози {{user ? user.name : 'гравця'}}: </h2>
-<!-- spinner user -->
-<app-spinner *ngIf="spinnerUser" [height]="250"></app-spinner>
-<!-- error user -->
+<!-- spinner user/rating -->
+<app-spinner *ngIf="spinnerUser || spinnerRating" [height]="250"></app-spinner>
+<!-- error user/rating -->
 <app-error *ngIf="errorUser" [message]="error"></app-error>
+<app-error *ngIf="errorRating" [message]="errorRating"></app-error>
+<!-- user data -->
+<div *ngIf="user" class="card black-shadow mb-2">
+    <div class="card-block">
+        <div class="row">
+            <div class="col-12 col-md-4 text-center">
+                <img class="rounded img-fluid mb-2 w-100"
+                     src="{{userImagesUrl}}{{user.image || userImageDefault}}"
+                     alt="{{user.name}}">
+                <strong>{{user.name}}</strong>
+                {{helperService.getHometown(user.hometown)}}
+                <p *ngIf="user.favorite_team">
+                    <span class="small text-muted">Вболіває за: </span>{{user.favorite_team}}
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <table *ngIf="championshipRatingItem" class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td>Позиція в рейтингу</td>
+                        <td class="text-center">{{championshipRatingItem.position}}</td>
+                    </tr>
+                    <tr>
+                        <td>Очки</td>
+                        <td class="text-center">{{championshipRatingItem.points}}</td>
+                    </tr>
+                    <tr>
+                        <td>x3 <small class="text-muted">(Трьохочкові)</small></td>
+                        <td class="text-center">{{championshipRatingItem.x3}}</td>
+                    </tr>
+                    <tr>
+                        <td>x2 <small class="text-muted">(Двохочкові)</small></td>
+                        <td class="text-center">{{championshipRatingItem.x2}}</td>
+                    </tr>
+                    <tr>
+                        <td>Коефіцієнт складності</td>
+                        <td class="text-center">{{championshipRatingItem.dc}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <app-championship-user-predictions-table [predictions]="predictions"
                                          [spinner]="spinnerPredictions"
                                          [error]="errorPredictions">

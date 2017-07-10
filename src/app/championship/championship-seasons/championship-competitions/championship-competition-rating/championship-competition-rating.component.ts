@@ -22,7 +22,7 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
         private currentStateService: CurrentStateService
     ) { }
 
-    rating: ChampionshipRating[];
+    championshipRatingItems: ChampionshipRating[];
     spinnerChampionshipRating: boolean = false;
     errorChampionshipRating: string | Array<string>;
 
@@ -37,10 +37,10 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
             this.resetData();
             this.spinnerChampionshipRating = true;
             let param = [{parameter: 'competition_id', value: <string>params['competitionId']}];
-            this.championshipRatingService.getChampionshipRating(param).subscribe(
+            this.championshipRatingService.getChampionshipRatingItems(param).subscribe(
                 response => {
                     if (response) {
-                        this.rating = response.championship_ratings;
+                        this.championshipRatingItems = response.championship_ratings;
                     }
                     this.spinnerChampionshipRating = false;
                 },
@@ -59,7 +59,7 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
     }
 
     private resetData() {
-        this.rating = null;
+        this.championshipRatingItems = null;
         this.errorChampionshipRating = null;
     }
 }

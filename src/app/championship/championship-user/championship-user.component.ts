@@ -3,6 +3,8 @@ import { ActivatedRoute, Params }               from '@angular/router';
 
 import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
 import { ChampionshipPredictService }           from '../shared/championship-predict.service';
+import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
+import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { environment }                          from '../../../environments/environment';
 import { HelperService }                        from '../../shared/helper.service';
 import { User }                                 from '../../shared/models/user.model';
@@ -18,26 +20,32 @@ export class ChampionshipUserComponent implements OnInit {
     constructor(
         private activatedRoute: ActivatedRoute,
         private championshipPredictService: ChampionshipPredictService,
+        private championshipRatingService: ChampionshipRatingService,
         public helperService: HelperService,
         private userService: UserService
     ) { }
 
-    spinner: boolean = false;
-    predicts: ChampionshipPredict[];
-    error: string;
-
     user: User;
     spinnerUser: boolean = false;
     errorUser: string;
+
+    championshipRatingItem: ChampionshipRating;
+    spinnerRating: boolean = false;
+    errorRating: string;
+
+    spinner: boolean = false;
+    predicts: ChampionshipPredict[];
+    error: string;
 
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
     awardsImagesUrl: string = environment.apiImageAwards;
     
     ngOnInit() {
-        this.spinner = true;
         this.activatedRoute.params.forEach((params: Params) => {
             this.getUserData(params['id']);
+            this.getChampionshipRatingItemData(params['id']);
+
             let id = +params['id'];
             this.getUserPredictions(id);
         });
@@ -53,6 +61,20 @@ export class ChampionshipUserComponent implements OnInit {
             error => {
                 this.errorUser = error;
                 this.spinnerUser = false;
+            }
+        );
+    }
+
+    private getChampionshipRatingItemData(id: number) {
+        this.spinnerRating = true;
+        this.championshipRatingService.getChampionshipRatingItem(id).subscribe(
+            response => {
+                this.championshipRatingItem = response;
+                this.spinnerRating = false;
+            },
+            error => {
+                this.errorRating = error;
+                this.spinnerRating = false;
             }
         );
     }

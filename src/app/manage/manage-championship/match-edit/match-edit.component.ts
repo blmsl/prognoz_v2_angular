@@ -77,7 +77,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     
     updateRating() {
         this.spinnerUpdateRatingButton = true;
-        this.championshipRatingService.updateRatingPositions().subscribe(
+        this.championshipRatingService.updateChampionshipRatingItems().subscribe(
             response => {
                 this.isUpdatedMatches = false;
                 this.notificationService.success('Успішно', 'Рейтинг оновлено');

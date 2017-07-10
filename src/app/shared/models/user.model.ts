@@ -8,4 +8,5 @@ export class User {
     created_at:             string;
     updated_at:             string;
     showAdministrationLink: boolean;
+    winners:                Array<any>;
 }

@@ -17,7 +17,7 @@ export class ChampionshipRatingTopComponent implements OnInit {
         public helperService: HelperService
     ) { }
 
-    rating: ChampionshipRating[];
+    championshipRatingItems: ChampionshipRating[];
     spinnerRating: boolean = false;
     errorRating: string;
 
@@ -32,10 +32,10 @@ export class ChampionshipRatingTopComponent implements OnInit {
         this.resetData();
         this.spinnerRating = true;
         let param = [{parameter: 'limit', value: '5'}];
-        this.championshipRatingService.getChampionshipRating(param).subscribe(
+        this.championshipRatingService.getChampionshipRatingItems(param).subscribe(
             response => {
                 if (response) {
-                    this.rating = response.championship_ratings;
+                    this.championshipRatingItems = response.championship_ratings;
                 }
                 this.spinnerRating = false;
             },
@@ -47,7 +47,7 @@ export class ChampionshipRatingTopComponent implements OnInit {
     }
 
     private resetData(): void {
-        this.rating = null;
+        this.championshipRatingItems = null;
         this.errorRating = null
     }
 }

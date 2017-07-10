@@ -3,34 +3,34 @@
 <!-- error -->
 <app-error *ngIf="errorRating" [message]="errorRating"></app-error>
 <!-- rating leader -->
-<div *ngIf="rating" class="card mt-2 mb-2 black-shadow">
+<div *ngIf="championshipRatingItems" class="card mt-2 mb-2 black-shadow">
     <h4 class="card-header text-xs-center">Лідер рейтингу</h4>
-    <div class="card-block text-center cursor-pointer" routerLink="/championship/users/{{rating[0].user_id}}">
+    <div class="card-block text-center cursor-pointer" routerLink="/championship/users/{{championshipRatingItems[0].user_id}}">
         <img class="card-img-top img-fluid rounded"
-             src="{{ userImagesUrl }}{{ rating[0].user.image || userImageDefault }}"
-             alt="{{ rating[0].user.name }}">
+             src="{{ userImagesUrl }}{{ championshipRatingItems[0].user.image || userImageDefault }}"
+             alt="{{ championshipRatingItems[0].user.name }}">
     </div>
-    <div class="card-block pt-0 cursor-pointer" routerLink="/championship/users/{{rating[0].user_id}}">
+    <div class="card-block pt-0 cursor-pointer" routerLink="/championship/users/{{championshipRatingItems[0].user_id}}">
         <p class="card-text text-center">
-            <strong>{{ rating[0].user.name }}</strong> {{helperService.getHometown(rating[0].user.hometown)}}
+            <strong>{{ championshipRatingItems[0].user.name }}</strong> {{helperService.getHometown(championshipRatingItems[0].user.hometown)}}
         </p>
     </div>
 </div>
 <!-- rating card -->
-<div *ngIf="rating" class="card black-shadow mt-2 mb-2">
-    <h4 class="card-header text-xs-center">Топ-{{rating.length}} рейтингу</h4>
+<div *ngIf="championshipRatingItems" class="card black-shadow mt-2 mb-2">
+    <h4 class="card-header text-xs-center">Топ-{{championshipRatingItems.length}} рейтингу</h4>
     <table class="table table-hover mb-0">
         <tbody>
-            <tr *ngFor="let ratingItem of rating" routerLink="/championship/users/{{ratingItem.user_id}}" class="cursor-pointer">
-                <th scope="row" class="text-center">{{ratingItem.position}}.</th>
+            <tr *ngFor="let championshipRatingItem of championshipRatingItems" routerLink="/championship/users/{{championshipRatingItem.user_id}}" class="cursor-pointer">
+                <th scope="row" class="text-center">{{championshipRatingItem.position}}.</th>
                 <td class="text-left">
                     <img class="rounded-circle small-image mr-1"
-                         src="{{userImagesUrl}}{{ratingItem.user.image || userImageDefault}}"
-                         alt="{{ratingItem.user.name}}">
-                    {{ratingItem.user.name}}
+                         src="{{userImagesUrl}}{{championshipRatingItem.user.image || userImageDefault}}"
+                         alt="{{championshipRatingItem.user.name}}">
+                    {{championshipRatingItem.user.name}}
                 </td>
                 <td class="text-center">
-                    <strong>{{ratingItem.points}}</strong>
+                    <strong>{{championshipRatingItem.points}}</strong>
                 </td>
             </tr>
         </tbody>

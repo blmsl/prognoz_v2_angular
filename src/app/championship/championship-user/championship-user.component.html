@@ -1,8 +1,9 @@
-<h2>Прогнози гравця: </h2>
-<!-- spinner user -->
-<app-spinner *ngIf="spinnerUser" [height]="250"></app-spinner>
-<!-- error user -->
+<h2>Прогнози {{user ? user.name : 'гравця'}}: </h2>
+<!-- spinner user/rating -->
+<app-spinner *ngIf="spinnerUser || spinnerRating" [height]="250"></app-spinner>
+<!-- error user/rating -->
 <app-error *ngIf="errorUser" [message]="errorUser"></app-error>
+<app-error *ngIf="errorRating" [message]="errorRating"></app-error>
 <!-- user data -->
 <div *ngIf="user" class="card black-shadow mb-2">
     <div class="card-block">
@@ -18,27 +19,27 @@
             </p>
         </div>
         <div class="col-12 col-md-8">
-            <table *ngIf="user.championship_rating" class="table table-bordered">
+            <table *ngIf="championshipRatingItem" class="table table-bordered">
                 <tbody>
                     <tr>
                         <td>Позиція в рейтингу</td>
-                        <td class="text-center">{{user.championship_rating.position}}</td>
+                        <td class="text-center">{{championshipRatingItem.position}}</td>
                     </tr>
                     <tr>
                         <td>Очки</td>
-                        <td class="text-center">{{user.championship_rating.points}}</td>
+                        <td class="text-center">{{championshipRatingItem.points}}</td>
                     </tr>
                     <tr>
                         <td>x3 <small class="text-muted">(Трьохочкові)</small></td>
-                        <td class="text-center">{{user.championship_rating.x3}}</td>
+                        <td class="text-center">{{championshipRatingItem.x3}}</td>
                     </tr>
                     <tr>
                         <td>x2 <small class="text-muted">(Двохочкові)</small></td>
-                        <td class="text-center">{{user.championship_rating.x2}}</td>
+                        <td class="text-center">{{championshipRatingItem.x2}}</td>
                     </tr>
                     <tr>
                         <td>Коефіцієнт складності</td>
-                        <td class="text-center">{{user.championship_rating.dc}}</td>
+                        <td class="text-center">{{championshipRatingItem.dc}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -46,7 +47,7 @@
         </div>
     </div>
 </div>
-<!-- user data -->
+<!-- user awards -->
 <div *ngIf="user && user.winners.length" class="card black-shadow mb-2">
     <div class="card-block">
         <div class="row">

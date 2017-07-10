@@ -22,7 +22,7 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
         public helperService: HelperService
     ) { }
     
-    rating: ChampionshipRating[];
+    championshipRatingItems: ChampionshipRating[];
     spinnerRating: boolean = false;
     errorRating: string;
 
@@ -34,10 +34,10 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
             this.authenticatedUser = result;
         });
         this.spinnerRating = true;
-        this.championshipRatingService.getChampionshipRating().subscribe(
+        this.championshipRatingService.getChampionshipRatingItems().subscribe(
             response => {
                 if (response) {
-                    this.rating = response.championship_ratings;
+                    this.championshipRatingItems = response.championship_ratings;
                 }
                 this.spinnerRating = false;
             },
