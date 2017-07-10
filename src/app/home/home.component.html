@@ -86,9 +86,9 @@
     <!-- error -->
     <app-error *ngIf="errorNews" [message]="errorNews"></app-error>
     <!-- no news -->
-    <app-info *ngIf="news && !news.length" [message]="noNews"></app-info>
+    <app-info *ngIf="!news && !spinnerNews && !errorNews" [message]="noNews"></app-info>
     <!-- last 3 news -->
-    <div *ngIf="news && news.length" class="row">
+    <div *ngIf="news" class="row">
         <div class="col">
             <div class="card-deck">
                 <div *ngFor="let one of news | slice:0:3" class="card black-shadow">
@@ -106,7 +106,7 @@
         </div>
     </div>
     <!-- more news button -->
-    <div *ngIf="news && news.length" class="row">
+    <div *ngIf="news && news" class="row">
         <div class="col text-center mt-2">
             <a routerLink="news" class="btn btn-secondary btn-lg">Більше новин</a>
         </div>

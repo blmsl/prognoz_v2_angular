@@ -31,15 +31,17 @@ export class HomeComponent implements OnInit {
     clubsImagesUrl: string = environment.apiImageClubs;
 
     ngOnInit() {
-        this.getNews();
+        this.getNewsData();
         this.getMatches();
     }
 
-    private getNews() {
+    private getNewsData() {
         this.spinnerNews = true;
         this.newsService.getNews().subscribe(
             result => {
-                this.news = result ? result.data : [];
+                if (result) {
+                    this.news = result.data;
+                }
                 this.spinnerNews = false;
             },
             error => {

@@ -49,7 +49,7 @@ export class ChampionshipRatingService {
         if (competitionId) params.set('competition_id', competitionId.toString());
         return this.http
             .get(`${this.championshipRatingUrl}/${userId}`, {search: params})
-            .map(response => response.json().ratingItem)
+            .map(response => response.json().championship_rating)
             .catch(this.errorHandlerService.handle)
     }
 

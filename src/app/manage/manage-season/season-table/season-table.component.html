@@ -9,9 +9,9 @@
     <!-- error -->
     <app-error *ngIf="errorSeasons" [message]="errorSeasons"></app-error>
     <!-- no seasons -->
-    <app-info *ngIf="seasons && !seasons.length" [message]="noSeasons"></app-info>
+    <app-info *ngIf="!seasons && !spinnerSeasons && !errorSeasons" [message]="noSeasons"></app-info>
     <!-- seasons table -->
-    <div *ngIf="seasons && seasons.length" class="row">
+    <div *ngIf="seasons" class="row">
         <div class="col-12">
             <table class="table table-inverse">
                 <thead>

@@ -82,7 +82,7 @@ export class ClubEditComponent implements OnInit {
         this.clubService.getClubs(null, 'national_teams')
             .subscribe(
                 result => {
-                    this.clubs = result;
+                    this.clubs = result.clubs;
                     this.spinnerClubs = false;
                 },
                 error => {

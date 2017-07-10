@@ -21,12 +21,12 @@ export class SeasonService {
 
     /**
      * Get all seasons
-     * @returns {Observable<Season[]>}
+     * @returns {Observable<any>}
      */
-    getSeasons(): Observable<Season[]> {
+    getSeasons(): Observable<any> {
         return this.http
             .get(this.seasonsUrl)
-            .map(response => response.json() ? response.json().seasons : [])
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 

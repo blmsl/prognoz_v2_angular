@@ -11,9 +11,9 @@
     <app-error *ngIf="errorSeasons" [message]="errorSeasons"></app-error>
     <!-- no data -->
     <app-info *ngIf="noTournaments" [message]="noTournaments"></app-info>
-    <app-info *ngIf="seasons && !seasons.length" [message]="noSeasons"></app-info>
+    <app-info *ngIf="!seasons && !spinnerSeasons && !errorSeasons" [message]="noSeasons"></app-info>
     <!-- create competition form -->
-    <div *ngIf="(seasons && seasons.length) && tournaments" class="row">
+    <div *ngIf="seasons && tournaments" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
             <form novalidate [formGroup]="competitionCreateForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
                 <!-- title -->

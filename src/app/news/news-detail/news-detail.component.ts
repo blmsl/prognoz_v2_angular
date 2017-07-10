@@ -54,12 +54,14 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
             this.spinnerNews = true;
             this.newsService.getNewsItem(+params['id']).subscribe(
                 result => {
-                    this.news = result;
-                    this.addCommentForm = this.formBuilder.group({
-                        user_id: ['', [Validators.required]],
-                        news_id: [this.news.id, [Validators.required]],
-                        body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
-                    });
+                    if (result) {
+                        this.addCommentForm = this.formBuilder.group({
+                            user_id: ['', [Validators.required]],
+                            news_id: [this.news.id, [Validators.required]],
+                            body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
+                        });
+                        this.news = result;
+                    }
                     this.spinnerNews = false;
                 },
                 error => {

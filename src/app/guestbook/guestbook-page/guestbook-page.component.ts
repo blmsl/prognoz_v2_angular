@@ -80,8 +80,8 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
                         this.lastPage = result.last_page;
                         this.perPage = result.per_page;
                         this.total = result.total;
+                        this.guestbookMessages = result.data;
                     }
-                    this.guestbookMessages = result ? result.data : [];
                     this.spinnerGuestbookMessages = false;
                 },
                 error => {

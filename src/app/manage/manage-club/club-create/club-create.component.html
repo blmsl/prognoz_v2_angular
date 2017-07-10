@@ -9,9 +9,9 @@
     <!-- error -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
     <!-- no clubs -->
-    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
+    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <!-- club create form -->
-    <div *ngIf="clubs && clubs.length" class="row">
+    <div *ngIf="clubs" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
             <form novalidate [formGroup]="clubCreateForm" (ngSubmit)="onSubmit(clubCreateForm)" class="bg-inverse p-2 rounded">
                 <!-- title -->

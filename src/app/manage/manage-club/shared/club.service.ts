@@ -31,9 +31,7 @@ export class ClubService {
         if (type) params.set('type', type);
         return this.http
             .get(this.clubUrl, {search: params})
-            .map(response => {
-                return page ? response.json() : (response.json() ? response.json().clubs : []);
-            })
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 

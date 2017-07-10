@@ -48,8 +48,8 @@ export class ClubTableComponent implements OnInit {
                         this.lastPage = result.last_page;
                         this.perPage = result.per_page;
                         this.total = result.total;
+                        this.clubs = result.data;
                     }
-                    this.clubs = result ? result.data : [];
                     this.spinnerClubs = false;
                 },
                 error => {

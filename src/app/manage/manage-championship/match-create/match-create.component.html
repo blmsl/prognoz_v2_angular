@@ -9,10 +9,10 @@
     <!-- error -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
     <!-- no clubs -->
-    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
+    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <div class="row">
         <!-- left column (form) -->
-        <div *ngIf="clubs && clubs.length" class="col-12 col-md-6 col-lg-6 text-white">
+        <div *ngIf="clubs" class="col-12 col-md-6 col-lg-6 text-white">
             <form novalidate [formGroup]="championshipMatchCreateForm"
                   (ngSubmit)="onSubmit(championshipMatchCreateForm)" class="bg-inverse p-2 rounded">
                 <!-- home club -->
@@ -83,7 +83,7 @@
             </form>
         </div>
         <!-- right column (added matches) -->
-        <div *ngIf="clubs && clubs.length" class="col-12 col-md-6 col-lg-6">
+        <div *ngIf="clubs" class="col-12 col-md-6 col-lg-6">
             <table *ngIf="addedMatches" class="table table-sm table-striped table-bordered">
                 <thead class="thead-inverse">
                     <tr>

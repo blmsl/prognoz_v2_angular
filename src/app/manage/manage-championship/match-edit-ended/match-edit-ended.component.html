@@ -9,9 +9,9 @@
     <!-- error clubs -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
     <!-- no clubs -->
-    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
+    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <!-- matches -->
-    <div *ngIf="endedMatches && clubs && clubs.length" class="row">
+    <div *ngIf="endedMatches && clubs" class="row">
         <div class="col-12">
             <table class="table table-hover table-striped table-bordered">
                 <thead class="thead-inverse">

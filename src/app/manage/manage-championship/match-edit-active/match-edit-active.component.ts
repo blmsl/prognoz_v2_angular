@@ -44,7 +44,7 @@ export class MatchEditActiveComponent implements OnInit {
             starts_at: ['', [Validators.required]]
         });
         this.getActive();
-        this.getClubs();
+        this.getClubsData();
     }
 
     private getActive() {
@@ -61,11 +61,11 @@ export class MatchEditActiveComponent implements OnInit {
         );
     }
 
-    private getClubs() {
+    private getClubsData() {
         this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
-                this.clubs = response;
+                this.clubs = response.clubs;
                 this.spinnerClubs = false;
             },
             error => {

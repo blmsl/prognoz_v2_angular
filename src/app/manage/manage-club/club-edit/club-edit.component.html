@@ -10,8 +10,8 @@
     <app-error *ngIf="errorClub" [message]="errorClub"></app-error>
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
     <!-- no clubs -->
-    <app-info *ngIf="clubs && !clubs.length" [message]="noClubs"></app-info>
-    <div *ngIf="club && clubs && clubs.length" class="row">
+    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
+    <div *ngIf="club && clubs" class="row">
         <!-- left column(current club data) -->
         <div class="col-12 col-lg-6">
             <div class="card card-inverse">

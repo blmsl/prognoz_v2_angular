@@ -9,9 +9,9 @@
     <!-- error -->
     <app-error *ngIf="errorNews" [message]="errorNews"></app-error>
     <!-- no news -->
-    <app-info *ngIf="news && !news.length" [message]="noNews"></app-info>
+    <app-info *ngIf="!news && !spinnerNews && !errorNews" [message]="noNews"></app-info>
     <!-- news -->
-    <div *ngIf="news && news.length" class="row">
+    <div *ngIf="news" class="row">
         <div class="col">
             <div class="card-columns">
                 <div *ngFor="let one of news" class="card mb-0 mb-sm-2 black-shadow">
@@ -29,7 +29,7 @@
         </div>
     </div>
     <!-- pagination -->
-    <app-pagination *ngIf="news && news.length"
+    <app-pagination *ngIf="news"
                     [totalItems]="total"
                     [currentPage]="currentPage"
                     [pageSize]="perPage"

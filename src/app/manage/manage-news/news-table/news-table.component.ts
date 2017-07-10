@@ -45,8 +45,8 @@ export class NewsTableComponent implements OnInit {
                         this.lastPage = result.last_page;
                         this.perPage = result.per_page;
                         this.total = result.total;
+                        this.news = result.data;
                     }
-                    this.news = result ? result.data : [];
                     this.spinnerNews = false;
                 },
                 error => {

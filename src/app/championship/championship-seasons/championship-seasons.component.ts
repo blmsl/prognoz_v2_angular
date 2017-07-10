@@ -23,7 +23,9 @@ export class ChampionshipSeasonsComponent implements OnInit {
         this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             result => {
-                this.seasons = result;
+                if (result) {
+                    this.seasons = result.seasons;
+                }
                 this.spinnerSeasons = false;
             },
             error => {

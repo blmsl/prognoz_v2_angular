@@ -41,7 +41,9 @@ export class CompetitionCreateComponent implements OnInit {
         this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
-                this.seasons = response;
+                if (response) {
+                    this.seasons = response.seasons;
+                }
                 this.spinnerSeasons = false;
             },
             error => {

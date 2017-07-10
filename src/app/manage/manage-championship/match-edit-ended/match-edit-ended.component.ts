@@ -39,7 +39,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getEnded();
-        this.getClubs();
+        this.getClubsData();
     }
 
     ngOnDestroy() {
@@ -62,11 +62,11 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
         );
     }
   
-    private getClubs() {
+    private getClubsData() {
         this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
-              this.clubs = response;
+              this.clubs = response.clubs;
               this.spinnerClubs = false;
             },
             error => {

@@ -22,7 +22,6 @@ export class MatchCreateComponent implements OnInit {
         private notificationService: NotificationsService
     ) { }
 
-    clubsImagesUrl: string = environment.apiImageClubs;
     clubs: Club[];
     spinnerClubs: boolean = false;
     errorClubs: string | Array<string>;
@@ -34,6 +33,8 @@ export class MatchCreateComponent implements OnInit {
     lastEnteredDate: string;
     spinner: boolean = false;
 
+    clubsImagesUrl: string = environment.apiImageClubs;
+
     ngOnInit() {
         this.championshipMatchCreateForm = this.formBuilder.group({
             t1_id: ['', [Validators.required]],
@@ -44,7 +45,7 @@ export class MatchCreateComponent implements OnInit {
         this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
-                this.clubs = response;
+                this.clubs = response.clubs;
                 this.spinnerClubs = false;
             },
             error => {
