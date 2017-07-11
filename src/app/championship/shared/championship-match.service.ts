@@ -1,11 +1,12 @@
 import { Injectable }                       from '@angular/core';
-import { Http }                             from '@angular/http';
+import { Http, URLSearchParams }            from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { ChampionshipMatch }                from '../../shared/models/championship-match.model';
 import { environment }                      from '../../../environments/environment';
 import { ErrorHandlerService }              from '../../shared/error-handler.service';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
+import { RequestParams }                    from '../../shared/models/request-params.model';
 import { User }                             from '../../shared/models/user.model';
 
 @Injectable()
@@ -22,9 +23,9 @@ export class ChampionshipMatchService {
     /**
      * Create championship match
      * @param championshipMatch
-     * @returns {Observable<R>}
+     * @returns {Observable<ChampionshipMatch>}
      */
-    create(championshipMatch: ChampionshipMatch): Observable<ChampionshipMatch> {
+    createChampionshipMatch(championshipMatch: ChampionshipMatch): Observable<ChampionshipMatch> {
         return this.headersWithToken
             .post(this.championshipMatchUrl, championshipMatch)
             .map(response => response.json().championship_match)
@@ -34,25 +35,31 @@ export class ChampionshipMatchService {
     /**
      * Update championship match
      * @param championshipMatch
-     * @param id
+     * @returns {Observable<ChampionshipMatch>}
      */
-    update(championshipMatch: ChampionshipMatch, id: number): Observable<ChampionshipMatch> {
-        const url = `${this.championshipMatchUrl}/${id}`;
+    updateChampionshipMatch(championshipMatch: ChampionshipMatch): Observable<ChampionshipMatch> {
         return this.headersWithToken
-            .put(url, championshipMatch)
+            .put(`${this.championshipMatchUrl}/${championshipMatch.id}`, championshipMatch)
             .map(response => response.json().championship_match)
             .catch(this.errorHandlerService.handle);
     }
 
     /**
-     * Get match info with predicts
+     * Get match info
      * @param id
-     * @returns {any|Promise<R>|Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>}
+     * @param requestParams
+     * @returns {Observable<any>}
      */
-    getWithPredicts(id: number): Observable<ChampionshipMatch> {
-        let url = this.championshipMatchUrl + '/' + id;
-        return this.http.get(url)
-            .map(response => response.json().championship_match)
+    getChampionshipMatch(id: number, requestParams?: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        if (requestParams) {
+            for (let requestParam of requestParams) {
+                params.set(requestParam.parameter, requestParam.value);
+            }
+        }
+        return this.http
+            .get(`${this.championshipMatchUrl}/${id}`, requestParams ? {search: params} : null)
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 
@@ -102,16 +109,5 @@ export class ChampionshipMatchService {
                 .map(response => response.json().championship_matches || [])
                 .catch(this.errorHandlerService.handle);
         }
-    }
-
-    /**
-     * Get match statistic
-     * @param id
-     */
-    getStatistic(id: number): Observable<any> {
-        let url = this.championshipMatchUrl + '/' + id + '?statistic=true';
-        return this.http.get(url)
-            .map(response => response.json())
-            .catch(this.errorHandlerService.handle);
     }
 }

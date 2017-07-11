@@ -62,7 +62,7 @@
                                    [(ngModel)]="match.away">
                         </td>
                         <td class="align-middle text-center">
-                            <button (click)="onSubmit(match.id, match.home, match.away)"
+                            <button (click)="onSubmit(match)"
                                     [hidden]="spinnerButton['match_' + match.id] || updatedMatches['match_' + match.id]"
                                     class="btn btn-outline-success">
                                 <span class="hidden-sm-down">Додати</span>

@@ -57,7 +57,7 @@ export class MatchCreateComponent implements OnInit {
 
     onSubmit() {
         this.spinner = true;
-        this.championshipMatchService.create(this.championshipMatchCreateForm.value).subscribe(
+        this.championshipMatchService.createChampionshipMatch(this.championshipMatchCreateForm.value).subscribe(
             response => {
                 this.lastEnteredDate = response.starts_at;
                 this.resetForm();

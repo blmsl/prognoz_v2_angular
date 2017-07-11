@@ -76,26 +76,27 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
         );
     }
 
-    onSubmit(id: number, t1_id: number, t2_id: number, home: number, away: number) {
-        if (!this.validateResult(home) || !this.validateResult(away)) {
-            this.notificationService.error('Помилка', 'Результат в матчі ' + id + ' введено неправильно');
+    onSubmit(match: ChampionshipMatch) {
+        if (!this.validateResult(match.home) || !this.validateResult(match.away)) {
+            this.notificationService.error('Помилка', 'Результат в матчі ' + match.id + ' введено неправильно');
             return;
         }
-        this.spinnerButton['match_' + id] = true;
+        this.spinnerButton['match_' + match.id] = true;
         let championshipMatch = new ChampionshipMatch;
-        championshipMatch.t1_id = t1_id;
-        championshipMatch.t2_id = t2_id;
-        championshipMatch.home = home;
-        championshipMatch.away = away;
-        this.championshipMatchService.update(championshipMatch, id).subscribe(
+        championshipMatch.id = match.id;
+        championshipMatch.t1_id = match.t1_id;
+        championshipMatch.t2_id = match.t2_id;
+        championshipMatch.home = match.home;
+        championshipMatch.away = match.away;
+        this.championshipMatchService.updateChampionshipMatch(championshipMatch).subscribe(
             response => {
-                this.spinnerButton['match_' + id] = false;
-                this.updatedMatches['match_' + id] = response;
+                this.spinnerButton['match_' + match.id] = false;
+                this.updatedMatches['match_' + match.id] = response;
                 this.isUpdatedMatches = true;
                 this.notificationService.success('Успішно', 'Результат матчу ' + response.id + ' змінено');
             },
             errors => {
-                this.spinnerButton['match_' + id] = false;
+                this.spinnerButton['match_' + match.id] = false;
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }

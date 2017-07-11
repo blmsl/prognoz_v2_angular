@@ -46,6 +46,11 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
     spinnerButton: boolean = false;
 
     ngOnInit() {
+        this.addCommentForm = this.formBuilder.group({
+            user_id: ['', [Validators.required]],
+            news_id: ['', [Validators.required]],
+            body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
+        });
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
             this.addCommentForm.patchValue({user_id: (result ? result.id : '')});
@@ -55,12 +60,8 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
             this.newsService.getNewsItem(+params['id']).subscribe(
                 result => {
                     if (result) {
-                        this.addCommentForm = this.formBuilder.group({
-                            user_id: ['', [Validators.required]],
-                            news_id: [this.news.id, [Validators.required]],
-                            body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
-                        });
                         this.news = result;
+                        this.addCommentForm.patchValue({news_id: result.id});
                     }
                     this.spinnerNews = false;
                 },

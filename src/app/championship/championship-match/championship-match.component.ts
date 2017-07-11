@@ -27,22 +27,22 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
         private location: Location
     ) { }
 
-    spinner: boolean = false;
-    match: ChampionshipMatch;
-    error: string;
+    championshipMatch: ChampionshipMatch;
+    spinnerChampionshipMatch: boolean = false;
+    errorChampionshipMatch: string;
+
+    statistic: any;
+    errorStatistic: string;
+    spinnerStatistic: boolean = false;
+
     clubsImagesUrl: string = environment.apiImageClubs;
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
 
-    // statistic
-    statistic: any;
-    errorStatistic: string;
-    spinnerStatistic: boolean = false;
-    // result
     resultChartLabels: string[];
     resultChartType: string = 'doughnut';
     resultChartData: number[];
-    // scores
+
     // scoresChartLabels: string[];
     // scoresChartType: string = 'doughnut';
     // scoresChartData: number[];
@@ -52,23 +52,10 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
             this.authenticatedUser = result;
         });
         this.activatedRoute.params.forEach((params: Params) => {
-            this.match = null;
-            this.error = null;
-            this.spinner = true;
-            let id = +params['id'];
-            this.championshipMatchService.getWithPredicts(id).subscribe(
-                response => {
-                    this.match = response;
-                    this.resultChartLabels = [response.club_first.title, response.club_second.title, 'Нічия'];
-                    this.spinner = false;
-                },
-                error => {
-                    this.error = error;
-                    this.spinner = false;
-                }
-            );
+            this.resetData();
+            this.getChampionshipMatchData(params['id']);
+            this.getChampionshipMatchStatisticData(params['id']);
         });
-        this.getStatistic();
     }
 
     ngOnDestroy() {
@@ -77,27 +64,48 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
         }
     }
 
-    getStatistic() {
-        this.spinnerStatistic = true;
-        this.activatedRoute.params.forEach((params: Params) => {
-            let id = +params['id'];
-            this.championshipMatchService.getStatistic(id).subscribe(
+    private getChampionshipMatchData(id: number) {
+        this.spinnerChampionshipMatch = true;
+        this.championshipMatchService.getChampionshipMatch(id)
+            .subscribe(
                 response => {
-                    this.statistic = response;
-                    this.resultChartData = [response.results.home, response.results.away, response.results.draw];
-                    // this.scoresChartData = (<any>Object).values(this.statistic.scores);
-                    // this.scoresChartLabels = Object.keys(this.statistic.scores);
-                    this.spinnerStatistic = false;
+                    this.championshipMatch = response.championship_match;
+                    this.resultChartLabels = [response.championship_match.club_first.title, response.championship_match.club_second.title, 'Нічия'];
+                    this.spinnerChampionshipMatch = false;
                 },
                 error => {
-                    this.errorStatistic = error;
-                    this.spinnerStatistic = false;
+                    this.errorChampionshipMatch = error;
+                    this.spinnerChampionshipMatch = false;
                 }
             );
-        });
+    }
+
+    private getChampionshipMatchStatisticData(id: number) {
+        this.spinnerStatistic = true;
+        let param = [{parameter: 'statistic', value: 'true'}];
+        this.championshipMatchService.getChampionshipMatch(id, param).subscribe(
+            response => {
+                this.statistic = response;
+                this.resultChartData = [response.results.home, response.results.away, response.results.draw];
+                // this.scoresChartData = (<any>Object).values(this.statistic.scores);
+                // this.scoresChartLabels = Object.keys(this.statistic.scores);
+                this.spinnerStatistic = false;
+            },
+            error => {
+                this.errorStatistic = error;
+                this.spinnerStatistic = false;
+            }
+        );
     }
 
     goBack() {
         this.location.back();
+    }
+
+    private resetData(): void {
+        this.championshipMatch = null;
+        this.errorChampionshipMatch = null;
+        this.statistic = null;
+        this.errorStatistic = null;
     }
 }

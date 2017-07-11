@@ -1,61 +1,61 @@
 <h2>Матч: </h2>
 <!-- spinner -->
-<app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+<app-spinner *ngIf="spinnerChampionshipMatch" [height]="250"></app-spinner>
 <!-- error -->
-<app-error *ngIf="error" [message]="error"></app-error>
+<app-error *ngIf="errorChampionshipMatch" [message]="errorChampionshipMatch"></app-error>
 <!-- match info -->
-<div *ngIf="match" class="container-fluid">
+<div *ngIf="championshipMatch" class="container-fluid">
     <div class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
         <!-- home club logo -->
         <div class="hidden-sm-down col-md-2">
-            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}"
-                 title="{{match.club_first.title}}">
+            <img class="img-fluid" src="{{clubsImagesUrl}}{{championshipMatch.club_first.image}}" alt="{{championshipMatch.club_first.title}}"
+                 title="{{championshipMatch.club_first.title}}">
         </div>
         <!-- club names, starts_at -->
         <div class="col-12 col-md-8 bg-inverse rounded">
             <div class="row">
                 <div class="col-12 text-center text-white">
-                    {{ match.starts_at.slice(0, -3) }}
+                    {{ championshipMatch.starts_at.slice(0, -3) }}
                 </div>
             </div>
             <div class="row align-items-center mb-2">
                 <div class="col-4 text-center text-white">
-                    <strong>{{ match.club_first.title }}</strong>
+                    <strong>{{ championshipMatch.club_first.title }}</strong>
                 </div>
                 <div class="col-4 text-center text-white">
-                    <strong>{{helperService.showScore(match.home, match.away, 'vs')}}</strong>
+                    <strong>{{helperService.showScore(championshipMatch.home, championshipMatch.away, 'vs')}}</strong>
                 </div>
                 <div class="col-4 text-center text-white">
-                    <strong>{{ match.club_second.title }}</strong>
+                    <strong>{{ championshipMatch.club_second.title }}</strong>
                 </div>
             </div>
         </div>
         <!-- away club logo -->
         <div class="hidden-sm-down col-md-2">
-            <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}"
-                 title="{{match.club_second.title}}">
+            <img class="img-fluid" src="{{clubsImagesUrl}}{{championshipMatch.club_second.image}}" alt="{{championshipMatch.club_second.title}}"
+                 title="{{championshipMatch.club_second.title}}">
         </div>
     </div>
 </div>
 <!-- previous/next match -->
-<nav *ngIf="match" aria-label="Previous/Next match">
+<nav *ngIf="championshipMatch" aria-label="Previous/Next match">
     <ul class="pagination justify-content-center">
         <li class="page-item">
-            <a routerLink="/championship/matches/{{match.id - 1}}" class="page-link" title="Попередній матч">
+            <a routerLink="/championship/matches/{{championshipMatch.id - 1}}" class="page-link" title="Попередній матч">
                 <i class="fa fa-chevron-circle-left fa-fw" aria-hidden="true"></i> <span class="hidden-xs-down">Попередній</span>
             </a>
         </li>
         <li class="page-item">
-            <a routerLink="/championship/matches/{{match.id + 1}}" class="page-link" title="Наступний матч">
+            <a routerLink="/championship/matches/{{championshipMatch.id + 1}}" class="page-link" title="Наступний матч">
                 <span class="hidden-xs-down">Наступний</span> <i class="fa fa-chevron-circle-right fa-fw" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </nav>
 <!-- statistic -->
-<h2 *ngIf="statistic && match && match.championship_predicts.length">
+<h2 *ngIf="statistic && championshipMatch && championshipMatch.championship_predicts.length">
     Статистика:
-    <button *ngIf="!match.ended" (click)="getStatistic()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+    <button *ngIf="!championshipMatch.ended" (click)="getStatistic()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
@@ -63,7 +63,7 @@
 <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
 <!-- error statistic -->
 <app-error *ngIf="errorStatistic" [message]="error"></app-error>
-<div *ngIf="statistic && match && match.championship_predicts.length && !spinnerStatistic" class="container-fluid">
+<div *ngIf="statistic && championshipMatch && championshipMatch.championship_predicts.length && !spinnerStatistic" class="container-fluid">
     <div class="row mt-2 mb-2 black-border bg-white rounded black-shadow">
         <div class="col-12 offset-md-3 col-md-6 p-2">
             <canvas baseChart
@@ -81,11 +81,11 @@
         <!--</div>-->
     </div>
 </div>
-<app-championship-match-predictions-table [match]="match"
+<app-championship-match-predictions-table [match]="championshipMatch"
                                           [authenticatedUser]="authenticatedUser">
 </app-championship-match-predictions-table>
 <!-- previous page button -->
-<div *ngIf="error" class="row">
+<div *ngIf="errorChampionshipMatch" class="row">
     <div class="col text-center mt-2">
         <a (click)="goBack()" class="btn btn-secondary">Назад</a>
     </div>

@@ -22,22 +22,22 @@ export class ChampionshipMatchPredictableComponent {
 
     clubsImagesUrl: string = environment.apiImageClubs;
 
-    // statistic
     statistic: any = false;
     errorStatistic: string | Array<string>;
     spinnerStatistic: boolean = false;
     expandedStatistic: boolean = false;
-    // result
+
     resultChartLabels: any;
     resultChartType: string = 'doughnut';
     resultChartData: any;
 
-    getStatistic(match: ChampionshipMatch) {
+    getChampionshipMatchStatisticData(match: ChampionshipMatch) {
           if (!this.expandedStatistic) {
               this.expandedStatistic = true;
               this.spinnerStatistic = true;
               setTimeout(() =>
-                      this.championshipMatchService.getStatistic(match.id).subscribe(
+                  this.championshipMatchService.getChampionshipMatch(match.id, [{parameter: 'statistic', value: 'true'}])
+                      .subscribe(
                           response => {
                               this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
                               this.resultChartData = [response.results.home, response.results.away, response.results.draw];
@@ -49,7 +49,7 @@ export class ChampionshipMatchPredictableComponent {
                               this.spinnerStatistic = false;
                           }
                       )
-                  , 1000);
+              , 1000);
           } else {
               this.expandedStatistic = false;
           }

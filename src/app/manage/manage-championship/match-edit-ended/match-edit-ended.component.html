@@ -57,7 +57,7 @@
                                    [(ngModel)]="match.away">
                         </td>
                         <td class="align-middle text-center">
-                            <button (click)="onSubmit(match.id, match.t1_id, match.t2_id, match.home, match.away)"
+                            <button (click)="onSubmit(match)"
                                     [hidden]="spinnerButton['match_' + match.id] || updatedMatches['match_' + match.id]"
                                     class="btn btn-danger">Змінити</button>
                             <app-spinner-button [hidden]="!spinnerButton['match_' + match.id]"></app-spinner-button>

@@ -23,7 +23,6 @@ export class MatchEditActiveComponent implements OnInit {
     ) { }
 
     championshipMatchEditActiveForm: FormGroup;
-    spinnerButton: boolean = false;
 
     activeMatches: Array<ChampionshipMatch> = [];
     errorActiveMatches: string | Array<string>;
@@ -35,10 +34,13 @@ export class MatchEditActiveComponent implements OnInit {
     spinnerClubs: boolean = false;
 
     selectedMatch: ChampionshipMatch;
+    spinnerButton: boolean = false;
+
     clubsImagesUrl: string = environment.apiImageClubs;
 
     ngOnInit() {
         this.championshipMatchEditActiveForm = this.formBuilder.group({
+            id: ['', [Validators.required]],
             t1_id: ['', [Validators.required]],
             t2_id: ['', [Validators.required]],
             starts_at: ['', [Validators.required]]
@@ -78,25 +80,27 @@ export class MatchEditActiveComponent implements OnInit {
     onSubmit() {
         if (this.selectedMatch.id) {
             this.spinnerButton = true;
-            this.championshipMatchService.update(this.championshipMatchEditActiveForm.value, this.selectedMatch.id).subscribe(
-                response => {
-                    this.spinnerButton = false;
-                    this.selectedMatch = response;
+            this.championshipMatchService.updateChampionshipMatch(this.championshipMatchEditActiveForm.value)
+                .subscribe(
+                    response => {
+                        this.spinnerButton = false;
+                        this.selectedMatch = response;
 
-                    this.getActive();
-                    this.notificationService.success('Успішно', 'Матч змінено');
-                },
-                error => {
-                    this.spinnerButton = false;
-                    this.notificationService.error('Помилка', error);
-                }
-            );
+                        this.getActive();
+                        this.notificationService.success('Успішно', 'Матч змінено');
+                    },
+                    error => {
+                        this.spinnerButton = false;
+                        this.notificationService.error('Помилка', error);
+                    }
+                );
         }
     }
 
     onChange(id) {
         this.selectedMatch = this.activeMatches.find(myObj => myObj.id == id);
         this.championshipMatchEditActiveForm.patchValue({
+            id: this.selectedMatch.id,
             t1_id: this.selectedMatch.t1_id,
             t2_id: this.selectedMatch.t2_id,
             starts_at: this.selectedMatch.starts_at

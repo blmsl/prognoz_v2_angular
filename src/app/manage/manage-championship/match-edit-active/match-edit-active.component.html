@@ -44,6 +44,7 @@
     <div *ngIf="clubs && selectedMatch != undefined" class="row">
         <div class="col-12 col-md-12 col-lg-8 offset-lg-2 text-white">
             <form novalidate [formGroup]="championshipMatchEditActiveForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
+                <input type="hidden" formControlName="id">
                 <!-- home club -->
                 <div class="form-group"
                      [class.has-danger]="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched">

@@ -5,7 +5,7 @@
      [attr.data-target]="'#collapseMatch' + match.id"
      aria-expanded="false"
      [attr.aria-controls]="'collapseMatch' + match.id"
-     (click)="getStatistic(match)">
+     (click)="getChampionshipMatchStatisticData(match)">
     <!-- home club logo -->
     <div class="hidden-sm-down col-md-2">
         <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}"
@@ -68,7 +68,7 @@
      [attr.data-target]="'#collapseMatch' + match.id"
      aria-expanded="false"
      [attr.aria-controls]="'collapseMatch' + match.id"
-     (click)="getStatistic(match)">
+     (click)="getChampionshipMatchStatisticData(match)">
     <!-- home club logo -->
     <div class="hidden-md-down col-md-2">
         <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
