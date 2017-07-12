@@ -1,17 +1,17 @@
 export class ChampionshipMatch {
-    id: number;
-    competition_id: number;
-    t1_id: number;
-    t2_id: number;
-    home: number | null;
-    away: number | null;
-    starts_at: string;
-    predicts: number | null;
-    points: number | null;
-    dc: number | null;
-    active: boolean | null;
-    ended: boolean | null;
+    id:                    number;
+    competition_id:        number;
+    t1_id:                 number;
+    t2_id:                 number;
+    home:                  number;
+    away:                  number;
+    starts_at:             string;
+    predicts:              number;
+    points:                number;
+    dc:                    number;
+    active:                boolean;
+    ended:                 boolean;
     championship_predicts: Array<any>;
-    club_first: any;
-    club_second: any;
+    club_first:            any;
+    club_second:           any;
 }

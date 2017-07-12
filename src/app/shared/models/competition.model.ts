@@ -1,14 +1,14 @@
 export class Competition {
-    id: number;
-    tournament_id: number;
-    season_id: number;
-    title: string;
-    active: boolean | null;
-    ended: boolean | null;
-    participants: number | null;
-    players_in_group: number | null;
-    first_playoff_stage: number | null;
-    number_in_season: number;
-    active_round: number | null;
-    winners: any;
+    id:                  number;
+    tournament_id:       number;
+    season_id:           number;
+    title:               string;
+    active:              boolean;
+    ended:               boolean;
+    participants:        number;
+    players_in_group:    number;
+    first_playoff_stage: number;
+    number_in_season:    number;
+    active_round:        number;
+    winners:             Array<any>;
 }
