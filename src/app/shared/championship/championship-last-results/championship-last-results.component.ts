@@ -15,28 +15,30 @@ export class ChampionshipLastResultsComponent implements OnInit {
         private championshipMatchService: ChampionshipMatchService
     ) { }
 
+    championshipMatches: ChampionshipMatch[];
+    errorChampionshipMatches: string;
+    spinnerChampionshipMatches: boolean = false;
+
     clubsImagesUrl: string = environment.apiImageClubs;
-    matches: ChampionshipMatch[];
-    error: string | Array<string>;
-    spinner: boolean = false;
 
     ngOnInit() {
-        this.lastMatches();
+        this.getChampionshipMatchesData();
     }
-  
-    lastMatches() {
-        this.matches = [];
-        this.spinner = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('last').subscribe(
+
+    getChampionshipMatchesData() {
+        this.spinnerChampionshipMatches = true;
+        let param = [{parameter: 'filter', value: 'last'}];
+        this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
-              this.matches = response;
-              this.spinner = false;
+                if (response) {
+                    this.championshipMatches = response.championship_matches;
+                }
+                this.spinnerChampionshipMatches = false;
             },
             error => {
-              this.error = error;
-              this.spinner = false;
+                this.errorChampionshipMatches = error;
+                this.spinnerChampionshipMatches = false;
             }
         );
     }
-
 }

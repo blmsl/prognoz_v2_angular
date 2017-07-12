@@ -5,11 +5,13 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="spinnerActiveMatches" [height]="100"></app-spinner>
+    <app-spinner *ngIf="spinnerChampionshipMatches" [height]="100"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="errorActiveMatches" [message]="errorActiveMatches"></app-error>
+    <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
+    <!-- no matches -->
+    <app-info *ngIf="!championshipMatches && !spinnerChampionshipMatches && !errorChampionshipMatches" [message]="noChampionshipMatches"></app-info>
     <!-- select match input -->
-    <div *ngIf="!spinnerActiveMatches" class="row">
+    <div *ngIf="!spinnerChampionshipMatches" class="row">
         <div class="hidden-md-down col-lg-2">
             <div *ngIf="selectedMatch" class="rounded bg-inverse">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{selectedMatch.club_first.image}}" alt="{{selectedMatch.club_first.title}}">
@@ -21,8 +23,8 @@
                     <label class="form-control-label" for="active_match"><strong>Виберіть матч:</strong></label>
                     <select id="active_match" class="form-control" (change)="onChange($event.target.value)">
                         <option disabled selected>Виберіть матч</option>
-                        <option *ngFor="let match of activeMatches" [value]="match.id">
-                            ({{match.starts_at}}) {{match.club_first.title}} - {{match.club_second.title}}
+                        <option *ngFor="let championshipMatch of championshipMatches" [value]="championshipMatch.id">
+                            ({{championshipMatch.starts_at}}) {{championshipMatch.club_first.title}} - {{championshipMatch.club_second.title}}
                         </option>
                     </select>
                 </div>
@@ -105,7 +107,7 @@
                     </div>
                 </div>
                 <!-- submit -->
-                <button [hidden]="spinnerButton" [disabled]="championshipMatchEditActiveForm.invalid || !selectedMatch" [hidden]="spinner" type="submit" class="btn btn-primary">
+                <button [hidden]="spinnerButton" [disabled]="championshipMatchEditActiveForm.invalid || !selectedMatch" type="submit" class="btn btn-primary">
                     Змінити
                 </button>
                 <!-- spinner button -->

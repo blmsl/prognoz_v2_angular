@@ -16,32 +16,37 @@ export class ChampionshipCompetitionResultsComponent implements OnInit {
         private championshipMatchService: ChampionshipMatchService
     ) { }
 
-    matches: ChampionshipMatch[];
-    errorMatches: string | Array<string>;
-    spinnerMatches: boolean = false;
+    championshipMatches: ChampionshipMatch[];
+    errorChampionshipMatches: string;
+    spinnerChampionshipMatches: boolean = false;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
-            this.spinnerMatches = true;
-            let competitionId = +params['competitionId'];
-            this.reloadComponent();
-            this.championshipMatchService.getCurrentCompetitionMatches('ended', competitionId)
+            this.resetData();
+            this.spinnerChampionshipMatches = true;
+            let param = [
+                {parameter: 'filter', value: 'ended'},
+                {parameter: 'competition_id', value: params['competitionId']},
+            ];
+            this.championshipMatchService.getChampionshipMatches(param)
                 .subscribe(
                     response => {
-                        this.spinnerMatches = false;
-                        this.matches = response;
+                        if (response) {
+                            this.championshipMatches = response.championship_matches;
+                        }
+                        this.spinnerChampionshipMatches = false;
                     },
                     error => {
-                        this.spinnerMatches = false;
-                        this.errorMatches = error;
+                        this.errorChampionshipMatches = error;
+                        this.spinnerChampionshipMatches = false;
                     }
                 );
         });    
     }
 
-    private reloadComponent() {
-        this.matches = null;
-        this.errorMatches = null;
+    private resetData(): void {
+        this.championshipMatches = null;
+        this.errorChampionshipMatches = null;
     }
 
 }

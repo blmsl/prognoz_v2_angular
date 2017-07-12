@@ -64,6 +64,24 @@ export class ChampionshipMatchService {
     }
 
     /**
+     * Get championship matches
+     * @param requestParams
+     * @returns {Observable<any>}
+     */
+    getChampionshipMatches(requestParams?: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        if (requestParams) {
+            for (let requestParam of requestParams) {
+                params.set(requestParam.parameter, requestParam.value);
+            }
+        }
+        return this.http
+            .get(this.championshipMatchUrl, requestParams ? {search: params} : null)
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
+    }
+
+    /**
      * Universal method for current championship matches get request
      * Available params: 'active', 'ended', 'last', 'predictable'
      * @param param

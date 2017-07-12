@@ -24,9 +24,10 @@ export class MatchEditActiveComponent implements OnInit {
 
     championshipMatchEditActiveForm: FormGroup;
 
-    activeMatches: Array<ChampionshipMatch> = [];
-    errorActiveMatches: string | Array<string>;
-    spinnerActiveMatches: boolean = false;
+    championshipMatches: ChampionshipMatch[];
+    errorChampionshipMatches: string;
+    spinnerChampionshipMatches: boolean = false;
+    noChampionshipMatches: string = 'В базі даних матчів не знайдено';
 
     clubs: Club[];
     errorClubs: string | Array<string>;
@@ -45,20 +46,23 @@ export class MatchEditActiveComponent implements OnInit {
             t2_id: ['', [Validators.required]],
             starts_at: ['', [Validators.required]]
         });
-        this.getActive();
+        this.getChampionshipMatchesData();
         this.getClubsData();
     }
 
-    private getActive() {
-        this.spinnerActiveMatches = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('active').subscribe(
+    private getChampionshipMatchesData() {
+        this.spinnerChampionshipMatches = true;
+        let param = [{parameter: 'filter', value: 'active'}];
+        this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
-                this.activeMatches = response;
-                this.spinnerActiveMatches = false;
+                if (response) {
+                    this.championshipMatches = response.championship_matches;
+                }
+                this.spinnerChampionshipMatches = false;
             },
             error => {
-                this.errorActiveMatches = error;
-                this.spinnerActiveMatches = false;
+                this.errorChampionshipMatches = error;
+                this.spinnerChampionshipMatches = false;
             }
         );
     }
@@ -86,7 +90,7 @@ export class MatchEditActiveComponent implements OnInit {
                         this.spinnerButton = false;
                         this.selectedMatch = response;
 
-                        this.getActive();
+                        this.getChampionshipMatchesData();
                         this.notificationService.success('Успішно', 'Матч змінено');
                     },
                     error => {
@@ -98,7 +102,7 @@ export class MatchEditActiveComponent implements OnInit {
     }
 
     onChange(id) {
-        this.selectedMatch = this.activeMatches.find(myObj => myObj.id == id);
+        this.selectedMatch = this.championshipMatches.find(myObj => myObj.id == id);
         this.championshipMatchEditActiveForm.patchValue({
             id: this.selectedMatch.id,
             t1_id: this.selectedMatch.t1_id,
@@ -116,5 +120,4 @@ export class MatchEditActiveComponent implements OnInit {
     resetForm() {
         this.championshipMatchEditActiveForm.reset();
     }
-
 }

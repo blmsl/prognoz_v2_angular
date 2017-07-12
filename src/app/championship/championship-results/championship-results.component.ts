@@ -15,21 +15,25 @@ export class ChampionshipResultsComponent implements OnInit {
         private championshipMatchService: ChampionshipMatchService
     ) { }
 
-    spinner: boolean = false;
-    matches: ChampionshipMatch[];
-    error: string;
+    championshipMatches: ChampionshipMatch[];
+    spinnerChampionshipMatches: boolean = false;
+    errorChampionshipMatches: string;
+
     clubsImagesUrl: string = environment.apiImageClubs;
   
     ngOnInit() {
-        this.spinner = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('ended').subscribe(
+        this.spinnerChampionshipMatches = true;
+        let param = [{parameter: 'filter', value: 'ended'}];
+        this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
-                this.spinner = false;
-                this.matches = response;
+                if (response) {
+                    this.championshipMatches = response.championship_matches;
+                }
+                this.spinnerChampionshipMatches = false;
             },
             error => {
-                this.error = error;
-                this.spinner = false;
+                this.errorChampionshipMatches = error;
+                this.spinnerChampionshipMatches = false;
             }
         );
     }
