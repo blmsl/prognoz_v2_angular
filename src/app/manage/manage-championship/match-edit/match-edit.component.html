@@ -5,9 +5,13 @@
         </div>
     </div>
     <!-- spinner -->
-    <app-spinner *ngIf="spinnerActiveMatches" [height]="250"></app-spinner>
+    <app-spinner *ngIf="spinnerChampionshipMatches" [height]="250"></app-spinner>
+    <!-- error -->
+    <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
+    <!-- no data -->
+    <app-info *ngIf="!championshipMatches && !spinnerChampionshipMatches && !errorChampionshipMatches" [message]="noChampionshipMatches"></app-info>
     <!-- matches -->
-    <div *ngIf="activeMatches" class="row">
+    <div *ngIf="championshipMatches" class="row">
         <div class="col-12">
             <table class="table table-hover table-inverse table-striped table-bordered">
                 <thead>
@@ -22,54 +26,54 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let match of activeMatches" [ngClass]="{'bg-success': updatedMatches['match_' + match.id]}">
+                    <tr *ngFor="let championshipMatch of championshipMatches" [ngClass]="{'bg-success': updatedMatches['match_' + championshipMatch.id]}">
                         <td class="hidden-sm-down align-middle text-center">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
-                                <strong class="fa-stack-1x text-success">{{match.number_in_competition}}</strong>
+                                <strong class="fa-stack-1x text-success">{{championshipMatch.number_in_competition}}</strong>
                             </span>
                         </td>
                         <td class="hidden-sm-down">
-                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.link}}">
-                            <small class="text-muted">{{match.starts_at}}</small>
-                            <img class="small-image" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.link}}"><br>
-                            <strong>{{match.club_first.title}}</strong> - <strong>{{match.club_second.title}}</strong>
+                            <img class="small-image" src="{{clubsImagesUrl}}{{championshipMatch.club_first.image}}" alt="{{championshipMatch.club_first.link}}">
+                            <small class="text-muted">{{championshipMatch.starts_at}}</small>
+                            <img class="small-image" src="{{clubsImagesUrl}}{{championshipMatch.club_second.image}}" alt="{{championshipMatch.club_second.link}}"><br>
+                            <strong>{{championshipMatch.club_first.title}}</strong> - <strong>{{championshipMatch.club_second.title}}</strong>
                         </td>
                         <td class="align-middle text-center">
                             <div class="hidden-md-up">
-                                <img class="small-image" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.link}}"><br>
-                                <small>{{match.club_first.title}}</small>
+                                <img class="small-image" src="{{clubsImagesUrl}}{{championshipMatch.club_first.image}}" alt="{{championshipMatch.club_first.link}}"><br>
+                                <small>{{championshipMatch.club_first.title}}</small>
                             </div>
                             <input type="number"
                                    class="form-control text-center"
                                    min="0"
                                    max="9"
                                    maxlength="1"
-                                   [disabled]="updatedMatches['match_' + match.id]"
-                                   [(ngModel)]="match.home">
+                                   [disabled]="updatedMatches['match_' + championshipMatch.id]"
+                                   [(ngModel)]="championshipMatch.home">
                         </td>
                         <td class="align-middle text-center">
                             <div class="hidden-md-up">
-                                <img class="small-image" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.link}}"><br>
-                                <small>{{match.club_second.title}}</small>
+                                <img class="small-image" src="{{clubsImagesUrl}}{{championshipMatch.club_second.image}}" alt="{{championshipMatch.club_second.link}}"><br>
+                                <small>{{championshipMatch.club_second.title}}</small>
                             </div>
                             <input type="number"
                                    class="form-control text-center"
                                    min="0"
                                    max="9"
                                    maxlength="1"
-                                   [disabled]="updatedMatches['match_' + match.id]"
-                                   [(ngModel)]="match.away">
+                                   [disabled]="updatedMatches['match_' + championshipMatch.id]"
+                                   [(ngModel)]="championshipMatch.away">
                         </td>
                         <td class="align-middle text-center">
-                            <button (click)="onSubmit(match)"
-                                    [hidden]="spinnerButton['match_' + match.id] || updatedMatches['match_' + match.id]"
+                            <button (click)="onSubmit(championshipMatch)"
+                                    [hidden]="spinnerButton['match_' + championshipMatch.id] || updatedMatches['match_' + championshipMatch.id]"
                                     class="btn btn-outline-success">
                                 <span class="hidden-sm-down">Додати</span>
                                 <i class="fa fa-plus-circle hidden-md-up" aria-hidden="true"></i>
                             </button>
-                            <app-spinner-button [hidden]="!spinnerButton['match_' + match.id]"></app-spinner-button>
-                            <i [hidden]="!updatedMatches['match_' + match.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>
+                            <app-spinner-button [hidden]="!spinnerButton['match_' + championshipMatch.id]"></app-spinner-button>
+                            <i [hidden]="!updatedMatches['match_' + championshipMatch.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>
                         </td>
                     </tr>
                 </tbody>

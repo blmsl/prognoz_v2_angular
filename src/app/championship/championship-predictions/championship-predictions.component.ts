@@ -5,23 +5,23 @@ import { Subscription }                         from 'rxjs/Subscription';
 import { AuthService }                          from '../../shared/auth.service';
 import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
-import { ChampionshipPredictService }           from '../shared/championship-predict.service';
+import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
 import { environment }                          from '../../../environments/environment';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
-  selector: 'app-championship-predicts',
-  templateUrl: './championship-predicts.component.html',
-  styleUrls: ['./championship-predicts.component.css']
+  selector: 'app-championship-predictions',
+  templateUrl: './championship-predictions.component.html',
+  styleUrls: ['./championship-predictions.component.css']
 })
-export class ChampionshipPredictsComponent implements OnInit, OnDestroy {
+export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
 
     constructor(
         private authService: AuthService,
         private championshipMatchService: ChampionshipMatchService,
-        private championshipPredictService: ChampionshipPredictService,
+        private championshipPredictionService: ChampionshipPredictionService,
         private currentStateService: CurrentStateService,
         private notificationService: NotificationsService
     ) { }
@@ -85,7 +85,7 @@ export class ChampionshipPredictsComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.championshipPredictService.update(predicts)
+        this.championshipPredictionService.update(predicts)
             .subscribe(
                 response => {
                     this.spinnerButton = false;

@@ -2,7 +2,7 @@ import { Component, OnInit }                    from '@angular/core';
 import { ActivatedRoute, Params }               from '@angular/router';
 
 import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
-import { ChampionshipPredictService }           from '../shared/championship-predict.service';
+import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { environment }                          from '../../../environments/environment';
@@ -19,7 +19,7 @@ export class ChampionshipUserComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private championshipPredictService: ChampionshipPredictService,
+        private championshipPredictionService: ChampionshipPredictionService,
         private championshipRatingService: ChampionshipRatingService,
         public helperService: HelperService,
         private userService: UserService
@@ -81,7 +81,7 @@ export class ChampionshipUserComponent implements OnInit {
 
     private getUserPredictions(id) {
         this.spinner = true;
-        this.championshipPredictService.user(id).subscribe(
+        this.championshipPredictionService.user(id).subscribe(
             response => {
                 this.predicts = response;
                 this.spinner = false;

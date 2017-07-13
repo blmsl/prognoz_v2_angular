@@ -9,7 +9,7 @@ import { HeadersWithToken }                 from '../../shared/headers-with-toke
 
 @Injectable()
 
-export class ChampionshipPredictService {
+export class ChampionshipPredictionService {
 
     constructor(
         private errorHandlerService: ErrorHandlerService,

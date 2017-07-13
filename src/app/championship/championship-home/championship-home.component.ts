@@ -6,7 +6,7 @@ import { AuthService }                          from '../../shared/auth.service'
 import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
 import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
-import { ChampionshipPredictService }           from '../shared/championship-predict.service';
+import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
@@ -25,7 +25,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     constructor(
         private authService: AuthService,
         private championshipMatchService: ChampionshipMatchService,
-        private championshipPredictService: ChampionshipPredictService,
+        private championshipPredictionService: ChampionshipPredictionService,
         private championshipRatingService: ChampionshipRatingService,
         private currentStateService: CurrentStateService,
         public helperService: HelperService,
@@ -106,7 +106,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
             }
         }
         
-        this.championshipPredictService.update(predicts)
+        this.championshipPredictionService.update(predicts)
             .subscribe(
                 response => {
                     this.spinnerButton = false;
@@ -158,7 +158,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
 
     public getLastPredictions() {
         this.spinnerPredictions = true;
-        this.championshipPredictService.get().subscribe(
+        this.championshipPredictionService.get().subscribe(
             response => {
                 this.predictions = response;
                 this.spinnerPredictions = false;

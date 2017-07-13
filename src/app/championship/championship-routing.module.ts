@@ -1,14 +1,14 @@
-import { NgModule }                      from '@angular/core';
-import { RouterModule, Routes }          from '@angular/router';
+import { NgModule }                         from '@angular/core';
+import { RouterModule, Routes }             from '@angular/router';
 
-import { ChampionshipComponent }         from './championship.component';
-import { ChampionshipHomeComponent }     from './championship-home/championship-home.component';
-import { ChampionshipMatchComponent }    from './championship-match/championship-match.component';
-import { ChampionshipPredictsComponent } from './championship-predicts/championship-predicts.component';
-import { ChampionshipRatingComponent }   from './championship-rating/championship-rating.component';
-import { ChampionshipResultsComponent }  from './championship-results/championship-results.component';
-import { ChampionshipRulesComponent }    from './championship-rules/championship-rules.component';
-import { ChampionshipUserComponent }     from './championship-user/championship-user.component';
+import { ChampionshipComponent }            from './championship.component';
+import { ChampionshipHomeComponent }        from './championship-home/championship-home.component';
+import { ChampionshipMatchComponent }       from './championship-match/championship-match.component';
+import { ChampionshipPredictionsComponent } from './championship-predictions/championship-predictions.component';
+import { ChampionshipRatingComponent }      from './championship-rating/championship-rating.component';
+import { ChampionshipResultsComponent }     from './championship-results/championship-results.component';
+import { ChampionshipRulesComponent }       from './championship-rules/championship-rules.component';
+import { ChampionshipUserComponent }        from './championship-user/championship-user.component';
 
 const routes: Routes = [
     {
@@ -22,7 +22,7 @@ const routes: Routes = [
             },
             {
                 path: 'predictions',
-                component: ChampionshipPredictsComponent
+                component: ChampionshipPredictionsComponent
             },
             {
                 path: 'rating',

@@ -1,14 +1,14 @@
-import { Component, OnInit }          from '@angular/core';
-import { ActivatedRoute, Params }     from '@angular/router';
+import { Component, OnInit }             from '@angular/core';
+import { ActivatedRoute, Params }        from '@angular/router';
 
-import { ChampionshipPredict }        from '../../../../shared/models/championship-predict.model';
-import { ChampionshipPredictService } from '../../../shared/championship-predict.service';
-import { ChampionshipRating }         from '../../../../shared/models/championship-rating.model';
-import { ChampionshipRatingService }  from '../../../shared/championship-rating.service';
-import { environment }                from '../../../../../environments/environment';
-import { HelperService }              from '../../../../shared/helper.service';
-import { User }                       from '../../../../shared/models/user.model';
-import { UserService }                from '../../../../shared/user.service';
+import { ChampionshipPredict }           from '../../../../shared/models/championship-predict.model';
+import { ChampionshipPredictionService } from '../../../shared/championship-prediction.service';
+import { ChampionshipRating }            from '../../../../shared/models/championship-rating.model';
+import { ChampionshipRatingService }     from '../../../shared/championship-rating.service';
+import { environment }                   from '../../../../../environments/environment';
+import { HelperService }                 from '../../../../shared/helper.service';
+import { User }                          from '../../../../shared/models/user.model';
+import { UserService }                   from '../../../../shared/user.service';
 
 @Component({
   selector: 'app-championship-competition-user',
@@ -19,7 +19,7 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private championshipPredictService: ChampionshipPredictService,
+        private championshipPredictionService: ChampionshipPredictionService,
         private championshipRatingService: ChampionshipRatingService,
         public helperService: HelperService,
         private userService: UserService
@@ -82,7 +82,7 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
 
     private getUserPredictions(userId: number, competitionId: number) {
         this.spinnerPredictions = true;
-        this.championshipPredictService.user(userId, competitionId).subscribe(
+        this.championshipPredictionService.user(userId, competitionId).subscribe(
             response => {
                 this.predictions = response;
                 this.spinnerPredictions = false;

@@ -22,9 +22,10 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
         private clubService: ClubService
     ) { }
 
-    endedMatches: Array<ChampionshipMatch> = [];
-    errorEndedMatches: string | Array<string>;
-    spinnerEndedMatches: boolean = false;
+    championshipMatches: ChampionshipMatch[];
+    errorChampionshipMatches: string;
+    spinnerChampionshipMatches: boolean = false;
+    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
 
     clubs: Club[];
     errorClubs: string | Array<string>;
@@ -38,7 +39,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     spinnerUpdateRatingButton: boolean = false;
 
     ngOnInit() {
-        this.getEnded();
+        this.getChampionshipMatchesData();
         this.getClubsData();
     }
 
@@ -48,16 +49,19 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
         }
     }
   
-    private getEnded() {
-        this.spinnerEndedMatches = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('ended').subscribe(
+    private getChampionshipMatchesData() {
+        this.spinnerChampionshipMatches = true;
+        let param = [{parameter: 'filter', value: 'ended'}];
+        this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
-              this.endedMatches = response;
-              this.spinnerEndedMatches = false;
+                if (response) {
+                    this.championshipMatches = response.championship_matches;
+                }
+              this.spinnerChampionshipMatches = false;
             },
             error => {
-              this.errorEndedMatches = error;
-              this.spinnerEndedMatches = false;
+                this.errorChampionshipMatches = error;
+                this.spinnerChampionshipMatches = false;
             }
         );
     }
@@ -66,12 +70,12 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
         this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
-              this.clubs = response.clubs;
-              this.spinnerClubs = false;
+                this.clubs = response.clubs;
+                this.spinnerClubs = false;
             },
             error => {
-              this.errorClubs = error;
-              this.spinnerClubs = false;
+                this.errorClubs = error;
+                this.spinnerClubs = false;
             }
         );
     }
