@@ -1,6 +1,6 @@
-import { Injectable }       from '@angular/core';
-import { Http, Headers }    from '@angular/http';
-import { Observable }       from 'rxjs/Observable';
+import { Injectable }                       from '@angular/core';
+import { Http, Headers, URLSearchParams }   from '@angular/http';
+import { Observable }                       from 'rxjs/Observable';
 
 @Injectable()
 export class HeadersWithToken {
@@ -23,10 +23,10 @@ export class HeadersWithToken {
         headers.append('Content-Type', 'application/json');
     }
 
-    get(url): Observable<any> {
+    get(url, params?: URLSearchParams): Observable<any> {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        return this.http.get(url, { headers: headers });
+        return this.http.get(url, { headers: headers, search: (params ? params : null) });
     }
 
     post(url, data): Observable<any> {

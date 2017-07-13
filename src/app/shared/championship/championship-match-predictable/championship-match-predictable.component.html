@@ -60,7 +60,7 @@
     </div>
 </div>
 <!-- one match row (if user is authenticated)-->
-<div *ngIf="match && authenticatedUser"
+<div *ngIf="match && authenticatedUser && match.championship_predicts"
      class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
      [ngClass]="{'green-inset-and-black-shadow': match.championship_predicts[0],
                  'red-inset-and-black-shadow': !match.championship_predicts[0]}"

@@ -26,23 +26,25 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
         private notificationService: NotificationsService
     ) { }
 
-    authenticatedUser: User = this.currentStateService.user;
-    spinner: boolean = false;
+    championshipMatches: ChampionshipMatch[];
+    spinnerChampionshipMatches: boolean = false;
+    errorChampionshipMatches: string;
+    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
+
     spinnerButton: boolean = false;
-    error: string | Array<string>;
-    matches: ChampionshipMatch[];
     championshipPredictsForm: FormGroup;
+
     clubsImagesUrl: string = environment.apiImageClubs;
+    authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
 
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
-            this.getMatches();
+            this.getChampionshipMatchesData();
         });
-        this.spinner = true;
         this.championshipPredictsForm = new FormGroup({});
-        this.getMatches();
+        this.getChampionshipMatchesData();
     }
 
     ngOnDestroy() {
@@ -90,7 +92,7 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
                 response => {
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
-                    this.getMatches();
+                    this.getChampionshipMatchesData();
                 },
                 error => {
                     this.spinnerButton = false;
@@ -99,33 +101,50 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
             );
     }
 
-    private getMatches() {
-        this.spinner = true;
-        this.championshipMatchService.getCurrentCompetitionMatches('predictable', null, this.authenticatedUser)
-            .subscribe(
+    private getChampionshipMatchesData() {
+        this.spinnerChampionshipMatches = true;
+        let param = [{parameter: 'filter', value: 'predictable'}];
+        if (this.authenticatedUser) {
+            this.championshipMatchService.getChampionshipPredictableMatches(param).subscribe(
                 response => {
-                    this.updateForm(response);
-                    this.spinner = false;
+                    if (response) {
+                        this.updateForm(response.championship_matches, true);
+                    }
+                    this.spinnerChampionshipMatches = false;
                 },
                 error => {
-                    this.error = error;
-                    this.spinner = false;
+                    this.errorChampionshipMatches = error;
+                    this.spinnerChampionshipMatches = false;
                 }
             );
+        } else {
+            this.championshipMatchService.getChampionshipMatches(param).subscribe(
+                response => {
+                    if (response) {
+                        this.updateForm(response.championship_matches, false);
+                    }
+                    this.spinnerChampionshipMatches = false;
+                },
+                error => {
+                    this.errorChampionshipMatches = error;
+                    this.spinnerChampionshipMatches = false;
+                }
+            );
+        }
     }
 
-    private updateForm(matches: ChampionshipMatch[]) {
-        this.matches = matches;
-        if (this.authenticatedUser) {
+    private updateForm(matches: ChampionshipMatch[], isAuthenticatedUser: boolean) {
+        this.championshipMatches = matches;
+        if (isAuthenticatedUser) {
             this.championshipPredictsForm = new FormGroup({});
-            for (let match of this.matches) {
-                let home = match.championship_predicts[0] ? match.championship_predicts[0].home : null;
-                let away = match.championship_predicts[0] ? match.championship_predicts[0].away : null;
+            for (let match of this.championshipMatches) {
+                let home = match.championship_predicts.length ? match.championship_predicts[0].home : null;
+                let away = match.championship_predicts.length ? match.championship_predicts[0].away : null;
                 this.championshipPredictsForm.addControl(match.id + '_home', new FormControl(home));
                 this.championshipPredictsForm.addControl(match.id + '_away', new FormControl(away));
             }
         } else {
-            for (let match of this.matches) {
+            for (let match of this.championshipMatches) {
                 this.championshipPredictsForm.removeControl(match.id + '_home');
                 this.championshipPredictsForm.removeControl(match.id + '_away');
             }

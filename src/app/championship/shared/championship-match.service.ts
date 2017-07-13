@@ -82,26 +82,21 @@ export class ChampionshipMatchService {
     }
 
     /**
-     * Universal method for current championship matches get request
-     * Available params: 'active', 'ended', 'last', 'predictable'
-     * @param param
-     * @param competitionId
-     * @param authenticatedUser
-     * @returns {Promise<ErrorObservable<T>|T>|Promise<ErrorObservable<T>>|any|Promise<R>}
+     * Get matches with current user prediction.
+     * It has to be a separate method with separate backend path
+     * Because backend can't get current authenticated user if we don't use HeadersWithToken service.
+     * @param requestParams
+     * @returns {Observable<any>}
      */
-    getCurrentCompetitionMatches(param = null, competitionId: number = null, authenticatedUser?: User): Observable<ChampionshipMatch[]> {
-        let url = param ? (this.championshipMatchUrl + '?filter=' + param) : this.championshipMatchUrl;
-        if (!param && competitionId) url += '?competition_id=' + competitionId;
-        if (param && competitionId) url += '&competition_id=' + competitionId;
-        if (param === 'predictable' && authenticatedUser) {
-            return this.headersWithToken
-                .get(environment.apiUrl + 'championship/predicts?filter=' + param)
-                .map(response => response.json().championship_matches || [])
-                .catch(this.errorHandlerService.handle);
+    getChampionshipPredictableMatches(requestParams: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        let url = `${this.championshipMatchUrl}-predictable`;
+        for (let requestParam of requestParams) {
+            params.set(requestParam.parameter, requestParam.value);
         }
-        return this.http
-            .get(url)
-            .map(response => response.json().championship_matches || [])
+        return this.headersWithToken
+            .get(url, params)
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 

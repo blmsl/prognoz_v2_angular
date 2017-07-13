@@ -1,21 +1,23 @@
 <h2>Прогнози: </h2>
 <!-- spinner -->
-<app-spinner *ngIf="spinner" [height]="250"></app-spinner>
+<app-spinner *ngIf="spinnerChampionshipMatches" [height]="250"></app-spinner>
 <!-- error -->
-<app-error *ngIf="error" [message]="error"></app-error>
+<app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
+<!-- no data -->
+<app-info *ngIf="!championshipMatches && !spinnerChampionshipMatches && !errorChampionshipMatches" [message]="noChampionshipMatches"></app-info>
 <!-- championship-match-predictable component-->
-<div *ngIf="matches && !spinner" class="container-fluid">
+<div *ngIf="championshipMatches && !spinnerChampionshipMatches" class="container-fluid">
     <!-- matches form -->
     <form novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
-        <app-championship-match-predictable *ngFor="let match of matches"
-                                            [match]="match"
+        <app-championship-match-predictable *ngFor="let championshipMatch of championshipMatches"
+                                            [match]="championshipMatch"
                                             [authenticatedUser]="authenticatedUser"
                                             [championshipPredictsForm]="championshipPredictsForm">
         </app-championship-match-predictable>
         <!-- button row (only if predictable matches exists) -->
         <div class="row mb-2">
             <!-- submit form button -->
-            <div *ngIf="matches.length && authenticatedUser" class="col-12 text-center">
+            <div *ngIf="championshipMatches.length && authenticatedUser" class="col-12 text-center">
                 <!-- add/update predicts button -->
                 <button [hidden]="spinnerButton" class="btn btn-primary">
                     <i class="fa fa-check-circle-o" aria-hidden="true"></i> Зробити прогнози
@@ -24,7 +26,7 @@
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </div>
             <!-- login and registration links -->
-            <div *ngIf="matches.length && !authenticatedUser" class="col-12 text-center">
+            <div *ngIf="championshipMatches.length && !authenticatedUser" class="col-12 text-center">
                 <div class="btn-group" role="group" aria-label="Signin and signup links">
                     <button routerLink="/signin" type="button" class="btn btn-primary">
                         <i class="fa fa fa-sign-in" aria-hidden="true"></i> Вхід
@@ -36,8 +38,4 @@
             </div>
         </div>
     </form>
-</div>
-<!-- message if no predictable matches -->
-<div class="container-fluid">
-    <app-info *ngIf="matches && !matches.length" [message]="'Доступних для прогнозування матчів немає'"></app-info>
 </div>
