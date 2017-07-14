@@ -23,16 +23,17 @@ export class HomeComponent implements OnInit {
     spinnerNews: boolean = false;
     errorNews: string | Array<string>;
     noNews: string = 'В базі даних новин не знайдено.';
-    newsImagesUrl: string = environment.apiImageNews;
 
-    matches: ChampionshipMatch[];
-    spinnerMatches: boolean = false;
-    errorMatches: string | Array<string>;
+    championshipMatches: ChampionshipMatch[];
+    spinnerChampionshipMatches: boolean = false;
+    errorChampionshipMatches: string;
+
+    newsImagesUrl: string = environment.apiImageNews;
     clubsImagesUrl: string = environment.apiImageClubs;
 
     ngOnInit() {
         this.getNewsData();
-        this.getMatches();
+        this.getMatchesData();
     }
 
     private getNewsData() {
@@ -51,16 +52,22 @@ export class HomeComponent implements OnInit {
         );
     }
 
-    private getMatches() {
-        this.spinnerMatches = true;
-        this.championshipMatchService.getPredictableMatches(null, true).subscribe(
+    private getMatchesData() {
+        this.spinnerChampionshipMatches = true;
+        let param = [
+            {parameter: 'filter', value: 'predictable'},
+            {parameter: 'coming', value: 'true'}
+        ];
+        this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
-                this.matches = response;
-                this.spinnerMatches = false;
+                if (response) {
+                    this.championshipMatches = response.championship_matches;
+                }
+                this.spinnerChampionshipMatches = false;
             },
             error => {
-                this.errorMatches = error;
-                this.spinnerMatches = false;
+                this.errorChampionshipMatches = error;
+                this.spinnerChampionshipMatches = false;
             }
         );
     }

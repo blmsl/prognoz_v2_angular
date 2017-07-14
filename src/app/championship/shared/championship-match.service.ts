@@ -99,28 +99,4 @@ export class ChampionshipMatchService {
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
-
-    /**
-     * Get predictable matches by date
-     * @param authenticatedUser
-     * @param coming
-     * @returns {Observable<ChampionshipMatch[]>}
-     */
-    getPredictableMatches(authenticatedUser?: User, coming?: boolean): Observable<ChampionshipMatch[]> {
-        if (authenticatedUser) {
-            let url = environment.apiUrl + 'championship/predicts?filter=predictable';
-            if (coming) url += '&coming=true';
-            return this.headersWithToken
-                .get(url)
-                .map(response => response.json().championship_matches || [])
-                .catch(this.errorHandlerService.handle);
-        } else {
-            let url = environment.apiUrl + 'championship/matches?filter=predictable';
-            if (coming) url += '&coming=true';
-            return this.http
-                .get(url)
-                .map(response => response.json().championship_matches || [])
-                .catch(this.errorHandlerService.handle);
-        }
-    }
 }

@@ -1,21 +1,21 @@
 <!-- TODAY MATCHES -->
-<h2 *ngIf="matches">Найближчі матчі: </h2>
+<h2 *ngIf="championshipMatches">Найближчі матчі: </h2>
 <!-- spinner -->
-<app-spinner *ngIf="spinnerMatches" [height]="250"></app-spinner>
+<app-spinner *ngIf="spinnerChampionshipMatches" [height]="250"></app-spinner>
 <!-- error -->
-<app-error *ngIf="error" [message]="error"></app-error>
+<app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
 <!-- championship-match-predictable component-->
-<div *ngIf="matches && !spinnerMatches" class="container-fluid">
+<div *ngIf="championshipMatches && !spinnerChampionshipMatches" class="container-fluid">
     <form novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit()">
-        <app-championship-match-predictable *ngFor="let match of matches"
-                                            [match]="match"
+        <app-championship-match-predictable *ngFor="let championshipMatch of championshipMatches"
+                                            [match]="championshipMatch"
                                             [authenticatedUser]="authenticatedUser"
                                             [championshipPredictsForm]="championshipPredictsTodayForm">
         </app-championship-match-predictable>
         <!--button row (only if predictable matches exists)-->
         <div class="row">
             <!-- submit form button -->
-            <div *ngIf="matches.length && authenticatedUser" class="col-12 text-center">
+            <div *ngIf="championshipMatches.length && authenticatedUser" class="col-12 text-center">
                 <!-- add/update predicts button -->
                 <button [hidden]="spinnerButton" class="btn btn-primary">
                     <i class="fa fa-check-circle-o" aria-hidden="true"></i> Зробити прогнози
@@ -24,7 +24,7 @@
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </div>
             <!-- login and registration links -->
-            <div *ngIf="matches.length && !authenticatedUser" class="col-12 text-center">
+            <div *ngIf="championshipMatches.length && !authenticatedUser" class="col-12 text-center">
                 <div class="btn-group" role="group" aria-label="Signin and signup links">
                     <button routerLink="/signin" type="button" class="btn btn-primary">
                         <i class="fa fa fa-sign-in" aria-hidden="true"></i> Вхід
@@ -42,7 +42,7 @@
 <div *ngIf="championshipRatingItems && championshipRatingItems.length" class="row align-items-end mt-2">
     <div class="col-12 col-sm-5 col-md-6">
         <h2>Топ-{{championshipRatingItems.length}} рейтингу:
-            <button (click)="getTopRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+            <button (click)="getChampionshipRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
                 <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
             </button>
         </h2>

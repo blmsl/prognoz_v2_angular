@@ -1,12 +1,12 @@
 <!-- coming matches slider -->
 <div class="hidden-md-down">
     <!-- spinner -->
-    <app-spinner *ngIf="spinnerMatches" [height]="400"></app-spinner>
+    <app-spinner *ngIf="spinnerChampionshipMatches" [height]="400"></app-spinner>
     <!-- error -->
-    <app-error *ngIf="errorMatches" [message]="errorMatches"></app-error>
-    <div *ngIf="matches && matches.length" id="carousel" class="carousel slide bg-black" data-ride="carousel">
+    <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
+    <div *ngIf="championshipMatches" id="carousel" class="carousel slide bg-black" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
-            <div *ngFor="let match of matches; let i = index;" class="carousel-item" [class.active]="i === 0">
+            <div *ngFor="let championshipMatch of championshipMatches; let i = index;" class="carousel-item" [class.active]="i === 0">
                 <div class="container">
                     <div class="row">
                         <!-- first club -->
@@ -16,7 +16,7 @@
                                 <div class="col-12">
                                     <div class="row align-items-center logo-block p-4">
                                         <div class="col logo"
-                                             [style.background-image]="'url(' + clubsImagesUrl + match.club_first.image + ')'">
+                                             [style.background-image]="'url(' + clubsImagesUrl + championshipMatch.club_first.image + ')'">
                                         </div>
                                     </div>
                                 </div>
@@ -24,7 +24,7 @@
                                 <div class="col text-center" >
                                     <div class="row align-items-center title-block">
                                         <div class="col">
-                                            <h2>{{match.club_first.title}}</h2>
+                                            <h2>{{championshipMatch.club_first.title}}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                                 <div class="col text-center">
                                     <div class="row align-items-center title-block">
                                         <div class="col">
-                                            <h2>{{match.club_second.title}}</h2>
+                                            <h2>{{championshipMatch.club_second.title}}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -51,14 +51,14 @@
                                 <div class="col-12">
                                     <div class="row align-items-center logo-block p-4">
                                         <div class="col logo"
-                                             [style.background-image]="'url(' + clubsImagesUrl + match.club_second.image + ')'">
+                                             [style.background-image]="'url(' + clubsImagesUrl + championshipMatch.club_second.image + ')'">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="carousel-caption d-none d-md-block">
-                            <h3>{{ match.starts_at.slice(0, -3) }}</h3>
+                            <h3>{{ championshipMatch.starts_at.slice(0, -3) }}</h3>
                         </div>
                     </div>
                 </div>

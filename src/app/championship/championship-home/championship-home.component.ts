@@ -34,35 +34,34 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
 
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
+
     clubsImagesUrl: string = environment.apiImageClubs;
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
 
-    /* predictions form / matches */
-    spinnerMatches: boolean = false;
+    championshipMatches: ChampionshipMatch[];
+    spinnerChampionshipMatches: boolean = false;
+    errorChampionshipMatches: string | Array<string>;
+
     spinnerButton: boolean = false;
-    error: string | Array<string>;
-    matches: ChampionshipMatch[];
     championshipPredictsTodayForm: FormGroup;
 
-    /* last predictions */
     spinnerPredictions: boolean = false;
     errorPredictions: string | Array<string>;
     predictions: ChampionshipPredict[];
 
-    /* rating */
+    championshipRatingItems: ChampionshipRating[];
     spinnerRating: boolean = false;
     errorRating: string;
-    championshipRatingItems: ChampionshipRating[];
 
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
-            this.getMatches();
+            this.getChampionshipMatchesData();
         });
         this.championshipPredictsTodayForm = new FormGroup({});
-        this.getMatches();
-        this.getTopRating();
+        this.getChampionshipMatchesData();
+        this.getChampionshipRating();
         this.getLastPredictions();
     }
 
@@ -111,7 +110,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
                 response => {
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
-                    this.getMatches();
+                    this.getChampionshipMatchesData();
                     this.getLastPredictions();
                 },
                 error => {
@@ -121,35 +120,55 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
             );
     }
 
-    public getMatches() {
-        this.spinnerMatches = true;
-        this.championshipMatchService.getPredictableMatches(this.authenticatedUser, true)
-            .subscribe(
-                response => {
-                    if (response.length) {
-                        this.updateForm(response);
+    public getChampionshipMatchesData() {
+        this.spinnerChampionshipMatches = true;
+        let param = [
+            {parameter: 'filter', value: 'predictable'},
+            {parameter: 'coming', value: 'true'}
+        ];
+        if (this.authenticatedUser) {
+            this.championshipMatchService.getChampionshipPredictableMatches(param)
+                .subscribe(
+                    response => {
+                        if (response) {
+                            this.updateForm(response.championship_matches, true);
+                        }
+                        this.spinnerChampionshipMatches = false;
+                    },
+                    error => {
+                        this.errorChampionshipMatches = error;
+                        this.spinnerChampionshipMatches = false;
                     }
-                    this.spinnerMatches = false;
-                },
-                error => {
-                    this.error = error;
-                    this.spinnerMatches = false;
-                }
-            );
+                );
+        } else {
+            this.championshipMatchService.getChampionshipMatches(param)
+                .subscribe(
+                    response => {
+                        if (response) {
+                            this.updateForm(response.championship_matches, false);
+                        }
+                        this.spinnerChampionshipMatches = false;
+                    },
+                    error => {
+                        this.errorChampionshipMatches = error;
+                        this.spinnerChampionshipMatches = false;
+                    }
+                );
+        }
     }
 
-    private updateForm(matches: ChampionshipMatch[]) {
-        this.matches = matches;
-        if (this.authenticatedUser) {
+    private updateForm(matches: ChampionshipMatch[], isAuthenticatedUser: boolean) {
+        this.championshipMatches = matches;
+        if (isAuthenticatedUser) {
             this.championshipPredictsTodayForm = new FormGroup({});
-            for (let match of this.matches) {
-                let home = match.championship_predicts[0] ? match.championship_predicts[0].home : null;
-                let away = match.championship_predicts[0] ? match.championship_predicts[0].away : null;
+            for (let match of this.championshipMatches) {
+                let home = match.championship_predicts.length ? match.championship_predicts[0].home : null;
+                let away = match.championship_predicts.length ? match.championship_predicts[0].away : null;
                 this.championshipPredictsTodayForm.addControl(match.id + '_home', new FormControl(home));
                 this.championshipPredictsTodayForm.addControl(match.id + '_away', new FormControl(away));
             }
         } else {
-            for (let match of this.matches) {
+            for (let match of this.championshipMatches) {
                 this.championshipPredictsTodayForm.removeControl(match.id + '_home');
                 this.championshipPredictsTodayForm.removeControl(match.id + '_away');
             }
@@ -170,7 +189,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
         );
     }
 
-    public getTopRating() {
+    public getChampionshipRating() {
         this.resetRatingData();
         this.spinnerRating = true;
         let param = [{parameter: 'limit', value: '5'}];
