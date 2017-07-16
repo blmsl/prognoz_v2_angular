@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable }           from '@angular/core';
+import { FormGroup }            from '@angular/forms';
+
+import { ChampionshipPredict }  from './models/championship-predict.model';
 
 @Injectable()
 
@@ -7,8 +10,7 @@ export class HelperService {
     constructor() { }
 
     /**
-     * check if score is present
-     *
+     * Check if score is present
      * @param home
      * @param away
      * @returns {boolean}
@@ -21,8 +23,7 @@ export class HelperService {
     }
 
     /**
-     * return user points of the match
-     *
+     * Returns user points of the match
      * @param resultHome
      * @param resultAway
      * @param predictHome
@@ -89,8 +90,7 @@ export class HelperService {
     }
 
     /**
-     * return hometown or nothing
-     *
+     * Returns hometown or empty string
      * @param hometown
      * @returns {string}
      */
@@ -99,8 +99,7 @@ export class HelperService {
     }
 
     /**
-     * returns unsiged number
-     *
+     * Returns unsigned number
      * @param moving
      * @returns {number}
      */
@@ -109,8 +108,7 @@ export class HelperService {
     }
 
     /**
-     * show match scores or string from params
-     *
+     * Show match scores or string from params
      * @param home
      * @param away
      * @param noScore
@@ -122,5 +120,54 @@ export class HelperService {
         }
 
         return noScore;
+    }
+
+    /**
+     * Receives form of championship predictions, validates it,
+     * and returns ready to send array
+     * @param championshipPredictionsForm
+     * @returns {ChampionshipPredict[]}
+     */
+    createChampionshipPredictionsArray(championshipPredictionsForm: FormGroup): ChampionshipPredict[] {
+        let championshipPredictionsToUpdate: ChampionshipPredict[] = [];
+        for (let championshipPrediction in championshipPredictionsForm.value) {
+            let championshipMatchId = parseInt(championshipPrediction.split('_')[0]);
+            // If there is no predictions on match
+            if ((championshipPredictionsForm.value[championshipMatchId + '_home'] === null) &&
+                (championshipPredictionsForm.value[championshipMatchId + '_away'] === null)) {
+                continue;
+            }
+            // I don't know why I did that, but it works:
+            let currentMatch = championshipPredictionsToUpdate.find(myObj => myObj.match_id === championshipMatchId);
+            if (!currentMatch) {
+                // If there is prediction only on home team
+                if ((championshipPredictionsForm.value[championshipMatchId + '_home'] !== null) &&
+                    (championshipPredictionsForm.value[championshipMatchId + '_away'] === null)) {
+                    championshipPredictionsToUpdate.push({
+                        match_id: championshipMatchId,
+                        home: championshipPredictionsForm.value[championshipMatchId + '_home'],
+                        away: 0
+                    });
+                    continue;
+                }
+                // If there is prediction only on away team
+                if ((championshipPredictionsForm.value[championshipMatchId + '_home'] === null) &&
+                    (championshipPredictionsForm.value[championshipMatchId + '_away'] !== null)) {
+                    championshipPredictionsToUpdate.push({
+                        match_id: championshipMatchId,
+                        home: 0,
+                        away: championshipPredictionsForm.value[championshipMatchId + '_away']
+                    });
+                    continue;
+                }
+                championshipPredictionsToUpdate.push({
+                    match_id: championshipMatchId,
+                    home: championshipPredictionsForm.value[championshipMatchId + '_home'],
+                    away: championshipPredictionsForm.value[championshipMatchId + '_away']
+                });
+            }
+        }
+
+        return championshipPredictionsToUpdate;
     }
 }

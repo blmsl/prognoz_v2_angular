@@ -44,11 +44,11 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     errorChampionshipMatches: string | Array<string>;
 
     spinnerButton: boolean = false;
-    championshipPredictsTodayForm: FormGroup;
+    championshipPredictionsForm: FormGroup;
 
-    spinnerPredictions: boolean = false;
-    errorPredictions: string | Array<string>;
-    predictions: ChampionshipPredict[];
+    championshipPredictions: ChampionshipPredict[];
+    spinnerChampionshipPredictions: boolean = false;
+    errorChampionshipPredictions: string;
 
     championshipRatingItems: ChampionshipRating[];
     spinnerRating: boolean = false;
@@ -59,10 +59,10 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
             this.authenticatedUser = result;
             this.getChampionshipMatchesData();
         });
-        this.championshipPredictsTodayForm = new FormGroup({});
+        this.championshipPredictionsForm = new FormGroup({});
         this.getChampionshipMatchesData();
-        this.getChampionshipRating();
-        this.getLastPredictions();
+        this.getChampionshipRatingData();
+        this.getChampionshipPredictionsData();
     }
 
     ngOnDestroy() {
@@ -73,45 +73,14 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         this.spinnerButton = true;
-        let predicts = [];
-        for (let predict in this.championshipPredictsTodayForm.value) {
-            let id = parseInt(predict.split('_')[0]);
-            // if there is no predicts on match
-            if ((this.championshipPredictsTodayForm.value[id + '_home'] === null) && (this.championshipPredictsTodayForm.value[id + '_away'] === null)) {
-                continue;
-            }
-            let currentMatch = predicts.find(myObj => myObj.params.match_id === id);
-            if (!currentMatch) {
-                // if there is predict only on home team
-                if ((this.championshipPredictsTodayForm.value[id + '_home'] !== null) && (this.championshipPredictsTodayForm.value[id + '_away'] === null)) {
-                    predicts.push({params: {match_id: id}, values: {home: this.championshipPredictsTodayForm.value[id + '_home'], away: 0}});
-                    continue;
-                }
-                // if there is predict only on away team
-                if ((this.championshipPredictsTodayForm.value[id + '_home'] === null) && (this.championshipPredictsTodayForm.value[id + '_away'] !== null)) {
-                    predicts.push({params: {match_id: id}, values: {home: 0, away: this.championshipPredictsTodayForm.value[id + '_away']}});
-                    continue;
-                }
-                // if there is predicts on two teams
-                predicts.push({
-                    params: {
-                        match_id: id,
-                    },
-                    values: {
-                        home: this.championshipPredictsTodayForm.value[id + '_home'],
-                        away: this.championshipPredictsTodayForm.value[id + '_away']
-                    }
-                });
-            }
-        }
-        
-        this.championshipPredictionService.update(predicts)
+        let championshipPredictionsToUpdate = this.helperService.createChampionshipPredictionsArray(this.championshipPredictionsForm);
+        this.championshipPredictionService.updateChampionshipPredictions(championshipPredictionsToUpdate)
             .subscribe(
                 response => {
                     this.spinnerButton = false;
                     this.notificationService.success('Успішно', 'Прогнози прийнято');
                     this.getChampionshipMatchesData();
-                    this.getLastPredictions();
+                    this.getChampionshipPredictionsData();
                 },
                 error => {
                     this.spinnerButton = false;
@@ -160,36 +129,39 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     private updateForm(matches: ChampionshipMatch[], isAuthenticatedUser: boolean) {
         this.championshipMatches = matches;
         if (isAuthenticatedUser) {
-            this.championshipPredictsTodayForm = new FormGroup({});
+            this.championshipPredictionsForm = new FormGroup({});
             for (let match of this.championshipMatches) {
                 let home = match.championship_predicts.length ? match.championship_predicts[0].home : null;
                 let away = match.championship_predicts.length ? match.championship_predicts[0].away : null;
-                this.championshipPredictsTodayForm.addControl(match.id + '_home', new FormControl(home));
-                this.championshipPredictsTodayForm.addControl(match.id + '_away', new FormControl(away));
+                this.championshipPredictionsForm.addControl(match.id + '_home', new FormControl(home));
+                this.championshipPredictionsForm.addControl(match.id + '_away', new FormControl(away));
             }
         } else {
             for (let match of this.championshipMatches) {
-                this.championshipPredictsTodayForm.removeControl(match.id + '_home');
-                this.championshipPredictsTodayForm.removeControl(match.id + '_away');
+                this.championshipPredictionsForm.removeControl(match.id + '_home');
+                this.championshipPredictionsForm.removeControl(match.id + '_away');
             }
         }
     }
 
-    public getLastPredictions() {
-        this.spinnerPredictions = true;
-        this.championshipPredictionService.get().subscribe(
+    public getChampionshipPredictionsData() {
+        this.spinnerChampionshipPredictions = true;
+        let param = [{parameter: 'distinct', value: 'true'}];
+        this.championshipPredictionService.getChampionshipPredictions(param).subscribe(
             response => {
-                this.predictions = response;
-                this.spinnerPredictions = false;
+                if (response) {
+                    this.championshipPredictions = response.championship_predicts;
+                }
+                this.spinnerChampionshipPredictions = false;
             },
             error => {
-                this.errorPredictions = error;
-                this.spinnerPredictions = false;
+                this.errorChampionshipPredictions = error;
+                this.spinnerChampionshipPredictions = false;
             }
         );
     }
 
-    public getChampionshipRating() {
+    public getChampionshipRatingData() {
         this.resetRatingData();
         this.spinnerRating = true;
         let param = [{parameter: 'limit', value: '5'}];

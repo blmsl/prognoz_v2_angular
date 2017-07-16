@@ -1,11 +1,12 @@
 import { Injectable }                       from '@angular/core';
-import { Http }                             from '@angular/http';
+import { Http, URLSearchParams }            from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
 import { ChampionshipPredict }              from '../../shared/models/championship-predict.model';
 import { environment }                      from '../../../environments/environment';
 import { ErrorHandlerService }              from '../../shared/error-handler.service';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
+import { RequestParams }                    from '../../shared/models/request-params.model';
 
 @Injectable()
 
@@ -17,41 +18,34 @@ export class ChampionshipPredictionService {
         private http: Http
     ) {}
 
-    private championshipPredictUrl = environment.apiUrl + 'championship/predicts';
+    private championshipPredictionUrl = environment.apiUrl + 'championship/predictions';
 
     /**
-     * Update predicts
-     * @returns {Promise<ErrorObservable<T>|T>|any|Promise<ErrorObservable<T>>|Promise<R>}
+     * Update championship predictions
+     * @returns {Observable<any>}
      */
-    update(value): Observable<any> {
+    updateChampionshipPredictions(championshipPredictions: ChampionshipPredict[]): Observable<any> {
         return this.headersWithToken
-            .put(this.championshipPredictUrl, value)
+            .put(this.championshipPredictionUrl, championshipPredictions)
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 
     /**
-     * Get user predicts by id
-     * @param id
-     * @param competitionId
-     * @returns {Promise<ErrorObservable<T>|T>|Promise<R>|any|Promise<ErrorObservable<T>>}
+     * Get championshi predictions
+     * @param requestParams
+     * @returns {Observable<any>}
      */
-    user(id: number, competitionId: number = null): Observable<ChampionshipPredict[]> {
-        let url = environment.apiUrl + 'championship/users/' + id;
-        if (competitionId) url += '?competition_id=' + competitionId;
-        return this.http.get(url)
-            .map(response => response.json().championship_predicts || [])
-            .catch(this.errorHandlerService.handle);
-    }
-
-    /**
-     * Get last predictions
-     * @returns {Promise<ErrorObservable<T>>|any|Promise<ErrorObservable<T>|T>|Promise<R>}
-     */
-    get(): Observable<ChampionshipPredict[]> {
-        let url = environment.apiUrl + 'championship/predictions';
-        return this.http.get(url)
-            .map(response => response.json().championship_predicts || [])
+    getChampionshipPredictions(requestParams?: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        if (requestParams) {
+            for (let requestParam of requestParams) {
+                params.set(requestParam.parameter, requestParam.value);
+            }
+        }
+        return this.http
+            .get(this.championshipPredictionUrl, requestParams ? {search: params} : null)
+            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }

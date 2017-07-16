@@ -7,7 +7,6 @@ import { environment }                      from '../../../environments/environm
 import { ErrorHandlerService }              from '../../shared/error-handler.service';
 import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
 import { RequestParams }                    from '../../shared/models/request-params.model';
-import { User }                             from '../../shared/models/user.model';
 
 @Injectable()
 export class ChampionshipMatchService {

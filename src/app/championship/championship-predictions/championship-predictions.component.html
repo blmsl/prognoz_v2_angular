@@ -8,11 +8,11 @@
 <!-- championship-match-predictable component-->
 <div *ngIf="championshipMatches && !spinnerChampionshipMatches" class="container-fluid">
     <!-- matches form -->
-    <form novalidate [formGroup]="championshipPredictsForm" (ngSubmit)="onSubmit()">
+    <form novalidate [formGroup]="championshipPredictionsForm" (ngSubmit)="onSubmit()">
         <app-championship-match-predictable *ngFor="let championshipMatch of championshipMatches"
                                             [match]="championshipMatch"
                                             [authenticatedUser]="authenticatedUser"
-                                            [championshipPredictsForm]="championshipPredictsForm">
+                                            [championshipPredictsForm]="championshipPredictionsForm">
         </app-championship-match-predictable>
         <!-- button row (only if predictable matches exists) -->
         <div class="row mb-2">

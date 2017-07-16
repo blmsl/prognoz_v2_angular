@@ -33,9 +33,9 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
     spinnerRating: boolean = false;
     errorRating: string;
 
-    predictions: ChampionshipPredict[];
-    spinnerPredictions: boolean = false;
-    errorPredictions: string | Array<string>;
+    championshipPredictions: ChampionshipPredict[];
+    spinnerChampionshipPredictions: boolean = false;
+    errorChampionshipPredictions: string;
 
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
@@ -45,10 +45,7 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
         this.activatedRoute.params.forEach((params: Params) => {
             this.getUserData(params['userId']);
             this.getChampionshipRatingItemData(params['userId'], params['competitionId']);
-
-            let userId = +params['userId'];
-            let competitionId = +params['competitionId'];
-            this.getUserPredictions(userId, competitionId);
+            this.getChampionshipPredictionsData(params['userId'], params['competitionId']);
         });
     }
 
@@ -80,16 +77,22 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
         );
     }
 
-    private getUserPredictions(userId: number, competitionId: number) {
-        this.spinnerPredictions = true;
-        this.championshipPredictionService.user(userId, competitionId).subscribe(
+    private getChampionshipPredictionsData(userId: number, competitionId: number) {
+        this.spinnerChampionshipPredictions = true;
+        let param = [
+            {parameter: 'user-id', value: userId.toString()},
+            {parameter: 'competition-id', value: competitionId.toString()}
+        ];
+        this.championshipPredictionService.getChampionshipPredictions(param).subscribe(
             response => {
-                this.predictions = response;
-                this.spinnerPredictions = false;
+                if (response) {
+                    this.championshipPredictions = response.championship_predicts;
+                }
+                this.spinnerChampionshipPredictions = false;
             },
             error => {
-                this.spinnerPredictions = false;
-                this.errorPredictions = error;
+                this.errorChampionshipPredictions = error;
+                this.spinnerChampionshipPredictions = false;
             }
         );
     }

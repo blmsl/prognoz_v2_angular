@@ -6,11 +6,11 @@
 <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
 <!-- championship-match-predictable component-->
 <div *ngIf="championshipMatches && !spinnerChampionshipMatches" class="container-fluid">
-    <form novalidate [formGroup]="championshipPredictsTodayForm" (ngSubmit)="onSubmit()">
+    <form novalidate [formGroup]="championshipPredictionsForm" (ngSubmit)="onSubmit()">
         <app-championship-match-predictable *ngFor="let championshipMatch of championshipMatches"
                                             [match]="championshipMatch"
                                             [authenticatedUser]="authenticatedUser"
-                                            [championshipPredictsForm]="championshipPredictsTodayForm">
+                                            [championshipPredictsForm]="championshipPredictionsForm">
         </app-championship-match-predictable>
         <!--button row (only if predictable matches exists)-->
         <div class="row">
@@ -39,10 +39,10 @@
 </div>
 
 <!-- RATING TOP -->
-<div *ngIf="championshipRatingItems && championshipRatingItems.length" class="row align-items-end mt-2">
+<div *ngIf="championshipRatingItems" class="row align-items-end mt-2">
     <div class="col-12 col-sm-5 col-md-6">
         <h2>Топ-{{championshipRatingItems.length}} рейтингу:
-            <button (click)="getChampionshipRating()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+            <button (click)="getChampionshipRatingData()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
                 <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
             </button>
         </h2>
@@ -58,31 +58,31 @@
                                [authenticatedUser]="authenticatedUser">
 </app-championship-rating-table>
 <!-- LAST PREDICTIONS -->
-<h2 *ngIf="predictions" class="mt-2">Останні прогнози:
-    <button (click)="getLastPredictions()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+<h2 *ngIf="championshipPredictions" class="mt-2">Останні прогнози:
+    <button (click)="getChampionshipPredictionsData()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
 <!-- spinner -->
-<app-spinner *ngIf="spinnerPredictions" [height]="250"></app-spinner>
+<app-spinner *ngIf="spinnerChampionshipPredictions" [height]="250"></app-spinner>
 <!-- error -->
-<app-error *ngIf="errorPredictions" [message]="errorPredictions"></app-error>
+<app-error *ngIf="errorChampionshipPredictions" [message]="errorChampionshipPredictions"></app-error>
 <!-- predictions -->
-<div *ngIf="predictions && !spinnerPredictions" class="row">
+<div *ngIf="championshipPredictions && !spinnerChampionshipPredictions" class="row">
     <div class="col-12">
         <div class="card black-shadow">
             <ul class="list-group list-group-flush">
-                <a *ngFor="let prediction of predictions"
-                   routerLink="/championship/users/{{prediction.user.id}}"
+                <a *ngFor="let championshipPrediction of championshipPredictions"
+                   routerLink="/championship/users/{{championshipPrediction.user.id}}"
                    class="list-group-item list-group-item-action">
                     <div class="col-6">
                         <img class="rounded-circle small-image mr-2 hidden-xs-down"
-                             src="{{userImagesUrl}}{{prediction.user.image || userImageDefault}}"
-                             alt="{{prediction.user.name}}">
-                        <strong>{{prediction.user.name}}</strong> <span class="text-muted hidden-md-down">{{helperService.getHometown(prediction.user.hometown)}}</span>
+                             src="{{userImagesUrl}}{{championshipPrediction.user.image || userImageDefault}}"
+                             alt="{{championshipPrediction.user.name}}">
+                        <strong>{{championshipPrediction.user.name}}</strong> <span class="text-muted hidden-md-down">{{helperService.getHometown(championshipPrediction.user.hometown)}}</span>
                     </div>
                     <div class="col-6 text-right">
-                        <span>{{prediction.diffForHumans}}</span>
+                        <span>{{championshipPrediction.diffForHumans}}</span>
                     </div>
                 </a>
             </ul>

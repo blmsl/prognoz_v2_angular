@@ -33,9 +33,9 @@ export class ChampionshipUserComponent implements OnInit {
     spinnerRating: boolean = false;
     errorRating: string;
 
-    spinner: boolean = false;
-    predicts: ChampionshipPredict[];
-    error: string;
+    championshipPredictions: ChampionshipPredict[];
+    spinnerChampionshipPredictions: boolean = false;
+    errorChampionshipPredictions: string;
 
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
@@ -45,9 +45,7 @@ export class ChampionshipUserComponent implements OnInit {
         this.activatedRoute.params.forEach((params: Params) => {
             this.getUserData(params['id']);
             this.getChampionshipRatingItemData(params['id']);
-
-            let id = +params['id'];
-            this.getUserPredictions(id);
+            this.getChampionshipPredictionsData(params['id']);
         });
     }
 
@@ -79,16 +77,19 @@ export class ChampionshipUserComponent implements OnInit {
         );
     }
 
-    private getUserPredictions(id) {
-        this.spinner = true;
-        this.championshipPredictionService.user(id).subscribe(
+    private getChampionshipPredictionsData(userId: number) {
+        this.spinnerChampionshipPredictions = true;
+        let param = [{parameter: 'user-id', value: userId.toString()}];
+        this.championshipPredictionService.getChampionshipPredictions(param).subscribe(
             response => {
-                this.predicts = response;
-                this.spinner = false;
+                if (response) {
+                    this.championshipPredictions = response.championship_predicts;
+                }
+                this.spinnerChampionshipPredictions = false;
             },
             error => {
-                this.spinner = false;
-                this.error = error;
+                this.errorChampionshipPredictions = error;
+                this.spinnerChampionshipPredictions = false;
             }
         );
     }

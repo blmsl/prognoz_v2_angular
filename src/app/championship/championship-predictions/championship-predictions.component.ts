@@ -8,6 +8,7 @@ import { ChampionshipMatchService }             from '../shared/championship-mat
 import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { CurrentStateService }                  from '../../shared/current-state.service';
 import { environment }                          from '../../../environments/environment';
+import { HelperService }                        from '../../shared/helper.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 
@@ -23,6 +24,7 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
         private championshipMatchService: ChampionshipMatchService,
         private championshipPredictionService: ChampionshipPredictionService,
         private currentStateService: CurrentStateService,
+        private helperService: HelperService,
         private notificationService: NotificationsService
     ) { }
 
@@ -32,7 +34,7 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
     noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
 
     spinnerButton: boolean = false;
-    championshipPredictsForm: FormGroup;
+    championshipPredictionsForm: FormGroup;
 
     clubsImagesUrl: string = environment.apiImageClubs;
     authenticatedUser: User = this.currentStateService.user;
@@ -43,7 +45,7 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
             this.authenticatedUser = result;
             this.getChampionshipMatchesData();
         });
-        this.championshipPredictsForm = new FormGroup({});
+        this.championshipPredictionsForm = new FormGroup({});
         this.getChampionshipMatchesData();
     }
 
@@ -55,39 +57,8 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         this.spinnerButton = true;
-        let predicts = [];
-        for (let predict in this.championshipPredictsForm.value) {
-            let id = parseInt(predict.split('_')[0]);
-            // if there is no predicts on match
-            if ((this.championshipPredictsForm.value[id + '_home'] === null) && (this.championshipPredictsForm.value[id + '_away'] === null)) {
-                continue;
-            }
-            let currentMatch = predicts.find(myObj => myObj.params.match_id === id);
-            if (!currentMatch) {
-                // if there is predict only on home team
-                if ((this.championshipPredictsForm.value[id + '_home'] !== null) && (this.championshipPredictsForm.value[id + '_away'] === null)) {
-                    predicts.push({params: {match_id: id}, values: {home: this.championshipPredictsForm.value[id + '_home'], away: 0}});
-                    continue;
-                }
-                // if there is predict only on away team
-                if ((this.championshipPredictsForm.value[id + '_home'] === null) && (this.championshipPredictsForm.value[id + '_away'] !== null)) {
-                    predicts.push({params: {match_id: id}, values: {home: 0, away: this.championshipPredictsForm.value[id + '_away']}});
-                    continue;
-                }
-                // if there is predicts on two teams
-                predicts.push({
-                    params: {
-                        match_id: id,
-                    },
-                    values: {
-                        home: this.championshipPredictsForm.value[id + '_home'],
-                        away: this.championshipPredictsForm.value[id + '_away']
-                    }
-                });
-            }
-        }
-
-        this.championshipPredictionService.update(predicts)
+        let championshipPredictionsToUpdate = this.helperService.createChampionshipPredictionsArray(this.championshipPredictionsForm);
+        this.championshipPredictionService.updateChampionshipPredictions(championshipPredictionsToUpdate)
             .subscribe(
                 response => {
                     this.spinnerButton = false;
@@ -136,17 +107,17 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
     private updateForm(matches: ChampionshipMatch[], isAuthenticatedUser: boolean) {
         this.championshipMatches = matches;
         if (isAuthenticatedUser) {
-            this.championshipPredictsForm = new FormGroup({});
+            this.championshipPredictionsForm = new FormGroup({});
             for (let match of this.championshipMatches) {
                 let home = match.championship_predicts.length ? match.championship_predicts[0].home : null;
                 let away = match.championship_predicts.length ? match.championship_predicts[0].away : null;
-                this.championshipPredictsForm.addControl(match.id + '_home', new FormControl(home));
-                this.championshipPredictsForm.addControl(match.id + '_away', new FormControl(away));
+                this.championshipPredictionsForm.addControl(match.id + '_home', new FormControl(home));
+                this.championshipPredictionsForm.addControl(match.id + '_away', new FormControl(away));
             }
         } else {
             for (let match of this.championshipMatches) {
-                this.championshipPredictsForm.removeControl(match.id + '_home');
-                this.championshipPredictsForm.removeControl(match.id + '_away');
+                this.championshipPredictionsForm.removeControl(match.id + '_home');
+                this.championshipPredictionsForm.removeControl(match.id + '_away');
             }
         }
     }
