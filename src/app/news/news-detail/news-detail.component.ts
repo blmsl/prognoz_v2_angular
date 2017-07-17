@@ -61,7 +61,8 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                 result => {
                     if (result) {
                         this.news = result;
-                        this.addCommentForm.patchValue({news_id: result.id});
+                        let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
+                        this.addCommentForm.patchValue({news_id: result.id, user_id: userId});
                     }
                     this.spinnerNews = false;
                 },
