@@ -13,7 +13,7 @@
                         <div class="col-md-5">
                             <div class="row align-items-center">
                                 <!-- title -->
-                                <div class="col text-center" >
+                                <div class="col text-center cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center title-block">
                                         <div class="col">
                                             <h2 class="bg-inverse p-2 rounded">{{championshipMatch.club_first.title}}</h2>
@@ -21,7 +21,7 @@
                                     </div>
                                 </div>
                                 <!-- image -->
-                                <div class="col-12">
+                                <div class="col-12 cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center logo-block p-4">
                                         <div class="col logo"
                                              [style.background-image]="'url(' + clubsImagesUrl + championshipMatch.club_first.image + ')'">
@@ -40,7 +40,7 @@
                         <div class="col-md-5">
                             <div class="row">
                                 <!-- title -->
-                                <div class="col text-center">
+                                <div class="col text-center cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center title-block">
                                         <div class="col">
                                             <h2 class="bg-inverse p-2 rounded">{{championshipMatch.club_second.title}}</h2>
@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                                 <!-- image -->
-                                <div class="col-12">
+                                <div class="col-12 cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center logo-block p-4">
                                         <div class="col logo"
                                              [style.background-image]="'url(' + clubsImagesUrl + championshipMatch.club_second.image + ')'">
