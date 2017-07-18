@@ -4,42 +4,37 @@
     </div>
 </div>
 <!-- new guestbook messages form-->
-<div *ngIf="authenticatedUser && showEditor" class="row">
+<div *ngIf="authenticatedUser" class="row">
     <div class="col text-white">
-        <div class="bg-inverse mb-sm-2 p-2 rounded black-shadow">
-            <label *ngIf="!isEditedMessage"><strong>Добавити повідомлення:</strong></label>
-            <label *ngIf="isEditedMessage"><strong>Редагувати повідомлення:</strong></label>
-            <app-tiny-editor
-                    [elementId]="'body-add'"
-                    (onEditorContentChange)="keyupHandler($event)"
-                    [content]="editedMessage"
-            ></app-tiny-editor>
-            <!-- create button -->
-            <button *ngIf="!isEditedMessage"
+        <form [formGroup]="addGuestbookMessageForm" (ngSubmit)="onSubmit()" novalidate class="bg-inverse p-2 rounded">
+            <input type="hidden" name="user_id" formControlName="user_id">
+            <div class="form-group"
+                 [class.has-danger]="addGuestbookMessageForm.get('body').invalid && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)">
+                <label class="form-control-label" for="body"><strong>Добавити повідомлення:</strong></label>
+                <textarea id="body"
+                          placeholder="Напишіть щось..."
+                          class="form-control"
+                          [class.form-control-danger]="addGuestbookMessageForm.get('body').invalid && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)"
+                          rows="3"
+                          formControlName="body">
+                    </textarea>
+                <div *ngIf="addGuestbookMessageForm.get('body').hasError('required') && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)" class="form-control-feedback">
+                    <small>Текст коментаря обов'язковий.</small>
+                </div>
+                <div *ngIf="addGuestbookMessageForm.get('body').hasError('minlength') && !addGuestbookMessageForm.get('body').pristine" class="form-control-feedback">
+                    <small>Текст коментаря повинен бути більшим ніж 10 символів.</small>
+                </div>
+                <div *ngIf="addGuestbookMessageForm.get('body').hasError('maxlength') && !addGuestbookMessageForm.get('body').pristine" class="form-control-feedback">
+                    <small>Текст коментаря перевищує 1000 символів.</small>
+                </div>
+            </div>
+            <button [disabled]="addGuestbookMessageForm.invalid"
                     [hidden]="spinnerButton"
-                    (click)="addMessage()"
-                    type="button"
-                    class="btn btn-primary">Додати
-            </button>
-            <!-- update button -->
-            <button *ngIf="isEditedMessage"
-                    [hidden]="spinnerEditButton"
-                    (click)="updateMessage()"
-                    type="button"
-                    class="btn btn-primary">Змінити
-            </button>
-            <!-- update button -->
-            <button *ngIf="isEditedMessage"
-                    [hidden]="spinnerEditButton"
-                    (click)="resetGuestbookMessage()"
-                    type="button"
-                    class="btn btn-danger pull-right">Скасувати
-            </button>
+                    type="submit"
+                    class="btn btn-primary">Добавити</button>
             <!-- spinner button -->
             <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
-            <!-- spinner button -->
-            <app-spinner-button [hidden]="!spinnerEditButton"></app-spinner-button>
-        </div>
+        </form>
     </div>
 </div>
 <!-- spinner -->
@@ -58,16 +53,6 @@
                      alt="{{message.user.name}}">
                 <strong class="align-middle">{{message.user.name}}</strong>
                 <small *ngIf="message.user.hometown" class="text-muted">({{message.user.hometown}})</small>
-                <!-- Button edit message -->
-                <button *ngIf="authenticatedUser && authenticatedUser.id === message.user_id && showEditor"
-                        type="button"
-                        (click)="addMessageToEditor(message)"
-                        class="btn btn-sm btn-outline-secondary pull-right"
-                        data-toggle="modal"
-                        data-target="#editMessageModal"
-                        title="Редагувати">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </button>
             </div>
             <div class="card-block">
                 <div class="card-text break-word">
@@ -76,9 +61,6 @@
             </div>
             <div class="card-footer pt-1 pb-1">
                 <small class="text-muted pull-left">{{message.created_at}}</small>
-                <small class="pull-right">
-                    <span *ngIf="message.created_at !== message.updated_at" class="badge badge-default">Редаговано</span>
-                </small>
             </div>
         </div>
     </div>

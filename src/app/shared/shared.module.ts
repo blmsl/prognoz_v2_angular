@@ -18,7 +18,6 @@ import { LastUserComponent }                          from './last-user/last-use
 import { SpinnerButtonComponent }                     from './spinner-button/spinner-button.component';
 import { SpinnerComponent }                           from './spinner/spinner.component';
 import { PaginationComponent }                        from './pagination/pagination.component';
-import { TinyEditorComponent }                        from './tiny-editor/tiny-editor.component';
 
 @NgModule({
     imports: [
@@ -41,8 +40,7 @@ import { TinyEditorComponent }                        from './tiny-editor/tiny-e
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
-        ChampionshipMatchPredictableComponent,
-        TinyEditorComponent
+        ChampionshipMatchPredictableComponent
     ],
     exports: [
         SpinnerComponent,
@@ -58,8 +56,7 @@ import { TinyEditorComponent }                        from './tiny-editor/tiny-e
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
-        ChampionshipMatchPredictableComponent,
-        TinyEditorComponent
+        ChampionshipMatchPredictableComponent
     ]
 })
 export class SharedModule { }

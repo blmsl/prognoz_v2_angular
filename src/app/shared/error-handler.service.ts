@@ -17,7 +17,7 @@ export class ErrorHandlerService {
             if (error.status !== 422) {
                 const body = error.json() || '';
                 const err = body.message || JSON.stringify(body);
-                errorMessage.push(`${error.status} - ${error.statusText || ''} ${err}`);
+                errorMessage.push(`${error.status} - ${err}`);
             } else {
                 errorObject = error.json();
                 Object.keys(errorObject.errors).forEach(function(key) {

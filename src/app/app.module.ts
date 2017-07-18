@@ -9,7 +9,6 @@ import { AppComponent }               from './app.component';
 import { AppRoutingModule }           from './app-routing.module';
 import { AuthModule }                 from './auth/auth.module';
 import { AuthService }                from './shared/auth.service';
-import { BroadcastService }           from './shared/broadcast.service';
 import { ChampionshipModule }         from './championship/championship.module';
 import { CurrentStateService }        from './shared/current-state.service';
 import { ErrorHandlerService }        from './shared/error-handler.service';
@@ -59,7 +58,6 @@ import { UserService }                from './shared/user.service';
         CurrentStateService,
         ImageService,
         HelperService,
-        BroadcastService,
         ErrorHandlerService
     ],
     bootstrap: [
