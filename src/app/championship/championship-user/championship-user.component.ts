@@ -1,7 +1,7 @@
 import { Component, OnInit }                    from '@angular/core';
 import { ActivatedRoute, Params }               from '@angular/router';
 
-import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
+import { ChampionshipPrediction }               from '../../shared/models/championship-prediction.model';
 import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
@@ -33,7 +33,7 @@ export class ChampionshipUserComponent implements OnInit {
     spinnerRating: boolean = false;
     errorRating: string;
 
-    championshipPredictions: ChampionshipPredict[];
+    championshipPredictions: ChampionshipPrediction[];
     spinnerChampionshipPredictions: boolean = false;
     errorChampionshipPredictions: string;
 

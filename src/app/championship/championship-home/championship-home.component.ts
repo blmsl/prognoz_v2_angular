@@ -5,7 +5,7 @@ import { Subscription }                         from 'rxjs/Subscription';
 import { AuthService }                          from '../../shared/auth.service';
 import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
-import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
+import { ChampionshipPrediction }               from '../../shared/models/championship-prediction.model';
 import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
@@ -46,7 +46,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     spinnerButton: boolean = false;
     championshipPredictionsForm: FormGroup;
 
-    championshipPredictions: ChampionshipPredict[];
+    championshipPredictions: ChampionshipPrediction[];
     spinnerChampionshipPredictions: boolean = false;
     errorChampionshipPredictions: string;
 
