@@ -25,6 +25,7 @@ import { NewsModule }                 from './news/news.module';
 import { PageNotFoundComponent }      from './page-not-found/page-not-found.component';
 import { SharedModule }               from './shared/shared.module';
 import { SimpleNotificationsModule }  from 'angular2-notifications';
+import { TeamModule }                 from './team/team.module';
 import { UserService }                from './shared/user.service';
 
 @NgModule({
@@ -49,7 +50,8 @@ import { UserService }                from './shared/user.service';
         HomeModule,
         SharedModule,
         MeModule,
-        NewsModule
+        TeamModule,
+        NewsModule,
     ],
     providers: [
         HeadersWithToken,

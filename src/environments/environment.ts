@@ -15,6 +15,9 @@ export const environment = {
     tournaments: {
         championship: {
             id: 1
+        },
+        team: {
+            id: 3
         }
     }
 };

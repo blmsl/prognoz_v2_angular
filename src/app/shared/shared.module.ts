@@ -18,6 +18,7 @@ import { LastUserComponent }                          from './last-user/last-use
 import { SpinnerButtonComponent }                     from './spinner-button/spinner-button.component';
 import { SpinnerComponent }                           from './spinner/spinner.component';
 import { PaginationComponent }                        from './pagination/pagination.component';
+import { TeamNavigationComponent }                    from './team/team-navigation/team-navigation.component';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { PaginationComponent }                        from './pagination/paginat
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
-        ChampionshipMatchPredictableComponent
+        ChampionshipMatchPredictableComponent,
+        TeamNavigationComponent
     ],
     exports: [
         SpinnerComponent,
@@ -56,7 +58,8 @@ import { PaginationComponent }                        from './pagination/paginat
         ChampionshipResultsTableComponent,
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
-        ChampionshipMatchPredictableComponent
+        ChampionshipMatchPredictableComponent,
+        TeamNavigationComponent
     ]
 })
 export class SharedModule { }
