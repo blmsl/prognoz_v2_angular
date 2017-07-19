@@ -3,8 +3,8 @@ import { Observable }           from 'rxjs/Observable';
 
 import { Comment }              from '../../shared/models/comment.model';
 import { environment }          from '../../../environments/environment';
-import { ErrorHandlerService }  from '../../shared/error-handler.service';
-import { HeadersWithToken }     from '../../shared/headers-with-token.service';
+import { ErrorHandlerService }  from '../../core/error-handler.service';
+import { HeadersWithToken }     from '../../core/headers-with-token.service';
 
 @Injectable()
 

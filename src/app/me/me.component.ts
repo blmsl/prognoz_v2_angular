@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { Router }                               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
-import { AuthService }                          from '../shared/auth.service';
-import { CurrentStateService }                  from '../shared/current-state.service';
+import { AuthService }                          from '../core/auth.service';
+import { CurrentStateService }                  from '../core/current-state.service';
 import { environment }                          from '../../environments/environment';
-import { ImageService }                         from '../shared/image.service';
+import { ImageService }                         from '../core/image.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../shared/models/user.model';
-import { UserService }                          from '../shared/user.service';
+import { UserService }                          from '../core/user.service';
 
 @Component({
     selector: 'app-me',

@@ -3,9 +3,9 @@ import { Http, URLSearchParams }                from '@angular/http';
 import { Observable }                           from 'rxjs/Observable';
 
 import { environment }                          from '../../../environments/environment';
-import { ErrorHandlerService }                  from '../../shared/error-handler.service';
+import { ErrorHandlerService }                  from '../../core/error-handler.service';
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
-import { HeadersWithToken }                     from '../../shared/headers-with-token.service';
+import { HeadersWithToken }                     from '../../core/headers-with-token.service';
 
 @Injectable()
 

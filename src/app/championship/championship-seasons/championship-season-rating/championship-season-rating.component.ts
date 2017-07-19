@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }       from '@angular/router';
 import { Subscription }                 from 'rxjs/Subscription';
 
-import { AuthService }                  from '../../../shared/auth.service';
+import { AuthService }                  from '../../../core/auth.service';
 import { ChampionshipRating }           from '../../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }    from '../../shared/championship-rating.service';
-import { CurrentStateService }          from '../../../shared/current-state.service';
+import { CurrentStateService }          from '../../../core/current-state.service';
 import { User }                         from '../../../shared/models/user.model';
 
 @Component({

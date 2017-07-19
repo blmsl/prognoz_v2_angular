@@ -7,7 +7,7 @@ import { ChampionshipCompetitionsComponent }        from './championship-competi
 import { ChampionshipCompetitionsRoutingModule }    from './championship-competitions-routing.module';
 import { ChampionshipCompetitionUserComponent }     from './championship-competition-user/championship-competition-user.component';
 import { ChampionshipCompetitionWinnersComponent }  from './championship-competition-winners/championship-competition-winners.component';
-import { SharedModule }                             from '../../../shared/shared.module';
+import { SharedModule }                             from '../../../core/shared.module';
 
 @NgModule({
     imports: [

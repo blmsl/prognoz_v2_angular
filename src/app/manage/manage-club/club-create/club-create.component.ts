@@ -5,7 +5,7 @@ import { Router }                               from '@angular/router';
 import { Club }                                 from '../../../shared/models/club.model';
 import { ClubService }                          from '../shared/club.service';
 import { environment }                          from '../../../../environments/environment';
-import { ImageService }                         from '../../../shared/image.service';
+import { ImageService }                         from '../../../core/image.service';
 import { NotificationsService }                 from 'angular2-notifications';
 
 @Component({

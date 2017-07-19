@@ -6,9 +6,9 @@ import { ChampionshipPredictionService }        from '../shared/championship-pre
 import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { environment }                          from '../../../environments/environment';
-import { HelperService }                        from '../../shared/helper.service';
+import { HelperService }                        from '../../core/helper.service';
 import { User }                                 from '../../shared/models/user.model';
-import { UserService }                          from '../../shared/user.service';
+import { UserService }                          from '../../core/user.service';
 
 @Component({
   selector: 'app-championship-user',

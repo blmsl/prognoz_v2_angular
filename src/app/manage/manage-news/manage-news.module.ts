@@ -9,7 +9,7 @@ import { ManageNewsRoutingModule }   from './manage-news-routing.module';
 import { NewsCreateComponent }       from './news-create/news-create.component';
 import { NewsEditComponent }         from './news-edit/news-edit.component';
 import { NewsTableComponent }        from './news-table/news-table.component';
-import { SharedModule }              from '../../shared/shared.module';
+import { SharedModule }              from '../../core/shared.module';
 
 @NgModule({
     imports: [

@@ -1,7 +1,7 @@
 import { NgModule }                 from '@angular/core';
 import { RouterModule, Routes }     from '@angular/router';
 
-import { AccessDeniedComponent }    from './access-denied/access-denied.component';
+import { AccessDeniedComponent }    from './core/access-denied/access-denied.component';
 import { HomeComponent }            from './home/home.component';
 import { MeComponent }              from './me/me.component';
 import { MeGuard }                  from './me/me-guard.service';

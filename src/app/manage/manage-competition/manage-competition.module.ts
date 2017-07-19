@@ -6,7 +6,7 @@ import { CompetitionCreateComponent }       from './competition-create/competiti
 import { CompetitionEditComponent }         from './competition-edit/competition-edit.component';
 import { CompetitionService }               from './shared/competition.service';
 import { CompetitionTableComponent }        from './competition-table/competition-table.component';
-import { SharedModule }                     from '../../shared/shared.module';
+import { SharedModule }                     from '../../core/shared.module';
 import { ManageCompetitionComponent }       from './manage-competition.component';
 import { ManageCompetitionGuard }           from './shared/manage-competition-guard.service';
 import { ManageCompetitionRoutingModule }   from './manage-competition-routing.module';

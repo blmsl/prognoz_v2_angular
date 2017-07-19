@@ -9,7 +9,7 @@ import { MatchCreateComponent }             from './match-create/match-create.co
 import { MatchEditActiveComponent }         from './match-edit-active/match-edit-active.component';
 import { MatchEditComponent }               from './match-edit/match-edit.component';
 import { MatchEditEndedComponent }          from './match-edit-ended/match-edit-ended.component';
-import { SharedModule }                     from '../../shared/shared.module';
+import { SharedModule }                     from '../../core/shared.module';
 
 @NgModule({
     imports: [

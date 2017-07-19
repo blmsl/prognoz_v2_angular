@@ -1,7 +1,7 @@
 import { Injectable }               from '@angular/core';
 import { FormGroup }                from '@angular/forms';
 
-import { ChampionshipPrediction }   from './models/championship-prediction.model';
+import { ChampionshipPrediction }   from '../shared/models/championship-prediction.model';
 
 @Injectable()
 

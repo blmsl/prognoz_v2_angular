@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { Router }                               from '@angular/router';
 
 import { environment }                          from '../../../../environments/environment';
-import { ImageService }                         from '../../../shared/image.service';
+import { ImageService }                         from '../../../core/image.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { NewsService }                          from '../../../news/shared/news.service';
 

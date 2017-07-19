@@ -4,8 +4,8 @@ import { Observable }                       from 'rxjs/Observable';
 
 import { ChampionshipPrediction }           from '../../shared/models/championship-prediction.model';
 import { environment }                      from '../../../environments/environment';
-import { ErrorHandlerService }              from '../../shared/error-handler.service';
-import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
+import { ErrorHandlerService }              from '../../core/error-handler.service';
+import { HeadersWithToken }                 from '../../core/headers-with-token.service';
 import { RequestParams }                    from '../../shared/models/request-params.model';
 
 @Injectable()

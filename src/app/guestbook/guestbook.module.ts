@@ -6,7 +6,7 @@ import { GuestbookComponent }     from './guestbook.component';
 import { GuestbookPageComponent } from './guestbook-page/guestbook-page.component';
 import { GuestbookService }       from './shared/guestbook.service';
 import { GuestbookRoutingModule } from './guestbook-routing.module';
-import { SharedModule }           from '../shared/shared.module';
+import { SharedModule }           from '../core/shared.module';
 
 @NgModule({
     imports: [

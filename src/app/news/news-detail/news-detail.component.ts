@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { ActivatedRoute, Params }               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
-import { AuthService }                          from '../../shared/auth.service';
+import { AuthService }                          from '../../core/auth.service';
 import { CommentService }                       from '../shared/comment.service';
-import { CurrentStateService }                  from '../../shared/current-state.service';
+import { CurrentStateService }                  from '../../core/current-state.service';
 import { environment }                          from '../../../environments/environment';
 import { NotificationsService }                 from 'angular2-notifications';
 import { News }                                 from '../../shared/models/news.model';

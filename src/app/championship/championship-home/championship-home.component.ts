@@ -2,16 +2,16 @@ import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { FormControl, FormGroup }               from '@angular/forms';
 import { Subscription }                         from 'rxjs/Subscription';
 
-import { AuthService }                          from '../../shared/auth.service';
+import { AuthService }                          from '../../core/auth.service';
 import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
 import { ChampionshipPrediction }               from '../../shared/models/championship-prediction.model';
 import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
-import { CurrentStateService }                  from '../../shared/current-state.service';
+import { CurrentStateService }                  from '../../core/current-state.service';
 import { environment }                          from '../../../environments/environment';
-import { HelperService }                        from '../../shared/helper.service';
+import { HelperService }                        from '../../core/helper.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 

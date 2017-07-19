@@ -1,7 +1,7 @@
 import { Component, OnInit }    from '@angular/core';
 import './rxjs-operators';
 
-import { CurrentStateService }  from './shared/current-state.service';
+import { CurrentStateService }  from './core/current-state.service';
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({

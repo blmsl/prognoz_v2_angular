@@ -3,9 +3,9 @@ import { DomSanitizer }                         from '@angular/platform-browser'
 import { ActivatedRoute, Params }               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
-import { AuthService }                          from '../../shared/auth.service';
-import { BroadcastService }                     from '../../shared/broadcast.service';
-import { CurrentStateService }                  from '../../shared/current-state.service';
+import { AuthService }                          from '../../core/auth.service';
+import { BroadcastService }                     from '../../core/broadcast.service';
+import { CurrentStateService }                  from '../../core/current-state.service';
 import { environment }                          from '../../../environments/environment';
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { GuestbookService }                     from '../shared/guestbook.service';
