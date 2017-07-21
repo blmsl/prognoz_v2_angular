@@ -35,7 +35,9 @@
                             <img class="rounded small-image" src="{{userImagesUrl}}{{comment.user.image || userImageDefault}}" alt="{{comment.user.name}}">
                             {{comment.user.name}}
                         </div>
-                        <p class="card-text">{{comment.body}}</p>
+                        <div class="card-text">
+                            <div [innerHtml]="assembleHTMLItem(comment.body)"></div>
+                        </div>
                         <p class="card-text"><small class="text-muted">{{comment.created_at}}</small></p>
                     </div>
                 </div>

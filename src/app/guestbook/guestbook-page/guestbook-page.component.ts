@@ -1,18 +1,16 @@
 import { Component, OnDestroy, OnInit }         from '@angular/core';
+import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
 import { DomSanitizer }                         from '@angular/platform-browser';
 import { ActivatedRoute, Params }               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AuthService }                          from '../../core/auth.service';
-import { BroadcastService }                     from '../../core/broadcast.service';
 import { CurrentStateService }                  from '../../core/current-state.service';
 import { environment }                          from '../../../environments/environment';
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { GuestbookService }                     from '../shared/guestbook.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
-
-declare var $:any;
 
 @Component({
     selector: 'app-guestbook-page',
@@ -24,9 +22,9 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
     constructor(
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
-        private broadcastService: BroadcastService,
         private currentStateService: CurrentStateService,
         private domSanitizer: DomSanitizer,
+        private formBuilder: FormBuilder,
         private guestbookService: GuestbookService,
         private notificationService: NotificationsService
     ) { }
@@ -35,31 +33,33 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
     errorGuestbookMessages: string | Array<string>;
     spinnerGuestbookMessages: boolean = false;
     noGuestbookMessages: string = 'В базі даних повідомлень не знайдено.';
+
     userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
+
     path: string = '/guestbook/page/';
 
     currentPage: number;
     lastPage: number;
     perPage: number;
     total: number;
-    guestbookMessageBody: string;
 
     authenticatedUser: User = this.currentStateService.user;
     userSubscription: Subscription;
-    editedMessage: GuestbookMessage = { id: null, user_id: null, body: '' };
 
-    spinnerEditButton: boolean = false;
+    addGuestbookMessageForm: FormGroup;
     spinnerButton: boolean = false;
-    isEditedMessage: boolean = false;
-
-    showEditor: boolean = false;
 
     ngOnInit() {
+        this.addGuestbookMessageForm = this.formBuilder.group({
+            user_id: ['', [Validators.required]],
+            body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
+        });
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
+            this.addGuestbookMessageForm.patchValue({user_id: (result ? result.id : '')});
         });
-        this.getGuestbookPage();
+        this.getGuestbookMessagesData();
     }
 
     ngOnDestroy() {
@@ -68,11 +68,10 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getGuestbookPage() {
+    private getGuestbookMessagesData() {
         this.activatedRoute.params.subscribe((params: Params) => {
             this.resetData();
             this.spinnerGuestbookMessages = true;
-            this.showEditor = !params['number'] ? true : false;
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
                 result => {
                     if (result) {
@@ -81,6 +80,8 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
                         this.perPage = result.per_page;
                         this.total = result.total;
                         this.guestbookMessages = result.data;
+                        let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
+                        this.addGuestbookMessageForm.patchValue({user_id: userId});
                     }
                     this.spinnerGuestbookMessages = false;
                 },
@@ -92,19 +93,14 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         });
     }
 
-    addMessage() {
+    onSubmit() {
         this.spinnerButton = true;
-        this.guestbookService.createGuestbookMessage
-            ({
-                body: this.guestbookMessageBody,
-                user_id: this.authenticatedUser.id,
-                id: null
-            })
+        this.guestbookService.createGuestbookMessage(this.addGuestbookMessageForm.value)
             .subscribe(
                 response => {
-                    this.resetGuestbookMessage();
-                    this.getGuestbookPage();
+                    this.getGuestbookMessagesData();
                     this.spinnerButton = false;
+                    this.addGuestbookMessageForm.reset({user_id: this.authenticatedUser.id});
                     this.notificationService.success('Успішно', 'Повідомлення додано');
                 },
                 errors => {
@@ -116,59 +112,12 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
             );
     }
 
-    updateMessage() {
-        this.spinnerEditButton = true;
-        let updatedMessage = {
-            id: this.editedMessage.id,
-            user_id: this.authenticatedUser.id,
-            body: this.guestbookMessageBody
-        };
-        this.guestbookService.updateGuestbookMessage(updatedMessage).subscribe(
-            response => {
-                this.resetGuestbookMessage();
-                this.getGuestbookPage();
-                this.spinnerEditButton = false;
-                this.notificationService.success('Успішно', 'Повідомлення змінено');
-            },
-            errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
-                this.spinnerEditButton = false;
-            }
-        );
-    }
-
-    addMessageToEditor(message: GuestbookMessage) {
-        if (this.authenticatedUser.id === message.user_id) {
-            this.editedMessage = Object.assign({}, message);
-            this.isEditedMessage = true;
-            setTimeout(() => {
-                let event = new Event('updateContent');
-                this.broadcastService.next(event);
-                window.scrollTo(0, $('#body-add')[0].scrollTop);
-            });
-        }
-    }
-
-    keyupHandler(event) {
-        this.guestbookMessageBody = event;
+    private resetData() {
+        this.guestbookMessages = null;
+        this.errorGuestbookMessages = null;
     }
 
     assembleHTMLItem(message: string) {
         return this.domSanitizer.bypassSecurityTrustHtml(message);
-    }
-
-    resetGuestbookMessage() {
-        this.guestbookMessageBody = '';
-        this.editedMessage.body = '';
-        this.isEditedMessage = false;
-        let event = new Event('resetContent');
-        this.broadcastService.next(event);
-    }
-
-    private resetData() {
-        this.guestbookMessages = null;
-        this.errorGuestbookMessages = null;
     }
 }

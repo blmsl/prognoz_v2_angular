@@ -12,19 +12,19 @@
                         <!-- first club -->
                         <div class="col-md-5">
                             <div class="row align-items-center">
-                                <!-- image -->
-                                <div class="col-12">
-                                    <div class="row align-items-center logo-block p-4">
-                                        <div class="col logo"
-                                             [style.background-image]="'url(' + clubsImagesUrl + championshipMatch.club_first.image + ')'">
+                                <!-- title -->
+                                <div class="col text-center cursor-pointer" routerLink="/championship/predictions">
+                                    <div class="row align-items-center title-block">
+                                        <div class="col">
+                                            <h2 class="bg-inverse p-2 rounded">{{championshipMatch.club_first.title}}</h2>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- title -->
-                                <div class="col text-center" >
-                                    <div class="row align-items-center title-block">
-                                        <div class="col">
-                                            <h2>{{championshipMatch.club_first.title}}</h2>
+                                <!-- image -->
+                                <div class="col-12 cursor-pointer" routerLink="/championship/predictions">
+                                    <div class="row align-items-center logo-block p-4">
+                                        <div class="col logo"
+                                             [style.background-image]="'url(' + clubsImagesUrl + championshipMatch.club_first.image + ')'">
                                         </div>
                                     </div>
                                 </div>
@@ -40,15 +40,15 @@
                         <div class="col-md-5">
                             <div class="row">
                                 <!-- title -->
-                                <div class="col text-center">
+                                <div class="col text-center cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center title-block">
                                         <div class="col">
-                                            <h2>{{championshipMatch.club_second.title}}</h2>
+                                            <h2 class="bg-inverse p-2 rounded">{{championshipMatch.club_second.title}}</h2>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- image -->
-                                <div class="col-12">
+                                <div class="col-12 cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center logo-block p-4">
                                         <div class="col logo"
                                              [style.background-image]="'url(' + clubsImagesUrl + championshipMatch.club_second.image + ')'">
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="carousel-caption d-none d-md-block">
-                            <h3>{{ championshipMatch.starts_at.slice(0, -3) }}</h3>
+                            <h3 class="bg-inverse p-2 rounded">{{ championshipMatch.starts_at }}</h3>
                         </div>
                     </div>
                 </div>

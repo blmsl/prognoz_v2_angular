@@ -1,6 +1,7 @@
 import { Location }                             from '@angular/common';
 import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
+import { DomSanitizer }                         from '@angular/platform-browser';
 import { ActivatedRoute, Params }               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
@@ -26,6 +27,7 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
         private authService: AuthService,
         private commentService: CommentService,
         private currentStateService: CurrentStateService,
+        private domSanitizer: DomSanitizer,
         private formBuilder: FormBuilder,
         private location: Location,
         private notificationService: NotificationsService,
@@ -61,7 +63,8 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                 result => {
                     if (result) {
                         this.news = result;
-                        this.addCommentForm.patchValue({news_id: result.id});
+                        let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
+                        this.addCommentForm.patchValue({news_id: result.id, user_id: userId});
                     }
                     this.spinnerNews = false;
                 },
@@ -99,9 +102,7 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                             this.spinnerNews = false;
                         });
                 this.notificationService.success('Успішно', 'Новий коментар додано');
-                this.addCommentForm.patchValue({body: ''});
-                this.addCommentForm.get('body').markAsUntouched();
-                this.addCommentForm.get('body').markAsPristine();
+                this.addCommentForm.reset({news_id: this.news.id, user_id: this.authenticatedUser.id});
                 this.spinnerButton = false;
             },
             errors => {
@@ -111,5 +112,9 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                 this.spinnerButton = false;
             }
         );
+    }
+
+    assembleHTMLItem(message: string) {
+        return this.domSanitizer.bypassSecurityTrustHtml(message);
     }
 }
