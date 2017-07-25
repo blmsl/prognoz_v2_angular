@@ -3,6 +3,7 @@ import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 
 import { CompetitionService }                   from '../shared/competition.service';
+import { environment }                          from '../../../../environments/environment';
 import { NotificationsService }                 from 'angular2-notifications';
 import { Season }                               from '../../../shared/models/season.model';
 import { SeasonService }                        from '../../manage-season/shared/season.service';
@@ -25,6 +26,7 @@ export class CompetitionCreateComponent implements OnInit {
     ) { }
 
     competitionCreateForm: FormGroup;
+    competitionsEnvironment = environment.tournaments;
     errorSeasons: string;
     errorTournaments: string;
     noSeasons: string = 'В базі даних сезонів не знайдено.';
@@ -65,11 +67,12 @@ export class CompetitionCreateComponent implements OnInit {
                 this.spinnerTournaments = false;
             }
         );
-        
+
         this.competitionCreateForm = new FormGroup({
             title: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]),
             season_id: new FormControl('', [Validators.required]),
-            tournament_id: new FormControl('', [Validators.required])
+            tournament_id: new FormControl('', [Validators.required]),
+            number_of_teams: new FormControl('', [this.validateNumberOfTeams])
         });
     }
     
@@ -86,5 +89,13 @@ export class CompetitionCreateComponent implements OnInit {
                 this.spinnerButton = false;
             }
         );
+    }
+
+    validateNumberOfTeams(numberOfTeams: FormControl) {
+        return (numberOfTeams.value % 2 === 0) ? null : {
+            parity: {
+                valid: false
+            }
+        };
     }
 }

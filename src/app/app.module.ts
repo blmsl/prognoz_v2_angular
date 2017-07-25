@@ -33,10 +33,10 @@ import { TeamModule }                 from './team/team.module';
         HttpModule,
         ManageModule,
         MeModule,
+        TeamModule,
         NewsModule,
         SimpleNotificationsModule.forRoot(),
-        SharedModule,
-        TeamModule
+        SharedModule
     ],
     bootstrap: [
         AppComponent
