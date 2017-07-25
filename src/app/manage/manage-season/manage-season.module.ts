@@ -9,7 +9,7 @@ import { SeasonCreateComponent }        from './season-create/season-create.comp
 import { SeasonEditComponent }          from './season-edit/season-edit.component';
 import { SeasonService }                from './shared/season.service';
 import { SeasonTableComponent }         from './season-table/season-table.component';
-import { SharedModule }                 from '../../core/shared.module';
+import { SharedModule }                 from '../../shared/shared.module';
 
 @NgModule({
     imports: [

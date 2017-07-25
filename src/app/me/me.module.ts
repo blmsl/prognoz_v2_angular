@@ -5,7 +5,7 @@ import { ReactiveFormsModule }  from '@angular/forms';
 import { AppRoutingModule }     from '../app-routing.module';
 import { MeComponent }          from './me.component';
 import { MeGuard }              from './me-guard.service';
-import { SharedModule }         from '../core/shared.module';
+import { SharedModule }         from '../shared/shared.module';
 
 @NgModule({
     imports: [

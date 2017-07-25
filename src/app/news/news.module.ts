@@ -8,7 +8,7 @@ import { NewsDetailComponent }  from './news-detail/news-detail.component';
 import { NewsListComponent }    from './news-list/news-list.component';
 import { NewsRoutingModule }    from './news-routing.module';
 import { NewsService }          from './shared/news.service';
-import { SharedModule }         from '../core/shared.module';
+import { SharedModule }         from '../shared/shared.module';
 
 @NgModule({
     imports: [

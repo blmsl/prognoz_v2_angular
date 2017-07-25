@@ -5,7 +5,6 @@ import { RouterModule }           from '@angular/router';
 
 import { AccessDeniedComponent }  from './access-denied/access-denied.component';
 import { AuthService }            from './auth.service';
-import { BroadcastService }       from './broadcast.service';
 import { CurrentStateService }    from './current-state.service';
 import { ErrorHandlerService }    from './error-handler.service';
 import { FooterComponent }        from './footer/footer.component';
@@ -14,7 +13,7 @@ import { HeadersWithToken }       from './headers-with-token.service';
 import { HelperService }          from './helper.service';
 import { ImageService }           from './image.service';
 import { PageNotFoundComponent }  from './page-not-found/page-not-found.component';
-import { SharedModule }           from './shared.module';
+import { SharedModule }           from '../shared/shared.module';
 import { throwIfAlreadyLoaded }   from './module-import-guard';
 import { UserService }            from './user.service';
 
@@ -39,7 +38,6 @@ import { UserService }            from './user.service';
     ],
     providers: [
         AuthService,
-        BroadcastService,
         CurrentStateService,
         ErrorHandlerService,
         HeadersWithToken,

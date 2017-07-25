@@ -13,7 +13,7 @@ import { HomeModule }                 from './home/home.module';
 import { ManageModule }               from './manage/manage.module';
 import { MeModule }                   from './me/me.module';
 import { NewsModule }                 from './news/news.module';
-import { SharedModule }               from './core/shared.module';
+import { SharedModule }               from './shared/shared.module';
 import { SimpleNotificationsModule }  from 'angular2-notifications';
 
 @NgModule({

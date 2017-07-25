@@ -16,7 +16,7 @@ import { ChampionshipRoutingModule }        from './championship-routing.module'
 import { ChampionshipRulesComponent }       from './championship-rules/championship-rules.component';
 import { ChampionshipSeasonsModule }        from './championship-seasons/championship-seasons.module';
 import { ChampionshipUserComponent }        from './championship-user/championship-user.component';
-import { SharedModule }                     from '../core/shared.module';
+import { SharedModule }                     from '../shared/shared.module';
 
 @NgModule({
     imports: [

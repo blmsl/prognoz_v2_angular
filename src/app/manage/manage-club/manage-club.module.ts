@@ -10,7 +10,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ManageClubComponent }       from './manage-club.component';
 import { ManageClubGuard }           from './shared/manage-club-guard.service';
 import { ManageClubRoutingModule }   from './manage-club-routing.module';
-import { SharedModule }              from '../../core/shared.module';
+import { SharedModule }              from '../../shared/shared.module';
 
 @NgModule({
     imports: [
