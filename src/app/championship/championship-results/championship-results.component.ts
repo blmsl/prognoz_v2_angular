@@ -16,11 +16,10 @@ export class ChampionshipResultsComponent implements OnInit {
     ) { }
 
     championshipMatches: ChampionshipMatch[];
-    spinnerChampionshipMatches: boolean = false;
-    errorChampionshipMatches: string;
-
     clubsImagesUrl: string = environment.apiImageClubs;
-  
+    errorChampionshipMatches: string;
+    spinnerChampionshipMatches: boolean = false;
+
     ngOnInit() {
         this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'ended'}];

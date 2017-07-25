@@ -18,21 +18,34 @@ export class NewsTableComponent implements OnInit {
         private newsService: NewsService
     ) { }
 
-    news: News[];
-    errorNews: string | Array<string>;
-    spinnerNews: boolean = false;
-    noNews: string = 'В базі даних новин не знайдено.';
-
-    path: string = '/manage/news/page/';
+    cancelClicked: boolean = false;
+    confirmClicked: boolean = false;
     currentPage: number;
+    errorNews: string | Array<string>;
+    news: News[];
     lastPage: number;
+    message: string = 'Ви дійсно бажаєте видалити';
+    noNews: string = 'В базі даних новин не знайдено.';
+    path: string = '/manage/news/page/';
     perPage: number;
+    spinnerNews: boolean = false;
+    title: string = 'Підтвердження';
     total: number;
 
-    title: string = 'Підтвердження';
-    message: string = 'Ви дійсно бажаєте видалити';
-    confirmClicked: boolean = false;
-    cancelClicked: boolean = false;
+    deleteNewsItem(news: News) {
+        this.newsService.deleteNewsItem(news.id).subscribe(
+            response => {
+                this.total--;
+                this.news = this.news.filter(n => n !== news);
+                this.notificationService.success('Успішно', news.title + ' видалено');
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationService.error('Помилка', error);
+                }
+            }
+        );
+    }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -55,21 +68,6 @@ export class NewsTableComponent implements OnInit {
                 }
             )
         });
-    }
-
-    deleteNewsItem(news: News) {
-        this.newsService.deleteNewsItem(news.id).subscribe(
-            response => {
-                this.total--;
-                this.news = this.news.filter(n => n !== news);
-                this.notificationService.success('Успішно', news.title + ' видалено');
-            },
-            errors => {
-                for (let error of errors) {
-                    this.notificationService.error('Помилка', error);
-                }
-            }
-        );
     }
 
     private resetData() {

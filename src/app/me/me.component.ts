@@ -40,13 +40,24 @@ export class MeComponent implements OnInit, OnDestroy {
 
     authenticatedUser: User = Object.assign({}, this.currentStateService.user);
     spinnerButton: boolean = false;
-    userSubscription: Subscription;
-    userImagesUrl: string = environment.apiImageUsers;
-    userImageDefault: string = environment.imageUserDefault;
-    userEditForm: FormGroup;
     errorImage: string;
     hasUnsavedChanges: boolean = false;
-  
+    userEditForm: FormGroup;
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
+    userSubscription: Subscription;
+
+    fileChange(event) {
+        this.hasUnsavedChanges = true;
+        this.imageService.fileChange(event, environment.imageSettings.user);
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             if (!result) {
@@ -64,12 +75,6 @@ export class MeComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
-    }
-
     onSubmit() {
         this.spinnerButton = true;
         this.userService.updateUser(this.userEditForm.value).subscribe(
@@ -85,10 +90,5 @@ export class MeComponent implements OnInit, OnDestroy {
                 this.spinnerButton = false;
             }
         );
-    }
-    
-    fileChange(event) {
-        this.hasUnsavedChanges = true;
-        this.imageService.fileChange(event, environment.imageSettings.user);
     }
 }

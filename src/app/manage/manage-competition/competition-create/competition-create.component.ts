@@ -24,18 +24,16 @@ export class CompetitionCreateComponent implements OnInit {
         private tournamentService: TournamentService
     ) { }
 
-    tournaments: Tournament[];
-    spinnerTournaments: boolean = false;
-    errorTournaments: string;
-    noTournaments: string;
-
-    seasons: Season[];
-    spinnerSeasons: boolean = false;
-    errorSeasons: string;
-    noSeasons: string = 'В базі даних сезонів не знайдено.';
-
     competitionCreateForm: FormGroup;
+    errorSeasons: string;
+    errorTournaments: string;
+    noSeasons: string = 'В базі даних сезонів не знайдено.';
+    noTournaments: string;
+    seasons: Season[];
     spinnerButton: boolean = false;
+    spinnerSeasons: boolean = false;
+    spinnerTournaments: boolean = false;
+    tournaments: Tournament[];
 
     ngOnInit() {
         this.spinnerSeasons = true;

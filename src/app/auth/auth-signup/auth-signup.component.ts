@@ -21,10 +21,10 @@ export class AuthSignupComponent implements OnInit {
         private router: Router
     ) { }
 
-    user: User = this.currentStateService.user;
-    spinner: boolean = false;
     captchaValidity: boolean = false;
     signUpForm: FormGroup;
+    spinner: boolean = false;
+    user: User = this.currentStateService.user;
 
     ngOnInit() {
         this.authService.getUser.subscribe(result => this.user = result);

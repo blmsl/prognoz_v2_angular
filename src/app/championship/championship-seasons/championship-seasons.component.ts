@@ -14,10 +14,10 @@ export class ChampionshipSeasonsComponent implements OnInit {
         private seasonService: SeasonService
     ) { }
 
-    seasons: Season[];
     errorSeasons: string | Array<string>;
-    spinnerSeasons: boolean = false;
     noSeasons: string = 'В базі даних сезонів не знайдено.';
+    seasons: Season[];
+    spinnerSeasons: boolean = false;
 
     ngOnInit() {
         this.spinnerSeasons = true;

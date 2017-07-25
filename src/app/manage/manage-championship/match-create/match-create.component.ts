@@ -22,18 +22,16 @@ export class MatchCreateComponent implements OnInit {
         private notificationService: NotificationsService
     ) { }
 
-    clubs: Club[];
-    spinnerClubs: boolean = false;
-    errorClubs: string | Array<string>;
-    noClubs: string = 'В базі даних команд не знайдено.';
-
-    championshipMatchCreateForm: FormGroup;
     addedMatches: Array<ChampionshipMatch> = [];
-    error: string | Array<string>;
-    lastEnteredDate: string;
-    spinner: boolean = false;
-
+    championshipMatchCreateForm: FormGroup;
+    clubs: Club[];
     clubsImagesUrl: string = environment.apiImageClubs;
+    error: string | Array<string>;
+    errorClubs: string | Array<string>;
+    lastEnteredDate: string;
+    noClubs: string = 'В базі даних команд не знайдено.';
+    spinner: boolean = false;
+    spinnerClubs: boolean = false;
 
     ngOnInit() {
         this.championshipMatchCreateForm = this.formBuilder.group({
@@ -75,13 +73,13 @@ export class MatchCreateComponent implements OnInit {
         );
     }
 
+    resetForm() {
+        this.championshipMatchCreateForm.reset();
+    }
+
     swapClubs() {
         let t1_id = this.championshipMatchCreateForm.value.t1_id;
         let t2_id = this.championshipMatchCreateForm.value.t2_id;
         this.championshipMatchCreateForm.patchValue({t1_id: t2_id, t2_id: t1_id});
-    }
-
-    resetForm() {
-        this.championshipMatchCreateForm.reset();
     }
 }

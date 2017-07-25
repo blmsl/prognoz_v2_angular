@@ -16,14 +16,9 @@ export class ChampionshipLastResultsComponent implements OnInit {
     ) { }
 
     championshipMatches: ChampionshipMatch[];
+    clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
     spinnerChampionshipMatches: boolean = false;
-
-    clubsImagesUrl: string = environment.apiImageClubs;
-
-    ngOnInit() {
-        this.getChampionshipMatchesData();
-    }
 
     getChampionshipMatchesData() {
         this.spinnerChampionshipMatches = true;
@@ -40,5 +35,9 @@ export class ChampionshipLastResultsComponent implements OnInit {
                 this.spinnerChampionshipMatches = false;
             }
         );
+    }
+
+    ngOnInit() {
+        this.getChampionshipMatchesData();
     }
 }

@@ -13,7 +13,7 @@ export class PaginationComponent implements OnChanges {
     @Input() pageSize: number;
     @Input() path: string;
 
-    pager:any = {};
+    pager: any = {};
 
     constructor(
         private router: Router

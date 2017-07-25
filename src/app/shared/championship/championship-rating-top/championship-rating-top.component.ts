@@ -18,12 +18,11 @@ export class ChampionshipRatingTopComponent implements OnInit {
     ) { }
 
     championshipRatingItems: ChampionshipRating[];
-    spinnerRating: boolean = false;
     errorRating: string;
-
-    userImagesUrl: string = environment.apiImageUsers;
+    spinnerRating: boolean = false;
     userImageDefault: string = environment.imageUserDefault;
-  
+    userImagesUrl: string = environment.apiImageUsers;
+
     ngOnInit() {
         this.topRating();
     }

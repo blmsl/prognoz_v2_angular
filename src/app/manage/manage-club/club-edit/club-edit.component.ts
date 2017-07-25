@@ -36,18 +36,20 @@ export class ClubEditComponent implements OnInit {
     }
 
     club: Club;
-    errorClub: string | Array<string>;
-    spinnerClub: boolean = false;
-
     clubs: Club[];
-    errorClubs: string | Array<string>;
-    spinnerClubs: boolean = false;
-    noClubs: string = 'В базі даних команд не знайдено.';
-
     clubEditForm: FormGroup;
     clubImagesUrl = environment.apiImageClubs;
+    errorClub: string | Array<string>;
+    errorClubs: string | Array<string>;
     errorImage: string;
+    noClubs: string = 'В базі даних команд не знайдено.';
     spinnerButton: boolean = false;
+    spinnerClub: boolean = false;
+    spinnerClubs: boolean = false;
+
+    fileChange(event) {
+        this.imageService.fileChange(event, environment.imageSettings.club);
+    }
 
     ngOnInit() {
         this.clubEditForm = this.formBuilder.group({
@@ -90,10 +92,6 @@ export class ClubEditComponent implements OnInit {
                     this.spinnerClubs = false;
                 }
         );
-    }
-
-    fileChange(event) {
-        this.imageService.fileChange(event, environment.imageSettings.club);
     }
 
     onSubmit() {

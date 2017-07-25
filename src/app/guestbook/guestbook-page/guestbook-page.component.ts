@@ -29,26 +29,31 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         private notificationService: NotificationsService
     ) { }
 
-    guestbookMessages: GuestbookMessage[];
-    errorGuestbookMessages: string | Array<string>;
-    spinnerGuestbookMessages: boolean = false;
-    noGuestbookMessages: string = 'В базі даних повідомлень не знайдено.';
-
-    userImagesUrl: string = environment.apiImageUsers;
-    userImageDefault: string = environment.imageUserDefault;
-
-    path: string = '/guestbook/page/';
-
-    currentPage: number;
-    lastPage: number;
-    perPage: number;
-    total: number;
-
+    addGuestbookMessageForm: FormGroup;
     authenticatedUser: User = this.currentStateService.user;
+    currentPage: number;
+    errorGuestbookMessages: string | Array<string>;
+    guestbookMessages: GuestbookMessage[];
+    lastPage: number;
+    noGuestbookMessages: string = 'В базі даних повідомлень не знайдено.';
+    path: string = '/guestbook/page/';
+    perPage: number;
+    spinnerButton: boolean = false;
+    spinnerGuestbookMessages: boolean = false;
+    total: number;
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
     userSubscription: Subscription;
 
-    addGuestbookMessageForm: FormGroup;
-    spinnerButton: boolean = false;
+    assembleHTMLItem(message: string) {
+        return this.domSanitizer.bypassSecurityTrustHtml(message);
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
 
     ngOnInit() {
         this.addGuestbookMessageForm = this.formBuilder.group({
@@ -62,10 +67,23 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         this.getGuestbookMessagesData();
     }
 
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
+    onSubmit() {
+        this.spinnerButton = true;
+        this.guestbookService.createGuestbookMessage(this.addGuestbookMessageForm.value)
+            .subscribe(
+                response => {
+                    this.getGuestbookMessagesData();
+                    this.spinnerButton = false;
+                    this.addGuestbookMessageForm.reset({user_id: this.authenticatedUser.id});
+                    this.notificationService.success('Успішно', 'Повідомлення додано');
+                },
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
+                    }
+                    this.spinnerButton = false;
+                }
+            );
     }
 
     private getGuestbookMessagesData() {
@@ -93,31 +111,8 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onSubmit() {
-        this.spinnerButton = true;
-        this.guestbookService.createGuestbookMessage(this.addGuestbookMessageForm.value)
-            .subscribe(
-                response => {
-                    this.getGuestbookMessagesData();
-                    this.spinnerButton = false;
-                    this.addGuestbookMessageForm.reset({user_id: this.authenticatedUser.id});
-                    this.notificationService.success('Успішно', 'Повідомлення додано');
-                },
-                errors => {
-                    for (let error of errors) {
-                        this.notificationService.error('Помилка', error);
-                    }
-                    this.spinnerButton = false;
-                }
-            );
-    }
-
     private resetData() {
         this.guestbookMessages = null;
         this.errorGuestbookMessages = null;
-    }
-
-    assembleHTMLItem(message: string) {
-        return this.domSanitizer.bypassSecurityTrustHtml(message);
     }
 }

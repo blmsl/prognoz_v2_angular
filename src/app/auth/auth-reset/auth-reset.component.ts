@@ -22,9 +22,9 @@ export class AuthResetComponent implements OnInit {
         private router: Router
     ) { }
 
-    user: User = this.currentStateService.user;
     resetForm: FormGroup;
     spinner: boolean = false;
+    user: User = this.currentStateService.user;
 
     ngOnInit() {
         this.authService.getUser.subscribe(result => this.user = result);

@@ -21,14 +21,19 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
         private currentStateService: CurrentStateService,
         public helperService: HelperService
     ) { }
-    
-    championshipRatingItems: ChampionshipRating[];
-    spinnerRating: boolean = false;
-    errorRating: string;
 
     authenticatedUser: User = this.currentStateService.user;
+    championshipRatingItems: ChampionshipRating[];
+    errorRating: string;
+    spinnerRating: boolean = false;
     userSubscription: Subscription;
-  
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
@@ -46,11 +51,5 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
                 this.spinnerRating = false;
             }
         );
-    }
-
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
     }
 }

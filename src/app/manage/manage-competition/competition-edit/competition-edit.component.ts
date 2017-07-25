@@ -29,22 +29,19 @@ export class CompetitionEditComponent implements OnInit {
         private tournamentService: TournamentService
     ) { }
 
-    tournaments: Tournament[];
-    spinnerTournaments: boolean = false;
-    errorTournaments: string;
-    noTournaments: string;
-
-    seasons: Season[];
-    spinnerSeasons: boolean = false;
-    errorSeasons: string;
-    noSeasons: string = 'В базі даних сезонів не знайдено.';
-
     competition: Competition;
-    spinnerCompetition: boolean = false;
-    errorCompetition: string;
-
     competitionEditForm: FormGroup;
+    errorCompetition: string;
+    errorSeasons: string;
+    errorTournaments: string;
+    noSeasons: string = 'В базі даних сезонів не знайдено.';
+    noTournaments: string;
+    seasons: Season[];
     spinnerButton: boolean = false;
+    spinnerCompetition: boolean = false;
+    spinnerSeasons: boolean = false;
+    spinnerTournaments: boolean = false;
+    tournaments: Tournament[];
 
     ngOnInit() {
         this.competitionEditForm = this.formBuilder.group({

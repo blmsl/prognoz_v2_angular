@@ -34,14 +34,17 @@ export class NewsEditComponent implements OnInit {
         );
     }
 
-    news: News;
+    errorImage: string;
     errorNews: string | Array<string>;
+    news: News;
+    newsEditForm: FormGroup;
     newsImagesUrl = environment.apiImageNews;
+    spinnerButton: boolean = false;
     spinnerNews: boolean = false;
 
-    newsEditForm: FormGroup;
-    errorImage: string;
-    spinnerButton: boolean = false;
+    fileChange(event) {
+        this.imageService.fileChange(event, environment.imageSettings.news);
+    }
 
     ngOnInit() {
         this.newsEditForm = this.formBuilder.group({
@@ -72,10 +75,6 @@ export class NewsEditComponent implements OnInit {
                     this.spinnerNews = false;
                 });
         });
-    }
-
-    fileChange(event) {
-        this.imageService.fileChange(event, environment.imageSettings.news);
     }
 
     onSubmit() {

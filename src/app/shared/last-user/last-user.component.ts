@@ -15,11 +15,15 @@ export class LastUserComponent implements OnInit {
       private userService: UserService
     ) { }
 
-    lastUser: User;
     errorUser: string | Array<string>;
+    lastUser: User;
     spinnerUser: boolean = false;
-    userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
+
+    getHometown(hometown: string | null) {
+        return hometown ? '(' + hometown + ')' : '';
+    }
 
     ngOnInit() {
         this.spinnerUser = true;
@@ -32,9 +36,5 @@ export class LastUserComponent implements OnInit {
                 this.spinnerUser = false;
             }
         );
-    }
-
-    getHometown(hometown: string | null) {
-        return hometown ? '(' + hometown + ')' : '';
     }
 }

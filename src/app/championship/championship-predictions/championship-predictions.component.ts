@@ -28,17 +28,21 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
         private notificationService: NotificationsService
     ) { }
 
+    authenticatedUser: User = this.currentStateService.user;
     championshipMatches: ChampionshipMatch[];
-    spinnerChampionshipMatches: boolean = false;
+    championshipPredictionsForm: FormGroup;
+    clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
     noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
-
     spinnerButton: boolean = false;
-    championshipPredictionsForm: FormGroup;
-
-    clubsImagesUrl: string = environment.apiImageClubs;
-    authenticatedUser: User = this.currentStateService.user;
+    spinnerChampionshipMatches: boolean = false;
     userSubscription: Subscription;
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
 
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
@@ -47,12 +51,6 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
         });
         this.championshipPredictionsForm = new FormGroup({});
         this.getChampionshipMatchesData();
-    }
-
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
     }
 
     onSubmit() {

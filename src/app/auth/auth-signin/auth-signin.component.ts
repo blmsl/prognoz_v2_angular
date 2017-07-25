@@ -21,10 +21,9 @@ export class AuthSigninComponent implements OnInit {
         private router: Router
     ) { }
 
-    user: User = this.currentStateService.user;
-    errorMessage: string;
     signInForm: FormGroup;
     spinner: boolean = false;
+    user: User = this.currentStateService.user;
 
     ngOnInit() {
         this.authService.getUser.subscribe(result => this.user = result);

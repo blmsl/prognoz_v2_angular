@@ -31,9 +31,13 @@ export class NewsCreateComponent implements OnInit {
         );
     }
 
-    newsCreateForm: FormGroup;
     errorImage: string;
+    newsCreateForm: FormGroup;
     spinnerButton: boolean = false;
+
+    fileChange(event) {
+        this.imageService.fileChange(event, environment.imageSettings.news);
+    }
 
     ngOnInit() {
         this.newsCreateForm = new FormGroup({
@@ -59,9 +63,5 @@ export class NewsCreateComponent implements OnInit {
                 this.spinnerButton = false;
             }
         );
-    }
-
-    fileChange(event) {
-        this.imageService.fileChange(event, environment.imageSettings.news);
     }
 }

@@ -18,9 +18,9 @@ export class ChampionshipCompetitionsComponent implements OnInit {
     ) { }
 
     competitions: Competition[];
-    spinnerCompetitions: boolean = false;
     errorCompetitions: string;
     noCompetitions: string;
+    spinnerCompetitions: boolean = false;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {

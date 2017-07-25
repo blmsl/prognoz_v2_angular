@@ -19,10 +19,10 @@ export class AuthRecoveryComponent implements OnInit {
         private notificationService: NotificationsService
     ) { }
 
-    user: User = this.currentStateService.user;
     recoveryForm: FormGroup;
     spinner: boolean = false;
-  
+    user: User = this.currentStateService.user;
+
     ngOnInit() {
         this.authService.getUser.subscribe(result => this.user = result);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
