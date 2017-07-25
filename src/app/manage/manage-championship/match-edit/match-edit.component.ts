@@ -20,17 +20,21 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     ) { }
 
     championshipMatches: ChampionshipMatch[];
-    spinnerChampionshipMatches: boolean = false;
-    errorChampionshipMatches: string;
-    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
-
-    spinnerButton: any = {};
-    updatedMatches: any = {};
-    isUpdatedMatches: boolean = false;
-    spinnerUpdateRatingButton: boolean = false;
-
     clubsImagesUrl: string = environment.apiImageClubs;
-  
+    errorChampionshipMatches: string;
+    isUpdatedMatches: boolean = false;
+    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
+    spinnerButton: any = {};
+    spinnerChampionshipMatches: boolean = false;
+    spinnerUpdateRatingButton: boolean = false;
+    updatedMatches: any = {};
+
+    ngOnDestroy() {
+        if (Object.keys(this.updatedMatches).length !== 0 && this.isUpdatedMatches) {
+            this.updateRating();
+        }
+    }
+
     ngOnInit() {
         this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'active'}];
@@ -46,12 +50,6 @@ export class MatchEditComponent implements OnInit, OnDestroy {
                 this.spinnerChampionshipMatches = false;
             }
         );
-    }
-
-    ngOnDestroy() { 
-        if (Object.keys(this.updatedMatches).length !== 0 && this.isUpdatedMatches) {
-           this.updateRating();
-        }
     }
 
     onSubmit(match: ChampionshipMatch) {

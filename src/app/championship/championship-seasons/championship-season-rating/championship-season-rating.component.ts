@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }       from '@angular/router';
 import { Subscription }                 from 'rxjs/Subscription';
 
-import { AuthService }                  from '../../../shared/auth.service';
+import { AuthService }                  from '../../../core/auth.service';
 import { ChampionshipRating }           from '../../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }    from '../../shared/championship-rating.service';
-import { CurrentStateService }          from '../../../shared/current-state.service';
+import { CurrentStateService }          from '../../../core/current-state.service';
 import { User }                         from '../../../shared/models/user.model';
 
 @Component({
@@ -22,12 +22,17 @@ export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
         private currentStateService: CurrentStateService
     ) { }
 
-    championshipRatingItems: ChampionshipRating[];
-    spinnerRating: boolean = false;
-    errorRating: string;
-
     authenticatedUser: User = this.currentStateService.user;
+    championshipRatingItems: ChampionshipRating[];
+    errorRating: string;
+    spinnerRating: boolean = false;
     userSubscription: Subscription;
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
 
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
@@ -41,19 +46,13 @@ export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
                 response => {
                     this.championshipRatingItems = response;
                     this.spinnerRating = false;
-                }, 
+                },
                 error => {
                     this.errorRating = error;
                     this.spinnerRating = false;
                 }
             );
         });
-    }
-
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
     }
 
     private resetData() {

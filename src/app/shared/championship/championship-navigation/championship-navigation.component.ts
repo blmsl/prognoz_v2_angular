@@ -7,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChampionshipNavigationComponent implements OnInit {
 
-  constructor() { }
-
   navigationItems: Array<any>;
 
   ngOnInit() {

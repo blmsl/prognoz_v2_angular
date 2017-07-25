@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit }   from '@angular/core';
 import { ActivatedRoute, Params }         from '@angular/router';
 import { Subscription }                   from 'rxjs/Subscription';
 
-import { AuthService }                    from '../../shared/auth.service';
+import { AuthService }                    from '../../core/auth.service';
 import { ChampionshipMatch }              from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }       from '../shared/championship-match.service';
-import { CurrentStateService }            from '../../shared/current-state.service';
+import { CurrentStateService }            from '../../core/current-state.service';
 import { environment }                    from '../../../environments/environment';
-import { HelperService }                  from '../../shared/helper.service';
+import { HelperService }                  from '../../core/helper.service';
 import { User }                           from '../../shared/models/user.model';
 
 @Component({
@@ -27,26 +27,32 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
         private location: Location
     ) { }
 
-    championshipMatch: ChampionshipMatch;
-    spinnerChampionshipMatch: boolean = false;
-    errorChampionshipMatch: string;
-
-    statistic: any;
-    errorStatistic: string;
-    spinnerStatistic: boolean = false;
-
-    clubsImagesUrl: string = environment.apiImageClubs;
     authenticatedUser: User = this.currentStateService.user;
-    userSubscription: Subscription;
-
+    championshipMatch: ChampionshipMatch;
+    clubsImagesUrl: string = environment.apiImageClubs;
+    errorChampionshipMatch: string;
+    errorStatistic: string;
+    resultChartData: number[];
     resultChartLabels: string[];
     resultChartType: string = 'doughnut';
-    resultChartData: number[];
-
+    // scoresChartData: number[];
     // scoresChartLabels: string[];
     // scoresChartType: string = 'doughnut';
-    // scoresChartData: number[];
-  
+    spinnerChampionshipMatch: boolean = false;
+    spinnerStatistic: boolean = false;
+    statistic: any;
+    userSubscription: Subscription;
+
+    goBack() {
+        this.location.back();
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
     ngOnInit(){
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
@@ -56,12 +62,6 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
             this.getChampionshipMatchData(params['id']);
             this.getChampionshipMatchStatisticData(params['id']);
         });
-    }
-
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
     }
 
     private getChampionshipMatchData(id: number) {
@@ -96,10 +96,6 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
                 this.spinnerStatistic = false;
             }
         );
-    }
-
-    goBack() {
-        this.location.back();
     }
 
     private resetData(): void {

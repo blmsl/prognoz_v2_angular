@@ -2,8 +2,8 @@ import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { Router, ActivatedRoute, Params }       from '@angular/router';
 
-import { AuthService }                          from '../../shared/auth.service';
-import { CurrentStateService }                  from '../../shared/current-state.service';
+import { AuthService }                          from '../../core/auth.service';
+import { CurrentStateService }                  from '../../core/current-state.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 
@@ -22,9 +22,9 @@ export class AuthResetComponent implements OnInit {
         private router: Router
     ) { }
 
-    user: User = this.currentStateService.user;
     resetForm: FormGroup;
     spinner: boolean = false;
+    user: User = this.currentStateService.user;
 
     ngOnInit() {
         this.authService.getUser.subscribe(result => this.user = result);

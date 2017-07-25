@@ -19,23 +19,36 @@ export class ClubTableComponent implements OnInit {
         private notificationService: NotificationsService
     ) { }
 
+    cancelClicked: boolean = false;
     clubs: Club[];
-    errorClubs: string | Array<string>;
-    spinnerClubs: boolean = false;
-    noClubs: string = 'В базі даних команд не знайдено.';
     clubsImagesUrl: string = environment.apiImageClubs;
-
-    path: string = '/manage/clubs/page/';
+    confirmClicked: boolean = false;
     currentPage: number;
+    errorClubs: string | Array<string>;
     lastPage: number;
+    message: string = 'Ви дійсно бажаєте видалити';
+    noClubs: string = 'В базі даних команд не знайдено.';
+    path: string = '/manage/clubs/page/';
     perPage: number;
+    spinnerClubs: boolean = false;
+    title: string = 'Підтвердження';
     total: number;
 
-    title: string = 'Підтвердження';
-    message: string = 'Ви дійсно бажаєте видалити';
-    confirmClicked: boolean = false;
-    cancelClicked: boolean = false;
-  
+    deleteClub(club) {
+        this.clubService.deleteClub(club.id)
+            .subscribe(
+                response => {
+                    this.total--;
+                    this.clubs = this.clubs.filter(n => n !== club);
+                    this.notificationService.success('Успішно', club.title + ' видалено');
+                },
+                errors => {
+                    for (let error of errors) {
+                        this.notificationService.error('Помилка', error);
+                    }
+                });
+    }
+
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
             this.resetData();
@@ -58,21 +71,6 @@ export class ClubTableComponent implements OnInit {
                 }
             )
         });
-    }
-
-    deleteClub(club) {
-        this.clubService.deleteClub(club.id)
-            .subscribe(
-                response => {
-                    this.total--;
-                    this.clubs = this.clubs.filter(n => n !== club);
-                    this.notificationService.success('Успішно', club.title + ' видалено');
-                },
-                errors => {
-                    for (let error of errors) {
-                        this.notificationService.error('Помилка', error);
-                    }
-                });
     }
 
     private resetData() {

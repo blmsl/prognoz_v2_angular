@@ -1,8 +1,8 @@
 import { Component, OnInit }                    from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
 
-import { AuthService }                          from '../../shared/auth.service';
-import { CurrentStateService }                  from '../../shared/current-state.service';
+import { AuthService }                          from '../../core/auth.service';
+import { CurrentStateService }                  from '../../core/current-state.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 
@@ -19,10 +19,10 @@ export class AuthRecoveryComponent implements OnInit {
         private notificationService: NotificationsService
     ) { }
 
-    user: User = this.currentStateService.user;
     recoveryForm: FormGroup;
     spinner: boolean = false;
-  
+    user: User = this.currentStateService.user;
+
     ngOnInit() {
         this.authService.getUser.subscribe(result => this.user = result);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';

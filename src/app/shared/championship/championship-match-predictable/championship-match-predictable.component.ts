@@ -21,15 +21,13 @@ export class ChampionshipMatchPredictableComponent {
     ) { }
 
     clubsImagesUrl: string = environment.apiImageClubs;
-
-    statistic: any = false;
     errorStatistic: string | Array<string>;
-    spinnerStatistic: boolean = false;
     expandedStatistic: boolean = false;
-
+    resultChartData: any;
     resultChartLabels: any;
     resultChartType: string = 'doughnut';
-    resultChartData: any;
+    spinnerStatistic: boolean = false;
+    statistic: any = false;
 
     getChampionshipMatchStatisticData(match: ChampionshipMatch) {
           if (!this.expandedStatistic) {

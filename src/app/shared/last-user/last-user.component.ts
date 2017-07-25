@@ -2,7 +2,7 @@ import { Component, OnInit }                    from '@angular/core';
 
 import { environment }                          from '../../../environments/environment';
 import { User }                                 from '../models/user.model';
-import { UserService }                          from '../user.service';
+import { UserService }                          from '../../core/user.service';
 
 @Component({
   selector: 'app-last-user',
@@ -15,11 +15,15 @@ export class LastUserComponent implements OnInit {
       private userService: UserService
     ) { }
 
-    lastUser: User;
     errorUser: string | Array<string>;
+    lastUser: User;
     spinnerUser: boolean = false;
-    userImagesUrl: string = environment.apiImageUsers;
     userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
+
+    getHometown(hometown: string | null) {
+        return hometown ? '(' + hometown + ')' : '';
+    }
 
     ngOnInit() {
         this.spinnerUser = true;
@@ -32,9 +36,5 @@ export class LastUserComponent implements OnInit {
                 this.spinnerUser = false;
             }
         );
-    }
-
-    getHometown(hometown: string | null) {
-        return hometown ? '(' + hometown + ')' : '';
     }
 }

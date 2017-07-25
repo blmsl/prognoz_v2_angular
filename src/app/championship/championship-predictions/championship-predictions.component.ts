@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { FormControl, FormGroup }               from '@angular/forms';
 import { Subscription }                         from 'rxjs/Subscription';
 
-import { AuthService }                          from '../../shared/auth.service';
+import { AuthService }                          from '../../core/auth.service';
 import { ChampionshipMatch }                    from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService }             from '../shared/championship-match.service';
 import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
-import { CurrentStateService }                  from '../../shared/current-state.service';
+import { CurrentStateService }                  from '../../core/current-state.service';
 import { environment }                          from '../../../environments/environment';
-import { HelperService }                        from '../../shared/helper.service';
+import { HelperService }                        from '../../core/helper.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { User }                                 from '../../shared/models/user.model';
 
@@ -28,17 +28,21 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
         private notificationService: NotificationsService
     ) { }
 
+    authenticatedUser: User = this.currentStateService.user;
     championshipMatches: ChampionshipMatch[];
-    spinnerChampionshipMatches: boolean = false;
+    championshipPredictionsForm: FormGroup;
+    clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
     noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
-
     spinnerButton: boolean = false;
-    championshipPredictionsForm: FormGroup;
-
-    clubsImagesUrl: string = environment.apiImageClubs;
-    authenticatedUser: User = this.currentStateService.user;
+    spinnerChampionshipMatches: boolean = false;
     userSubscription: Subscription;
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
 
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
@@ -47,12 +51,6 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
         });
         this.championshipPredictionsForm = new FormGroup({});
         this.getChampionshipMatchesData();
-    }
-
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
     }
 
     onSubmit() {

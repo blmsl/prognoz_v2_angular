@@ -12,7 +12,4 @@ export class ChampionshipResultsTableComponent {
   @Input() results: ChampionshipMatch[];
   @Input() spinner: boolean;
   @Input() error: string;
-
-  constructor() { }
-
 }

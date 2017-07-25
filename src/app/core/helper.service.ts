@@ -1,7 +1,7 @@
-import { Injectable }           from '@angular/core';
-import { FormGroup }            from '@angular/forms';
+import { Injectable }               from '@angular/core';
+import { FormGroup }                from '@angular/forms';
 
-import { ChampionshipPredict }  from './models/championship-predict.model';
+import { ChampionshipPrediction }   from '../shared/models/championship-prediction.model';
 
 @Injectable()
 
@@ -126,10 +126,10 @@ export class HelperService {
      * Receives form of championship predictions, validates it,
      * and returns ready to send array
      * @param championshipPredictionsForm
-     * @returns {ChampionshipPredict[]}
+     * @returns {ChampionshipPrediction[]}
      */
-    createChampionshipPredictionsArray(championshipPredictionsForm: FormGroup): ChampionshipPredict[] {
-        let championshipPredictionsToUpdate: ChampionshipPredict[] = [];
+    createChampionshipPredictionsArray(championshipPredictionsForm: FormGroup): ChampionshipPrediction[] {
+        let championshipPredictionsToUpdate: ChampionshipPrediction[] = [];
         for (let championshipPrediction in championshipPredictionsForm.value) {
             let championshipMatchId = parseInt(championshipPrediction.split('_')[0]);
             // If there is no predictions on match

@@ -23,61 +23,28 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     ) { }
 
     championshipMatches: ChampionshipMatch[];
-    errorChampionshipMatches: string;
-    spinnerChampionshipMatches: boolean = false;
-    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
-
     clubs: Club[];
-    errorClubs: string | Array<string>;
-    spinnerClubs: boolean = false;
-    noClubs: string = 'В базі даних команд не знайдено.';
     clubsImagesUrl: string = environment.apiImageClubs;
-
-    spinnerButton: any = {};
-    updatedMatches: any = {};
+    errorChampionshipMatches: string;
+    errorClubs: string | Array<string>;
     isUpdatedMatches: boolean = false;
+    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
+    noClubs: string = 'В базі даних команд не знайдено.';
+    spinnerButton: any = {};
+    spinnerChampionshipMatches: boolean = false;
+    spinnerClubs: boolean = false;
     spinnerUpdateRatingButton: boolean = false;
-
-    ngOnInit() {
-        this.getChampionshipMatchesData();
-        this.getClubsData();
-    }
+    updatedMatches: any = {};
 
     ngOnDestroy() {
         if (Object.keys(this.updatedMatches).length !== 0 && this.isUpdatedMatches) {
             this.updateRating();
         }
     }
-  
-    private getChampionshipMatchesData() {
-        this.spinnerChampionshipMatches = true;
-        let param = [{parameter: 'filter', value: 'ended'}];
-        this.championshipMatchService.getChampionshipMatches(param).subscribe(
-            response => {
-                if (response) {
-                    this.championshipMatches = response.championship_matches;
-                }
-              this.spinnerChampionshipMatches = false;
-            },
-            error => {
-                this.errorChampionshipMatches = error;
-                this.spinnerChampionshipMatches = false;
-            }
-        );
-    }
-  
-    private getClubsData() {
-        this.spinnerClubs = true;
-        this.clubService.getClubs().subscribe(
-            response => {
-                this.clubs = response.clubs;
-                this.spinnerClubs = false;
-            },
-            error => {
-                this.errorClubs = error;
-                this.spinnerClubs = false;
-            }
-        );
+
+    ngOnInit() {
+        this.getChampionshipMatchesData();
+        this.getClubsData();
     }
 
     onSubmit(match: ChampionshipMatch) {
@@ -119,6 +86,37 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
             error => {
                 this.notificationService.error('Помилка', 'Оновити рейтинг не вдалось');
                 this.spinnerUpdateRatingButton = false;
+            }
+        );
+    }
+
+    private getChampionshipMatchesData() {
+        this.spinnerChampionshipMatches = true;
+        let param = [{parameter: 'filter', value: 'ended'}];
+        this.championshipMatchService.getChampionshipMatches(param).subscribe(
+            response => {
+                if (response) {
+                    this.championshipMatches = response.championship_matches;
+                }
+              this.spinnerChampionshipMatches = false;
+            },
+            error => {
+                this.errorChampionshipMatches = error;
+                this.spinnerChampionshipMatches = false;
+            }
+        );
+    }
+
+    private getClubsData() {
+        this.spinnerClubs = true;
+        this.clubService.getClubs().subscribe(
+            response => {
+                this.clubs = response.clubs;
+                this.spinnerClubs = false;
+            },
+            error => {
+                this.errorClubs = error;
+                this.spinnerClubs = false;
             }
         );
     }

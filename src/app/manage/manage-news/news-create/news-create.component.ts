@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { Router }                               from '@angular/router';
 
 import { environment }                          from '../../../../environments/environment';
-import { ImageService }                         from '../../../shared/image.service';
+import { ImageService }                         from '../../../core/image.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { NewsService }                          from '../../../news/shared/news.service';
 
@@ -31,9 +31,13 @@ export class NewsCreateComponent implements OnInit {
         );
     }
 
-    newsCreateForm: FormGroup;
     errorImage: string;
+    newsCreateForm: FormGroup;
     spinnerButton: boolean = false;
+
+    fileChange(event) {
+        this.imageService.fileChange(event, environment.imageSettings.news);
+    }
 
     ngOnInit() {
         this.newsCreateForm = new FormGroup({
@@ -59,9 +63,5 @@ export class NewsCreateComponent implements OnInit {
                 this.spinnerButton = false;
             }
         );
-    }
-
-    fileChange(event) {
-        this.imageService.fileChange(event, environment.imageSettings.news);
     }
 }

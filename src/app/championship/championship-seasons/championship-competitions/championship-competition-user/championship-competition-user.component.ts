@@ -1,14 +1,14 @@
 import { Component, OnInit }             from '@angular/core';
 import { ActivatedRoute, Params }        from '@angular/router';
 
-import { ChampionshipPredict }           from '../../../../shared/models/championship-predict.model';
+import { ChampionshipPrediction }        from '../../../../shared/models/championship-prediction.model';
 import { ChampionshipPredictionService } from '../../../shared/championship-prediction.service';
 import { ChampionshipRating }            from '../../../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }     from '../../../shared/championship-rating.service';
 import { environment }                   from '../../../../../environments/environment';
-import { HelperService }                 from '../../../../shared/helper.service';
+import { HelperService }                 from '../../../../core/helper.service';
 import { User }                          from '../../../../shared/models/user.model';
-import { UserService }                   from '../../../../shared/user.service';
+import { UserService }                   from '../../../../core/user.service';
 
 @Component({
   selector: 'app-championship-competition-user',
@@ -25,21 +25,17 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
         private userService: UserService
     ) { }
 
-    user: User;
-    spinnerUser: boolean = false;
-    errorUser: string;
-
+    championshipPredictions: ChampionshipPrediction[];
     championshipRatingItem: ChampionshipRating;
-    spinnerRating: boolean = false;
-    errorRating: string;
-
-    championshipPredictions: ChampionshipPredict[];
-    spinnerChampionshipPredictions: boolean = false;
     errorChampionshipPredictions: string;
-
-    userImagesUrl: string = environment.apiImageUsers;
+    errorRating: string;
+    errorUser: string;
+    spinnerChampionshipPredictions: boolean = false;
+    spinnerRating: boolean = false;
+    spinnerUser: boolean = false;
+    user: User;
     userImageDefault: string = environment.imageUserDefault;
-    awardsImagesUrl: string = environment.apiImageAwards;
+    userImagesUrl: string = environment.apiImageUsers;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
@@ -47,34 +43,6 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
             this.getChampionshipRatingItemData(params['userId'], params['competitionId']);
             this.getChampionshipPredictionsData(params['userId'], params['competitionId']);
         });
-    }
-
-    private getUserData(id: number) {
-        this.spinnerUser = true;
-        this.userService.getUser(id).subscribe(
-            response => {
-                this.user = response;
-                this.spinnerUser = false;
-            },
-            error => {
-                this.errorUser = error;
-                this.spinnerUser = false;
-            }
-        );
-    }
-
-    private getChampionshipRatingItemData(userId: number, competitionId: number) {
-        this.spinnerRating = true;
-        this.championshipRatingService.getChampionshipRatingItem(userId, competitionId).subscribe(
-            response => {
-                this.championshipRatingItem = response;
-                this.spinnerRating = false;
-            },
-            error => {
-                this.errorRating = error;
-                this.spinnerRating = false;
-            }
-        );
     }
 
     private getChampionshipPredictionsData(userId: number, competitionId: number) {
@@ -93,6 +61,34 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
             error => {
                 this.errorChampionshipPredictions = error;
                 this.spinnerChampionshipPredictions = false;
+            }
+        );
+    }
+
+    private getChampionshipRatingItemData(userId: number, competitionId: number) {
+        this.spinnerRating = true;
+        this.championshipRatingService.getChampionshipRatingItem(userId, competitionId).subscribe(
+            response => {
+                this.championshipRatingItem = response;
+                this.spinnerRating = false;
+            },
+            error => {
+                this.errorRating = error;
+                this.spinnerRating = false;
+            }
+        );
+    }
+
+    private getUserData(id: number) {
+        this.spinnerUser = true;
+        this.userService.getUser(id).subscribe(
+            response => {
+                this.user = response;
+                this.spinnerUser = false;
+            },
+            error => {
+                this.errorUser = error;
+                this.spinnerUser = false;
             }
         );
     }

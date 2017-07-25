@@ -17,14 +17,13 @@ export class CompetitionTableComponent implements OnInit {
     ) { }
 
     competitions: Competition[];
-    spinnerCompetitions: boolean = false;
-    errorCompetitions: string;
-    noCompetitions: string;
-
-    path: string = '/manage/competitions/page/';
     currentPage: number;
+    errorCompetitions: string;
     lastPage: number;
+    noCompetitions: string;
+    path: string = '/manage/competitions/page/';
     perPage: number;
+    spinnerCompetitions: boolean = false;
     total: number;
 
     ngOnInit() {

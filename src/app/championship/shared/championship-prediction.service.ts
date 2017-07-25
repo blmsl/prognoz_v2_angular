@@ -2,10 +2,10 @@ import { Injectable }                       from '@angular/core';
 import { Http, URLSearchParams }            from '@angular/http';
 import { Observable }                       from 'rxjs/Observable';
 
-import { ChampionshipPredict }              from '../../shared/models/championship-predict.model';
+import { ChampionshipPrediction }           from '../../shared/models/championship-prediction.model';
 import { environment }                      from '../../../environments/environment';
-import { ErrorHandlerService }              from '../../shared/error-handler.service';
-import { HeadersWithToken }                 from '../../shared/headers-with-token.service';
+import { ErrorHandlerService }              from '../../core/error-handler.service';
+import { HeadersWithToken }                 from '../../core/headers-with-token.service';
 import { RequestParams }                    from '../../shared/models/request-params.model';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class ChampionshipPredictionService {
      * Update championship predictions
      * @returns {Observable<any>}
      */
-    updateChampionshipPredictions(championshipPredictions: ChampionshipPredict[]): Observable<any> {
+    updateChampionshipPredictions(championshipPredictions: ChampionshipPrediction[]): Observable<any> {
         return this.headersWithToken
             .put(this.championshipPredictionUrl, championshipPredictions)
             .map(response => response.json())

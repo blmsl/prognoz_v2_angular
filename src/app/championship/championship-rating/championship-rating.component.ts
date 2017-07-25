@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription }                 from 'rxjs/Subscription';
 
-import { AuthService }                  from '../../shared/auth.service';
+import { AuthService }                  from '../../core/auth.service';
 import { ChampionshipRating }           from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }    from '../shared/championship-rating.service';
-import { CurrentStateService }          from '../../shared/current-state.service';
-import { HelperService }                from '../../shared/helper.service';
+import { CurrentStateService }          from '../../core/current-state.service';
+import { HelperService }                from '../../core/helper.service';
 import { User }                         from '../../shared/models/user.model';
 
 @Component({
@@ -21,14 +21,19 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
         private currentStateService: CurrentStateService,
         public helperService: HelperService
     ) { }
-    
-    championshipRatingItems: ChampionshipRating[];
-    spinnerRating: boolean = false;
-    errorRating: string;
 
     authenticatedUser: User = this.currentStateService.user;
+    championshipRatingItems: ChampionshipRating[];
+    errorRating: string;
+    spinnerRating: boolean = false;
     userSubscription: Subscription;
-  
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
@@ -46,11 +51,5 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
                 this.spinnerRating = false;
             }
         );
-    }
-
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
     }
 }

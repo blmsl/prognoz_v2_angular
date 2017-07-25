@@ -1,14 +1,14 @@
 import { Component, OnInit }                    from '@angular/core';
 import { ActivatedRoute, Params }               from '@angular/router';
 
-import { ChampionshipPredict }                  from '../../shared/models/championship-predict.model';
+import { ChampionshipPrediction }               from '../../shared/models/championship-prediction.model';
 import { ChampionshipPredictionService }        from '../shared/championship-prediction.service';
 import { ChampionshipRating }                   from '../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { environment }                          from '../../../environments/environment';
-import { HelperService }                        from '../../shared/helper.service';
+import { HelperService }                        from '../../core/helper.service';
 import { User }                                 from '../../shared/models/user.model';
-import { UserService }                          from '../../shared/user.service';
+import { UserService }                          from '../../core/user.service';
 
 @Component({
   selector: 'app-championship-user',
@@ -25,22 +25,19 @@ export class ChampionshipUserComponent implements OnInit {
         private userService: UserService
     ) { }
 
-    user: User;
-    spinnerUser: boolean = false;
-    errorUser: string;
-
-    championshipRatingItem: ChampionshipRating;
-    spinnerRating: boolean = false;
-    errorRating: string;
-
-    championshipPredictions: ChampionshipPredict[];
-    spinnerChampionshipPredictions: boolean = false;
-    errorChampionshipPredictions: string;
-
-    userImagesUrl: string = environment.apiImageUsers;
-    userImageDefault: string = environment.imageUserDefault;
     awardsImagesUrl: string = environment.apiImageAwards;
-    
+    championshipPredictions: ChampionshipPrediction[];
+    championshipRatingItem: ChampionshipRating;
+    errorChampionshipPredictions: string;
+    errorRating: string;
+    errorUser: string;
+    spinnerChampionshipPredictions: boolean = false;
+    spinnerRating: boolean = false;
+    spinnerUser: boolean = false;
+    user: User;
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
+
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
             this.getUserData(params['id']);
@@ -49,16 +46,19 @@ export class ChampionshipUserComponent implements OnInit {
         });
     }
 
-    private getUserData(id: number) {
-        this.spinnerUser = true;
-        this.userService.getUser(id).subscribe(
+    private getChampionshipPredictionsData(userId: number) {
+        this.spinnerChampionshipPredictions = true;
+        let param = [{parameter: 'user-id', value: userId.toString()}];
+        this.championshipPredictionService.getChampionshipPredictions(param).subscribe(
             response => {
-                this.user = response;
-                this.spinnerUser = false;
+                if (response) {
+                    this.championshipPredictions = response.championship_predicts;
+                }
+                this.spinnerChampionshipPredictions = false;
             },
             error => {
-                this.errorUser = error;
-                this.spinnerUser = false;
+                this.errorChampionshipPredictions = error;
+                this.spinnerChampionshipPredictions = false;
             }
         );
     }
@@ -77,19 +77,16 @@ export class ChampionshipUserComponent implements OnInit {
         );
     }
 
-    private getChampionshipPredictionsData(userId: number) {
-        this.spinnerChampionshipPredictions = true;
-        let param = [{parameter: 'user-id', value: userId.toString()}];
-        this.championshipPredictionService.getChampionshipPredictions(param).subscribe(
+    private getUserData(id: number) {
+        this.spinnerUser = true;
+        this.userService.getUser(id).subscribe(
             response => {
-                if (response) {
-                    this.championshipPredictions = response.championship_predicts;
-                }
-                this.spinnerChampionshipPredictions = false;
+                this.user = response;
+                this.spinnerUser = false;
             },
             error => {
-                this.errorChampionshipPredictions = error;
-                this.spinnerChampionshipPredictions = false;
+                this.errorUser = error;
+                this.spinnerUser = false;
             }
         );
     }

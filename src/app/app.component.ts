@@ -1,7 +1,7 @@
 import { Component, OnInit }    from '@angular/core';
 import './rxjs-operators';
 
-import { CurrentStateService }  from './shared/current-state.service';
+import { CurrentStateService }  from './core/current-state.service';
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({
@@ -16,16 +16,16 @@ export class AppComponent implements OnInit {
         private currentStateService: CurrentStateService,
         private notificationService: NotificationsService
     ) {}
-    
-    ngOnInit() {
-        this.currentStateService.initialize();
-    }
 
-    public options = {
+    options = {
         position: ['right', 'bottom'],
         timeOut: 5000,
         showProgressBar: false,
         maxLength: 0,
         animate: 'scale'
     };
+
+    ngOnInit() {
+        this.currentStateService.initialize();
+    }
 }

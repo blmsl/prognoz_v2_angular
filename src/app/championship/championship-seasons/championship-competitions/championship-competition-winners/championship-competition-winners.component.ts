@@ -18,13 +18,12 @@ export class ChampionshipCompetitionWinnersComponent implements OnInit {
         private router: Router
     ) { }
 
-    competition: Competition;
-    spinnerCompetition: boolean = false;
-    errorCompetition: string | Array<string>;
-
-    userImagesUrl: string = environment.apiImageUsers;
-    userImageDefault: string = environment.imageUserDefault;
     awardsImagesUrl: string = environment.apiImageAwards;
+    competition: Competition;
+    errorCompetition: string | Array<string>;
+    spinnerCompetition: boolean = false;
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params:Params) => {

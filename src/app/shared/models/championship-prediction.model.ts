@@ -1,4 +1,4 @@
-export class ChampionshipPredict {
+export class ChampionshipPrediction {
     id?:      number;
     user_id?: number;
     match_id: number;

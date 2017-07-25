@@ -1,7 +1,7 @@
 import { Component, Input }   from '@angular/core';
 
 import { ChampionshipRating } from '../../models/championship-rating.model';
-import { HelperService }      from '../../helper.service';
+import { HelperService }      from '../../../core/helper.service';
 
 @Component({
   selector: 'app-championship-rating-table',

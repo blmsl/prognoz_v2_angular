@@ -17,17 +17,16 @@ export class NewsListComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private newsService: NewsService
     ) { }
-    
-    news: News[];
-    errorNews: string | Array<string>;
-    spinnerNews: boolean = false;
-    noNews: string = 'В базі даних новин не знайдено.';
-    newsImagesUrl: string = environment.apiImageNews;
 
-    path: string = '/news/page/';
     currentPage: number;
+    errorNews: string | Array<string>;
+    news: News[];
     lastPage: number;
+    newsImagesUrl: string = environment.apiImageNews;
+    noNews: string = 'В базі даних новин не знайдено.';
+    path: string = '/news/page/';
     perPage: number;
+    spinnerNews: boolean = false;
     total: number;
 
     ngOnInit() {

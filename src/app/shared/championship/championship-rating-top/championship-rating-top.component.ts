@@ -3,7 +3,7 @@ import { Component, OnInit }         from '@angular/core';
 import { ChampionshipRating }        from '../../models/championship-rating.model';
 import { ChampionshipRatingService } from '../../../championship/shared/championship-rating.service';
 import { environment }               from '../../../../environments/environment';
-import { HelperService }             from '../../helper.service';
+import { HelperService }             from '../../../core/helper.service';
 
 @Component({
   selector: 'app-championship-rating-top',
@@ -18,12 +18,11 @@ export class ChampionshipRatingTopComponent implements OnInit {
     ) { }
 
     championshipRatingItems: ChampionshipRating[];
-    spinnerRating: boolean = false;
     errorRating: string;
-
-    userImagesUrl: string = environment.apiImageUsers;
+    spinnerRating: boolean = false;
     userImageDefault: string = environment.imageUserDefault;
-  
+    userImagesUrl: string = environment.apiImageUsers;
+
     ngOnInit() {
         this.topRating();
     }

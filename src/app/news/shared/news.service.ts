@@ -3,8 +3,8 @@ import { Http, URLSearchParams }             from '@angular/http';
 import { Observable }                        from 'rxjs/Observable';
 
 import { environment }                       from '../../../environments/environment';
-import { ErrorHandlerService }               from '../../shared/error-handler.service';
-import { HeadersWithToken }                  from '../../shared/headers-with-token.service';
+import { ErrorHandlerService }               from '../../core/error-handler.service';
+import { HeadersWithToken }                  from '../../core/headers-with-token.service';
 import { News }                              from '../../shared/models/news.model'; 
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Injectable }           from '@angular/core';
 import { CanActivate, Router }  from '@angular/router';
 
-import { CurrentStateService }  from '../shared/current-state.service';
+import { CurrentStateService }  from '../core/current-state.service';
 
 @Injectable()
 export class MeGuard implements CanActivate {

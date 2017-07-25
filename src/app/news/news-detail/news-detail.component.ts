@@ -5,9 +5,9 @@ import { DomSanitizer }                         from '@angular/platform-browser'
 import { ActivatedRoute, Params }               from '@angular/router';
 import { Subscription }                         from 'rxjs/Subscription';
 
-import { AuthService }                          from '../../shared/auth.service';
+import { AuthService }                          from '../../core/auth.service';
 import { CommentService }                       from '../shared/comment.service';
-import { CurrentStateService }                  from '../../shared/current-state.service';
+import { CurrentStateService }                  from '../../core/current-state.service';
 import { environment }                          from '../../../environments/environment';
 import { NotificationsService }                 from 'angular2-notifications';
 import { News }                                 from '../../shared/models/news.model';
@@ -34,18 +34,30 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
         private newsService: NewsService,
     ) {}
 
-    news: News;
-    errorNews: string | Array<string>;
-    spinnerNews: boolean = false;
-    newsImagesUrl: string = environment.apiImageNews;
-
-    userImagesUrl: string = environment.apiImageUsers;
-    userImageDefault: string = environment.imageUserDefault;
+    addCommentForm: FormGroup;
     authenticatedUser: User = this.currentStateService.user;
+    errorNews: string | Array<string>;
+    news: News;
+    newsImagesUrl: string = environment.apiImageNews;
+    spinnerButton: boolean = false;
+    spinnerNews: boolean = false;
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
     userSubscription: Subscription;
 
-    addCommentForm: FormGroup;
-    spinnerButton: boolean = false;
+    assembleHTMLItem(message: string) {
+        return this.domSanitizer.bypassSecurityTrustHtml(message);
+    }
+
+    goBack() {
+        this.location.back();
+    }
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
 
     ngOnInit() {
         this.addCommentForm = this.formBuilder.group({
@@ -76,16 +88,6 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
-    }
-    
-    goBack() {
-        this.location.back();
-    }
-    
     onSubmit(value, valid) {
         this.spinnerButton = true;
         this.commentService.createComment(value).subscribe(
@@ -112,9 +114,5 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                 this.spinnerButton = false;
             }
         );
-    }
-
-    assembleHTMLItem(message: string) {
-        return this.domSanitizer.bypassSecurityTrustHtml(message);
     }
 }
