@@ -8,9 +8,9 @@ export const environment = {
     apiSiteLogo: 'http://46.101.159.170/logo.png',
     imageUserDefault: 'default.png',
     imageSettings: {
-        club: { maxSize: 200000, types: ["image/gif", "image/png"] },
-        user: { maxSize: 500000, types: ["image/gif", "image/png", "image/jpg", "image/jpeg"] },
-        news: { maxSize: 500000, types: ["image/jpg", "image/jpeg", "image/png"] }
+        club: { maxSize: 204800, types: ["image/gif", "image/png"] },
+        user: { maxSize: 512000, types: ["image/gif", "image/png", "image/jpg", "image/jpeg"] },
+        news: { maxSize: 512000, types: ["image/jpg", "image/jpeg", "image/png"] }
     },
     tournaments: {
         championship: {
