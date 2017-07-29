@@ -1,15 +1,16 @@
-import { Location }                             from '@angular/common';
-import { Component, OnInit }                    from '@angular/core';
-import { ActivatedRoute, Params, Router }       from '@angular/router';
-import { FormBuilder, FormGroup, Validators }   from '@angular/forms';
+import { Location }                                         from '@angular/common';
+import { Component, OnInit }                                from '@angular/core';
+import { ActivatedRoute, Params, Router }                   from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators }  from '@angular/forms';
 
-import { Competition }                          from '../../../shared/models/competition.model';
-import { CompetitionService }                   from '../shared/competition.service';
-import { NotificationsService }                 from 'angular2-notifications';
-import { Season }                               from '../../../shared/models/season.model';
-import { SeasonService }                        from '../../manage-season/shared/season.service';
-import { Tournament }                           from '../../../shared/models/tournament.model';
-import { TournamentService }                    from '../../manage-tournament/shared/tournament.service';
+import { Competition }                                      from '../../../shared/models/competition.model';
+import { CompetitionService }                               from '../shared/competition.service';
+import { environment }                                      from '../../../../environments/environment';
+import { NotificationsService }                             from 'angular2-notifications';
+import { Season }                                           from '../../../shared/models/season.model';
+import { SeasonService }                                    from '../../manage-season/shared/season.service';
+import { Tournament }                                       from '../../../shared/models/tournament.model';
+import { TournamentService }                                from '../../manage-tournament/shared/tournament.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class CompetitionEditComponent implements OnInit {
 
     competition: Competition;
     competitionEditForm: FormGroup;
+    competitionsEnvironment = environment.tournaments;
     errorCompetition: string;
     errorSeasons: string;
     errorTournaments: string;
@@ -49,6 +51,7 @@ export class CompetitionEditComponent implements OnInit {
             title: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
             season_id: ['', [Validators.required]],
             tournament_id: ['', [Validators.required]],
+            number_of_teams: ['', [this.validateNumberOfTeams]],
             active: ['', [Validators.required]],
             ended: ['', [Validators.required]]
         });
@@ -63,6 +66,7 @@ export class CompetitionEditComponent implements OnInit {
                         title: response.title,
                         season_id: response.season_id,
                         tournament_id: response.tournament_id,
+                        number_of_teams: response.number_of_teams,
                         active: response.active,
                         ended: response.ended
                     });
@@ -120,5 +124,13 @@ export class CompetitionEditComponent implements OnInit {
                     this.spinnerButton = false;
                 }
             );
+    }
+
+    validateNumberOfTeams(numberOfTeams: FormControl) {
+        return (numberOfTeams.value % 2 === 0) ? null : {
+            parity: {
+                valid: false
+            }
+        };
     }
 }

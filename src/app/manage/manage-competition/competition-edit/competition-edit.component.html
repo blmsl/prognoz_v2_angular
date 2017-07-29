@@ -57,6 +57,21 @@
                         <option *ngFor="let tournament of tournaments" [value]="tournament.id">{{tournament.title}}</option>
                     </select>
                 </div>
+                <!-- number of teams -->
+                <div class="form-group"
+                     [hidden]="competitionEditForm.get('tournament_id').value != competitionsEnvironment.team.id"
+                     [class.has-danger]="competitionEditForm.get('number_of_teams').invalid && competitionEditForm.get('number_of_teams').touched">
+                    <label class="form-control-label" for="number_of_teams"><strong>Кількість команд:</strong></label>
+                    <input type="number"
+                           id="number_of_teams"
+                           class="form-control"
+                           formControlName="number_of_teams"
+                           [class.form-control-danger]="competitionEditForm.get('number_of_teams').invalid && competitionEditForm.get('season_id').touched">
+                    <div *ngIf="competitionEditForm.get('number_of_teams').hasError('parity') && competitionEditForm.get('number_of_teams').touched"
+                         class="form-control-feedback">
+                        <small>Кількість команд повинна бути парною.</small>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-6 text-center">
                         <!-- active -->
