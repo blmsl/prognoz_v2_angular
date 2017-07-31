@@ -1,0 +1,72 @@
+<h2>
+    Заявки / Склади:
+    <button [hidden]="!teamsInfo" (click)="getTeamsInfoData()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+    </button>
+</h2>
+<div *ngIf="authenticatedUser && !alreadyJoined" class="row mb-2">
+    <div class="col">
+        <button type="button" class="btn btn-primary">
+            Створити нову команду
+        </button>
+        <button type="button" class="btn btn-primary">
+            Заявити команду з попереднього чемпіонату
+        </button>
+    </div>
+</div>
+<!-- spinner team participants-->
+<app-spinner *ngIf="spinnerTeamsInfo" [height]="255"></app-spinner>
+<!-- error team participants-->
+<app-error *ngIf="errorTeamsInfo" [message]="errorTeamsInfo"></app-error>
+<!-- no content -->
+<app-info *ngIf="!spinnerTeamsInfo && !errorTeamsInfo && !teamsInfo" [message]="'Заявок поки немає'"></app-info>
+<!-- team participants -->
+<table *ngIf="teamsInfo" class="table table-bordered table-hover black-shadow black-border table-sm">
+    <thead class="thead-inverse">
+        <tr>
+            <th class="text-center" title="Команда">Команда</th>
+            <th class="text-center" title="Ім'я гравця">Ім'я</th>
+            <th class="text-center" title="Статус заявки">Статус</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let team of teamsInfo">
+        <tr *ngFor="let participant of team.team_participants; let i = index;">
+            <td *ngIf="i === 0" [attr.rowspan]="team.team_participants.length" class="p-2">
+                <div class="card">
+                    <div class="card-block">
+                        <h4 class="card-title">
+                            <!--<img *ngIf="team.club" class="small-image" src="{{clubsImagesUrl}}{{team.club.image}}" alt="{{team.club.title}}">-->
+                            {{team.name}}
+                            <span class="pull-right">
+                                {{numberOfConfirmedParticipants(team.team_participants)}}/4
+                            </span>
+                            <span *ngIf="numberOfConfirmedParticipants(team.team_participants) === 4" class="pull-right">
+                                <i class="fa fa-lg fa-check-circle-o text-success mr-1" aria-hidden="true"></i>
+                            </span>
+                        </h4>
+                        <h6 *ngIf="team.caption" class="card-subtitle mb-2 text-muted">
+                            <small>{{team.caption}}</small>
+                        </h6>
+                        <div class="text-center mb-2">
+                            <img class="team-img img-fluid rounded card-img-bottom"
+                                 src="{{teamsImagesUrl}}{{team.image || teamImageDefault}}"
+                                 alt="{{team.name}}">
+                        </div>
+                        <div *ngIf="showJoinButton(team) && !alreadyJoined" class="text-center">
+                            <button class="btn btn-sm btn-info">Приєднатись</button>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td class="align-middle"
+                [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id)}">
+                {{participant.user.name}}
+                <span [hidden]="!participant.captain">(Капітан)</span>
+            </td>
+            <td class="text-center align-middle"
+                [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id)}">
+                <div [innerHtml]="statusColumnHtml(participant.confirmed, participant.refused, participant.user_id, team.last_captain_id)"></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
