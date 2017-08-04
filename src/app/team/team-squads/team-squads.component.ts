@@ -1,15 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DomSanitizer }                 from '@angular/platform-browser';
-import { Subscription }                 from 'rxjs/Subscription';
+import { Component, OnDestroy, OnInit }         from '@angular/core';
+import { FormControl, FormGroup, Validators }   from '@angular/forms';
+import { DomSanitizer }                         from '@angular/platform-browser';
+import { Subscription }                         from 'rxjs/Subscription';
 
-import { AuthService }                  from '../../core/auth.service';
-import { environment }                  from '../../../environments/environment';
-import { CurrentStateService }          from '../../core/current-state.service';
-import { TeamInfo }                     from '../../shared/models/team-info.model';
-import { TeamInfoService }              from '../shared/team-info.service';
-import { TeamParticipant }              from '../../shared/models/team-participant.model';
-import { TeamParticipantService }       from '../shared/team-participant.service';
-import { User }                         from '../../shared/models/user.model';
+import { AuthService }                          from '../../core/auth.service';
+import { environment }                          from '../../../environments/environment';
+import { CurrentStateService }                  from '../../core/current-state.service';
+import { NotificationsService }                 from 'angular2-notifications';
+import { Team }                                 from '../../shared/models/team.model';
+import { TeamService }                          from '../shared/team.service';
+import { TeamParticipant }                      from '../../shared/models/team-participant.model';
+import { TeamParticipantService }               from '../shared/team-participant.service';
+import { User }                                 from '../../shared/models/user.model';
+
+declare var $: any;
 
 @Component({
   selector: 'app-team-squads',
@@ -22,7 +26,8 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         private authService: AuthService,
         private currentStateService: CurrentStateService,
         private domSanitizer: DomSanitizer,
-        private teamInfoService: TeamInfoService,
+        private notificationsService: NotificationsService,
+        private teamService: TeamService,
         private teamParticipantService: TeamParticipantService
     ) { }
 
@@ -30,20 +35,23 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     authenticatedUser: User = this.currentStateService.user;
     clubsImagesUrl: string = environment.apiImageClubs;
     errorTeamsInfo: string;
-    userSubscription: Subscription;
+    noParticipants: string = 'Заявок поки що немає.';
+    spinnerButton: boolean = false;
     spinnerTeamsInfo: boolean = false;
-    teamsImagesUrl: string = environment.apiImageTeams;
     teamImageDefault: string = environment.imageTeamDefault;
-    teamsInfo: TeamInfo[];
+    teamCreateForm: FormGroup;
+    teamsImagesUrl: string = environment.apiImageTeams;
+    teams: Team[];
+    userSubscription: Subscription;
 
-    getTeamsInfoData() {
+    getTeamsData() {
         this.spinnerTeamsInfo = true;
         this.resetData();
-        this.teamInfoService.getTeamsInfo().subscribe(
+        this.teamService.getTeams().subscribe(
             response => {
                 if (response) {
-                    this.isMemberOfTeam(response.team_infos);
-                    this.teamsInfo = response.team_infos;
+                    this.isMemberOfTeam(response.teams);
+                    this.teams = response.teams;
                 }
                 this.spinnerTeamsInfo = false;
             },
@@ -54,7 +62,7 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         );
     }
 
-    isMemberOfTeam(teams: TeamInfo[]): void {
+    isMemberOfTeam(teams: Team[]): void {
         if (this.authenticatedUser) {
             for (let team of teams) {
                 if (team.team_participants.filter(participant => (participant.user_id === this.authenticatedUser.id && participant.confirmed)).length >= 1) {
@@ -73,16 +81,60 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
-            this.getTeamsInfoData();
+            this.getTeamsData();
         });
-        this.getTeamsInfoData();
+        this.getTeamsData();
+        this.teamCreateForm = new FormGroup({
+            name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
+            image: new FormControl(null, []),
+            caption: new FormControl(null, [Validators.maxLength(140)]),
+            club_id: new FormControl(null, [])
+        });
     }
 
     numberOfConfirmedParticipants(participants: TeamParticipant[]): number {
         return participants.filter(participant => participant.confirmed).length;
     }
 
-    showJoinButton(team: TeamInfo): boolean {
+    onSubmitted(teamCreateForm: FormGroup) {
+        if (teamCreateForm.valid) {
+            this.spinnerButton = true;
+            this.teamService.createTeam(teamCreateForm.value)
+                .subscribe(
+                    response => {
+                        this.notificationsService.success('Успішно', 'Команду ' + response.name +' створено');
+                        $('#teamEditModal').modal('hide');
+                        this.teamCreateForm.reset({image: null});
+                        let teamParticipant = {
+                            team_id: response.id,
+                            user_id: this.authenticatedUser.id,
+                            captain: true,
+                            confirmed: true
+                        };
+                        this.teamParticipantService.createTeamParticipant(teamParticipant).subscribe(
+                            response => {
+                                this.getTeamsData();
+                                this.notificationsService.success('Успішно', 'Заявку в команду подано');
+                            },
+                            errors => {
+                                for (let error of errors) {
+                                    this.notificationsService.error('Помилка', error);
+                                }
+                            }
+                        );
+                        this.spinnerButton = false;
+                    },
+                    errors => {
+                        for (let error of errors) {
+                            this.notificationsService.error('Помилка', error);
+                        }
+                        this.spinnerButton = false;
+                    }
+                );
+        }
+    }
+
+    showJoinButton(team: Team): boolean {
         if (!this.authenticatedUser) return false;
         if (this.authenticatedUser) {
             // current number of participants greater than 4
@@ -119,7 +171,7 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     }
 
     private resetData() {
-        this.teamsInfo = null;
+        this.teams = null;
         this.errorTeamsInfo = null;
         this.alreadyJoined = false;
     }

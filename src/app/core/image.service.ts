@@ -28,7 +28,7 @@ export class ImageService {
 
     private validateImage(image, accepted) {
         if (image.size > accepted.maxSize) {
-            this.uploadError.next('Розмір завантаженого зображення перевищує ' + (accepted.maxSize / 1000) + 'кб');
+            this.uploadError.next('Розмір завантаженого зображення перевищує ' + (accepted.maxSize / 1024) + 'кб');
             return false;
         }
         if (!image.type || (accepted.types.indexOf(image.type) < 0)) {

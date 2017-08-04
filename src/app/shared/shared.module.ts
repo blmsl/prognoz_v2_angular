@@ -18,6 +18,8 @@ import { LastUserComponent }                          from './last-user/last-use
 import { SpinnerButtonComponent }                     from './spinner-button/spinner-button.component';
 import { SpinnerComponent }                           from './spinner/spinner.component';
 import { PaginationComponent }                        from './pagination/pagination.component';
+import { SimpleNotificationsModule }                  from 'angular2-notifications';
+import { TeamEditModalComponent }                     from './team/team-edit-modal/team-edit-modal.component';
 import { TeamNavigationComponent }                    from './team/team-navigation/team-navigation.component';
 
 @NgModule({
@@ -25,7 +27,8 @@ import { TeamNavigationComponent }                    from './team/team-navigati
         CommonModule,
         AppRoutingModule,
         ChartsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SimpleNotificationsModule
     ],
     declarations: [
         SpinnerComponent,
@@ -42,6 +45,7 @@ import { TeamNavigationComponent }                    from './team/team-navigati
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
+        TeamEditModalComponent,
         TeamNavigationComponent
     ],
     exports: [
@@ -59,6 +63,7 @@ import { TeamNavigationComponent }                    from './team/team-navigati
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
+        TeamEditModalComponent,
         TeamNavigationComponent
     ]
 })

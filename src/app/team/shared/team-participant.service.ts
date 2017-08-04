@@ -29,4 +29,11 @@ export class TeamParticipantService {
               .map(response => response.json())
               .catch(this.errorHandlerService.handle);
     }
+
+    createTeamParticipant(teamParticipant: TeamParticipant) {
+        return this.headersWithToken
+            .post(this.teamParticipantUrl, teamParticipant)
+            .map(response => response.json().team_participant)
+            .catch(this.errorHandlerService.handle);
+    }
 }
