@@ -2,7 +2,7 @@
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form novalidate [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="p-2 rounded">
+            <form novalidate [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="p-2">
                 <div class="modal-header">
                     <h5 class="modal-title" id="teamEditModalLabel">Створити команду</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -19,9 +19,6 @@
                     <div *ngIf="clubs" class="container-fluid">
                         <div class="row">
                             <div class="col">
-                                <div *ngIf="errorsForm">
-                                    <app-error *ngFor="let errorForm of errorsForm" [message]="errorForm | json"></app-error>
-                                </div>
                                 <!-- name -->
                                 <div class="form-group"
                                      [class.has-danger]="teamForm.get('name').invalid && teamForm.get('name').touched">

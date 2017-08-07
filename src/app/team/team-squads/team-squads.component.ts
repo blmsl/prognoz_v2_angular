@@ -37,12 +37,36 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     errorTeamsInfo: string;
     noParticipants: string = 'Заявок поки що немає.';
     spinnerButton: boolean = false;
+    spinnerButtonSelect: boolean = false;
     spinnerTeamsInfo: boolean = false;
     teamImageDefault: string = environment.imageTeamDefault;
     teamCreateForm: FormGroup;
     teamsImagesUrl: string = environment.apiImageTeams;
     teams: Team[];
     userSubscription: Subscription;
+
+    createTeamCaptain(teamId: number) {
+        this.spinnerButtonSelect = true;
+        let teamParticipant = {
+            team_id: teamId,
+            user_id: this.authenticatedUser.id,
+            captain: true,
+            confirmed: true
+        };
+        this.teamParticipantService.createTeamParticipant(teamParticipant).subscribe(
+            response => {
+                this.getTeamsData();
+                this.notificationsService.success('Успішно', 'Заявку в команду подано');
+                this.spinnerButtonSelect = false;
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationsService.error('Помилка', error);
+                }
+                this.spinnerButtonSelect = false;
+            }
+        );
+    }
 
     getTeamsData() {
         this.spinnerTeamsInfo = true;
@@ -105,23 +129,7 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
                         this.notificationsService.success('Успішно', 'Команду ' + response.name +' створено');
                         $('#teamEditModal').modal('hide');
                         this.teamCreateForm.reset({image: null});
-                        let teamParticipant = {
-                            team_id: response.id,
-                            user_id: this.authenticatedUser.id,
-                            captain: true,
-                            confirmed: true
-                        };
-                        this.teamParticipantService.createTeamParticipant(teamParticipant).subscribe(
-                            response => {
-                                this.getTeamsData();
-                                this.notificationsService.success('Успішно', 'Заявку в команду подано');
-                            },
-                            errors => {
-                                for (let error of errors) {
-                                    this.notificationsService.error('Помилка', error);
-                                }
-                            }
-                        );
+                        this.createTeamCaptain(response.id);
                         this.spinnerButton = false;
                     },
                     errors => {
@@ -132,6 +140,12 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
                     }
                 );
         }
+    }
+
+    onSubmittedSelect(teamSelectForm: FormGroup) {
+        this.createTeamCaptain(teamSelectForm.value.team_id);
+        teamSelectForm.reset();
+        $('#teamSelectModal').modal('hide');
     }
 
     showJoinButton(team: Team): boolean {

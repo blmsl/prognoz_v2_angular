@@ -21,6 +21,7 @@ import { PaginationComponent }                        from './pagination/paginat
 import { SimpleNotificationsModule }                  from 'angular2-notifications';
 import { TeamEditModalComponent }                     from './team/team-edit-modal/team-edit-modal.component';
 import { TeamNavigationComponent }                    from './team/team-navigation/team-navigation.component';
+import { TeamSelectModalComponent }                   from './team/team-select-modal/team-select-modal.component';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { TeamNavigationComponent }                    from './team/team-navigati
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
         TeamEditModalComponent,
-        TeamNavigationComponent
+        TeamNavigationComponent,
+        TeamSelectModalComponent
     ],
     exports: [
         SpinnerComponent,
@@ -64,7 +66,8 @@ import { TeamNavigationComponent }                    from './team/team-navigati
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
         TeamEditModalComponent,
-        TeamNavigationComponent
+        TeamNavigationComponent,
+        TeamSelectModalComponent
     ]
 })
 export class SharedModule { }

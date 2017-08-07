@@ -9,7 +9,7 @@
         <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#teamEditModal">
             Створити нову команду
         </button>
-        <button type="button" class="btn btn-outline-primary">
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#teamSelectModal">
             Заявити команду з попереднього чемпіонату
         </button>
     </div>
@@ -69,7 +69,13 @@
         </tr>
     </tbody>
 </table>
-<app-team-edit-modal [spinnerButton]="spinnerButton"
+<app-team-edit-modal *ngIf="authenticatedUser"
+                     [spinnerButton]="spinnerButton"
                      [teamForm]="teamCreateForm"
                      (onSubmitted)="onSubmitted($event)">
 </app-team-edit-modal>
+<app-team-select-modal *ngIf="authenticatedUser"
+                       [authenticatedUser]="authenticatedUser"
+                       [spinnerButton]="spinnerButtonSelect"
+                       (onSubmitted)="onSubmittedSelect($event)">
+</app-team-select-modal>

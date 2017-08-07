@@ -21,11 +21,18 @@ export class TeamService {
 
     /**
      * Get teams info (with participants)
+     * @param requestParams
      * @returns {Observable<any>}
      */
-    getTeams(): Observable<any> {
+    getTeams(requestParams?: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        if (requestParams) {
+            for (let requestParam of requestParams) {
+                params.set(requestParam.parameter, requestParam.value);
+            }
+        }
         return this.http
-            .get(this.teamInfoUrl)
+            .get(this.teamInfoUrl, requestParams ? {search: params} : null)
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
