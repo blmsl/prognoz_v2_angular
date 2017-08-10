@@ -52,6 +52,7 @@ export class CompetitionEditComponent implements OnInit {
             season_id: ['', [Validators.required]],
             tournament_id: ['', [Validators.required]],
             number_of_teams: ['', [this.validateNumberOfTeams]],
+            stated: ['', [Validators.required]],
             active: ['', [Validators.required]],
             ended: ['', [Validators.required]]
         });
@@ -67,6 +68,7 @@ export class CompetitionEditComponent implements OnInit {
                         season_id: response.season_id,
                         tournament_id: response.tournament_id,
                         number_of_teams: response.number_of_teams,
+                        stated: response.stated,
                         active: response.active,
                         ended: response.ended
                     });

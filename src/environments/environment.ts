@@ -20,7 +20,8 @@ export const environment = {
             id: 1
         },
         team: {
-            id: 3
+            id: 3,
+            participants_in_team: 4
         }
     }
 };

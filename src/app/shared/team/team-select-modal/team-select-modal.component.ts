@@ -1,4 +1,4 @@
-import { Component, EventEmitter,Input, OnInit, Output }    from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output }   from '@angular/core';
 import { FormControl, FormGroup, Validators }               from '@angular/forms';
 import { Subscription }                                     from 'rxjs/Subscription';
 
@@ -18,6 +18,7 @@ export class TeamSelectModalComponent implements OnInit {
     @Output() onSubmitted = new EventEmitter<FormGroup>();
 
     errorTeams: string;
+    noTeams: string = 'Ви не є капітаном жодної з команд.';
     spinnerTeams: boolean = false;
     teamSelectForm: FormGroup;
     teams: Team[];

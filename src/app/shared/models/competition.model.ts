@@ -3,6 +3,7 @@ export class Competition {
     tournament_id:       number;
     season_id:           number;
     title:               string;
+    stated:              boolean;
     active:              boolean;
     ended:               boolean;
     participants:        number;

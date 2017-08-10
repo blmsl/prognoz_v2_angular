@@ -14,7 +14,7 @@
                     <!-- error -->
                     <app-error *ngIf="errorTeams" [message]="errorTeams"></app-error>
                     <!-- no clubs -->
-                    <app-info *ngIf="!teams && !spinnerTeams && !errorTeams" [message]="noClubs"></app-info>
+                    <app-info *ngIf="!teams && !spinnerTeams && !errorTeams" [message]="noTeams"></app-info>
                     <div *ngIf="teams" class="container-fluid">
                         <div class="row">
                             <div class="col">

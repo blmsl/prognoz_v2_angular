@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit }         from '@angular/core';
 import { FormControl, FormGroup, Validators }   from '@angular/forms';
-import { DomSanitizer }                         from '@angular/platform-browser';
 import { Subscription }                         from 'rxjs/Subscription';
 
 import { AuthService }                          from '../../core/auth.service';
 import { environment }                          from '../../../environments/environment';
+import { Competition }                          from '../../shared/models/competition.model';
+import { CompetitionService }                   from '../../manage/manage-competition/shared/competition.service';
 import { CurrentStateService }                  from '../../core/current-state.service';
 import { NotificationsService }                 from 'angular2-notifications';
 import { Team }                                 from '../../shared/models/team.model';
@@ -24,26 +25,77 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
 
     constructor(
         private authService: AuthService,
+        private competitionService: CompetitionService,
         private currentStateService: CurrentStateService,
-        private domSanitizer: DomSanitizer,
         private notificationsService: NotificationsService,
         private teamService: TeamService,
         private teamParticipantService: TeamParticipantService
     ) { }
 
     alreadyJoined: boolean = false;
+    alreadyPending: boolean = false;
     authenticatedUser: User = this.currentStateService.user;
     clubsImagesUrl: string = environment.apiImageClubs;
-    errorTeamsInfo: string;
-    noParticipants: string = 'Заявок поки що немає.';
+    errorTeams: string;
+    errorCompetition: string;
+    confirmModalData: any;
+    confirmModalId: string;
+    confirmModalMessage: string;
+    confirmSpinnerButton: boolean = false;
+    competition: Competition;
+    noParticipants: string = 'Заявок немає.';
+    noStateCompetition: string = 'Відкритого для заявок / Активного / Завершеного командного чемпіонату немає';
     spinnerButton: boolean = false;
     spinnerButtonSelect: boolean = false;
     spinnerTeamsInfo: boolean = false;
+    spinnerCompetition: boolean = false;
     teamImageDefault: string = environment.imageTeamDefault;
     teamCreateForm: FormGroup;
     teamsImagesUrl: string = environment.apiImageTeams;
     teams: Team[];
     userSubscription: Subscription;
+
+    confirmModalSubmit(data: any) {
+        switch (this.confirmModalId) {
+            case 'joinTeamConfirmModal':
+                this.createTeamParticipant(data);
+                break;
+            case 'confirmTeamParticipantConfirmModal':
+                this.confirmParticipant(data);
+                break;
+            case 'refuseTeamParticipantConfirmModal':
+                this.refuseParticipant(data);
+                break;
+        }
+    }
+
+    confirmParticipantModalOpen(teamParticipant: TeamParticipant) {
+        this.confirmModalMessage = 'Ви справді хочете підтвердити заявку ' + teamParticipant.user.name + '?';
+        this.confirmModalId = 'confirmTeamParticipantConfirmModal';
+        this.confirmModalData = teamParticipant;
+    }
+
+    confirmParticipant(teamParticipant: TeamParticipant) {
+        this.confirmSpinnerButton = true;
+        let teamParticipantToChange = Object.assign({}, teamParticipant);
+        teamParticipantToChange.confirmed = true;
+        teamParticipantToChange.refused = false;
+        this.teamParticipantService.updateTeamParticipant(teamParticipantToChange).subscribe(
+            response => {
+                this.getTeamsData();
+                this.notificationsService.success('Успішно', 'Заявку в команду підтверджено');
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationsService.error('Помилка', error);
+                }
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            }
+        );
+    }
 
     createTeamCaptain(teamId: number) {
         this.spinnerButtonSelect = true;
@@ -68,9 +120,51 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         );
     }
 
+    createTeamParticipant(team: Team) {
+        this.confirmSpinnerButton = true;
+        let teamParticipant = {
+            team_id: team.id,
+            user_id: this.authenticatedUser.id,
+            captain: false,
+            confirmed: false
+        };
+        this.teamParticipantService.createTeamParticipant(teamParticipant).subscribe(
+            response => {
+                this.getTeamsData();
+                this.notificationsService.success('Успішно', 'Заявку в команду подано');
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationsService.error('Помилка', error);
+                }
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            }
+        );
+    }
+
+    getCompetitionData() {
+        this.spinnerCompetition = true;
+        this.resetCompetitionData();
+        this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true).subscribe(
+            response => {
+                if (response) {
+                    this.competition = response.competitions[0];
+                }
+                this.spinnerCompetition = false;
+            },
+            error => {
+                this.errorCompetition = error;
+                this.spinnerCompetition = false;
+            }
+        );
+    }
+
     getTeamsData() {
         this.spinnerTeamsInfo = true;
-        this.resetData();
+        this.resetTeamsData();
         this.teamService.getTeams().subscribe(
             response => {
                 if (response) {
@@ -80,7 +174,7 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
                 this.spinnerTeamsInfo = false;
             },
             error => {
-                this.errorTeamsInfo = error;
+                this.errorTeams = error;
                 this.spinnerTeamsInfo = false;
             }
         );
@@ -92,8 +186,17 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
                 if (team.team_participants.filter(participant => (participant.user_id === this.authenticatedUser.id && participant.confirmed)).length >= 1) {
                     this.alreadyJoined = true;
                 }
+                if (team.team_participants.filter(participant => (participant.user_id === this.authenticatedUser.id && (!participant.confirmed && !participant.refused))).length >= 1) {
+                    this.alreadyPending = true;
+                }
             }
         }
+    }
+
+    joinTeamModalOpen(team: Team) {
+        this.confirmModalMessage = 'Ви справді хочете подати заявку в команду ' + team.name + '?';
+        this.confirmModalId = 'joinTeamConfirmModal';
+        this.confirmModalData = team;
     }
 
     ngOnDestroy() {
@@ -105,8 +208,10 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(result => {
             this.authenticatedUser = result;
+            this.getCompetitionData();
             this.getTeamsData();
         });
+        this.getCompetitionData();
         this.getTeamsData();
         this.teamCreateForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
@@ -148,6 +253,34 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         $('#teamSelectModal').modal('hide');
     }
 
+    refuseParticipant(teamParticipant: TeamParticipant) {
+        this.confirmSpinnerButton = true;
+        let teamParticipantToChange = Object.assign({}, teamParticipant);
+        teamParticipantToChange.confirmed = false;
+        teamParticipantToChange.refused = true;
+        this.teamParticipantService.updateTeamParticipant(teamParticipantToChange).subscribe(
+            response => {
+                this.getTeamsData();
+                this.notificationsService.success('Успішно', 'Заявку в команду скасовано');
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            },
+            errors => {
+                for (let error of errors) {
+                    this.notificationsService.error('Помилка', error);
+                }
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            }
+        );
+    }
+
+    refuseParticipantModalOpen(teamParticipant: TeamParticipant) {
+        this.confirmModalMessage = 'Ви справді хочете скасувати заявку ' + teamParticipant.user.name + '?';
+        this.confirmModalId = 'refuseTeamParticipantConfirmModal';
+        this.confirmModalData = teamParticipant;
+    }
+
     showJoinButton(team: Team): boolean {
         if (!this.authenticatedUser) return false;
         if (this.authenticatedUser) {
@@ -162,31 +295,19 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         return true;
     }
 
-    statusColumnHtml(confirmed: boolean, refused: boolean, userId: number, captainId: number) {
-        let innerHtml = '<span>Невідома помилка</span>';
-        // show buttons
-        if (this.authenticatedUser && captainId === this.authenticatedUser.id && !confirmed && !refused) {
-            innerHtml = '<div class="btn-group" role="group" aria-label="Confirm or refuse">' +
-                '<button type="button" class="btn btn-sm btn-success">Прийняти</button>' +
-                '<button type="button" class="btn btn-sm btn-danger">Відхилити</button>' +
-                '</div>';
-        // show question icon
-        } else if (!confirmed && !refused) {
-            innerHtml = '<span class="text-info"><i aria-hidden="true" class="fa fa-lg fa-question-circle-o"></i> Очікується</span>';
-        // show successful icon
-        } else if (confirmed && !refused) {
-            innerHtml = '<span class="text-success"><i aria-hidden="true" class="fa fa-lg fa-check-circle-o"></i> Підтверджено</span>';
-        // show unsuccessful icon
-        } else if (!confirmed && refused) {
-            innerHtml = '<span class="text-danger"><i aria-hidden="true" class="fa fa-lg fa-times-circle-o"></i> Відхилено</span>';
-        }
-
-        return this.domSanitizer.bypassSecurityTrustHtml(innerHtml);
+    private resetData() {
+        this.resetTeamsData();
+        this.resetCompetitionData();
     }
 
-    private resetData() {
+    private resetTeamsData() {
         this.teams = null;
-        this.errorTeamsInfo = null;
+        this.errorTeams = null;
         this.alreadyJoined = false;
+    }
+
+    private resetCompetitionData() {
+        this.competition = null;
+        this.errorCompetition = null;
     }
 }

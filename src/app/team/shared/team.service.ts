@@ -48,4 +48,16 @@ export class TeamService {
             .map(response => response.json().team)
             .catch(this.errorHandlerService.handle);
     }
+
+    /**
+     * Update team
+     * @param team
+     * @returns {Observable<Team>}
+     */
+    updateTeam(team: Team): Observable<Team> {
+        return this.headersWithToken
+            .put(`${this.teamInfoUrl}/${team.id}`, team)
+            .map(response => response.json().team)
+            .catch(this.errorHandlerService.handle);
+    }
 }

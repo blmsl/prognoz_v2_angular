@@ -12,6 +12,7 @@ import { ChampionshipRatingTableComponent }           from './championship/champ
 import { ChampionshipRatingTopComponent }             from './championship/championship-rating-top/championship-rating-top.component';
 import { ChampionshipResultsTableComponent }          from './championship/championship-results-table/championship-results-table.component';
 import { ChampionshipUserPredictionsTableComponent }  from './championship/championship-user-predictions-table/championship-user-predictions-table.component';
+import { ConfirmModalComponent }                      from './confirm-modal/confirm-modal.component';
 import { ErrorComponent }                             from './error/error.component';
 import { InfoComponent }                              from './info/info.component';
 import { LastUserComponent }                          from './last-user/last-user.component';
@@ -46,6 +47,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
+        ConfirmModalComponent,
         TeamEditModalComponent,
         TeamNavigationComponent,
         TeamSelectModalComponent
@@ -65,6 +67,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ChampionshipMatchPredictionsTableComponent,
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
+        ConfirmModalComponent,
         TeamEditModalComponent,
         TeamNavigationComponent,
         TeamSelectModalComponent

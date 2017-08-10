@@ -30,9 +30,26 @@ export class TeamParticipantService {
               .catch(this.errorHandlerService.handle);
     }
 
-    createTeamParticipant(teamParticipant: TeamParticipant) {
+    /**
+     * Create team participant
+     * @param teamParticipant
+     * @returns {Observable<TeamParticipant>}
+     */
+    createTeamParticipant(teamParticipant: TeamParticipant): Observable<TeamParticipant> {
         return this.headersWithToken
             .post(this.teamParticipantUrl, teamParticipant)
+            .map(response => response.json().team_participant)
+            .catch(this.errorHandlerService.handle);
+    }
+
+    /**
+     * Update team participant
+     * @param teamParticipant
+     * @returns {Observable<TeamParticipant>}
+     */
+    updateTeamParticipant(teamParticipant: TeamParticipant): Observable<TeamParticipant> {
+        return this.headersWithToken
+            .put(`${this.teamParticipantUrl}/${teamParticipant.id}`, teamParticipant)
             .map(response => response.json().team_participant)
             .catch(this.errorHandlerService.handle);
     }

@@ -6,4 +6,5 @@ export class TeamParticipant {
     captain:         boolean;
     confirmed:       boolean;
     refused?:        boolean;
+    user?:           any;
 }
