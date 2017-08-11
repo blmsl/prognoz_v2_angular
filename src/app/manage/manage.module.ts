@@ -9,6 +9,7 @@ import { ManageGuard }              from './shared/manage-guard.service';
 import { ManageNewsModule }         from './manage-news/manage-news.module';
 import { ManageRoutingModule }      from './manage-routing.module';
 import { ManageSeasonModule }       from './manage-season/manage-season.module';
+import { ManageTeamModule }         from './manage-team/manage-team.module';
 import { ManageTournamentModule }   from './manage-tournament/manage-tournament.module';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ManageTournamentModule }   from './manage-tournament/manage-tournament.
         ManageChampionshipModule,
         ManageSeasonModule,
         ManageCompetitionModule,
+        ManageTeamModule,
         ManageTournamentModule,
         ManageRoutingModule
     ],
