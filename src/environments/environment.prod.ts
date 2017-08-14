@@ -21,7 +21,9 @@ export const environment = {
         },
         team: {
             id: 3,
-            participants_in_team: 4
+            participantsInTeam: 4,
+            matchesInRound: 12,
+            matchesToBlock: 2
         }
     }
 };
