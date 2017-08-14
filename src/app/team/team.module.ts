@@ -4,11 +4,13 @@ import { ReactiveFormsModule }      from '@angular/forms';
 
 import { SharedModule }             from '../shared/shared.module';
 import { TeamComponent }            from './team.component';
-import { TeamService }          from './shared/team.service';
+import { TeamMatchesComponent }     from './team-matches/team-matches.component';
 import { TeamParticipantService }   from './shared/team-participant.service';
 import { TeamRoutingModule }        from './team-routing.module';
 import { TeamRulesComponent }       from './team-rules/team-rules.component';
+import { TeamService }              from './shared/team.service';
 import { TeamSquadsComponent }      from './team-squads/team-squads.component';
+import { TeamTeamMatchService }     from './shared/team-team-match.service';
 
 @NgModule({
     imports: [
@@ -19,6 +21,7 @@ import { TeamSquadsComponent }      from './team-squads/team-squads.component';
     ],
     declarations: [
         TeamComponent,
+        TeamMatchesComponent,
         TeamRulesComponent,
         TeamSquadsComponent
     ],
@@ -26,8 +29,9 @@ import { TeamSquadsComponent }      from './team-squads/team-squads.component';
         TeamComponent
     ],
     providers: [
+        TeamParticipantService,
         TeamService,
-        TeamParticipantService
+        TeamTeamMatchService,
     ]
 })
 export class TeamModule { }

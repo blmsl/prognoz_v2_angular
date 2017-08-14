@@ -1,0 +1,57 @@
+<h2>Матчі: </h2>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerCompetition || spinnerTeamTeamMatches" [height]="255"></app-spinner>
+<!-- error competition -->
+<app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
+<!-- error team matches -->
+<app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
+<div *ngIf="teamTeamMatches" class="row mb-2 no-gutters blue-shadow">
+    <div class="col-3 col-md-2">
+        <div [ngClass]="{'round-nav-disabled text-muted': !previousRound, 'text-primary': previousRound}"
+             class="card cursor-pointer"
+             routerLink="/team/matches/round/{{teamTeamMatches[0].round - 1}}"
+             title="Попередній тур">
+            <div class="card-block text-center">
+                <h4 class="card-title mb-0">
+                    <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-8">
+        <div class="card">
+            <div class="card-block text-center">
+                <h4 class="card-title mb-0">
+                    Тур {{teamTeamMatches[0].round}}
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 col-md-2">
+        <div [ngClass]="{'round-nav-disabled text-muted': !nextRound, 'text-primary': nextRound}"
+             class="card cursor-pointer"
+             routerLink="/team/matches/round/{{teamTeamMatches[0].round + 1}}"
+             title="Наступний тур">
+            <div class="card-block text-center">
+                <h4 class="card-title mb-0">
+                    <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="teamTeamMatches" class="row no-gutters black-shadow">
+    <div class="col-12 black-shadow">
+        <div *ngFor="let teamTeamMatch of teamTeamMatches" class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-5 text-right">{{teamTeamMatch.home_team.name}}</div>
+                    <div class="col-2 text-center">
+                        {{teamTeamMatch.home}}:{{teamTeamMatch.away}}
+                    </div>
+                    <div class="col-5 text-left">{{teamTeamMatch.away_team.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
