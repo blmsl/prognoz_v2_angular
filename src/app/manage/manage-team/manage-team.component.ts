@@ -32,7 +32,24 @@ export class ManageTeamComponent implements OnInit {
             case 'startDrawConfirmModal':
                 this.startDraw(data);
                 break;
+            case 'startNextRoundConfirmModal':
+                this.startNextRound(data);
+                break;
         }
+    }
+
+    nextRoundNumber() {
+        if (this.competition) {
+            if (!this.competition.active_round) {
+                return 1;
+            } else if (this.competition.active_round === (this.competition.number_of_teams * 2 - 2)) {
+                return null;
+            } else {
+                return this.competition.active_round + 1;
+            }
+        }
+
+        return null;
     }
 
     ngOnInit() {
@@ -40,7 +57,7 @@ export class ManageTeamComponent implements OnInit {
         this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true)
             .subscribe(
                 response => {
-                    if (response) this.competition = response.competitions[0];
+                    if (response) this.competition = response.competition;
                     this.spinnerCompetition = false;
                 },
                 error => {
@@ -72,6 +89,30 @@ export class ManageTeamComponent implements OnInit {
     startDrawConfirmModalOpen() {
         this.confirmModalMessage = 'Ви справді хочете провести жеребкування календаря?';
         this.confirmModalId = 'startDrawConfirmModal';
+        this.confirmModalData = this.competition;
+    }
+
+    startNextRound(competition: Competition) {
+        this.confirmSpinnerButton = true;
+        let competitionToUpdate = Object.assign({}, competition);
+        competitionToUpdate.active_round = this.nextRoundNumber();
+        this.competitionService.updateCompetition(competitionToUpdate).subscribe(
+            response => {
+                this.notificationService.success('Успішно', 'Наступний раунд розпочато');
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            },
+            errors => {
+                errors.forEach(error => this.notificationService.error('Помилка', error));
+                this.confirmSpinnerButton = false;
+                $('#' + this.confirmModalId).modal('hide');
+            }
+        );
+    }
+
+    startNextRoundConfirmModalOpen() {
+        this.confirmModalMessage = 'Ви справді хочете розпочати наступний раунд?';
+        this.confirmModalId = 'startNextRoundConfirmModal';
         this.confirmModalData = this.competition;
     }
 }

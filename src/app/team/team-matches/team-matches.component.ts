@@ -26,6 +26,7 @@ export class TeamMatchesComponent implements OnInit {
     spinnerCompetition: boolean;
     spinnerTeamTeamMatches: boolean;
     teamTeamMatches: TeamTeamMatch[];
+    noTeamTeamMatches: string = 'Матчів не знайдено';
     nextRound: string;
     previousRound: string;
 
@@ -47,8 +48,8 @@ export class TeamMatchesComponent implements OnInit {
             .subscribe(
                 response => {
                     if (response) {
-                        this.competition = response.competitions[0];
-                        this.getTeamTeamMatchesData(response.competitions[0].round);
+                        this.competition = response.competition;
+                        this.getTeamTeamMatchesData(response.competition.round);
                     }
                     this.spinnerCompetition = false;
                 },

@@ -151,7 +151,7 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true).subscribe(
             response => {
                 if (response) {
-                    this.competition = response.competitions[0];
+                    this.competition = response.competition;
                 }
                 this.spinnerCompetition = false;
             },

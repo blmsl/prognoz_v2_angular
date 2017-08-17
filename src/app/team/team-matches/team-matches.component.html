@@ -5,6 +5,8 @@
 <app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
 <!-- error team matches -->
 <app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
+<!-- no team-team matches -->
+<app-info *ngIf="!spinnerTeamTeamMatches && !errorTeamTeamMatches && !teamTeamMatches" [message]="noTeamTeamMatches"></app-info>
 <div *ngIf="teamTeamMatches" class="row mb-2 no-gutters blue-shadow">
     <div class="col-3 col-md-2">
         <div [ngClass]="{'round-nav-disabled text-muted': !previousRound, 'text-primary': previousRound}"
@@ -23,6 +25,10 @@
             <div class="card-block text-center">
                 <h4 class="card-title mb-0">
                     Тур {{teamTeamMatches[0].round}}
+                    <small class="text-muted">
+                        {{teamTeamMatches[0].active ? '(Активний)' : ''}}
+                        {{teamTeamMatches[0].ended ? '(Завершений)' : ''}}
+                    </small>
                 </h4>
             </div>
         </div>
