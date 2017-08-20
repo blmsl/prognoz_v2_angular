@@ -23,12 +23,13 @@ export class TeamMatchesComponent implements OnInit {
     competition: Competition;
     errorCompetition: string;
     errorTeamTeamMatches: string;
-    spinnerCompetition: boolean;
-    spinnerTeamTeamMatches: boolean;
-    teamTeamMatches: TeamTeamMatch[];
     noTeamTeamMatches: string = 'Матчів не знайдено';
     nextRound: string;
     previousRound: string;
+    path: string = '/team/matches/round/';
+    spinnerCompetition: boolean;
+    spinnerTeamTeamMatches: boolean;
+    teamTeamMatches: TeamTeamMatch[];
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {

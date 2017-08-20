@@ -50,6 +50,23 @@ export class TeamMatchService {
     }
 
     /**
+     * Get matches with current team predictions
+     * @param requestParams
+     * @returns {Observable<any>}
+     */
+    getTeamMatchesAuthUser(requestParams: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        let url = `${this.teamMatchUrl}-predictable`;
+        for (let requestParam of requestParams) {
+            params.set(requestParam.parameter, requestParam.value);
+        }
+        return this.headersWithToken
+            .get(url, params)
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
+    }
+
+    /**
      * Update team match
      * @param teamMatch
      * @returns {Observable<TeamMatch>}

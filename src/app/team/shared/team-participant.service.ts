@@ -21,13 +21,37 @@ export class TeamParticipantService {
 
     /**
      * Get team participants
+     * @param requestParams
      * @returns {Observable<any>}
      */
-    getTeamParticipants(): Observable<any> {
-          return this.http
-              .get(this.teamParticipantUrl)
-              .map(response => response.json())
-              .catch(this.errorHandlerService.handle);
+    getTeamParticipants(requestParams?: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        if (requestParams) {
+            for (let requestParam of requestParams) {
+                params.set(requestParam.parameter, requestParam.value);
+            }
+        }
+        return this.http
+            .get(this.teamParticipantUrl, requestParams ? {search: params} : null)
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
+    }
+
+    /**
+     * Get participants for captain
+     *
+     * @param requestParams
+     * @returns {Observable<any>}
+     */
+    getCurrentTeamParticipants(requestParams: RequestParams[]): Observable<any> {
+        let params: URLSearchParams = new URLSearchParams();
+        for (let requestParam of requestParams) {
+            params.set(requestParam.parameter, requestParam.value);
+        }
+        return this.headersWithToken
+            .get(this.teamParticipantUrl, params)
+            .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
     }
 
     /**

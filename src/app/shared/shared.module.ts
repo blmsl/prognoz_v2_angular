@@ -22,6 +22,7 @@ import { PaginationComponent }                        from './pagination/paginat
 import { SimpleNotificationsModule }                  from 'angular2-notifications';
 import { TeamEditModalComponent }                     from './team/team-edit-modal/team-edit-modal.component';
 import { TeamNavigationComponent }                    from './team/team-navigation/team-navigation.component';
+import { TeamRoundNavigationComponent }               from './team/team-round-navigation/team-round-navigation.component';
 import { TeamSelectModalComponent }                   from './team/team-select-modal/team-select-modal.component';
 
 @NgModule({
@@ -50,7 +51,8 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ConfirmModalComponent,
         TeamEditModalComponent,
         TeamNavigationComponent,
-        TeamSelectModalComponent
+        TeamRoundNavigationComponent,
+        TeamSelectModalComponent,
     ],
     exports: [
         SpinnerComponent,
@@ -70,6 +72,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ConfirmModalComponent,
         TeamEditModalComponent,
         TeamNavigationComponent,
+        TeamRoundNavigationComponent,
         TeamSelectModalComponent
     ]
 })

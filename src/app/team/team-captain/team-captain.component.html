@@ -1,0 +1,51 @@
+<!-- spinners -->
+<app-spinner *ngIf="spinnerTeamParticipants || spinnerTeamMatches" [height]="255"></app-spinner>
+<!-- error matches-->
+<app-error *ngIf="errorTeamMatches" [message]="errorTeamMatches"></app-error>
+<!-- error participants -->
+<app-error *ngIf="errorTeamParticipants" [message]="errorTeamParticipants"></app-error>
+<div *ngIf="teamMatches && teamParticipants" class="card black-shadow">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th class="text-center" title="Номер матчу в турі">#</th>
+                <th title="Матч для прогнозування">Матч</th>
+                <th class="text-center" title="Прогнозист">Прогнозист</th>
+                <th class="text-center" title="Вибрати учасника команди">Дія</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let teamMatch of teamMatches">
+                <th class="text-center align-middle">{{teamMatch.id}}.</th>
+                <td>
+                    <table class="table table-bordered table-sm mb-0">
+                        <tr><td>{{teamMatch.club_first.title}} - {{ teamMatch.club_second.title}}</td></tr>
+                        <tr><td><small class="text-muted">{{teamMatch.starts_at}}</small></td></tr>
+                    </table>
+                </td>
+                <td class="align-middle text-center">
+                    <form #addTeamPredictorForm="ngForm" novalidate>
+                        <div class="form-group mb-0">
+                            <select *ngIf="teamMatch.is_predictable && !teamMatch.team_predictions[0]"
+                                    name="user_id"
+                                    ngModel
+                                    #user_id="ngModel"
+                                    class="form-control">
+                                <option [value]="''" selected>Вибрати</option>
+                                <option *ngFor="let teamParticipant of teamParticipants" [value]="teamParticipant.user_id">{{teamParticipant.user.name}}</option>
+                            </select>
+                        </div>
+                    </form>
+                    <!--<select *ngIf="teamMatch.is_predictable && teamMatch.team_predictions[0]" [(ngModel)]="teamMatch.team_predictions[0].user_id">-->
+                        <!--<option *ngFor="let teamParticipant of teamParticipants" [value]="teamParticipant.id">{{teamParticipant.user.name}}</option>-->
+                    <!--</select>-->
+                </td>
+                <td class="align-middle text-center">
+                    <button *ngIf="teamMatch.is_predictable && !teamMatch.team_predictions[0]" class="btn btn-primary" (click)="addTeamPredictor(addTeamPredictorForm)">
+                        <i class="fa fa-check-circle-o" aria-hidden="true"></i> Підтвердити
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

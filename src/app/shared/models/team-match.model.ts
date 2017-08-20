@@ -16,6 +16,8 @@ export class TeamMatch {
     blocked:                number;
     active:                 boolean;
     ended:                  boolean;
+    is_predictable:         boolean;
     club_first:             any;
     club_second:            any;
+    team_predictions:       any;
 }
