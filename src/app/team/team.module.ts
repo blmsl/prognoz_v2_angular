@@ -27,9 +27,9 @@ import { TeamTeamMatchService }             from './shared/team-team-match.servi
     declarations: [
         TeamComponent,
         TeamMatchesComponent,
-        TeamMyComponent,
         TeamPredictionsComponent,
         TeamRulesComponent,
+        TeamMyComponent,
         TeamSquadsComponent,
         TeamCaptainComponent,
     ],

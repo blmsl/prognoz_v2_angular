@@ -1,8 +1,11 @@
-<h2>Стратегія: </h2>
-<app-team-round-navigation *ngIf="teamTeamMatches"
-                           [teamTeamMatches]="teamTeamMatches"
-                           [nextRound]="nextRound"
-                           [previousRound]="previousRound"
-                           [path]="path">
-</app-team-round-navigation>
-<app-team-captain></app-team-captain>
+<h2>Моя команда: </h2>
+<div *ngIf="authenticatedUser">
+    <app-team-round-navigation *ngIf="teamTeamMatches"
+                               [teamTeamMatches]="teamTeamMatches"
+                               [nextRound]="nextRound"
+                               [previousRound]="previousRound"
+                               [path]="path">
+    </app-team-round-navigation>
+    <app-team-captain></app-team-captain>
+</div>
+<app-error *ngIf="!authenticatedUser" [message]="noAccess" [additionalInfo]="false"></app-error>

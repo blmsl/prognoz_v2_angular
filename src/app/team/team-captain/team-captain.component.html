@@ -1,3 +1,4 @@
+<h2>Стратегія: </h2>
 <!-- spinners -->
 <app-spinner *ngIf="spinnerTeamParticipants || spinnerTeamMatches" [height]="255"></app-spinner>
 <!-- error matches-->
@@ -15,7 +16,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let teamMatch of teamMatches">
+            <tr *ngFor="let teamMatch of teamMatches"
+                [ngClass]="{'table-active': matchHasPrediction(teamMatch) && teamMatch.team_predictions[0].user_id === authenticatedUser.id}">
                 <th class="text-center align-middle">{{teamMatch.id}}.</th>
                 <td>
                     <table class="table table-bordered table-sm mb-0">
@@ -24,26 +26,43 @@
                     </table>
                 </td>
                 <td class="align-middle text-center">
-                    <form #addTeamPredictorForm="ngForm" novalidate>
+                    <form [hidden]="!isCaptain || !teamMatch.is_predictable" #teamPredictorForm="ngForm" novalidate>
                         <div class="form-group mb-0">
-                            <select *ngIf="teamMatch.is_predictable && !teamMatch.team_predictions[0]"
-                                    name="user_id"
-                                    ngModel
-                                    #user_id="ngModel"
-                                    class="form-control">
-                                <option [value]="''" selected>Вибрати</option>
-                                <option *ngFor="let teamParticipant of teamParticipants" [value]="teamParticipant.user_id">{{teamParticipant.user.name}}</option>
+                            <select name="user_id"
+                                    class="form-control"
+                                    [ngModel]="matchHasPrediction(teamMatch) ? teamMatch.team_predictions[0].user_id : ''"
+                                    #user_id="ngModel">
+                                <option [value]="''" selected>Не вибрано</option>
+                                <option *ngFor="let teamParticipant of teamParticipants"
+                                        [value]="teamParticipant.user_id"
+                                        [attr.selected]="matchHasPrediction(teamMatch) && teamMatch.team_predictions[0].user_id === teamParticipant.user_id"
+                                        [disabled]="availableTeamParticipants[teamParticipant.user_id] && !availableTeamParticipants[teamParticipant.user_id].participantAvailable">
+                                    {{teamParticipant.user.name}}
+                                </option>
                             </select>
                         </div>
                     </form>
-                    <!--<select *ngIf="teamMatch.is_predictable && teamMatch.team_predictions[0]" [(ngModel)]="teamMatch.team_predictions[0].user_id">-->
-                        <!--<option *ngFor="let teamParticipant of teamParticipants" [value]="teamParticipant.id">{{teamParticipant.user.name}}</option>-->
-                    <!--</select>-->
+                    <div *ngIf="!isCaptain || !teamMatch.is_predictable">
+                        <strong>{{ matchHasPrediction(teamMatch) ? teamMatch.team_predictions[0].user.name : '-'}}</strong>
+                    </div>
                 </td>
                 <td class="align-middle text-center">
-                    <button *ngIf="teamMatch.is_predictable && !teamMatch.team_predictions[0]" class="btn btn-primary" (click)="addTeamPredictor(addTeamPredictorForm)">
-                        <i class="fa fa-check-circle-o" aria-hidden="true"></i> Підтвердити
+                    <button *ngIf="isCaptain && teamMatch.is_predictable"
+                            class="btn"
+                            [ngClass]="{'btn-outline-primary': matchHasPrediction(teamMatch),
+                                        'btn-primary': !matchHasPrediction(teamMatch)}"
+                            [hidden]="spinnerButton['team_match_' + teamMatch.id]"
+                            (click)="updateOrCreateTeamPredictor(teamPredictorForm, teamMatch)">
+                        <i [hidden]="matchHasPrediction(teamMatch)" class="fa fa-check-circle-o" aria-hidden="true"></i>
+                        <i [hidden]="!matchHasPrediction(teamMatch)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        {{matchHasPrediction(teamMatch) ? 'Змінити' : 'Підтвердити'}}
                     </button>
+                    <button *ngIf="!isCaptain || !teamMatch.is_predictable"
+                            class="btn btn-outline-secondary"
+                            disabled>
+                        <i class="fa fa-ban" aria-hidden="true"></i> Заборонено
+                    </button>
+                    <app-spinner-button [hidden]="!spinnerButton['team_match_' + teamMatch.id]"></app-spinner-button>
                 </td>
             </tr>
         </tbody>
