@@ -32,7 +32,7 @@ export class ChampionshipPredictionService {
     }
 
     /**
-     * Get championshi predictions
+     * Get championship predictions
      * @param requestParams
      * @returns {Observable<any>}
      */

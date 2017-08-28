@@ -5,3 +5,15 @@
                            [previousRound]="previousRound"
                            [path]="path">
 </app-team-round-navigation>
+<!-- spinner team predictions -->
+<app-spinner *ngIf="spinnerTeamPredictions" [height]="255"></app-spinner>
+<!-- error team predictions -->
+<app-error *ngIf="errorTeamPredictions" [message]="errorTeamPredictions"></app-error>
+<div *ngIf="authenticatedUser && teamPredictions" class="container-fluid">
+    <app-team-prediction-form *ngFor="let teamPrediction of teamPredictions"
+                              [teamPrediction]="teamPrediction"
+                              (teamPredictionUpdated)="reloadTeamPredictionsData()"
+    ></app-team-prediction-form>
+</div>
+<app-info *ngIf="authenticatedUser && !spinnerTeamPredictions && !errorTeamPredictions && !teamPredictions" [message]="noTeamPredictions"></app-info>
+<app-error *ngIf="!authenticatedUser" [message]="noAccess" [additionalInfo]="false"></app-error>

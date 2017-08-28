@@ -22,6 +22,7 @@ import { PaginationComponent }                        from './pagination/paginat
 import { SimpleNotificationsModule }                  from 'angular2-notifications';
 import { TeamEditModalComponent }                     from './team/team-edit-modal/team-edit-modal.component';
 import { TeamNavigationComponent }                    from './team/team-navigation/team-navigation.component';
+import { TeamPredictionFormComponent }                from './team/team-prediction-form/team-prediction-form.component';
 import { TeamRoundNavigationComponent }               from './team/team-round-navigation/team-round-navigation.component';
 import { TeamSelectModalComponent }                   from './team/team-select-modal/team-select-modal.component';
 
@@ -51,6 +52,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ConfirmModalComponent,
         TeamEditModalComponent,
         TeamNavigationComponent,
+        TeamPredictionFormComponent,
         TeamRoundNavigationComponent,
         TeamSelectModalComponent,
     ],
@@ -72,6 +74,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ConfirmModalComponent,
         TeamEditModalComponent,
         TeamNavigationComponent,
+        TeamPredictionFormComponent,
         TeamRoundNavigationComponent,
         TeamSelectModalComponent
     ]

@@ -1,0 +1,82 @@
+<form novalidate [formGroup]="teamPredictionUpdateForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <!-- form block -->
+        <div class="col-12 col-md-10">
+            <div class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
+                <!-- home club logo -->
+                <div class="hidden-md-down col-md-2">
+                    <img class="img-fluid" src="{{clubsImagesUrl}}{{teamPrediction.team_match.club_first.image}}" alt="{{teamPrediction.team_match.club_first.title}}"
+                         title="{{teamPrediction.team_match.club_first.title}}">
+                </div>
+                <!-- club names, starts_at, inputs -->
+                <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded">
+                    <div class="row">
+                        <div class="col-12 text-center text-white">
+                            {{teamPrediction.team_match.starts_at}}
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-right text-sm-center text-white">
+                            <strong><label for="home">{{teamPrediction.team_match.club_first.title}}</label></strong>
+                        </div>
+                        <div class="col-12 col-sm-4 col-md-6 col-lg-4 flex-last flex-sm-unordered text-center text-white mb-2">
+                            <!-- if team match is predictable -->
+                            <div *ngIf="teamPrediction.team_match.is_predictable">
+                                <input id="home"
+                                       type="number"
+                                       min="0"
+                                       max="9"
+                                       class="predict-input"
+                                       formControlName="home"><strong>:</strong><!--
+                            --><input id="away"
+                                      type="number"
+                                      min="0"
+                                      max="9"
+                                      class="predict-input"
+                                      formControlName="away">
+                            </div>
+                            <!-- if team match is not predictable -->
+                            <div *ngIf="!teamPrediction.team_match.is_predictable">
+                                <strong>{{helperService.showScore(teamPrediction.home, teamPrediction.away, '- : -')}}</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
+                            <strong><label for="away">{{teamPrediction.team_match.club_second.title}}</label></strong>
+                        </div>
+                    </div>
+                </div>
+                <!-- away club logo -->
+                <div class="hidden-md-down col-md-2">
+                    <img class="img-fluid" src="{{clubsImagesUrl}}{{teamPrediction.team_match.club_second.image}}" alt="{{teamPrediction.team_match.club_second.title}}"
+                         title="{{teamPrediction.team_match.club_second.title}}">
+                </div>
+            </div>
+        </div>
+        <!-- buttons block -->
+        <div class="col-12 col-md-2 mb-2 pl-0 pl-md-2 pr-0">
+            <!-- submit button -->
+            <button *ngIf="!spinnerButton && teamPrediction.team_match.is_predictable"
+                    class="btn btn-primary btn-block full-height"
+                    type="submit">
+                <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+                <span class="hidden-md-up">Зробити прогноз</span>
+            </button>
+            <!-- disabled button -->
+            <button *ngIf="!teamPrediction.team_match.is_predictable"
+                    class="btn btn-outline-secondary btn-block full-height mt-0"
+                    type="button"
+                    disabled>
+                <i class="fa fa-ban fa-2x" aria-hidden="true"></i>
+                <span class="hidden-md-up">Заборонено</span>
+            </button>
+            <!-- spinner -->
+            <button *ngIf="spinnerButton"
+                    class="btn btn-primary btn-block full-height mt-0"
+                    type="button">
+                <i class="fa fa-spinner fa-spin fa-fw fa-2x"></i>
+                <span class="sr-only">Loading...</span>
+                <span class="hidden-md-up">Зачекайте</span>
+            </button>
+        </div>
+    </div>
+</form>

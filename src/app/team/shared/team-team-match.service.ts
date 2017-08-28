@@ -20,15 +20,14 @@ export class TeamTeamMatchService {
 
     /**
      * Get all matches
-     *
      * @param page
      * @returns {Observable<any>}
      */
-    getTeamTeamMatches(page: number = 1): Observable<any> {
+    getTeamTeamMatches(page?: number): Observable<any> {
         let params = new URLSearchParams();
-        params.set('page', page.toString());
+        if (page) params.set('page', page.toString());
         return this.http
-            .get(this.teamTeamMatchUrl, {search: params})
+            .get(this.teamTeamMatchUrl, page ? {search: params} : null)
             .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
