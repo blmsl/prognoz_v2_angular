@@ -1,10 +1,60 @@
-<h2>Стратегія: </h2>
+<h2 [hidden]="!teamParticipants || !teamTeamMatches">Воротар: </h2>
+<!-- spinner team-team matches -->
+<app-spinner *ngIf="spinnerTeamTeamMatches" [height]="255"></app-spinner>
+<!-- error team-team matches -->
+<app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
+<!-- round goalkeeper -->
+<div *ngIf="teamParticipants && teamTeamMatches" class="card black-shadow">
+    <form #teamGoalkeeperForm="ngForm" novalidate class="p-2">
+        <div class="form-group"
+             [class.has-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched">
+            <label class="form-control-label" for="goalkeeper_id"><strong>Воротар:</strong></label>
+            <select name="goalkeeper_id"
+                    id="goalkeeper_id"
+                    class="form-control"
+                    [class.form-control-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched"
+                    [ngModel]="goalkeeperId ? goalkeeperId : ''"
+                    [disabled]="!isCaptain || (teamTeamMatch && teamTeamMatch.ended) || !teamTeamMatch"
+                    #goalkeeper_id="ngModel"
+                    required>
+                <option [value]="''" selected>Не вибрано</option>
+                <option *ngFor="let teamParticipant of teamParticipants"
+                        [value]="teamParticipant.user_id">
+                    {{teamParticipant.user.name}}
+                </option>
+            </select>
+            <div *ngIf="goalkeeper_id.errors?.required && goalkeeper_id.touched" class="form-control-feedback">
+                <small>Вибір воротаря обов'язковий.</small>
+            </div>
+        </div>
+        <div class="text-center">
+            <button *ngIf="isCaptain && teamTeamMatch && !teamTeamMatch.ended"
+                    class="btn btn-primary"
+                    [ngClass]="{'btn-outline-primary': goalkeeperId, 'btn-primary': !goalkeeperId}"
+                    [hidden]="spinnerButtonGoalkeeper"
+                    [disabled]="teamGoalkeeperForm.invalid"
+                    (click)="setTeamTeamMatchGoalkeeper(teamGoalkeeperForm)">
+                <i [hidden]="goalkeeperId" class="fa fa-check-circle-o" aria-hidden="true"></i>
+                <i [hidden]="!goalkeeperId" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                {{goalkeeperId ? 'Змінити' : 'Підтвердити'}}
+            </button>
+            <button *ngIf="!isCaptain || (teamTeamMatch && teamTeamMatch.ended) || !teamTeamMatch"
+                    class="btn btn-outline-secondary"
+                    disabled>
+                <i class="fa fa-ban" aria-hidden="true"></i> Заборонено
+            </button>
+            <app-spinner-button [hidden]="!spinnerButtonGoalkeeper"></app-spinner-button>
+        </div>
+    </form>
+</div>
+<h2 [hidden]="!teamMatches || !teamParticipants">Стратегія: </h2>
 <!-- spinners -->
 <app-spinner *ngIf="spinnerTeamParticipants || spinnerTeamMatches" [height]="255"></app-spinner>
 <!-- error matches-->
 <app-error *ngIf="errorTeamMatches" [message]="errorTeamMatches"></app-error>
 <!-- error participants -->
 <app-error *ngIf="errorTeamParticipants" [message]="errorTeamParticipants"></app-error>
+<!-- team strategy -->
 <div *ngIf="teamMatches && teamParticipants" class="card black-shadow">
     <table class="table table-sm">
         <thead>

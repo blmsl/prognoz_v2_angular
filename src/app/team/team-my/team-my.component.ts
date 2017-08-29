@@ -49,6 +49,7 @@ export class TeamMyComponent implements OnInit, OnDestroy {
 
     getTeamTeamMatchesData(round?: number) {
         this.spinnerTeamTeamMatches = true;
+        this.resetTeamTeamMatchesData();
         this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
             response => {
                 if (response) {
@@ -119,6 +120,7 @@ export class TeamMyComponent implements OnInit, OnDestroy {
 
     private getTeamData() {
         this.spinnerTeam = true;
+        this.resetTeamData();
         let param = [{parameter: 'user_id', value: this.authenticatedUser.id.toString()}];
         this.teamService.getTeam(null, param).subscribe(
             response => {
@@ -141,5 +143,15 @@ export class TeamMyComponent implements OnInit, OnDestroy {
                 this.spinnerTeam = false;
             }
         );
+    }
+
+    private resetTeamData(): void {
+        this.team = null;
+        this.errorTeam = null;
+    }
+
+    private resetTeamTeamMatchesData(): void {
+        this.teamTeamMatches = null;
+        this.errorTeamTeamMatches = null;
     }
 }

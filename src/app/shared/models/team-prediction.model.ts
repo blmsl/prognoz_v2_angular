@@ -7,5 +7,6 @@ export class TeamPrediction {
     away?:          number;
     predicted_at?:  string;
     blocked_by?:    number;
+    blocked_at?:    string;
     team_match?:    any;
 }

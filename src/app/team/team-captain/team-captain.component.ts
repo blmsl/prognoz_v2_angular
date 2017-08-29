@@ -12,6 +12,8 @@ import { TeamMatchService }             from '../../manage/manage-team/shared/te
 import { TeamParticipant }              from '../../shared/models/team-participant.model';
 import { TeamParticipantService }       from '../shared/team-participant.service';
 import { TeamPredictionService }        from '../shared/team-prediction.service';
+import { TeamTeamMatch }                from '../../shared/models/team-team-match.model';
+import { TeamTeamMatchService }         from '../shared/team-team-match.service';
 import { User }                         from '../../shared/models/user.model';
 
 @Component({
@@ -26,14 +28,20 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
     currentTeamId: number;
     errorTeamMatches: string;
     errorTeamParticipants: string;
+    errorTeamTeamMatches: string;
+    goalkeeperId: number;
     isCaptain: boolean = false;
     round: number;
     spinnerButton: any = {};
+    spinnerButtonGoalkeeper: boolean = false;
     spinnerTeamMatches: boolean = false;
     spinnerTeamParticipants: boolean = false;
+    spinnerTeamTeamMatches: boolean = false;
     teamEnvironment = environment.tournaments.team;
     teamMatches: TeamMatch[];
     teamParticipants: TeamParticipant[];
+    teamTeamMatch: TeamTeamMatch;
+    teamTeamMatches: TeamTeamMatch[];
     userSubscription: Subscription;
 
     constructor(
@@ -43,8 +51,23 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
         private notificationService: NotificationsService,
         private teamMatchService: TeamMatchService,
         private teamParticipantService: TeamParticipantService,
-        private teamPredictionService: TeamPredictionService
+        private teamPredictionService: TeamPredictionService,
+        private teamTeamMatchService: TeamTeamMatchService
     ) {}
+
+    getCurrentTeamTeamMatch() {
+        if (this.teamTeamMatches && this.currentTeamId) {
+            for (let teamTeamMatch of this.teamTeamMatches) {
+                if (this.currentTeamId === teamTeamMatch.home_team_id) {
+                    this.teamTeamMatch = teamTeamMatch;
+                    this.goalkeeperId = teamTeamMatch.home_team_goalkeeper_id;
+                } else if (this.currentTeamId === teamTeamMatch.away_team_id) {
+                    this.teamTeamMatch = teamTeamMatch;
+                    this.goalkeeperId = teamTeamMatch.away_team_goalkeeper_id;
+                }
+            }
+        }
+    }
 
     getMyTeamMatchesData(round?: number) {
         this.resetMyTeamMatchesData();
@@ -56,6 +79,7 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
                 if (response) {
                     this.teamMatches = response.team_matches;
                     this.availableTeamParticipants = this.setAvailableTeamParticipants(response.team_matches);
+                    this.getCurrentTeamTeamMatch();
                 }
                 this.spinnerTeamMatches = false;
             },
@@ -77,6 +101,7 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
                         this.teamParticipants = response.team_participants;
                         this.currentTeamId = response.team_participants[0].team_id;
                         this.getTeamCaptain(response.team_participants);
+                        this.getCurrentTeamTeamMatch();
                     }
                     this.spinnerTeamParticipants = false;
                 },
@@ -85,6 +110,23 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
                     this.spinnerTeamParticipants = false;
                 }
             );
+    }
+
+    getTeamTeamMatchesData(round?: number) {
+        this.spinnerTeamTeamMatches = true;
+        this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
+            response => {
+                if (response) {
+                    this.getCurrentTeamTeamMatch();
+                    this.teamTeamMatches = response.data;
+                }
+                this.spinnerTeamTeamMatches = false;
+            },
+            error => {
+                this.errorTeamTeamMatches = error;
+                this.spinnerTeamTeamMatches = false;
+            }
+        );
     }
 
     matchHasPrediction(teamMatch: TeamMatch): boolean {
@@ -103,6 +145,7 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
             if (result) {
                 this.getMyTeamMatchesData(this.round || null);
                 this.getTeamParticipantsData();
+                this.getTeamTeamMatchesData(this.round || null)
             }
         });
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -110,8 +153,38 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
             if (this.authenticatedUser) {
                 this.getMyTeamMatchesData(params['round'] || null);
                 this.getTeamParticipantsData();
+                this.getTeamTeamMatchesData(params['round'] || null)
             }
         });
+    }
+
+    setTeamTeamMatchGoalkeeper(teamGoalkeeperForm: NgForm) {
+        if (teamGoalkeeperForm.valid) {
+            this.spinnerButtonGoalkeeper = true;
+            let teamId = this.teamParticipants[0].team_id;
+            let teamTeamMatchToUpdate = Object.assign({}, this.teamTeamMatch);
+
+            if (teamTeamMatchToUpdate.home_team_id === teamId) {
+                teamTeamMatchToUpdate.home_team_goalkeeper_id = teamGoalkeeperForm.value.goalkeeper_id;
+            } else if (teamTeamMatchToUpdate.away_team_id === teamId) {
+                teamTeamMatchToUpdate.away_team_goalkeeper_id = teamGoalkeeperForm.value.goalkeeper_id;
+            }
+
+            this.teamTeamMatchService.updateTeamTeamMatch(teamTeamMatchToUpdate).subscribe(
+                response => {
+                    if (response) {
+                        this.teamTeamMatch = response;
+                        this.goalkeeperId = teamGoalkeeperForm.value.goalkeeper_id;
+                    }
+                    this.notificationService.success('Успішно', 'Воротаря змінено');
+                    this.spinnerButtonGoalkeeper = false;
+                },
+                errors => {
+                    errors.forEach(error => this.notificationService.error('Помилка', error));
+                    this.spinnerButtonGoalkeeper = false;
+                }
+            );
+        }
     }
 
     updateOrCreateTeamPredictor(teamPredictorForm: NgForm, teamMatch: TeamMatch) {

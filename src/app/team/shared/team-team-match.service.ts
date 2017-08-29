@@ -6,6 +6,7 @@ import { environment }            from '../../../environments/environment';
 import { ErrorHandlerService }    from '../../core/error-handler.service';
 import { HeadersWithToken }       from '../../core/headers-with-token.service';
 import { RequestParams }          from '../../shared/models/request-params.model';
+import { TeamTeamMatch }          from '../../shared/models/team-team-match.model';
 
 @Injectable()
 export class TeamTeamMatchService {
@@ -29,6 +30,18 @@ export class TeamTeamMatchService {
         return this.http
             .get(this.teamTeamMatchUrl, page ? {search: params} : null)
             .map(response => response.json())
+            .catch(this.errorHandlerService.handle);
+    }
+
+    /**
+     * Update team-team match
+     * @param teamTeamMatch
+     * @returns {Observable<TeamTeamMatch>}
+     */
+    updateTeamTeamMatch(teamTeamMatch: TeamTeamMatch): Observable<TeamTeamMatch> {
+        return this.headersWithToken
+            .put(`${this.teamTeamMatchUrl}/${teamTeamMatch.id}`, teamTeamMatch)
+            .map(response => response.json().team_team_match)
             .catch(this.errorHandlerService.handle);
     }
 }

@@ -25,13 +25,13 @@ import { TeamTeamMatchService }             from './shared/team-team-match.servi
         TeamRoutingModule
     ],
     declarations: [
+        TeamCaptainComponent,
         TeamComponent,
         TeamMatchesComponent,
+        TeamMyComponent,
         TeamPredictionsComponent,
         TeamRulesComponent,
-        TeamMyComponent,
         TeamSquadsComponent,
-        TeamCaptainComponent,
     ],
     exports: [
         TeamComponent
