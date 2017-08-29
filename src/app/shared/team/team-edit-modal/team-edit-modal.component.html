@@ -42,6 +42,22 @@
                                         <small>Назва перевищує 30 символів</small>
                                     </div>
                                 </div>
+                                <!-- new/old card -->
+                                <div class="card">
+                                    <!-- old image -->
+                                    <div *ngIf="!teamForm.value.image && team" class="text-center">
+                                        <img class="img-fluid rounded p-2" src="{{teamImagesUrl}}{{team.image || teamImageDefault}}" alt="{{teamForm.get('name')}}">
+                                    </div>
+                                    <!-- if upload new image -->
+                                    <div *ngIf="teamForm.value.image" class="text-center">
+                                        <img class="img-fluid rounded p-2" src="{{teamForm.value.image}}" alt="{{teamForm.get('name')}}">
+                                    </div>
+                                    <!-- help text after new avatar image uploaded -->
+                                    <div *ngIf="teamForm.value.image && !errorImage && hasUnsavedChanges" class="alert alert-info ml-2 mr-2 mb-2" role="alert">
+                                        <small>Натисніть <strong>"Зберегти"</strong> щоб зберегти це зображення для вашої команди.</small><br>
+                                        <small>Натисніть <strong>"Скасувати"</strong> для відміни.</small>
+                                    </div>
+                                </div>
                                 <!-- image -->
                                 <div class="form-group" [class.has-danger]="errorImage">
                                     <label class="form-control-label" for="image"><strong>Зображення:</strong></label>
@@ -86,7 +102,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button (click)="teamForm.reset()" type="button" class="btn btn-secondary" data-dismiss="modal">Скасувати</button>
+                    <button (click)="resetTeamForm()" type="button" class="btn btn-secondary" data-dismiss="modal">Скасувати</button>
                     <button [disabled]="teamForm.invalid || errorImage"
                             [hidden]="spinnerButton"
                             type="submit"

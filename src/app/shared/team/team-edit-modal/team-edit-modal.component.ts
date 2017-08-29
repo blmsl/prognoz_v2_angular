@@ -6,6 +6,9 @@ import { ClubService }                                      from '../../../manag
 import { environment }                                      from '../../../../environments/environment';
 import { ImageService }                                     from '../../../core/image.service';
 import { NotificationsService }                             from 'angular2-notifications';
+import { Team }                                             from '../../models/team.model';
+
+declare var $: any;
 
 @Component({
     selector: 'app-team-edit-modal',
@@ -14,10 +17,11 @@ import { NotificationsService }                             from 'angular2-notif
 })
 export class TeamEditModalComponent implements OnInit {
 
+    @Input() hasUnsavedChanges: boolean = false;
+    @Input() team: Team = null;
     @Input() spinnerButton: boolean;
     @Input() teamForm: FormGroup;
     @Output() onSubmitted = new EventEmitter<FormGroup>();
-    errorImage: string;
 
     constructor(
         private clubService: ClubService,
@@ -39,6 +43,7 @@ export class TeamEditModalComponent implements OnInit {
 
     clubs: Club[];
     errorClubs: string;
+    errorImage: string;
     options = {
         position: ['left', 'bottom'],
         timeOut: 5000,
@@ -48,8 +53,11 @@ export class TeamEditModalComponent implements OnInit {
     };
     noClubs: string = 'В базі даних команд не знайдено.';
     spinnerClubs: boolean = false;
+    teamImageDefault: string = environment.imageTeamDefault;
+    teamImagesUrl: string = environment.apiImageTeams;
 
     fileChange(event) {
+        this.hasUnsavedChanges = true;
         this.imageService.fileChange(event, environment.imageSettings.team);
     }
 
@@ -72,11 +80,27 @@ export class TeamEditModalComponent implements OnInit {
 
     ngOnInit() {
         this.getClubsData();
+        $('#teamEditModal').on('hidden.bs.modal', (e) => {
+            this.resetTeamForm();
+        })
     }
 
 
     onSubmit() {
         this.onSubmitted.emit(this.teamForm);
+    }
+
+    resetTeamForm() {
+        if (!this.team) {
+            this.teamForm.reset();
+        } else {
+            this.teamForm.patchValue({
+                name: this.team.name,
+                caption: this.team.caption,
+                club_id: this.team.club_id,
+                image: null
+            });
+        }
     }
 
     private resetData(): void {

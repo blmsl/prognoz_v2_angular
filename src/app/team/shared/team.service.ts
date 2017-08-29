@@ -38,6 +38,26 @@ export class TeamService {
     }
 
     /**
+     * Get team
+     * @param id
+     * @param requestParams
+     * @returns {Observable<Team>}
+     */
+    getTeam(id?: number, requestParams?: RequestParams[]): Observable<Team> {
+        let url = id ? `${this.teamInfoUrl}/${id}` : `${this.teamInfoUrl}/search`;
+        let params: URLSearchParams = new URLSearchParams();
+        if (requestParams) {
+            for (let requestParam of requestParams) {
+                params.set(requestParam.parameter, requestParam.value);
+            }
+        }
+        return this.http
+            .get(url, requestParams ? {search: params} : null)
+            .map(response => response.json().team)
+            .catch(this.errorHandlerService.handle);
+    }
+
+    /**
      * Create new team
      * @param team
      * @returns {Observable<Team>}

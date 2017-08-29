@@ -1,4 +1,7 @@
 <h2>Моя команда: </h2>
+<button *ngIf="authenticatedUser && isCaptain" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#teamEditModal">
+    Редагувати команду
+</button>
 <div *ngIf="authenticatedUser">
     <app-team-round-navigation *ngIf="teamTeamMatches"
                                [teamTeamMatches]="teamTeamMatches"
@@ -9,3 +12,10 @@
     <app-team-captain></app-team-captain>
 </div>
 <app-error *ngIf="!authenticatedUser" [message]="noAccess" [additionalInfo]="false"></app-error>
+<app-team-edit-modal *ngIf="authenticatedUser"
+                     [spinnerButton]="spinnerButtonTeamEditForm"
+                     [teamForm]="teamEditForm"
+                     [hasUnsavedChanges]="teamEditFormHasUnsavedChanges"
+                     [team]="team"
+                     (onSubmitted)="onSubmitted($event)">
+</app-team-edit-modal>
