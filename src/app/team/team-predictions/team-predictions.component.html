@@ -9,11 +9,36 @@
 <app-spinner *ngIf="spinnerTeamPredictions" [height]="255"></app-spinner>
 <!-- error team predictions -->
 <app-error *ngIf="errorTeamPredictions" [message]="errorTeamPredictions"></app-error>
+<!-- predictions -->
 <div *ngIf="authenticatedUser && teamPredictions" class="container-fluid">
     <app-team-prediction-form *ngFor="let teamPrediction of teamPredictions"
                               [teamPrediction]="teamPrediction"
                               (teamPredictionUpdated)="reloadTeamPredictionsData()"
     ></app-team-prediction-form>
 </div>
+<!-- no team predictions -->
 <app-info *ngIf="authenticatedUser && !spinnerTeamPredictions && !errorTeamPredictions && !teamPredictions" [message]="noTeamPredictions"></app-info>
+<!-- spinner team matches -->
+<app-spinner *ngIf="spinnerTeamMatches" [height]="255"></app-spinner>
+<!-- error team matches -->
+<app-error *ngIf="errorTeamMatches" [message]="errorTeamMatches"></app-error>
+<!-- matches to block -->
+<div *ngIf="authenticatedUser && isGoalkeeper" [hidden]="!teamMatches">
+    <h2>Заблокувати матчі суперника:</h2>
+    <app-team-goalkeeper-form [teamMatches]="teamMatches"
+                              [round]="round"
+                              [blockedTeamMatch]="blockedTeamMatchFirst"
+                              [authenticatedUser]="authenticatedUser"
+                              [oppositeTeamId]="oppositeTeamId"
+                              (reloadData)="reloadTeamGoalkeeperData($event)">
+    </app-team-goalkeeper-form>
+    <app-team-goalkeeper-form [teamMatches]="teamMatches"
+                              [round]="round"
+                              [blockedTeamMatch]="blockedTeamMatchSecond"
+                              [authenticatedUser]="authenticatedUser"
+                              [oppositeTeamId]="oppositeTeamId"
+                              (reloadData)="reloadTeamGoalkeeperData($event)">
+    </app-team-goalkeeper-form>
+</div>
+<!-- no access -->
 <app-error *ngIf="!authenticatedUser" [message]="noAccess" [additionalInfo]="false"></app-error>

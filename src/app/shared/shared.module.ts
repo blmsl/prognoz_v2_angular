@@ -21,6 +21,7 @@ import { SpinnerComponent }                           from './spinner/spinner.co
 import { PaginationComponent }                        from './pagination/pagination.component';
 import { SimpleNotificationsModule }                  from 'angular2-notifications';
 import { TeamEditModalComponent }                     from './team/team-edit-modal/team-edit-modal.component';
+import { TeamGoalkeeperFormComponent }                from './team/team-goalkeeper-form/team-goalkeeper-form.component';
 import { TeamNavigationComponent }                    from './team/team-navigation/team-navigation.component';
 import { TeamPredictionFormComponent }                from './team/team-prediction-form/team-prediction-form.component';
 import { TeamRoundNavigationComponent }               from './team/team-round-navigation/team-round-navigation.component';
@@ -51,6 +52,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ChampionshipMatchPredictableComponent,
         ConfirmModalComponent,
         TeamEditModalComponent,
+        TeamGoalkeeperFormComponent,
         TeamNavigationComponent,
         TeamPredictionFormComponent,
         TeamRoundNavigationComponent,
@@ -73,6 +75,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         ChampionshipMatchPredictableComponent,
         ConfirmModalComponent,
         TeamEditModalComponent,
+        TeamGoalkeeperFormComponent,
         TeamNavigationComponent,
         TeamPredictionFormComponent,
         TeamRoundNavigationComponent,

@@ -1,0 +1,38 @@
+<div class="card black-shadow mb-2">
+    <form novalidate [formGroup]="teamGoalkeeperForm" (ngSubmit)="onSubmit()" class="p-2">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-8">
+                <div class="form-group mb-0"
+                     [class.has-danger]="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
+                    <select id="team_match_id"
+                            class="form-control"
+                            formControlName="team_match_id"
+                            [class.form-control-danger]="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
+                        <option [value]="''">Не вибрано</option>
+                        <option *ngFor="let teamMatch of teamMatches"
+                                [value]="teamMatch.id"
+                                [disabled]="!teamMatch.is_predictable">
+                            {{teamMatch.club_first.title + ' - ' + teamMatch.club_second.title}}
+                        </option>
+                    </select>
+                    <div *ngIf="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched"
+                         class="form-control-feedback">
+                        <small>Вибір матчу для блокування обов'язковий.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 text-center">
+                <button *ngIf="!spinnerButton"
+                        class="btn btn-block"
+                        [ngClass]="{'btn-outline-primary': blockedTeamMatch, 'btn-primary': !blockedTeamMatch}"
+                        [disabled]="teamGoalkeeperForm.invalid"
+                        type="submit">
+                    <i [hidden]="blockedTeamMatch" class="fa fa-check-circle-o" aria-hidden="true"></i>
+                    <i [hidden]="!blockedTeamMatch" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    {{blockedTeamMatch ? 'Змінити' : 'Заблокувати'}}
+                </button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
+            </div>
+        </div>
+    </form>
+</div>

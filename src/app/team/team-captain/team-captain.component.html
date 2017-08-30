@@ -26,6 +26,9 @@
             <div *ngIf="goalkeeper_id.errors?.required && goalkeeper_id.touched" class="form-control-feedback">
                 <small>Вибір воротаря обов'язковий.</small>
             </div>
+            <div [hidden]="!goalkeeperId" class="alert alert-info mt-2" role="alert">
+                При зміні воротаря заблоковані ним матчі поточного туру розблокуються.
+            </div>
         </div>
         <div class="text-center">
             <button *ngIf="isCaptain && teamTeamMatch && !teamTeamMatch.ended"
@@ -114,6 +117,13 @@
                     </button>
                     <app-spinner-button [hidden]="!spinnerButton['team_match_' + teamMatch.id]"></app-spinner-button>
                 </td>
+            </tr>
+            <tr>
+               <td colspan="4">
+                   <div class="alert alert-info" role="alert">
+                       При зміні прогнозиста зроблений ним прогноз буде очищено.
+                   </div>
+               </td>
             </tr>
         </tbody>
     </table>
