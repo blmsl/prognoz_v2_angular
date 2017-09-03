@@ -1,30 +1,33 @@
-<h2>Матчі: </h2>
+<h2>
+    Матчі:
+    <button [hidden]="spinnerTeamTeamMatches"
+            class="btn btn-sm btn-outline-secondary cursor-pointer"
+            title="Оновити"
+            (click)="getTeamTeamMatchesData(round)">
+        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+    </button>
+</h2>
 <!-- spinner -->
-<app-spinner *ngIf="spinnerCompetition || spinnerTeamTeamMatches" [height]="255"></app-spinner>
+<app-spinner *ngIf="spinnerCompetition" [height]="255"></app-spinner>
 <!-- error competition -->
 <app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
-<!-- error team matches -->
-<app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
-<!-- no team-team matches -->
-<app-info *ngIf="!spinnerTeamTeamMatches && !errorTeamTeamMatches && !teamTeamMatches" [message]="noTeamTeamMatches"></app-info>
 <app-team-round-navigation *ngIf="teamTeamMatches"
                            [teamTeamMatches]="teamTeamMatches"
                            [nextRound]="nextRound"
                            [previousRound]="previousRound"
                            [path]="path">
 </app-team-round-navigation>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerTeamTeamMatches" [height]="255"></app-spinner>
+<!-- error team matches -->
+<app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
+<!-- no team-team matches -->
+<app-info *ngIf="!spinnerTeamTeamMatches && !errorTeamTeamMatches && !teamTeamMatches && !spinnerCompetition" [message]="noTeamTeamMatches"></app-info>
 <div *ngIf="teamTeamMatches" class="row no-gutters black-shadow">
     <div class="col-12 black-shadow">
-        <div *ngFor="let teamTeamMatch of teamTeamMatches" class="card">
-            <div class="card-block">
-                <div class="row">
-                    <div class="col-5 text-right">{{teamTeamMatch.home_team.name}}</div>
-                    <div class="col-2 text-center">
-                        {{teamTeamMatch.home}}:{{teamTeamMatch.away}}
-                    </div>
-                    <div class="col-5 text-left">{{teamTeamMatch.away_team.name}}</div>
-                </div>
-            </div>
-        </div>
+        <app-team-team-match-card *ngFor="let teamTeamMatch of teamTeamMatches"
+                                  [teamTeamMatch]="teamTeamMatch"
+                                  [round]="round">
+        </app-team-team-match-card>
     </div>
 </div>

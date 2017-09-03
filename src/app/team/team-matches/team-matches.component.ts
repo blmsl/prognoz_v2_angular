@@ -1,25 +1,32 @@
-import { Component, OnInit }        from '@angular/core';
-import { ActivatedRoute, Params }   from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params }       from '@angular/router';
+import { Subscription }                 from 'rxjs/Subscription';
 
-import { Competition }              from '../../shared/models/competition.model';
-import { CompetitionService }       from '../../manage/manage-competition/shared/competition.service';
-import { environment }              from '../../../environments/environment';
-import { TeamTeamMatch }            from '../../shared/models/team-team-match.model';
-import { TeamTeamMatchService }     from '../shared/team-team-match.service';
+import { AuthService }                  from '../../core/auth.service';
+import { Competition }                  from '../../shared/models/competition.model';
+import { CompetitionService }           from '../../manage/manage-competition/shared/competition.service';
+import { CurrentStateService }          from '../../core/current-state.service';
+import { environment }                  from '../../../environments/environment';
+import { TeamTeamMatch }                from '../../shared/models/team-team-match.model';
+import { TeamTeamMatchService }         from '../shared/team-team-match.service';
+import { User }                         from '../../shared/models/user.model';
 
 @Component({
     selector: 'app-team-matches',
     templateUrl: './team-matches.component.html',
     styleUrls: ['./team-matches.component.css']
 })
-export class TeamMatchesComponent implements OnInit {
+export class TeamMatchesComponent implements OnInit, OnDestroy {
 
     constructor(
         private activatedRoute: ActivatedRoute,
+        private authService: AuthService,
         private competitionService: CompetitionService,
-        private teamTeamMatchService: TeamTeamMatchService
+        private currentStateService: CurrentStateService,
+        private teamTeamMatchService: TeamTeamMatchService,
     ) { }
 
+    authenticatedUser: User = this.currentStateService.user;
     competition: Competition;
     errorCompetition: string;
     errorTeamTeamMatches: string;
@@ -27,19 +34,30 @@ export class TeamMatchesComponent implements OnInit {
     nextRound: string;
     previousRound: string;
     path: string = '/team/matches/round/';
+    round: number;
     spinnerCompetition: boolean;
-    spinnerTeamTeamMatches: boolean;
+    spinnerTeamTeamMatches: boolean = false;
     teamTeamMatches: TeamTeamMatch[];
+    userSubscription: Subscription;
+
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
 
     ngOnInit() {
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+        });
+
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.resetTeamTeamMatchData();
+            this.round = params['round'] || null;
             if (!params['round']) {
                 this.getCompetitionData();
             } else {
                 this.getTeamTeamMatchesData(params['round']);
             }
-
         });
     }
 
@@ -63,6 +81,7 @@ export class TeamMatchesComponent implements OnInit {
 
     getTeamTeamMatchesData(round: number) {
         this.spinnerTeamTeamMatches = true;
+        this.resetTeamTeamMatchData();
         this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
             response => {
                 if (response) {

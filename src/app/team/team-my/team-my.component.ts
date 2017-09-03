@@ -35,7 +35,7 @@ export class TeamMyComponent implements OnInit, OnDestroy {
     errorTeamTeamMatches: string;
     isCaptain: boolean = false;
     nextRound: string;
-    noAccess: string = 'Доступ заборонено. Залогуйтесь на сайт для перегляду цієї сторінки.';
+    noAccess: string = 'Доступ заборонено. Увійдіть на сайт для перегляду цієї сторінки.';
     path: string = '/team/my/round/';
     previousRound: string;
     spinnerTeam: boolean = false;

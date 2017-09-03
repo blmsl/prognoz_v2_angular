@@ -26,6 +26,7 @@ import { TeamNavigationComponent }                    from './team/team-navigati
 import { TeamPredictionFormComponent }                from './team/team-prediction-form/team-prediction-form.component';
 import { TeamRoundNavigationComponent }               from './team/team-round-navigation/team-round-navigation.component';
 import { TeamSelectModalComponent }                   from './team/team-select-modal/team-select-modal.component';
+import { TeamTeamMatchCardComponent }                 from './team/team-team-match-card/team-team-match-card.component';
 
 @NgModule({
     imports: [
@@ -57,6 +58,7 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         TeamPredictionFormComponent,
         TeamRoundNavigationComponent,
         TeamSelectModalComponent,
+        TeamTeamMatchCardComponent,
     ],
     exports: [
         SpinnerComponent,
@@ -79,7 +81,8 @@ import { TeamSelectModalComponent }                   from './team/team-select-m
         TeamNavigationComponent,
         TeamPredictionFormComponent,
         TeamRoundNavigationComponent,
-        TeamSelectModalComponent
+        TeamSelectModalComponent,
+        TeamTeamMatchCardComponent,
     ]
 })
 export class SharedModule { }
