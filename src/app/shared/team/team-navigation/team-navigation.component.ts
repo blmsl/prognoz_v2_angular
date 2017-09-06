@@ -17,7 +17,7 @@ export class TeamNavigationComponent implements OnInit {
           {link: '/team/squads', title: 'Заявки / Склади'},
           {link: '/team/matches', title: 'Матчі'},
           {link: '/team/predictions', title: 'Прогнози'},
-          {link: '/team/rating', title: 'Рейтинг'},
+          // {link: '/team/rating', title: 'Рейтинг'},
           // {link: '/team/results', title: 'Результати'},
           {link: '/team/my', title: 'Моя команда'}
       ];

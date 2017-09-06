@@ -8,7 +8,7 @@
 <!-- spinner team predictions -->
 <app-spinner *ngIf="spinnerTeamPredictions" [height]="255"></app-spinner>
 <!-- error team predictions -->
-<app-error *ngIf="errorTeamPredictions" [message]="errorTeamPredictions"></app-error>
+<app-error *ngIf="errorTeamPredictions" [message]="errorTeamPredictions" [additionalInfo]="false"></app-error>
 <!-- predictions -->
 <div *ngIf="authenticatedUser && teamPredictions" class="container-fluid">
     <app-team-prediction-form *ngFor="let teamPrediction of teamPredictions"
