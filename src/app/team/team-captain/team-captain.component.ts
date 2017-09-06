@@ -60,10 +60,10 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
             for (let teamTeamMatch of this.teamTeamMatches) {
                 if (this.currentTeamId === teamTeamMatch.home_team_id) {
                     this.teamTeamMatch = teamTeamMatch;
-                    this.goalkeeperId = teamTeamMatch.home_team_goalkeeper_id;
+                    if (!this.goalkeeperId) this.goalkeeperId = teamTeamMatch.home_team_goalkeeper_id;
                 } else if (this.currentTeamId === teamTeamMatch.away_team_id) {
                     this.teamTeamMatch = teamTeamMatch;
-                    this.goalkeeperId = teamTeamMatch.away_team_goalkeeper_id;
+                    if (!this.goalkeeperId) this.goalkeeperId = teamTeamMatch.away_team_goalkeeper_id;
                 }
             }
         }
