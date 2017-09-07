@@ -6,7 +6,7 @@
 <!-- new guestbook messages form-->
 <div *ngIf="authenticatedUser" class="row">
     <div class="col text-white">
-        <form [formGroup]="addGuestbookMessageForm" (ngSubmit)="onSubmit()" novalidate class="bg-inverse p-2 rounded">
+        <form [formGroup]="addGuestbookMessageForm" (ngSubmit)="onSubmit()" novalidate class="bg-inverse p-2 mb-0 mb-sm-2 rounded">
             <input type="hidden" name="user_id" formControlName="user_id">
             <div class="form-group"
                  [class.has-danger]="addGuestbookMessageForm.get('body').invalid && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)">

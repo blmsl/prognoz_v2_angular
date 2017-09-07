@@ -7,11 +7,11 @@
 <!-- create / make team stated button -->
 <div *ngIf="authenticatedUser && !alreadyJoined && !alreadyPending && !spinnerTeamsInfo && competition && competition.stated" class="row mb-2">
     <div class="col">
-        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#teamEditModal">
+        <button type="button" class="btn btn-outline-primary mb-2 mb-sm-0" data-toggle="modal" data-target="#teamEditModal">
             Створити нову команду
         </button>
-        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#teamSelectModal">
-            Заявити команду з попереднього чемпіонату
+        <button type="button" class="btn btn-outline-primary mb-2 mb-sm-0" data-toggle="modal" data-target="#teamSelectModal">
+            Заявити команду
         </button>
     </div>
 </div>
@@ -40,7 +40,7 @@
                 <td *ngIf="i === 0" [attr.rowspan]="team.team_participants.length" class="p-2">
                     <div class="card">
                         <div class="card-block">
-                            <h4 class="card-title">
+                            <h4 class="card-title hidden-xs-down">
                                 {{team.name}}
                                 <span class="pull-right">
                                     {{numberOfConfirmedParticipants(team.team_participants)}}/4
@@ -49,16 +49,22 @@
                                     <i class="fa fa-lg fa-check-circle-o text-success mr-1" aria-hidden="true"></i>
                                 </span>
                             </h4>
-                            <h6 *ngIf="team.caption" class="card-subtitle mb-2 text-muted">
+                            <div class="hidden-sm-up">
+                                <strong>{{team.name}}</strong>
+                            </div>
+                            <h6 *ngIf="team.caption" class="card-subtitle mb-2 text-muted hidden-xs-down">
                                 <small>{{team.caption}}</small>
                             </h6>
-                            <div class="text-center mb-2">
+                            <div class="text-center hidden-xs-down mb-2">
                                 <img class="team-img img-fluid rounded card-img-bottom"
                                      src="{{teamsImagesUrl}}{{team.image || teamImageDefault}}"
                                      alt="{{team.name}}">
                             </div>
                             <div *ngIf="showJoinButton(team) && !alreadyJoined && competition && competition.stated" class="text-center">
-                                <button class="btn btn-sm btn-info" (click)="joinTeamModalOpen(team)" data-toggle="modal" data-target="#joinTeamConfirmModal">Приєднатись</button>
+                                <button class="btn btn-sm btn-info" (click)="joinTeamModalOpen(team)" data-toggle="modal" data-target="#joinTeamConfirmModal">
+                                    <small class="hidden-sm-up">Приєднатись</small>
+                                    <span class="hidden-xs-down">Приєднатись</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -66,8 +72,11 @@
                 <td class="align-middle"
                     [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id),
                                 'font-weight-bold': participant.confirmed}">
+                    <img class="small-image rounded-circle hidden-xs-down mr-1"
+                         src="{{userImagesUrl}}{{participant.user.image || userImageDefault}}"
+                         alt="{{participant.user.name}}">
                     {{participant.user.name}}
-                    <span [hidden]="!participant.captain"><br>(Капітан)</span>
+                    <span [hidden]="!participant.captain" title="Капітан команди"> (К)</span>
                 </td>
                 <td class="text-center align-middle"
                     [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id)}">
@@ -75,18 +84,27 @@
                                 && !participant.confirmed && !participant.refused
                                 && competition && competition.stated">
                         <div class="btn-group" role="group" aria-label="Confirm or refuse">
-                            <button type="button" class="btn btn-sm btn-success" (click)="confirmParticipantModalOpen(participant)" data-toggle="modal" data-target="#confirmTeamParticipantConfirmModal">Прийняти</button>
-                            <button type="button" class="btn btn-sm btn-danger" (click)="refuseParticipantModalOpen(participant)" data-toggle="modal" data-target="#refuseTeamParticipantConfirmModal">Відхилити</button>
+                            <button type="button" class="btn btn-sm btn-success" title="Прийняти заявку" (click)="confirmParticipantModalOpen(participant)" data-toggle="modal" data-target="#confirmTeamParticipantConfirmModal">
+                                <i aria-hidden="true" class="hidden-lg-up fa fa-lg fa-check-circle-o"></i>
+                                <span class="hidden-md-down">Прийняти</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger" title="Відхилити заявку" (click)="refuseParticipantModalOpen(participant)" data-toggle="modal" data-target="#refuseTeamParticipantConfirmModal">
+                                <i aria-hidden="true" class="hidden-lg-up fa fa-lg fa-times-circle-o"></i>
+                                <span class="hidden-md-down">Відхилити</span>
+                            </button>
                         </div>
                     </div>
-                    <div *ngIf="(!participant.confirmed && !participant.refused && !authenticatedUser) || (authenticatedUser && team.captain_id !== authenticatedUser.id && !participant.confirmed && !participant.refused)">
-                        <span class="text-info"><i aria-hidden="true" class="fa fa-lg fa-question-circle-o"></i> Очікується</span>
+                    <div *ngIf="(!participant.confirmed && !participant.refused && !authenticatedUser) || (authenticatedUser && team.captain_id !== authenticatedUser.id && !participant.confirmed && !participant.refused)"
+                         title="Очікується">
+                        <strong class="text-info"><i aria-hidden="true" class="fa fa-lg fa-question-circle-o"></i> <span class="hidden-xs-down">Очікується</span></strong>
                     </div>
-                    <div *ngIf="participant.confirmed && !participant.refused">
-                        <span class="text-success"><i aria-hidden="true" class="fa fa-lg fa-check-circle-o"></i> Підтверджено</span>
+                    <div *ngIf="participant.confirmed && !participant.refused"
+                         title="Підтверджено">
+                        <strong class="text-success"><i aria-hidden="true" class="fa fa-lg fa-check-circle-o"></i> <span class="hidden-xs-down">Підтверджено</span></strong>
                     </div>
-                    <div *ngIf="!participant.confirmed && participant.refused">
-                        <span class="text-danger"><i aria-hidden="true" class="fa fa-lg fa-times-circle-o"></i> Відхилено</span>
+                    <div *ngIf="!participant.confirmed && participant.refused"
+                         title="Відхилено">
+                        <strong class="text-danger"><i aria-hidden="true" class="fa fa-lg fa-times-circle-o"></i> <span class="hidden-xs-down">Відхилено</span></strong>
                     </div>
                 </td>
             </tr>

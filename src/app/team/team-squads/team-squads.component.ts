@@ -53,6 +53,8 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     teamCreateForm: FormGroup;
     teamsImagesUrl: string = environment.apiImageTeams;
     teams: Team[];
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
     userSubscription: Subscription;
 
     confirmModalSubmit(data: any) {
