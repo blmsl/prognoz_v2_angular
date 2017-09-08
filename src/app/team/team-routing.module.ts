@@ -5,6 +5,7 @@ import { TeamComponent }            from './team.component';
 import { TeamMatchesComponent }     from './team-matches/team-matches.component';
 import { TeamMyComponent }          from './team-my/team-my.component';
 import { TeamPredictionsComponent } from './team-predictions/team-predictions.component';
+import { TeamRatingComponent }      from './team-rating/team-rating.component';
 import { TeamRulesComponent }       from './team-rules/team-rules.component';
 import { TeamSquadsComponent }      from './team-squads/team-squads.component';
 
@@ -44,6 +45,10 @@ const routes: Routes = [
             {
                 path: 'my',
                 component: TeamMyComponent
+            },
+            {
+                path: 'rating',
+                component: TeamRatingComponent
             },
             {
                 path: '',

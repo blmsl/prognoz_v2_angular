@@ -1,0 +1,71 @@
+<div *ngIf="topScorersRating" class="row align-items-end mt-2">
+    <div class="col-12">
+        <h2>Рейтинг бомбардирів: </h2>
+    </div>
+</div>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerTeamRatingUser" [height]="225"></app-spinner>
+<!-- error -->
+<app-error *ngIf="errorTeamRatingUser" [message]="errorTeamRatingUser"></app-error>
+<!-- no content -->
+<app-info *ngIf="!spinnerTeamRatingUser && !errorTeamRatingUser && !teamRatingUser" [message]="noTeamRatingUser"></app-info>
+<!-- team rating table -->
+<table *ngIf="topScorersRating" class="table table-sm table-hover table-striped black-border black-shadow m-0">
+    <thead class="thead-inverse">
+        <tr>
+            <th class="pl-1" title="Позиція">#</th>
+            <th title="Ім'я гравця">Ім'я</th>
+            <th class="hidden-xs-down" title="Команда гравця">Команда</th>
+            <th class="text-center" title="Сумарна кількість забитих голів">Голи</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let ratingItem of topScorersRating; let i = index;"
+        [ngClass]="{'table-active': authenticatedUser && (ratingItem.user.id === authenticatedUser.id)}">
+        <th scope="row" class="pl-1">{{i + 1}}.</th>
+        <td class="font-weight-bold">
+            <img class="small-image rounded-circle"
+                 src="{{userImagesUrl}}{{ratingItem.user.image || userImageDefault}}"
+                 alt="{{ratingItem.user.name}}">
+            {{ratingItem.user.name}}
+        </td>
+        <td class="hidden-xs-down">
+            <img class="small-image rounded-circle mr-1"
+                 src="{{teamImagesUrl}}{{ratingItem.team.image || teamImageDefault}}"
+                 alt="{{ratingItem.team.name}}">
+            {{ratingItem.team.name}}
+        </td>
+        <td class="text-center font-weight-bold">{{ratingItem.scored}}</td>
+    </tr>
+</table>
+<div *ngIf="goalkeepersRating" class="row align-items-end mt-2">
+    <div class="col-12">
+        <h2>Рейтинг воротарів: </h2>
+    </div>
+</div>
+<table *ngIf="goalkeepersRating" class="table table-sm table-hover table-striped black-border black-shadow m-0">
+    <thead class="thead-inverse">
+    <tr>
+        <th class="pl-1" title="Позиція">#</th>
+        <th title="Ім'я гравця">Ім'я</th>
+        <th class="hidden-xs-down" title="Команда гравця">Команда</th>
+        <th class="text-center" title="Сумарна кількість заблокованих матчів">Сейви</th>
+    </tr>
+    </thead>
+    <tr *ngFor="let ratingItem of goalkeepersRating; let i = index;"
+        [ngClass]="{'table-active': authenticatedUser && (ratingItem.user.id === authenticatedUser.id)}">
+        <th scope="row" class="pl-1">{{i + 1}}.</th>
+        <td class="font-weight-bold">
+            <img class="small-image rounded-circle"
+                 src="{{userImagesUrl}}{{ratingItem.user.image || userImageDefault}}"
+                 alt="{{ratingItem.user.name}}">
+            {{ratingItem.user.name}}
+        </td>
+        <td class="hidden-xs-down">
+            <img class="small-image rounded-circle mr-1"
+                 src="{{teamImagesUrl}}{{ratingItem.team.image || teamImageDefault}}"
+                 alt="{{ratingItem.team.name}}">
+            {{ratingItem.team.name}}
+        </td>
+        <td class="text-center font-weight-bold">{{ratingItem.blocked}}</td>
+    </tr>
+</table>

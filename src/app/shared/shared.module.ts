@@ -23,6 +23,8 @@ import { SimpleNotificationsModule }                  from 'angular2-notificatio
 import { TeamEditModalComponent }                     from './team/team-edit-modal/team-edit-modal.component';
 import { TeamGoalkeeperFormComponent }                from './team/team-goalkeeper-form/team-goalkeeper-form.component';
 import { TeamNavigationComponent }                    from './team/team-navigation/team-navigation.component';
+import { TeamRatingTableComponent }                   from './team/team-rating-table/team-rating-table.component';
+import { TeamRatingUserTableComponent }               from './team/team-rating-user-table/team-rating-user-table.component';
 import { TeamPredictionFormComponent }                from './team/team-prediction-form/team-prediction-form.component';
 import { TeamRoundNavigationComponent }               from './team/team-round-navigation/team-round-navigation.component';
 import { TeamSelectModalComponent }                   from './team/team-select-modal/team-select-modal.component';
@@ -56,6 +58,8 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         TeamGoalkeeperFormComponent,
         TeamNavigationComponent,
         TeamPredictionFormComponent,
+        TeamRatingTableComponent,
+        TeamRatingUserTableComponent,
         TeamRoundNavigationComponent,
         TeamSelectModalComponent,
         TeamTeamMatchCardComponent,
@@ -80,6 +84,8 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         TeamGoalkeeperFormComponent,
         TeamNavigationComponent,
         TeamPredictionFormComponent,
+        TeamRatingTableComponent,
+        TeamRatingUserTableComponent,
         TeamRoundNavigationComponent,
         TeamSelectModalComponent,
         TeamTeamMatchCardComponent,

@@ -1,0 +1,70 @@
+<div class="row align-items-end">
+    <div class="col-12 col-sm-6 col-md-5">
+        <h2>Рейтинг команд: </h2>
+    </div>
+    <div *ngIf="teamRating" class="col-12 col-sm-6 col-md-7 text-right">
+        <small class="text-muted">Рейтинг після {{teamRating[0].win + teamRating[0].draw + teamRating[0].loss}} туру</small>
+    </div>
+</div>
+<!-- spinner -->
+<app-spinner *ngIf="spinnerTeamRating" [height]="225"></app-spinner>
+<!-- error -->
+<app-error *ngIf="errorTeamRating" [message]="errorTeamRating"></app-error>
+<!-- no content -->
+<app-info *ngIf="!spinnerTeamRating && !errorTeamRating && !teamRating" [message]="noTeamRating"></app-info>
+<!-- team rating table -->
+<div *ngIf="teamRating" class="card">
+    <table class="table table-bordered table-hover black-border black-shadow m-0">
+        <thead class="thead-inverse">
+            <tr>
+                <th class="text-center" title="Позиція">#</th>
+                <th class="text-center hidden-md-down" title="Переміщення в рейтингу">
+                    <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                </th>
+                <th class="text-left" title="Назва команди">Команда</th>
+                <th class="text-center hidden-xs-down" title="Виграші">В</th>
+                <th class="text-center hidden-xs-down" title="Нічиї">Н</th>
+                <th class="text-center hidden-xs-down" title="Поразки">П</th>
+                <th class="text-center hidden-xs-down" title="Забиті і пропущені голи">З:П</th>
+                <th class="text-center" title="Кількість очок">
+                    <span class="hidden-sm-up">О</span>
+                    <span class="hidden-xs-down">Очки</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let teamRatingItem of teamRating; let i = index;">
+                <th scope="row" class="text-center">{{teamRatingItem.position ? teamRatingItem.position : i + 1}}.</th>
+                <td class="text-center hidden-md-down">
+                    <!-- no moving -->
+                    <span *ngIf="!teamRatingItem.moving" class="text-center text-muted">
+                        <i class="fa fa-circle-thin" aria-hidden="true"></i>
+                    </span>
+                    <!-- up moving -->
+                    <span *ngIf="teamRatingItem.moving > 0" class="text-center text-success">
+                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                        <strong>{{teamRatingItem.moving}}</strong>
+                    </span>
+                    <!-- down moving -->
+                    <span *ngIf="teamRatingItem.moving < 0" class="text-center text-danger">
+                        <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                        <strong>{{helperService.makeUnsigned(teamRatingItem.moving)}}</strong>
+                    </span>
+                </td>
+                <td class="text-left">
+                    <img class="small-image rounded-circle mr-1"
+                         src="{{teamImagesUrl}}{{teamRatingItem.team.image || teamImageDefault}}"
+                         alt="{{teamRatingItem.team.name}}">
+                    <strong>{{teamRatingItem.team.name}}</strong>
+                </td>
+                <td class="text-center hidden-xs-down">{{teamRatingItem.win}}</td>
+                <td class="text-center hidden-xs-down">{{teamRatingItem.draw}}</td>
+                <td class="text-center hidden-xs-down">{{teamRatingItem.loss}}</td>
+                <td class="text-center hidden-xs-down">{{teamRatingItem.scored + ':' + teamRatingItem.missed}}</td>
+                <td class="text-center font-weight-bold">{{teamRatingItem.points}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
