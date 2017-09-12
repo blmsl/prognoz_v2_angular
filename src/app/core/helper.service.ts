@@ -2,6 +2,7 @@ import { Injectable }               from '@angular/core';
 import { FormGroup }                from '@angular/forms';
 
 import { ChampionshipPrediction }   from '../shared/models/championship-prediction.model';
+import { TeamMatch }                from '../shared/models/team-match.model';
 
 @Injectable()
 
@@ -169,5 +170,42 @@ export class HelperService {
         }
 
         return championshipPredictionsToUpdate;
+    }
+
+
+    /**
+     * Is team match guessed
+     * @param teamMatch
+     * @param teamId
+     * @returns {boolean}
+     */
+    isTeamMatchGuessed(teamMatch: TeamMatch, teamId: number): boolean {
+        if (!teamMatch.ended) return false;
+        if (teamMatch.team_predictions) {
+            let teamPrediction = teamMatch.team_predictions.find((teamPrediction) => teamId === teamPrediction.team_id);
+            if (!teamPrediction) return false;
+            if (this.getUserPointsOnMatch(teamMatch.home, teamMatch.away, teamPrediction.home, teamPrediction.away) === 3) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Is team match blocked
+     * @param teamMatch
+     * @param teamId
+     * @returns {boolean}
+     */
+    isTeamMatchBlocked(teamMatch: TeamMatch, teamId: number): boolean {
+        if (!teamMatch.ended) return false;
+        if (teamMatch.team_predictions) {
+            let teamPrediction = teamMatch.team_predictions.find((teamPrediction) => teamId === teamPrediction.team_id);
+            if (!teamPrediction) return false;
+            if (teamPrediction.blocked_by) return true;
+        }
+
+        return false;
     }
 }

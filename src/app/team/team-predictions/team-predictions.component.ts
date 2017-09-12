@@ -37,7 +37,7 @@ export class TeamPredictionsComponent implements OnInit, OnDestroy {
     isGoalkeeper: boolean = false;
     nextRound: string;
     noAccess: string = 'Доступ заборонено. Увійдіть на сайт для перегляду цієї сторінки.';
-    noTeamPredictions: string = 'Доступних матчів для прогнозування не знайдено.';
+    noTeamPredictions: string = 'Командний чемпіонат ще не почався / матчів для прогнозування не знайдено';
     oppositeTeamId: number;
     path: string = '/team/predictions/round/';
     previousRound: string;

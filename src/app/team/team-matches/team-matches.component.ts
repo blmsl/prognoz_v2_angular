@@ -30,7 +30,7 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
     competition: Competition;
     errorCompetition: string;
     errorTeamTeamMatches: string;
-    noTeamTeamMatches: string = 'Матчів не знайдено';
+    noTeamTeamMatches: string = 'Командний чемпіонат ще не почався / матчів не знайдено';
     nextRound: string;
     previousRound: string;
     path: string = '/team/matches/round/';

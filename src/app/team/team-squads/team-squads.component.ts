@@ -43,8 +43,8 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     confirmModalMessage: string;
     confirmSpinnerButton: boolean = false;
     competition: Competition;
-    noParticipants: string = 'Заявок немає.';
-    noStateCompetition: string = 'Відкритого для заявок / Активного / Завершеного командного чемпіонату немає';
+    noParticipants: string = 'Заявок поки немає. Будьте першим хто подасть заявку.';
+    noStateCompetition: string = 'Відкритого для заявок / Активного / Завершеного командного чемпіонату не знайдено';
     spinnerButton: boolean = false;
     spinnerButtonSelect: boolean = false;
     spinnerTeamsInfo: boolean = false;

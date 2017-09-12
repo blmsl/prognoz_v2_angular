@@ -21,9 +21,10 @@ export class TeamTeamMatchCardComponent implements OnInit {
     @Input() teamTeamMatch: TeamTeamMatch;
     @Input() round: number;
 
+    clubsImagesUrl: string = environment.apiImageClubs;
     errorTeamMatches: string;
     expandedTeamMatch: boolean;
-    noTeamMatches: string = 'В базі даних матчів не зайдено';
+    noTeamMatches: string = 'Цей раунд ще не почався / матчів не знайдено';
     spinnerTeamMatches: boolean;
     teamImageDefault: string = environment.imageTeamDefault;
     teamsImagesUrl: string = environment.apiImageTeams;
@@ -55,44 +56,22 @@ export class TeamTeamMatchCardComponent implements OnInit {
         }
     }
 
-    getPredictionDetails(teamMatch: TeamMatch, teamId: number): {name: string, prediction: string} {
+    getPredictionDetails(teamMatch: TeamMatch, teamId: number): {name: string, prediction: string, predicted_at: string} {
         if (teamMatch.is_predictable) {
-            return {name: '?', prediction: '?'};
+            return {name: '?', prediction: '?', predicted_at: '?'};
         } else if (teamMatch.team_predictions) {
             let teamPrediction = teamMatch.team_predictions.find((teamPrediction) => teamId === teamPrediction.team_id);
             if (teamPrediction) {
                 return {
                     name: teamPrediction.user ? teamPrediction.user.name : '-',
                     prediction: this.helperService.isScore(teamPrediction.home, teamPrediction.away)
-                        ? `${teamPrediction.home} : ${teamPrediction.away}` : '-'
+                        ? `${teamPrediction.home} : ${teamPrediction.away}` : '-',
+                    predicted_at: this.helperService.isScore(teamPrediction.home, teamPrediction.away)
+                        ? teamPrediction.predicted_at : '-'
                 };
             }
         }
-        return {name: '-', prediction: '-'};
-    }
-
-    isTeamMatchGuessed(teamMatch: TeamMatch, teamId: number): boolean {
-        if (!teamMatch.ended) return false;
-        if (teamMatch.team_predictions) {
-            let teamPrediction = teamMatch.team_predictions.find((teamPrediction) => teamId === teamPrediction.team_id);
-            if (!teamPrediction) return false;
-            if (this.helperService.getUserPointsOnMatch(teamMatch.home, teamMatch.away, teamPrediction.home, teamPrediction.away) === 3) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    isTeamMatchBlocked(teamMatch: TeamMatch, teamId: number): boolean {
-        if (!teamMatch.ended) return false;
-        if (teamMatch.team_predictions) {
-            let teamPrediction = teamMatch.team_predictions.find((teamPrediction) => teamId === teamPrediction.team_id);
-            if (!teamPrediction) return false;
-            if (teamPrediction.blocked_by) return true;
-        }
-
-        return false;
+        return {name: '-', prediction: '-', predicted_at: '-'};
     }
 
     ngOnInit() {

@@ -17,7 +17,7 @@ export class TeamRatingUserTableComponent implements OnChanges, OnInit {
     @Input() authenticatedUser: User;
 
     goalkeepersRating: TeamRatingUser[];
-    noTeamRatingUser: string = 'Чемпіонат ще не почався або в базі даних рейтингу немає';
+    noTeamRatingUser: string = 'Командний чемпіонат ще не почався / рейтингу гравців не знайдено';
     teamImageDefault: string = environment.imageTeamDefault;
     teamImagesUrl: string = environment.apiImageTeams;
     topScorersRating: TeamRatingUser[];

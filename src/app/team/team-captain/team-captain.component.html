@@ -59,13 +59,24 @@
 <app-error *ngIf="errorTeamParticipants" [message]="errorTeamParticipants"></app-error>
 <!-- team strategy -->
 <div *ngIf="teamMatches && teamParticipants" class="card black-shadow">
-    <table class="table table-sm">
+    <table class="table table-sm mb-0">
         <thead>
             <tr>
-                <th class="text-center" title="Номер матчу в турі">#</th>
-                <th title="Матч для прогнозування">Матч</th>
-                <th class="text-center" title="Прогнозист">Прогнозист</th>
-                <th class="text-center" title="Вибрати учасника команди">Дія</th>
+                <th class="text-center" title="Номер матчу в турі">
+                    <small>#</small>
+                </th>
+                <th title="Матч для прогнозування">
+                    <small>Матч</small>
+                </th>
+                <th class="text-center" title="Прогнозист">
+                    <small>Прогнозист</small>
+                </th>
+                <th class="text-center" title="Прогноз">
+                    <small>Прогноз</small>
+                </th>
+                <th class="text-center" title="Вибрати учасника команди">
+                    <small>Дія</small>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -74,11 +85,53 @@
                 <th class="text-center align-middle">{{teamMatch.id}}.</th>
                 <td>
                     <table class="table table-bordered table-sm mb-0">
-                        <tr><td>{{teamMatch.club_first.title}} - {{ teamMatch.club_second.title}}</td></tr>
-                        <tr><td><small class="text-muted">{{teamMatch.starts_at}}</small></td></tr>
+                        <tr>
+                            <td class="text-center">
+                                <table class="table table-sm mb-0">
+                                    <tr>
+                                        <td class="hidden-md-down">{{teamMatch.club_first.title}}</td>
+                                        <td>
+                                            <img class="small-image"
+                                                 src="{{clubsImagesUrl}}{{teamMatch.club_first.image}}"
+                                                 alt="{{teamMatch.club_first.title}}"
+                                                 title="{{teamMatch.club_first.title}}">
+                                        </td>
+                                        <td class="hidden-xs-down">
+                                            {{helperService.showScore(teamMatch.home, teamMatch.away, 'vs')}}
+                                        </td>
+                                        <td>
+                                            <img class="small-image"
+                                                 src="{{clubsImagesUrl}}{{teamMatch.club_second.image}}"
+                                                 alt="{{teamMatch.club_second.title}}"
+                                                 title="{{teamMatch.club_second.title}}">
+                                        </td>
+                                        <td class="hidden-md-down">{{ teamMatch.club_second.title}}</td>
+                                    </tr>
+                                    <tr class="hidden-sm-up">
+                                        <td colspan="2">
+                                            {{helperService.showScore(teamMatch.home, teamMatch.away, 'vs')}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <small class="text-muted text-capitalize">{{teamMatch.starts_at}}</small>
+                                <small *ngIf="matchHasPrediction(teamMatch)"
+                                       class="text-muted">
+                                    / Прогноз зроблено {{getPredictionDetails(teamMatch, teamParticipants[0].team_id).predicted_at}}
+                                </small>
+                            </td>
+                        </tr>
                     </table>
                 </td>
                 <td class="align-middle text-center">
+                    <img *ngIf="matchHasPrediction(teamMatch)"
+                         [hidden]="isCaptain && teamMatch.is_predictable"
+                         src="{{userImagesUrl}}{{teamMatch.team_predictions[0].user.image || userImageDefault}}"
+                         alt="{{teamMatch.team_predictions[0].user.name}}"
+                         class="small-image rounded-circle">
                     <form [hidden]="!isCaptain || !teamMatch.is_predictable" #teamPredictorForm="ngForm" novalidate>
                         <div class="form-group mb-0">
                             <select name="user_id"
@@ -95,9 +148,29 @@
                             </select>
                         </div>
                     </form>
-                    <div *ngIf="!isCaptain || !teamMatch.is_predictable">
-                        <strong>{{ matchHasPrediction(teamMatch) ? teamMatch.team_predictions[0].user.name : '-'}}</strong>
+                    <div>
+                        <strong *ngIf="!isCaptain || !teamMatch.is_predictable">{{ matchHasPrediction(teamMatch) ? teamMatch.team_predictions[0].user.name : '-'}}</strong>
                     </div>
+                </td>
+                <td class="align-middle text-center">
+                    <div>
+                        <span *ngIf="helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id) && !helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)"
+                              class="text-success">
+                                            <i class="fa fa-lg fa-check-circle-o" aria-hidden="true"></i>
+                                        </span>
+                        <span *ngIf="!helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id) && helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)"
+                              class="text-danger"
+                              title="">
+                                            <i class="fa fa-lg fa-lock" aria-hidden="true"></i>
+                                        </span>
+                        <span *ngIf="helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id) && helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)">
+                            <span class="fa-stack">
+                                  <i class="fa fa-check-circle fa-stack-1x text-success"></i>
+                                  <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                            </span>
+                        </span>
+                    </div>
+                    {{getPredictionDetails(teamMatch, teamParticipants[0].team_id).prediction}}
                 </td>
                 <td class="align-middle text-center">
                     <button *ngIf="isCaptain && teamMatch.is_predictable"
@@ -108,18 +181,18 @@
                             (click)="updateOrCreateTeamPredictor(teamPredictorForm, teamMatch)">
                         <i [hidden]="matchHasPrediction(teamMatch)" class="fa fa-check-circle-o" aria-hidden="true"></i>
                         <i [hidden]="!matchHasPrediction(teamMatch)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        {{matchHasPrediction(teamMatch) ? 'Змінити' : 'Підтвердити'}}
+                        <span class="hidden-md-down">{{matchHasPrediction(teamMatch) ? 'Змінити' : 'Підтвердити'}}</span>
                     </button>
                     <button *ngIf="!isCaptain || !teamMatch.is_predictable"
                             class="btn btn-outline-secondary"
                             disabled>
-                        <i class="fa fa-ban" aria-hidden="true"></i> Заборонено
+                        <i class="fa fa-ban" aria-hidden="true"></i> <span class="hidden-md-down">Заборонено</span>
                     </button>
                     <app-spinner-button [hidden]="!spinnerButton['team_match_' + teamMatch.id]"></app-spinner-button>
                 </td>
             </tr>
             <tr>
-               <td colspan="4">
+               <td colspan="5">
                    <div class="alert alert-info" role="alert">
                        При зміні прогнозиста зроблений ним прогноз буде очищено.
                    </div>

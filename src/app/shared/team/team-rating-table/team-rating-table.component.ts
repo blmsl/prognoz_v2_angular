@@ -17,7 +17,7 @@ export class TeamRatingTableComponent implements OnInit {
     @Input() errorTeamRating: string;
     @Input() authenticatedUser: User;
 
-    noTeamRating: string = 'Командний чемпіонат ще не почався або даних немає';
+    noTeamRating: string = 'Командний чемпіонат ще не почався / рейтингу не знайдено';
     teamImageDefault: string = environment.imageTeamDefault;
     teamImagesUrl: string = environment.apiImageTeams;
 

@@ -1,18 +1,18 @@
 <div class="row mb-2 mt-2 no-gutters blue-shadow">
     <div class="col-3 col-md-2">
         <div [ngClass]="{'round-nav-disabled text-muted': !previousRound, 'text-primary': previousRound}"
-             class="card cursor-pointer"
+             class="card cursor-pointer full-height"
              routerLink="{{path}}{{teamTeamMatches[0].round - 1}}"
              title="Попередній тур">
             <div class="card-block text-center">
                 <h4 class="card-title mb-0">
-                    <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                    <i class="fa fa-lg fa-chevron-circle-left" aria-hidden="true"></i>
                 </h4>
             </div>
         </div>
     </div>
     <div class="col-6 col-md-8">
-        <div class="card">
+        <div class="card full-height">
             <div class="card-block text-center">
                 <h4 class="card-title mb-0">
                     Тур {{teamTeamMatches[0].round}}
@@ -26,12 +26,12 @@
     </div>
     <div class="col-3 col-md-2">
         <div [ngClass]="{'round-nav-disabled text-muted': !nextRound, 'text-primary': nextRound}"
-             class="card cursor-pointer"
+             class="card cursor-pointer full-height"
              routerLink="{{path}}{{teamTeamMatches[0].round + 1}}"
              title="Наступний тур">
             <div class="card-block text-center">
                 <h4 class="card-title mb-0">
-                    <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                    <i class="fa fa-lg fa-chevron-circle-right" aria-hidden="true"></i>
                 </h4>
             </div>
         </div>

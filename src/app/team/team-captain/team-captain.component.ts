@@ -6,6 +6,7 @@ import { Subscription }                 from 'rxjs/Subscription';
 import { AuthService }                  from '../../core/auth.service';
 import { CurrentStateService }          from '../../core/current-state.service';
 import { environment }                  from '../../../environments/environment';
+import { HelperService }                from '../../core/helper.service';
 import { NotificationsService }         from 'angular2-notifications';
 import { TeamMatch }                    from '../../shared/models/team-match.model';
 import { TeamMatchService }             from '../../manage/manage-team/shared/team-match.service';
@@ -25,6 +26,7 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
 
     authenticatedUser: User = this.currentStateService.user;
     availableTeamParticipants: any;
+    clubsImagesUrl: string = environment.apiImageClubs;
     currentTeamId: number;
     errorTeamMatches: string;
     errorTeamParticipants: string;
@@ -42,12 +44,15 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
     teamParticipants: TeamParticipant[];
     teamTeamMatch: TeamTeamMatch;
     teamTeamMatches: TeamTeamMatch[];
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
     userSubscription: Subscription;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private currentStateService: CurrentStateService,
+        public helperService: HelperService,
         private notificationService: NotificationsService,
         private teamMatchService: TeamMatchService,
         private teamParticipantService: TeamParticipantService,
@@ -127,6 +132,23 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
                 this.spinnerTeamTeamMatches = false;
             }
         );
+    }
+
+    getPredictionDetails(teamMatch: TeamMatch, teamId: number): {name: string, prediction: string, predicted_at: string} {
+        // not the same function as in team-team-match-card component - no is predictable check
+        if (teamMatch.team_predictions) {
+            let teamPrediction = teamMatch.team_predictions.find((teamPrediction) => teamId === teamPrediction.team_id);
+            if (teamPrediction) {
+                return {
+                    name: teamPrediction.user ? teamPrediction.user.name : '-',
+                    prediction: this.helperService.isScore(teamPrediction.home, teamPrediction.away)
+                        ? `${teamPrediction.home} : ${teamPrediction.away}` : '-',
+                    predicted_at: this.helperService.isScore(teamPrediction.home, teamPrediction.away)
+                        ? teamPrediction.predicted_at : '-'
+                };
+            }
+        }
+        return {name: '-', prediction: '-', predicted_at: '-'};
     }
 
     matchHasPrediction(teamMatch: TeamMatch): boolean {
