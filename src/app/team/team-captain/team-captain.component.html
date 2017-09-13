@@ -82,7 +82,7 @@
         <tbody>
             <tr *ngFor="let teamMatch of teamMatches"
                 [ngClass]="{'table-active': matchHasPrediction(teamMatch) && teamMatch.team_predictions[0].user_id === authenticatedUser.id}">
-                <th class="text-center align-middle">{{teamMatch.id}}.</th>
+                <th class="text-center align-middle">{{teamMatch.number_in_round}}.</th>
                 <td>
                     <table class="table table-bordered table-sm mb-0">
                         <tr>

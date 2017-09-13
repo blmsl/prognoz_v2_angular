@@ -3,6 +3,7 @@
         <div class="row align-items-center">
             <div class="col-12 col-md-8">
                 <div class="form-group mb-0"
+                     *ngIf="!blockedTeamMatch || blockedTeamMatch.is_predictable"
                      [class.has-danger]="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
                     <select id="team_match_id"
                             class="form-control"
@@ -20,9 +21,13 @@
                         <small>Вибір матчу для блокування обов'язковий.</small>
                     </div>
                 </div>
+                <div *ngIf="blockedTeamMatch && !blockedTeamMatch.is_predictable" class="text-center font-weight-bold">
+                    {{blockedTeamMatch.club_first.title + ' - ' + blockedTeamMatch.club_second.title}}
+                </div>
             </div>
             <div class="col-12 col-md-4 text-center">
-                <button *ngIf="!spinnerButton"
+                <!-- submit button -->
+                <button *ngIf="!spinnerButton && (!blockedTeamMatch || blockedTeamMatch.is_predictable)"
                         class="btn btn-block"
                         [ngClass]="{'btn-outline-primary': blockedTeamMatch, 'btn-primary': !blockedTeamMatch}"
                         [disabled]="teamGoalkeeperForm.invalid"
@@ -30,6 +35,14 @@
                     <i [hidden]="blockedTeamMatch" class="fa fa-check-circle-o" aria-hidden="true"></i>
                     <i [hidden]="!blockedTeamMatch" class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     {{blockedTeamMatch ? 'Змінити' : 'Заблокувати'}}
+                </button>
+                <!-- disabled button -->
+                <button *ngIf="blockedTeamMatch && !blockedTeamMatch.is_predictable"
+                        class="btn btn-block btn-outline-secondary"
+                        type="button"
+                        disabled>
+                    <i class="fa fa-ban" aria-hidden="true"></i>
+                    <span class="hidden-md-up">Заборонено</span>
                 </button>
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </div>

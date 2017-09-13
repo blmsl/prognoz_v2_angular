@@ -5,17 +5,17 @@
      [attr.aria-controls]="'collapseTeamTeamMatch' + teamTeamMatch.id"
      (click)="getTeamTeamMatchData(teamTeamMatch)">
     <div class="card-block">
-        <div class="row" title="Натисніть для більш детальної інформації">
-            <div class="col-5 text-right">
+        <div class="row break-word" title="Натисніть для більш детальної інформації">
+            <div class="col-4 col-sm-5 text-right">
                 <strong>{{teamTeamMatch.home_team.name}}</strong>
                 <img class="small-image rounded hidden-xs-down ml-1"
                      src="{{teamsImagesUrl}}{{teamTeamMatch.home_team.image || teamImageDefault}}"
                      alt="{{teamTeamMatch.home_team.name}}">
             </div>
-            <div class="col-2 text-center">
+            <div class="col-4 col-sm-2 text-center">
                 <strong>{{teamTeamMatch.home}} : {{teamTeamMatch.away}}</strong>
             </div>
-            <div class="col-5 text-left">
+            <div class="col-4 col-sm-5 text-left">
                 <img class="small-image rounded hidden-xs-down mr-1"
                      src="{{teamsImagesUrl}}{{teamTeamMatch.away_team.image || teamImageDefault}}"
                      alt="{{teamTeamMatch.away_team.name}}">
@@ -155,6 +155,38 @@
                                 </td>
                             </tr>
                         </tbody>
+                    </table>
+                    <!-- team-team match details -->
+                    <table class="table table-sm table-bordered mb-0">
+                        <tr>
+                            <td class="text-center"
+                                [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
+                                <img *ngIf="teamTeamMatch.home_team_goalkeeper_id"
+                                     class="small-image rounded-circle hidden-md-down"
+                                     src="{{ userImagesUrl }}{{ teamTeamMatch.home_team_goalkeeper.image || userImageDefault }}"
+                                     alt="{{ teamTeamMatch.home_team_goalkeeper.name }}">
+                                {{teamTeamMatch.home_team_goalkeeper_id ? teamTeamMatch.home_team_goalkeeper.name : '-'}}
+                            </td>
+                            <td class="text-center text-muted align-middle"><small>Воротар</small></td>
+                            <td class="text-center"
+                                [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
+                                {{teamTeamMatch.away_team_goalkeeper_id ? teamTeamMatch.away_team_goalkeeper.name : '-'}}
+                                <img *ngIf="teamTeamMatch.away_team_goalkeeper_id"
+                                     class="small-image rounded-circle hidden-md-down"
+                                     src="{{ userImagesUrl }}{{ teamTeamMatch.away_team_goalkeeper.image || userImageDefault }}"
+                                     alt="{{ teamTeamMatch.away_team_goalkeeper.name }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">{{teamTeamMatch.home_points}}</td>
+                            <td class="text-center text-muted"><small>Очки за схемою чемпіонату</small></td>
+                            <td class="text-center align-middle">{{teamTeamMatch.away_points}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">{{teamTeamMatch.home_dc_sum}}</td>
+                            <td class="text-center text-muted"><small>Коефіцієнт складноті за схемою чемпіонату</small></td>
+                            <td class="text-center align-middle">{{teamTeamMatch.away_dc_sum}}</td>
+                        </tr>
                     </table>
                 </div>
             </div>

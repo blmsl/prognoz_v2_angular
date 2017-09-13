@@ -16,4 +16,6 @@ export class TeamTeamMatch {
     ended:                   boolean;
     home_team:               any;
     away_team:               any;
+    home_team_goalkeeper:    any;
+    away_team_goalkeeper:    any;
 }

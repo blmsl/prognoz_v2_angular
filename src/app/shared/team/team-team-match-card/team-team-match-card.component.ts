@@ -29,6 +29,8 @@ export class TeamTeamMatchCardComponent implements OnInit {
     teamImageDefault: string = environment.imageTeamDefault;
     teamsImagesUrl: string = environment.apiImageTeams;
     teamMatches: TeamMatch[];
+    userImageDefault: string = environment.imageUserDefault;
+    userImagesUrl: string = environment.apiImageUsers;
 
     getTeamTeamMatchData(teamTeamMatch: TeamTeamMatch) {
         if (!this.expandedTeamMatch) {
