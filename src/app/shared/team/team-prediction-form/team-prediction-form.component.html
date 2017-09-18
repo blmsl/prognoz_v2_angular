@@ -56,10 +56,15 @@
         <div class="col-12 col-md-2 mb-2 pl-0 pl-md-2 pr-0">
             <!-- submit button -->
             <button *ngIf="!spinnerButton && teamPrediction.team_match.is_predictable"
-                    class="btn btn-primary btn-block full-height"
+                    class="btn btn-block full-height"
+                    [ngClass]="{'btn-outline-primary': helperService.isScore(teamPrediction.home, teamPrediction.away),
+                                'btn-primary': !helperService.isScore(teamPrediction.home, teamPrediction.away)}"
                     type="submit">
-                <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
-                <span class="hidden-md-up">Зробити прогноз</span>
+                <i [hidden]="helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+                <i [hidden]="!helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                <span class="hidden-md-up">
+                    {{helperService.isScore(teamPrediction.home, teamPrediction.away) ? 'Змінити прогноз' : 'Зробити прогноз'}}
+                </span>
             </button>
             <!-- disabled button -->
             <button *ngIf="!teamPrediction.team_match.is_predictable"
