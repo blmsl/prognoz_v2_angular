@@ -1,21 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, ChangeDetectorRef }   from '@angular/core';
 
-import { environment }              from '../../../../environments/environment';
-import { HelperService }            from '../../../core/helper.service';
-import { TeamMatch }                from '../../models/team-match.model';
-import { TeamMatchService }         from '../../../manage/manage-team/shared/team-match.service';
-import { TeamTeamMatch }            from '../../models/team-team-match.model';
+import { environment }                                          from '../../../../environments/environment';
+import { HelperService }                                        from '../../../core/helper.service';
+import { TeamMatch }                                            from '../../models/team-match.model';
+import { TeamMatchService }                                     from '../../../manage/manage-team/shared/team-match.service';
+import { TeamTeamMatch }                                        from '../../models/team-team-match.model';
+
+declare var $: any;
 
 @Component({
     selector: 'app-team-team-match-card',
     templateUrl: './team-team-match-card.component.html',
     styleUrls: ['./team-team-match-card.component.css']
 })
-export class TeamTeamMatchCardComponent implements OnInit {
+export class TeamTeamMatchCardComponent implements AfterViewInit {
 
     constructor(
         private teamMatchService: TeamMatchService,
-        public helperService: HelperService
+        public helperService: HelperService,
+        private changeDetectorRef: ChangeDetectorRef
     ) {}
 
     @Input() teamTeamMatch: TeamTeamMatch;
@@ -32,30 +35,24 @@ export class TeamTeamMatchCardComponent implements OnInit {
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
 
-    getTeamTeamMatchData(teamTeamMatch: TeamTeamMatch) {
-        if (!this.expandedTeamMatch) {
-            this.expandedTeamMatch = true;
-            this.spinnerTeamMatches = true;
-            setTimeout(() => {
-                let param = [{parameter: 'filter', value: 'team-team-match'}];
-                param.push({parameter: 'home_team_id', value: teamTeamMatch.home_team_id.toString()});
-                param.push({parameter: 'away_team_id', value: teamTeamMatch.away_team_id.toString()});
-                if (this.round) param.push({parameter: 'round', value: this.round.toString()});
-                this.teamMatchService.getTeamMatches(param).subscribe(
-                    response => {
-                        if (response) this.teamMatches = response.team_matches;
-                        this.spinnerTeamMatches = false;
-                    },
-                    error => {
-                        this.errorTeamMatches = error;
-                        this.spinnerTeamMatches = false;
-                    }
-                );
-            }, 1000);
-        } else {
-            this.expandedTeamMatch = false;
-            setTimeout(() => this.resetTeamMatchesData(), 500);
-        }
+    getTeamMatchesData(teamTeamMatch: TeamTeamMatch) {
+        this.spinnerTeamMatches = true;
+        let param = [{parameter: 'filter', value: 'team-team-match'}];
+        param.push({parameter: 'home_team_id', value: teamTeamMatch.home_team_id.toString()});
+        param.push({parameter: 'away_team_id', value: teamTeamMatch.away_team_id.toString()});
+        if (this.round) param.push({parameter: 'round', value: this.round.toString()});
+        this.teamMatchService.getTeamMatches(param).subscribe(
+            response => {
+                if (response) this.teamMatches = response.team_matches;
+                this.spinnerTeamMatches = false;
+                this.changeDetectorRef.detectChanges();
+            },
+            error => {
+                this.errorTeamMatches = error;
+                this.spinnerTeamMatches = false;
+                this.changeDetectorRef.detectChanges();
+            }
+        );
     }
 
     getPredictionDetails(teamMatch: TeamMatch, teamId: number): {name: string, prediction: string, predicted_at: string} {
@@ -76,7 +73,25 @@ export class TeamTeamMatchCardComponent implements OnInit {
         return {name: '-', prediction: '-', predicted_at: '-'};
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
+        let id = '#collapseTeamTeamMatch' + this.teamTeamMatch.id;
+        $(id).on('hidden.bs.collapse', () => {
+            this.resetTeamMatchesData();
+            this.toggleChevron();
+            this.changeDetectorRef.detectChanges();
+        });
+        $(id).on('shown.bs.collapse', () => {
+            this.getTeamMatchesData(this.teamTeamMatch);
+        });
+        $(id).on('show.bs.collapse', () => {
+            this.toggleChevron();
+            this.spinnerTeamMatches = true;
+            this.changeDetectorRef.detectChanges();
+        });
+    }
+
+    toggleChevron() {
+        this.expandedTeamMatch = !this.expandedTeamMatch;
     }
 
     private resetTeamMatchesData(): void {
