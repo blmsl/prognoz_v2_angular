@@ -19,9 +19,9 @@
             <tr>
                 <th class="text-center" title="Позиція">#</th>
                 <th class="text-center hidden-md-down" title="Переміщення в рейтингу">
-                    <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
-                    <i class="fa fa-circle" aria-hidden="true"></i>
-                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                    <i class="fa fa-arrow-circle-down text-danger" aria-hidden="true"></i>
+                    <i class="fa fa-circle-o" aria-hidden="true"></i>
+                    <i class="fa fa-arrow-circle-up text-success" aria-hidden="true"></i>
                 </th>
                 <th class="text-left" title="Назва команди">Команда</th>
                 <th class="text-center hidden-xs-down" title="Виграші">В</th>
@@ -40,7 +40,7 @@
                 <td class="text-center hidden-md-down">
                     <!-- no moving -->
                     <span *ngIf="!teamRatingItem.moving" class="text-center text-muted">
-                        <i class="fa fa-circle-thin" aria-hidden="true"></i>
+                        <i class="fa fa-circle-o" aria-hidden="true"></i>
                     </span>
                     <!-- up moving -->
                     <span *ngIf="teamRatingItem.moving > 0" class="text-center text-success">
@@ -54,7 +54,7 @@
                     </span>
                 </td>
                 <td class="text-left">
-                    <img class="small-image rounded-circle mr-1"
+                    <img class="small-image rounded mr-1"
                          src="{{teamImagesUrl}}{{teamRatingItem.team.image || teamImageDefault}}"
                          alt="{{teamRatingItem.team.name}}">
                     <strong>{{teamRatingItem.team.name}}</strong>

@@ -34,6 +34,33 @@
     <app-info *ngIf="!spinnerTeamMatches && !errorTeamMatches && !teamMatches" [message]="noTeamMatches"></app-info>
     <div class="row">
         <div *ngIf="teamMatches" class="col-12">
+            <!-- team-team match details -->
+            <table class="table table-sm table-bordered bg-white mb-1">
+                <tr>
+                    <td class="text-center align-middle">{{teamTeamMatch.home_points}} / {{teamTeamMatch.home_dc_sum}}</td>
+                    <td class="text-center text-muted"><small>Очки / <abbr title="Коефіцієнт складноті">КС</abbr> за схемою чемпіонату</small></td>
+                    <td class="text-center align-middle">{{teamTeamMatch.away_points}} / {{teamTeamMatch.away_dc_sum}}</td>
+                </tr>
+                <tr>
+                    <td class="text-center"
+                        [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
+                        <img *ngIf="teamTeamMatch.home_team_goalkeeper_id"
+                             class="small-image rounded-circle hidden-md-down"
+                             src="{{ userImagesUrl }}{{ teamTeamMatch.home_team_goalkeeper.image || userImageDefault }}"
+                             alt="{{ teamTeamMatch.home_team_goalkeeper.name }}">
+                        {{teamTeamMatch.home_team_goalkeeper_id ? teamTeamMatch.home_team_goalkeeper.name : '-'}}
+                    </td>
+                    <td class="text-center text-muted align-middle"><small>Воротар</small></td>
+                    <td class="text-center"
+                        [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
+                        {{teamTeamMatch.away_team_goalkeeper_id ? teamTeamMatch.away_team_goalkeeper.name : '-'}}
+                        <img *ngIf="teamTeamMatch.away_team_goalkeeper_id"
+                             class="small-image rounded-circle hidden-md-down"
+                             src="{{ userImagesUrl }}{{ teamTeamMatch.away_team_goalkeeper.image || userImageDefault }}"
+                             alt="{{ teamTeamMatch.away_team_goalkeeper.name }}">
+                    </td>
+                </tr>
+            </table>
             <table class="table table-sm table-bordered table-striped table-hover bg-white mb-1">
                 <thead>
                 <tr>
@@ -158,33 +185,6 @@
                     </td>
                 </tr>
                 </tbody>
-            </table>
-            <!-- team-team match details -->
-            <table class="table table-sm table-bordered bg-white mb-1">
-                <tr>
-                    <td class="text-center"
-                        [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
-                        <img *ngIf="teamTeamMatch.home_team_goalkeeper_id"
-                             class="small-image rounded-circle hidden-md-down"
-                             src="{{ userImagesUrl }}{{ teamTeamMatch.home_team_goalkeeper.image || userImageDefault }}"
-                             alt="{{ teamTeamMatch.home_team_goalkeeper.name }}">
-                        {{teamTeamMatch.home_team_goalkeeper_id ? teamTeamMatch.home_team_goalkeeper.name : '-'}}
-                    </td>
-                    <td class="text-center text-muted align-middle"><small>Воротар</small></td>
-                    <td class="text-center"
-                        [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
-                        {{teamTeamMatch.away_team_goalkeeper_id ? teamTeamMatch.away_team_goalkeeper.name : '-'}}
-                        <img *ngIf="teamTeamMatch.away_team_goalkeeper_id"
-                             class="small-image rounded-circle hidden-md-down"
-                             src="{{ userImagesUrl }}{{ teamTeamMatch.away_team_goalkeeper.image || userImageDefault }}"
-                             alt="{{ teamTeamMatch.away_team_goalkeeper.name }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center align-middle">{{teamTeamMatch.home_points}} / {{teamTeamMatch.home_dc_sum}}</td>
-                    <td class="text-center text-muted"><small>Очки / <abbr title="Коефіцієнт складноті">КС</abbr> за схемою чемпіонату</small></td>
-                    <td class="text-center align-middle">{{teamTeamMatch.away_points}} / {{teamTeamMatch.away_dc_sum}}</td>
-                </tr>
             </table>
         </div>
     </div>
