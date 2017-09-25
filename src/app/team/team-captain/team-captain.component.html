@@ -1,55 +1,3 @@
-<h2 [hidden]="!teamParticipants || !teamTeamMatches">Воротар: </h2>
-<!-- spinner team-team matches -->
-<app-spinner *ngIf="spinnerTeamTeamMatches" [height]="255"></app-spinner>
-<!-- error team-team matches -->
-<app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
-<!-- round goalkeeper -->
-<div *ngIf="teamParticipants && teamTeamMatches" class="card black-shadow">
-    <form #teamGoalkeeperForm="ngForm" novalidate class="p-2">
-        <div class="form-group"
-             [class.has-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched">
-            <label class="form-control-label" for="goalkeeper_id"><strong>Воротар:</strong></label>
-            <select name="goalkeeper_id"
-                    id="goalkeeper_id"
-                    class="form-control"
-                    [class.form-control-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched"
-                    [ngModel]="goalkeeperId ? goalkeeperId : ''"
-                    [disabled]="!isCaptain || (teamTeamMatch && teamTeamMatch.ended) || !teamTeamMatch"
-                    #goalkeeper_id="ngModel"
-                    required>
-                <option [value]="''" selected>Не вибрано</option>
-                <option *ngFor="let teamParticipant of teamParticipants"
-                        [value]="teamParticipant.user_id">
-                    {{teamParticipant.user.name}}
-                </option>
-            </select>
-            <div *ngIf="goalkeeper_id.errors?.required && goalkeeper_id.touched" class="form-control-feedback">
-                <small>Вибір воротаря обов'язковий.</small>
-            </div>
-            <div [hidden]="!goalkeeperId" class="alert alert-info mt-2" role="alert">
-                При зміні воротаря заблоковані ним матчі поточного туру розблокуються.
-            </div>
-        </div>
-        <div class="text-center">
-            <button *ngIf="isCaptain && teamTeamMatch && !teamTeamMatch.ended"
-                    class="btn btn-primary"
-                    [ngClass]="{'btn-outline-primary': goalkeeperId, 'btn-primary': !goalkeeperId}"
-                    [hidden]="spinnerButtonGoalkeeper"
-                    [disabled]="teamGoalkeeperForm.invalid"
-                    (click)="setTeamTeamMatchGoalkeeper(teamGoalkeeperForm)">
-                <i [hidden]="goalkeeperId" class="fa fa-check-circle-o" aria-hidden="true"></i>
-                <i [hidden]="!goalkeeperId" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                {{goalkeeperId ? 'Змінити' : 'Підтвердити'}}
-            </button>
-            <button *ngIf="!isCaptain || (teamTeamMatch && teamTeamMatch.ended) || !teamTeamMatch"
-                    class="btn btn-outline-secondary"
-                    disabled>
-                <i class="fa fa-ban" aria-hidden="true"></i> Заборонено
-            </button>
-            <app-spinner-button [hidden]="!spinnerButtonGoalkeeper"></app-spinner-button>
-        </div>
-    </form>
-</div>
 <h2 [hidden]="!teamMatches || !teamParticipants">Стратегія: </h2>
 <!-- spinners -->
 <app-spinner *ngIf="spinnerTeamParticipants || spinnerTeamMatches" [height]="255"></app-spinner>
@@ -85,10 +33,12 @@
                 <th class="text-center align-middle">{{teamMatch.number_in_round}}.</th>
                 <td>
                     <table class="table table-bordered table-sm mb-0">
-                        <tr>
+                        <tr [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
+                                        'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
                             <td class="text-center">
                                 <table class="table table-sm mb-0">
-                                    <tr>
+                                    <tr [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
+                                                    'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
                                         <td class="hidden-md-down">{{teamMatch.club_first.title}}</td>
                                         <td>
                                             <img class="small-image"
@@ -107,7 +57,9 @@
                                         </td>
                                         <td class="hidden-md-down">{{ teamMatch.club_second.title}}</td>
                                     </tr>
-                                    <tr class="hidden-sm-up">
+                                    <tr class="hidden-sm-up"
+                                        [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
+                                                    'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
                                         <td colspan="2">
                                             {{helperService.showScore(teamMatch.home, teamMatch.away, 'vs')}}
                                         </td>
@@ -115,7 +67,9 @@
                                 </table>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="hidden-xs-down"
+                            [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
+                                        'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
                             <td class="text-center">
                                 <small class="text-muted text-capitalize">{{teamMatch.starts_at}}</small>
                                 <small *ngIf="matchHasPrediction(teamMatch)"
@@ -200,4 +154,56 @@
             </tr>
         </tbody>
     </table>
+</div>
+<!-- spinner team-team matches -->
+<app-spinner *ngIf="spinnerTeamTeamMatches" [height]="255"></app-spinner>
+<!-- error team-team matches -->
+<app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
+<h2 [hidden]="!teamParticipants || !teamTeamMatches">Воротар: </h2>
+<!-- round goalkeeper -->
+<div *ngIf="teamParticipants && teamTeamMatches" class="card black-shadow">
+    <form #teamGoalkeeperForm="ngForm" novalidate class="p-2">
+        <div class="form-group"
+             [class.has-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched">
+            <label class="form-control-label" for="goalkeeper_id"><strong>Воротар:</strong></label>
+            <select name="goalkeeper_id"
+                    id="goalkeeper_id"
+                    class="form-control"
+                    [class.form-control-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched"
+                    [ngModel]="goalkeeperId ? goalkeeperId : ''"
+                    [disabled]="!isCaptain || (teamTeamMatch && teamTeamMatch.ended) || !teamTeamMatch"
+                    #goalkeeper_id="ngModel"
+                    required>
+                <option [value]="''" selected>Не вибрано</option>
+                <option *ngFor="let teamParticipant of teamParticipants"
+                        [value]="teamParticipant.user_id">
+                    {{teamParticipant.user.name}}
+                </option>
+            </select>
+            <div *ngIf="goalkeeper_id.errors?.required && goalkeeper_id.touched" class="form-control-feedback">
+                <small>Вибір воротаря обов'язковий.</small>
+            </div>
+            <div [hidden]="!goalkeeperId" class="alert alert-info mt-2" role="alert">
+                При зміні воротаря заблоковані ним матчі вибраного туру розблокуються.
+            </div>
+        </div>
+        <div class="text-center">
+            <button *ngIf="isCaptain && teamTeamMatch && !teamTeamMatch.ended"
+                    class="btn btn-primary"
+                    [ngClass]="{'btn-outline-primary': goalkeeperId, 'btn-primary': !goalkeeperId}"
+                    [hidden]="spinnerButtonGoalkeeper"
+                    [disabled]="teamGoalkeeperForm.invalid"
+                    (click)="setTeamTeamMatchGoalkeeper(teamGoalkeeperForm)">
+                <i [hidden]="goalkeeperId" class="fa fa-check-circle-o" aria-hidden="true"></i>
+                <i [hidden]="!goalkeeperId" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                {{goalkeeperId ? 'Змінити' : 'Підтвердити'}}
+            </button>
+            <button *ngIf="!isCaptain || (teamTeamMatch && teamTeamMatch.ended) || !teamTeamMatch"
+                    class="btn btn-outline-secondary"
+                    disabled>
+                <i class="fa fa-ban" aria-hidden="true"></i> Заборонено
+            </button>
+            <app-spinner-button [hidden]="!spinnerButtonGoalkeeper"></app-spinner-button>
+        </div>
+    </form>
 </div>

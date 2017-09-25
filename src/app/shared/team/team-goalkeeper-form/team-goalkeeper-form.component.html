@@ -1,7 +1,7 @@
 <div class="card black-shadow mb-2">
     <form novalidate [formGroup]="teamGoalkeeperForm" (ngSubmit)="onSubmit()" class="p-2">
         <div class="row align-items-center">
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-7 col-lg-8">
                 <div class="form-group mb-0"
                      *ngIf="!blockedTeamMatch || blockedTeamMatch.is_predictable"
                      [class.has-danger]="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
@@ -25,7 +25,7 @@
                     {{blockedTeamMatch.club_first.title + ' - ' + blockedTeamMatch.club_second.title}}
                 </div>
             </div>
-            <div class="col-12 col-md-4 text-center">
+            <div class="col-12 col-md-5 col-lg-4 text-center">
                 <!-- submit button -->
                 <button *ngIf="!spinnerButton && (!blockedTeamMatch || blockedTeamMatch.is_predictable)"
                         class="btn btn-block"
@@ -41,8 +41,8 @@
                         class="btn btn-block btn-outline-secondary"
                         type="button"
                         disabled>
-                    <i class="fa fa-ban" aria-hidden="true"></i>
-                    <span class="hidden-md-up">Заборонено</span>
+                    <i class="fa fa-ban fa-lg" aria-hidden="true"></i>
+                    <span>Заборонено</span>
                 </button>
                 <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </div>

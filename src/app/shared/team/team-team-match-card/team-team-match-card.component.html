@@ -4,23 +4,28 @@
      aria-expanded="false"
      [attr.aria-controls]="'collapseTeamTeamMatch' + teamTeamMatch.id">
     <div class="card-block">
-        <div class="row break-word" title="Натисніть для більш детальної інформації">
+        <div class="row" title="Натисніть для більш детальної інформації">
             <div class="col-4 col-sm-5 text-right">
-                <strong>{{teamTeamMatch.home_team.name}}</strong>
+                <strong class="hidden-xs-down">{{teamTeamMatch.home_team.name}}</strong>
+                <small class="hidden-sm-up">{{teamTeamMatch.home_team.name}}</small>
                 <img class="small-image rounded hidden-xs-down ml-1"
                      src="{{teamsImagesUrl}}{{teamTeamMatch.home_team.image || teamImageDefault}}"
                      alt="{{teamTeamMatch.home_team.name}}">
             </div>
             <div class="col-4 col-sm-2 text-center">
-                <strong>{{teamTeamMatch.home}} : {{teamTeamMatch.away}}</strong>
+                <strong>{{helperService.showScore(teamTeamMatch.home, teamTeamMatch.away, 'vs')}}</strong>
+                <br class="hidden-sm-up">
+                <i [hidden]="expandedTeamMatch" class="fa fa-chevron-down fa-lg text-primary hidden-sm-up"></i>
+                <i [hidden]="!expandedTeamMatch" class="fa fa-chevron-up fa-lg text-primary hidden-sm-up"></i>
             </div>
             <div class="col-4 col-sm-5 text-left">
                 <img class="small-image rounded hidden-xs-down mr-1"
                      src="{{teamsImagesUrl}}{{teamTeamMatch.away_team.image || teamImageDefault}}"
                      alt="{{teamTeamMatch.away_team.name}}">
-                <strong>{{teamTeamMatch.away_team.name}}</strong>
-                <i [hidden]="expandedTeamMatch" class="pull-right fa fa-chevron-down fa-lg text-primary"></i>
-                <i [hidden]="!expandedTeamMatch" class="pull-right fa fa-chevron-up fa-lg text-primary"></i>
+                <small class="hidden-sm-up">{{teamTeamMatch.away_team.name}}</small>
+                <strong class="hidden-xs-down">{{teamTeamMatch.away_team.name}}</strong>
+                <i [hidden]="expandedTeamMatch" class="pull-right fa fa-chevron-down fa-lg text-primary hidden-xs-down"></i>
+                <i [hidden]="!expandedTeamMatch" class="pull-right fa fa-chevron-up fa-lg text-primary hidden-xs-down"></i>
             </div>
         </div>
     </div>
@@ -37,9 +42,13 @@
             <!-- team-team match details -->
             <table class="table table-sm table-bordered bg-white mb-1">
                 <tr>
-                    <td class="text-center align-middle">{{teamTeamMatch.home_points}} / {{teamTeamMatch.home_dc_sum}}</td>
+                    <td class="text-center align-middle">
+                        {{teamTeamMatch.home_points ? teamTeamMatch.home_points : 0}} / {{teamTeamMatch.home_dc_sum ? teamTeamMatch.home_dc_sum : '0.000'}}
+                    </td>
                     <td class="text-center text-muted"><small>Очки / <abbr title="Коефіцієнт складноті">КС</abbr> за схемою чемпіонату</small></td>
-                    <td class="text-center align-middle">{{teamTeamMatch.away_points}} / {{teamTeamMatch.away_dc_sum}}</td>
+                    <td class="text-center align-middle">
+                        {{teamTeamMatch.away_points ? teamTeamMatch.away_points : 0}} / {{teamTeamMatch.away_dc_sum ? teamTeamMatch.away_dc_sum : '0.000'}}
+                    </td>
                 </tr>
                 <tr>
                     <td class="text-center"

@@ -2,14 +2,18 @@
     <div class="row">
         <!-- form block -->
         <div class="col-12 col-md-10">
-            <div class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
+            <div class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border"
+                 [ngClass]="{'green-inset-and-black-shadow': helperService.isScore(teamPrediction.home, teamPrediction.away),
+                            'red-inset-and-black-shadow': !helperService.isScore(teamPrediction.home, teamPrediction.away)}">
                 <!-- home club logo -->
                 <div class="hidden-md-down col-md-2">
                     <img class="img-fluid" src="{{clubsImagesUrl}}{{teamPrediction.team_match.club_first.image}}" alt="{{teamPrediction.team_match.club_first.title}}"
                          title="{{teamPrediction.team_match.club_first.title}}">
                 </div>
                 <!-- club names, starts_at, inputs -->
-                <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded">
+                <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded"
+                     [ngClass]="{'green-shadow': helperService.isScore(teamPrediction.home, teamPrediction.away),
+                                'red-shadow': !helperService.isScore(teamPrediction.home, teamPrediction.away)}">
                     <div class="row">
                         <div class="col-12 text-center text-white">
                             {{teamPrediction.team_match.starts_at}}
@@ -60,10 +64,20 @@
                     [ngClass]="{'btn-outline-primary': helperService.isScore(teamPrediction.home, teamPrediction.away),
                                 'btn-primary': !helperService.isScore(teamPrediction.home, teamPrediction.away)}"
                     type="submit">
-                <i [hidden]="helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
-                <i [hidden]="!helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                <!-- md lg xl -->
+                <i [hidden]="helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-check-circle-o fa-2x hidden-sm-down" aria-hidden="true"></i>
+                <i [hidden]="!helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-pencil-square-o fa-2x hidden-sm-down" aria-hidden="true"></i>
+                <!-- xs sm -->
+                <i [hidden]="helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-check-circle-o fa-lg hidden-md-up" aria-hidden="true"></i>
+                <i [hidden]="!helperService.isScore(teamPrediction.home, teamPrediction.away)" class="fa fa-pencil-square-o fa-lg hidden-md-up" aria-hidden="true"></i>
+                <!-- lg xl -->
+                <br class="hidden-md-down">
+                <small class="hidden-md-down">
+                    {{helperService.isScore(teamPrediction.home, teamPrediction.away) ? 'Змінити' : 'Зберегти'}}
+                </small>
+                <!-- xs sm -->
                 <span class="hidden-md-up">
-                    {{helperService.isScore(teamPrediction.home, teamPrediction.away) ? 'Змінити прогноз' : 'Зробити прогноз'}}
+                    {{helperService.isScore(teamPrediction.home, teamPrediction.away) ? 'Змінити прогноз' : 'Зберегти прогноз'}}
                 </span>
             </button>
             <!-- disabled button -->
@@ -71,14 +85,24 @@
                     class="btn btn-outline-secondary btn-block full-height mt-0"
                     type="button"
                     disabled>
-                <i class="fa fa-ban fa-2x" aria-hidden="true"></i>
+                <!-- md lg xl -->
+                <i class="fa fa-ban fa-2x hidden-sm-down" aria-hidden="true"></i>
+                <!-- lg xl -->
+                <br class="hidden-md-down"><small class="text-muted hidden-md-down">Заборонено</small>
+                <!-- xs sm -->
+                <i class="fa fa-ban fa-lg hidden-md-up" aria-hidden="true"></i>
                 <span class="hidden-md-up">Заборонено</span>
             </button>
             <!-- spinner -->
             <button *ngIf="spinnerButton"
                     class="btn btn-primary btn-block full-height mt-0"
                     type="button">
-                <i class="fa fa-spinner fa-spin fa-fw fa-2x"></i>
+                <!-- xs sm -->
+                <i class="fa fa-spinner fa-spin fa-fw fa-lg hidden-md-up"></i>
+                <!-- md lg xl -->
+                <i class="fa fa-spinner fa-spin fa-fw fa-2x hidden-sm-down"></i>
+                <!-- lg xl -->
+                <br class="hidden-md-down"><small class="hidden-md-down">Зачекайте</small>
                 <span class="sr-only">Loading...</span>
                 <span class="hidden-md-up">Зачекайте</span>
             </button>
