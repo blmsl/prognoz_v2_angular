@@ -6,7 +6,6 @@ export const environment = {
     apiImageUsers: 'http://prognoz-rest.local/img/users/',
     apiImageAwards: 'http://prognoz-rest.local/img/awards/',
     apiImageTeams: 'http://prognoz-rest.local/img/teams/',
-    apiSiteLogo: 'http://prognoz-rest.local/logo.png',
     imageUserDefault: 'default.png',
     imageTeamDefault: 'default.jpeg',
     imageSettings: {

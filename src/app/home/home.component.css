@@ -2,7 +2,7 @@
     margin-top: -8px;
     height: 400px;
     color: white;
-    background: url("../../img/field.jpg") center center no-repeat;
+    background: url("/assets/img/field.jpg") center center no-repeat;
     background-size: cover;
 }
 .logo-block {
@@ -27,7 +27,7 @@
 }
 .vs {
     height: 400px;
-    background: url("../../img/vs.png") center center no-repeat;
+    background: url("/assets/img/vs.png") center center no-repeat;
     background-size: contain;
     -webkit-filter: drop-shadow(0 0 5px #fff);
     filter: drop-shadow(0 0 5px #fff);

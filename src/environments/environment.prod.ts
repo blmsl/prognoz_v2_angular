@@ -6,7 +6,6 @@ export const environment = {
     apiImageUsers: 'http://46.101.159.170/img/users/',
     apiImageAwards: 'http://46.101.159.170/img/awards/',
     apiImageTeams: 'http://46.101.159.170/img/teams/',
-    apiSiteLogo: 'http://46.101.159.170/logo.png',
     imageUserDefault: 'default.png',
     imageTeamDefault: 'default.jpeg',
     imageSettings: {
