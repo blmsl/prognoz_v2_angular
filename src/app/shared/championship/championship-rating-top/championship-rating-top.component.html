@@ -7,12 +7,12 @@
     <h4 class="card-header text-xs-center">Лідер рейтингу</h4>
     <div class="card-block text-center cursor-pointer" routerLink="/championship/users/{{championshipRatingItems[0].user_id}}">
         <img class="card-img-top img-fluid rounded"
-             src="{{ userImagesUrl }}{{ championshipRatingItems[0].user.image || userImageDefault }}"
-             alt="{{ championshipRatingItems[0].user.name }}">
+             src="{{userImagesUrl}}{{championshipRatingItems[0].user.image || userImageDefault}}"
+             alt="{{championshipRatingItems[0].user.name}}">
     </div>
     <div class="card-block pt-0 cursor-pointer" routerLink="/championship/users/{{championshipRatingItems[0].user_id}}">
         <p class="card-text text-center">
-            <strong>{{ championshipRatingItems[0].user.name }}</strong> {{helperService.getHometown(championshipRatingItems[0].user.hometown)}}
+            <strong>{{championshipRatingItems[0].user.name}}</strong> {{helperService.getHometown(championshipRatingItems[0].user.hometown)}}
         </p>
     </div>
 </div>

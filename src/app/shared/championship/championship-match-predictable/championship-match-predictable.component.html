@@ -15,18 +15,18 @@
     <div class="col-12 col-md-8 bg-inverse rounded">
         <div class="row">
             <div class="col-12 text-center text-white">
-                {{ match.starts_at }}
+                {{match.starts_at}}
             </div>
         </div>
         <div class="row align-items-center mb-2">
             <div class="col-5 text-center text-white">
-                <strong>{{ match.club_first.title }}</strong>
+                <strong>{{match.club_first.title}}</strong>
             </div>
             <div class="col-2 text-center text-white">
                 <strong>vs</strong>
             </div>
             <div class="col-5 text-center text-white">
-                <strong>{{ match.club_second.title }}</strong>
+                <strong>{{match.club_second.title}}</strong>
             </div>
             <!-- expandable statistic -->
             <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
@@ -80,12 +80,12 @@
          [formGroup]="championshipPredictsForm">
         <div class="row">
             <div class="col-12 text-center text-white">
-                {{ match.starts_at }}
+                {{match.starts_at}}
             </div>
         </div>
         <div class="row align-items-center">
             <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-right text-sm-center text-white">
-                <strong><label [attr.for]="match.id + '_home'">{{ match.club_first.title }}</label></strong>
+                <strong><label [attr.for]="match.id + '_home'">{{match.club_first.title}}</label></strong>
             </div>
             <div class="col-12 col-sm-4 col-md-6 col-lg-4 flex-last flex-sm-unordered text-center text-white mb-2" (click)="onClick($event)">
                 <input [attr.id]="match.id + '_home'"
@@ -102,7 +102,7 @@
                       [formControlName]="match.id + '_away'">
             </div>
             <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
-                <strong><label [attr.for]="match.id + '_away'">{{ match.club_second.title }}</label></strong>
+                <strong><label [attr.for]="match.id + '_away'">{{match.club_second.title}}</label></strong>
             </div>
             <!-- expandable statistic -->
             <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">

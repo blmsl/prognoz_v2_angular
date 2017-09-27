@@ -7,15 +7,15 @@
     <h4 class="card-header text-xs-center">Останній зареєстрований користувач</h4>
     <div class="card-block text-center">
         <img class="card-img-top img-fluid rounded"
-             src="{{ userImagesUrl }}{{ lastUser.image || userImageDefault }}"
-             alt="{{ lastUser.name }}">
+             src="{{userImagesUrl}}{{lastUser.image || userImageDefault}}"
+             alt="{{lastUser.name}}">
     </div>
     <div class="card-block">
         <p class="card-text text-center">
-            <strong>{{ lastUser.name }}</strong> {{getHometown(lastUser.hometown)}}
+            <strong>{{lastUser.name}}</strong> {{getHometown(lastUser.hometown)}}
         </p>
     </div>
     <div class="card-footer text-muted">
-        {{ lastUser.created_at }}
+        {{lastUser.created_at}}
     </div>
 </div>

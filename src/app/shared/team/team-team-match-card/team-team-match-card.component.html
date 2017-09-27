@@ -55,8 +55,8 @@
                         [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
                         <img *ngIf="teamTeamMatch.home_team_goalkeeper_id"
                              class="small-image rounded-circle hidden-md-down"
-                             src="{{ userImagesUrl }}{{ teamTeamMatch.home_team_goalkeeper.image || userImageDefault }}"
-                             alt="{{ teamTeamMatch.home_team_goalkeeper.name }}">
+                             src="{{userImagesUrl}}{{teamTeamMatch.home_team_goalkeeper.image || userImageDefault}}"
+                             alt="{{teamTeamMatch.home_team_goalkeeper.name}}">
                         {{teamTeamMatch.home_team_goalkeeper_id ? teamTeamMatch.home_team_goalkeeper.name : '-'}}
                     </td>
                     <td class="text-center text-muted align-middle"><small>Воротар</small></td>
@@ -65,8 +65,8 @@
                         {{teamTeamMatch.away_team_goalkeeper_id ? teamTeamMatch.away_team_goalkeeper.name : '-'}}
                         <img *ngIf="teamTeamMatch.away_team_goalkeeper_id"
                              class="small-image rounded-circle hidden-md-down"
-                             src="{{ userImagesUrl }}{{ teamTeamMatch.away_team_goalkeeper.image || userImageDefault }}"
-                             alt="{{ teamTeamMatch.away_team_goalkeeper.name }}">
+                             src="{{userImagesUrl}}{{teamTeamMatch.away_team_goalkeeper.image || userImageDefault}}"
+                             alt="{{teamTeamMatch.away_team_goalkeeper.name}}">
                     </td>
                 </tr>
             </table>

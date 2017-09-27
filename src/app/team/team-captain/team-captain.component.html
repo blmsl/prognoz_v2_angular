@@ -55,7 +55,7 @@
                                                  alt="{{teamMatch.club_second.title}}"
                                                  title="{{teamMatch.club_second.title}}">
                                         </td>
-                                        <td class="hidden-md-down">{{ teamMatch.club_second.title}}</td>
+                                        <td class="hidden-md-down">{{teamMatch.club_second.title}}</td>
                                     </tr>
                                     <tr class="hidden-sm-up"
                                         [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
@@ -103,7 +103,7 @@
                         </div>
                     </form>
                     <div>
-                        <strong *ngIf="!isCaptain || !teamMatch.is_predictable">{{ matchHasPrediction(teamMatch) ? teamMatch.team_predictions[0].user.name : '-'}}</strong>
+                        <strong *ngIf="!isCaptain || !teamMatch.is_predictable">{{matchHasPrediction(teamMatch) ? teamMatch.team_predictions[0].user.name : '-'}}</strong>
                     </div>
                 </td>
                 <td class="align-middle text-center">
