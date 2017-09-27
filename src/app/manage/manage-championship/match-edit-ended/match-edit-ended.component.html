@@ -25,47 +25,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let championshipMatch of championshipMatches | slice:0:12" [ngClass]="{'bg-success': updatedMatches['match_' + championshipMatch.id]}">
-                    <td class="align-middle text-center">
+                    <tr *ngFor="let championshipMatch of championshipMatches | slice:0:12" [ngClass]="{'bg-success': updatedMatches['match_' + championshipMatch.id]}">
+                        <th scope="row" class="align-middle text-center">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <strong class="fa-stack-1x text-danger">{{championshipMatch.number_in_competition}}</strong>
                             </span>
-                    </td>
-                    <td>
-                        <select class="form-control" [(ngModel)]="championshipMatch.t1_id" [disabled]="true">
-                            <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="form-control" [(ngModel)]="championshipMatch.t2_id" [disabled]="true">
-                            <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
-                        </select>
-                    </td>
-                    <td class="align-middle text-center">
-                        <input type="number"
-                               class="form-control"
-                               min="0"
-                               max="9"
-                               [disabled]="updatedMatches['match_' + championshipMatch.id]"
-                               [(ngModel)]="championshipMatch.home">
-                    </td>
-                    <td class="align-middle text-center">
-                        <input type="number"
-                               class="form-control"
-                               min="0"
-                               max="9"
-                               [disabled]="updatedMatches['match_' + championshipMatch.id]"
-                               [(ngModel)]="championshipMatch.away">
-                    </td>
-                    <td class="align-middle text-center">
-                        <button (click)="onSubmit(championshipMatch)"
-                                [hidden]="spinnerButton['match_' + championshipMatch.id] || updatedMatches['match_' + championshipMatch.id]"
-                                class="btn btn-danger">Змінити</button>
-                        <app-spinner-button [hidden]="!spinnerButton['match_' + championshipMatch.id]"></app-spinner-button>
-                        <i [hidden]="!updatedMatches['match_' + championshipMatch.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>
-                    </td>
-                </tr>
+                        </th>
+                        <td>
+                            <select class="form-control" [(ngModel)]="championshipMatch.t1_id" [disabled]="true">
+                                <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="championshipMatch.t2_id" [disabled]="true">
+                                <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
+                            </select>
+                        </td>
+                        <td class="align-middle text-center">
+                            <input type="number"
+                                   class="form-control"
+                                   min="0"
+                                   max="9"
+                                   [disabled]="updatedMatches['match_' + championshipMatch.id]"
+                                   [(ngModel)]="championshipMatch.home">
+                        </td>
+                        <td class="align-middle text-center">
+                            <input type="number"
+                                   class="form-control"
+                                   min="0"
+                                   max="9"
+                                   [disabled]="updatedMatches['match_' + championshipMatch.id]"
+                                   [(ngModel)]="championshipMatch.away">
+                        </td>
+                        <td class="align-middle text-center">
+                            <button (click)="onSubmit(championshipMatch)"
+                                    [hidden]="spinnerButton['match_' + championshipMatch.id] || updatedMatches['match_' + championshipMatch.id]"
+                                    class="btn btn-danger">Змінити</button>
+                            <app-spinner-button [hidden]="!spinnerButton['match_' + championshipMatch.id]"></app-spinner-button>
+                            <i [hidden]="!updatedMatches['match_' + championshipMatch.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

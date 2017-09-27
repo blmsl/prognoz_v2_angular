@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let season of seasons">
-                        <td class="hidden-md-down">{{season.id}}.</td>
+                        <th scope="row" class="hidden-md-down">{{season.id}}.</th>
                         <td class="text-center"><strong>{{season.title}}</strong></td>
                         <td class="text-center">
                             <i *ngIf="season.active" class="text-success fa fa-check-circle fa-lg" aria-hidden="true"></i>

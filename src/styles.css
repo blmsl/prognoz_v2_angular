@@ -49,3 +49,16 @@ body {
     box-shadow: 0 0 5px #d9534f;
 }
 
+.th-moving-icons {
+    min-width: 62px;
+}
+.th-moving-icons .fa {
+    position: relative;
+}
+.th-moving-icons .fa-arrow-circle-up {
+    left: -7px;
+}
+.th-moving-icons .fa-arrow-circle-down {
+    left: 7px;
+}
+

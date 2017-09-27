@@ -10,16 +10,16 @@
     <table class="table table-sm mb-0">
         <thead>
             <tr>
-                <th class="text-center" title="Номер матчу в турі">
-                    <small>#</small>
+                <th class="text-center">
+                    <small>№</small>
                 </th>
-                <th title="Матч для прогнозування">
+                <th>
                     <small>Матч</small>
                 </th>
-                <th class="text-center" title="Прогнозист">
+                <th class="text-center">
                     <small>Прогнозист</small>
                 </th>
-                <th class="text-center" title="Прогноз">
+                <th class="text-center">
                     <small>Прогноз</small>
                 </th>
                 <th class="text-center" title="Вибрати учасника команди">
@@ -30,7 +30,7 @@
         <tbody>
             <tr *ngFor="let teamMatch of teamMatches"
                 [ngClass]="{'table-active': matchHasPrediction(teamMatch) && teamMatch.team_predictions[0].user_id === authenticatedUser.id}">
-                <th class="text-center align-middle">{{teamMatch.number_in_round}}.</th>
+                <th scope="row" class="text-center align-middle">{{teamMatch.number_in_round}}.</th>
                 <td>
                     <table class="table table-bordered table-sm mb-0">
                         <tr [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),

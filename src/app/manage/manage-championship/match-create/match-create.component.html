@@ -87,15 +87,15 @@
             <table *ngIf="addedMatches" class="table table-sm table-striped table-bordered">
                 <thead class="thead-inverse">
                     <tr>
-                        <th>#</th>
-                        <th>Команда 1</th>
-                        <th>Команда 2</th>
+                        <th>№</th>
+                        <th>Господарі</th>
+                        <th>Гості</th>
                         <th>Час початку</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let match of addedMatches">
-                        <td>{{ match.number_in_competition }}</td>
+                        <th scope="row">{{ match.number_in_competition }}</th>
                         <td>{{ match.club_first.title }}</td>
                         <td>{{ match.club_second.title }}</td>
                         <td>{{ match.starts_at }}</td>

@@ -27,12 +27,12 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let championshipMatch of championshipMatches" [ngClass]="{'bg-success': updatedMatches['match_' + championshipMatch.id]}">
-                        <td class="hidden-sm-down align-middle text-center">
+                        <th scope="row" class="hidden-sm-down align-middle text-center">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <strong class="fa-stack-1x text-success">{{championshipMatch.number_in_competition}}</strong>
                             </span>
-                        </td>
+                        </th>
                         <td class="hidden-sm-down">
                             <img class="small-image" src="{{clubsImagesUrl}}{{championshipMatch.club_first.image}}" alt="{{championshipMatch.club_first.link}}">
                             <small class="text-muted">{{championshipMatch.starts_at}}</small>

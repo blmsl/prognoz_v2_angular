@@ -16,9 +16,9 @@
             <table class="table table-striped table-bordered table-hover table-inverse">
                 <thead class="bg-faded text-muted">
                     <tr>
-                        <th>ID</th>
+                        <th>№</th>
                         <th>Лого</th>
-                        <th>Ім'я</th>
+                        <th>Назва</th>
                         <th>Name</th>
                         <th>Створено</th>
                         <th>Змінено</th>
@@ -27,9 +27,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let club of clubs">
-                        <td>
+                        <th scope="row">
                             {{club.id}}.
-                        </td>
+                        </th>
                         <td class="text-xs-center">
                             <img class="small-image" src="{{clubsImagesUrl}}{{club.image}}" alt="{{club.link}}">
                             <img *ngIf="club.parent" class="small-image" src="{{clubsImagesUrl}}{{club.parent.image}}" alt="{{club.parent.link}}" title="{{club.parent.title}}">
