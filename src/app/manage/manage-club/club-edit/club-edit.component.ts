@@ -61,37 +61,9 @@ export class ClubEditComponent implements OnInit {
         });
 
         this.activatedRoute.params.forEach((params: Params) => {
-            this.spinnerClub = true;
-            this.clubService.getClub(params['id']).subscribe(
-                response => {
-                    this.clubEditForm.patchValue({
-                        id: response.id,
-                        title: response.title,
-                        link: response.link,
-                        parent_id: response.parent_id
-                    });
-                    this.club = response;
-                    this.spinnerClub = false;
-                },
-                error => {
-                    this.errorClub = error;
-                    this.spinnerClub = false;
-                }
-            );
+            this.getClubData(params['id']);
         });
-
-        this.spinnerClubs = true;
-        this.clubService.getClubs(null, 'national_teams')
-            .subscribe(
-                result => {
-                    this.clubs = result.clubs;
-                    this.spinnerClubs = false;
-                },
-                error => {
-                    this.errorClubs = error;
-                    this.spinnerClubs = false;
-                }
-        );
+        this.getClubsData();
     }
 
     onSubmit() {
@@ -110,5 +82,40 @@ export class ClubEditComponent implements OnInit {
                 this.spinnerButton = false;
             }
         );
+    }
+
+    private getClubData(id: number) {
+        this.spinnerClub = true;
+        this.clubService.getClub(id).subscribe(
+            response => {
+                this.clubEditForm.patchValue({
+                    id: response.id,
+                    title: response.title,
+                    link: response.link,
+                    parent_id: response.parent_id
+                });
+                this.club = response;
+                this.spinnerClub = false;
+            },
+            error => {
+                this.errorClub = error;
+                this.spinnerClub = false;
+            }
+        );
+    }
+
+    private getClubsData() {
+        this.spinnerClubs = true;
+        this.clubService.getClubs(null, 'national_teams')
+            .subscribe(
+                result => {
+                    this.clubs = result.clubs;
+                    this.spinnerClubs = false;
+                },
+                error => {
+                    this.errorClubs = error;
+                    this.spinnerClubs = false;
+                }
+            );
     }
 }

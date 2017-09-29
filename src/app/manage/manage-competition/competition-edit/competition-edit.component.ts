@@ -56,60 +56,11 @@ export class CompetitionEditComponent implements OnInit {
             active: ['', [Validators.required]],
             ended: ['', [Validators.required]]
         });
-
         this.activatedRoute.params.forEach((params: Params) => {
-            this.spinnerCompetition = true;
-            this.competitionService.getCompetition(params['id']).subscribe(
-                response => {
-                    this.competition = response;
-                    this.competitionEditForm.patchValue({
-                        id: response.id,
-                        title: response.title,
-                        season_id: response.season_id,
-                        tournament_id: response.tournament_id,
-                        number_of_teams: response.number_of_teams,
-                        stated: response.stated,
-                        active: response.active,
-                        ended: response.ended
-                    });
-                    this.spinnerCompetition = false;
-                },
-                error => {
-                    this.errorCompetition = error;
-                    this.spinnerCompetition = false;
-                }
-            );
+            this.getCompetitionData(params['id']);
         });
-
-        this.spinnerSeasons = true;
-        this.seasonService.getSeasons().subscribe(
-            response => {
-                if (response) {
-                    this.seasons = response.seasons;
-                }
-                this.spinnerSeasons = false;
-            },
-            error => {
-                this.errorSeasons = error;
-                this.spinnerSeasons = false;
-            }
-        );
-
-        this.spinnerTournaments = true;
-        this.tournamentService.getTournaments().subscribe(
-            response => {
-                if (!response) {
-                    this.noTournaments = 'В базі даних турнірів не знайдено.'
-                } else {
-                    this.tournaments = response.tournaments;
-                }
-                this.spinnerTournaments = false;
-            },
-            error => {
-                this.errorTournaments = error;
-                this.spinnerTournaments = false;
-            }
-        );
+        this.getSeasonsData();
+        this.getTournamentsData();
     }
 
     onSubmit() {
@@ -134,5 +85,67 @@ export class CompetitionEditComponent implements OnInit {
                 valid: false
             }
         };
+    }
+
+    private getCompetitionData(id: number) {
+        this.spinnerCompetition = true;
+        this.competitionService.getCompetition(id).subscribe(
+            response => {
+                this.competition = response;
+                this.updateCompetitionEditForm(response);
+                this.spinnerCompetition = false;
+            },
+            error => {
+                this.errorCompetition = error;
+                this.spinnerCompetition = false;
+            }
+        );
+    }
+
+    private getSeasonsData() {
+        this.spinnerSeasons = true;
+        this.seasonService.getSeasons().subscribe(
+            response => {
+                if (response) {
+                    this.seasons = response.seasons;
+                }
+                this.spinnerSeasons = false;
+            },
+            error => {
+                this.errorSeasons = error;
+                this.spinnerSeasons = false;
+            }
+        );
+    }
+
+    private getTournamentsData() {
+        this.spinnerTournaments = true;
+        this.tournamentService.getTournaments().subscribe(
+            response => {
+                if (!response) {
+                    this.noTournaments = 'В базі даних турнірів не знайдено.'
+                } else {
+                    this.tournaments = response.tournaments;
+                }
+                this.spinnerTournaments = false;
+            },
+            error => {
+                this.errorTournaments = error;
+                this.spinnerTournaments = false;
+            }
+        );
+    }
+
+    private updateCompetitionEditForm(competition: Competition) {
+        this.competitionEditForm.patchValue({
+            id: competition.id,
+            title: competition.title,
+            season_id: competition.season_id,
+            tournament_id: competition.tournament_id,
+            number_of_teams: competition.number_of_teams,
+            stated: competition.stated,
+            active: competition.active,
+            ended: competition.ended
+        });
     }
 }

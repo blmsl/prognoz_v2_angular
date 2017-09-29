@@ -38,36 +38,8 @@ export class CompetitionCreateComponent implements OnInit {
     tournaments: Tournament[];
 
     ngOnInit() {
-        this.spinnerSeasons = true;
-        this.seasonService.getSeasons().subscribe(
-            response => {
-                if (response) {
-                    this.seasons = response.seasons;
-                }
-                this.spinnerSeasons = false;
-            },
-            error => {
-                this.errorSeasons = error;
-                this.spinnerSeasons = false;
-            }
-        );
-
-        this.spinnerTournaments = true;
-        this.tournamentService.getTournaments().subscribe(
-            response => {
-                if (!response) {
-                    this.noTournaments = 'В базі даних турнірів не знайдено.'
-                } else {
-                    this.tournaments = response.tournaments;
-                }
-                this.spinnerTournaments = false;
-            },
-            error => {
-                this.errorTournaments = error;
-                this.spinnerTournaments = false;
-            }
-        );
-
+        this.getSeasonsData();
+        this.getTournamentsData();
         this.competitionCreateForm = new FormGroup({
             title: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]),
             season_id: new FormControl('', [Validators.required]),
@@ -75,7 +47,7 @@ export class CompetitionCreateComponent implements OnInit {
             number_of_teams: new FormControl('', [this.validateNumberOfTeams])
         });
     }
-    
+
     onSubmit() {
         this.spinnerButton = true;
         this.competitionService.createCompetition(this.competitionCreateForm.value).subscribe(
@@ -97,5 +69,39 @@ export class CompetitionCreateComponent implements OnInit {
                 valid: false
             }
         };
+    }
+
+    private getSeasonsData() {
+        this.spinnerSeasons = true;
+        this.seasonService.getSeasons().subscribe(
+            response => {
+                if (response) {
+                    this.seasons = response.seasons;
+                }
+                this.spinnerSeasons = false;
+            },
+            error => {
+                this.errorSeasons = error;
+                this.spinnerSeasons = false;
+            }
+        );
+    }
+
+    private getTournamentsData() {
+        this.spinnerTournaments = true;
+        this.tournamentService.getTournaments().subscribe(
+            response => {
+                if (!response) {
+                    this.noTournaments = 'В базі даних турнірів не знайдено.'
+                } else {
+                    this.tournaments = response.tournaments;
+                }
+                this.spinnerTournaments = false;
+            },
+            error => {
+                this.errorTournaments = error;
+                this.spinnerTournaments = false;
+            }
+        );
     }
 }
