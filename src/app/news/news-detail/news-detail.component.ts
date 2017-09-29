@@ -65,18 +65,18 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
             news_id: ['', [Validators.required]],
             body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
         });
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            this.authenticatedUser = result;
-            this.addCommentForm.patchValue({user_id: (result ? result.id : '')});
+        this.userSubscription = this.authService.getUser.subscribe(response => {
+            this.authenticatedUser = response;
+            this.addCommentForm.patchValue({user_id: (response ? response.id : '')});
         });
         this.activatedRoute.params.forEach((params: Params) => {
             this.spinnerNews = true;
             this.newsService.getNewsItem(+params['id']).subscribe(
-                result => {
-                    if (result) {
-                        this.news = result;
+                response => {
+                    if (response) {
+                        this.news = response;
                         let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
-                        this.addCommentForm.patchValue({news_id: result.id, user_id: userId});
+                        this.addCommentForm.patchValue({news_id: response.id, user_id: userId});
                     }
                     this.spinnerNews = false;
                 },
@@ -95,8 +95,8 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                 this.spinnerNews = true;
                 this.newsService.getNewsItem(value.news_id)
                     .subscribe(
-                        result => {
-                            this.news = result;
+                        response => {
+                            this.news = response;
                             this.spinnerNews = false;
                         },
                         error => {

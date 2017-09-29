@@ -9,7 +9,7 @@ export class CurrentStateService {
     constructor(
         private authService: AuthService
     ) {
-        this.authService.getUser.subscribe(result => this.user = result);
+        this.authService.getUser.subscribe(response => this.user = response);
     }
 
     user: User;

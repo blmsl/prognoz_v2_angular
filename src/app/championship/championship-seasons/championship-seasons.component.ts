@@ -22,9 +22,9 @@ export class ChampionshipSeasonsComponent implements OnInit {
     ngOnInit() {
         this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
-            result => {
-                if (result) {
-                    this.seasons = result.seasons;
+            response => {
+                if (response) {
+                    this.seasons = response.seasons;
                 }
                 this.spinnerSeasons = false;
             },

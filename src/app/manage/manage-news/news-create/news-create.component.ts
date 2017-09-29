@@ -21,13 +21,13 @@ export class NewsCreateComponent implements OnInit {
         private router: Router
     ) {
         imageService.uploadedImage$.subscribe(
-            result => {
-                this.newsCreateForm.patchValue({image: result});
+            response => {
+                this.newsCreateForm.patchValue({image: response});
                 this.errorImage = null;
             }
         );
         imageService.uploadError$.subscribe(
-            result => { this.errorImage = result }
+            response => { this.errorImage = response }
         );
     }
 

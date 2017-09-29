@@ -26,7 +26,7 @@ export class AuthSigninComponent implements OnInit {
     user: User = this.currentStateService.user;
 
     ngOnInit() {
-        this.authService.getUser.subscribe(result => this.user = result);
+        this.authService.getUser.subscribe(response => this.user = response);
         this.signInForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3)]),
             password: new FormControl('', [Validators.required])

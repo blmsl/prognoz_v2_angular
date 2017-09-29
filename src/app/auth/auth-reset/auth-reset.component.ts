@@ -27,7 +27,7 @@ export class AuthResetComponent implements OnInit {
     user: User = this.currentStateService.user;
 
     ngOnInit() {
-        this.authService.getUser.subscribe(result => this.user = result);
+        this.authService.getUser.subscribe(response => this.user = response);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.activatedRoute.params.subscribe((params: Params) => {
             this.resetForm = new FormGroup({

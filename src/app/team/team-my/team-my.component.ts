@@ -73,9 +73,9 @@ export class TeamMyComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            this.authenticatedUser = result;
-            if (result) {
+        this.userSubscription = this.authService.getUser.subscribe(response => {
+            this.authenticatedUser = response;
+            if (response) {
                 this.getTeamData();
             } else {
                 this.isCaptain = false;

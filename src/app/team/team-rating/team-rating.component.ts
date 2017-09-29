@@ -39,8 +39,8 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit() {
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            this.authenticatedUser = result;
+        this.userSubscription = this.authService.getUser.subscribe(response => {
+            this.authenticatedUser = response;
         });
         this.getTeamRatingData();
         this.getTeamRatingUserData();

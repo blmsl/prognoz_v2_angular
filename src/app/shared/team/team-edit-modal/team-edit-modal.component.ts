@@ -29,14 +29,14 @@ export class TeamEditModalComponent implements OnInit {
         private notificationService: NotificationsService
     ) {
         imageService.uploadedImage$.subscribe(
-            result => {
-                this.teamForm.patchValue({image: result});
+            response => {
+                this.teamForm.patchValue({image: response});
                 this.errorImage = null;
             }
         );
         imageService.uploadError$.subscribe(
-            result => {
-                this.errorImage = result;
+            response => {
+                this.errorImage = response;
             }
         );
     }

@@ -22,13 +22,13 @@ export class ClubCreateComponent implements OnInit {
         private router: Router
     ) {
         imageService.uploadedImage$.subscribe(
-            result => {
-                this.clubCreateForm.patchValue({image: result});
+            response => {
+                this.clubCreateForm.patchValue({image: response});
                 this.errorImage = null;
             }
         );
         imageService.uploadError$.subscribe(
-            result => { this.errorImage = result }
+            response => { this.errorImage = response }
         );
     }
 
@@ -48,8 +48,8 @@ export class ClubCreateComponent implements OnInit {
         this.spinnerClubs = true;
         this.clubService.getClubs(null, 'national_teams')
             .subscribe(
-                result => {
-                    this.clubs = result.clubs;
+                response => {
+                    this.clubs = response.clubs;
                     this.spinnerClubs = false;
                 },
                 error => {

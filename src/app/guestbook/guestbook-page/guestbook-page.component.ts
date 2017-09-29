@@ -60,9 +60,9 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
             user_id: ['', [Validators.required]],
             body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
         });
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            this.authenticatedUser = result;
-            this.addGuestbookMessageForm.patchValue({user_id: (result ? result.id : '')});
+        this.userSubscription = this.authService.getUser.subscribe(response => {
+            this.authenticatedUser = response;
+            this.addGuestbookMessageForm.patchValue({user_id: (response ? response.id : '')});
         });
         this.getGuestbookMessagesData();
     }
@@ -91,13 +91,13 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
             this.resetData();
             this.spinnerGuestbookMessages = true;
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
-                result => {
-                    if (result) {
-                        this.currentPage = result.current_page;
-                        this.lastPage = result.last_page;
-                        this.perPage = result.per_page;
-                        this.total = result.total;
-                        this.guestbookMessages = result.data;
+                response => {
+                    if (response) {
+                        this.currentPage = response.current_page;
+                        this.lastPage = response.last_page;
+                        this.perPage = response.per_page;
+                        this.total = response.total;
+                        this.guestbookMessages = response.data;
                         let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
                         this.addGuestbookMessageForm.patchValue({user_id: userId});
                     }

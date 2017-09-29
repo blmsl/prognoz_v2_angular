@@ -35,8 +35,8 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
     }
 
     ngOnInit() {
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            this.authenticatedUser = result;
+        this.userSubscription = this.authService.getUser.subscribe(response => {
+            this.authenticatedUser = response;
         });
         this.activatedRoute.params.forEach((params: Params) => {
             this.resetData();

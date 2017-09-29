@@ -93,10 +93,10 @@ export class TeamPredictionsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            this.authenticatedUser = result;
+        this.userSubscription = this.authService.getUser.subscribe(response => {
+            this.authenticatedUser = response;
             this.resetTeamGoalkeeperData();
-            if (result) {
+            if (response) {
                 this.getTeamTeamMatchesData(this.round);
                 this.getTeamPredictionsData(this.round || null);
             }

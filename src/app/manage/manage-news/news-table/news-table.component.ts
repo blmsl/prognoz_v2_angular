@@ -52,13 +52,13 @@ export class NewsTableComponent implements OnInit {
             this.resetData();
             this.spinnerNews = true;
             this.newsService.getNews(params['number']).subscribe(
-                result => {
-                    if (result) {
-                        this.currentPage = result.current_page;
-                        this.lastPage = result.last_page;
-                        this.perPage = result.per_page;
-                        this.total = result.total;
-                        this.news = result.data;
+                response => {
+                    if (response) {
+                        this.currentPage = response.current_page;
+                        this.lastPage = response.last_page;
+                        this.perPage = response.per_page;
+                        this.total = response.total;
+                        this.news = response.data;
                     }
                     this.spinnerNews = false;
                 },

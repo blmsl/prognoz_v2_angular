@@ -24,13 +24,13 @@ export class NewsEditComponent implements OnInit {
         private router: Router
     ) {
         imageService.uploadedImage$.subscribe(
-            result => {
-                this.newsEditForm.patchValue({image: result});
+            response => {
+                this.newsEditForm.patchValue({image: response});
                 this.errorImage = null;
             }
         );
         imageService.uploadError$.subscribe(
-            result => { this.errorImage = result }
+            response => { this.errorImage = response }
         );
     }
 
@@ -58,15 +58,15 @@ export class NewsEditComponent implements OnInit {
         this.activatedRoute.params.forEach((params: Params) => {
             this.spinnerNews = true;
             this.newsService.getNewsItem(+params['id']).subscribe(
-                result => {
-                    if (result) {
+                response => {
+                    if (response) {
                         this.newsEditForm.patchValue({
-                            id: result.id,
-                            title: result.title,
-                            body: result.body,
-                            tournament_id: result.tournament_id
+                            id: response.id,
+                            title: response.title,
+                            body: response.body,
+                            tournament_id: response.tournament_id
                         });
-                        this.news = result;
+                        this.news = response;
                     }
                     this.spinnerNews = false;
                 },

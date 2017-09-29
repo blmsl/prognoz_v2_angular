@@ -55,13 +55,13 @@ export class ClubTableComponent implements OnInit {
             this.spinnerClubs = true;
             let page = params['number'] ? params['number'] : 1;
             this.clubService.getClubs(page).subscribe(
-                result => {
-                    if (result) {
-                        this.currentPage = result.current_page;
-                        this.lastPage = result.last_page;
-                        this.perPage = result.per_page;
-                        this.total = result.total;
-                        this.clubs = result.data;
+                response => {
+                    if (response) {
+                        this.currentPage = response.current_page;
+                        this.lastPage = response.last_page;
+                        this.perPage = response.per_page;
+                        this.total = response.total;
+                        this.clubs = response.data;
                     }
                     this.spinnerClubs = false;
                 },

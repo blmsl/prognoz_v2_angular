@@ -28,13 +28,13 @@ export class MeComponent implements OnInit, OnDestroy {
         private userService: UserService
     ) {
         imageService.uploadedImage$.subscribe(
-            result => {
-                this.userEditForm.patchValue({image: result});
+            response => {
+                this.userEditForm.patchValue({image: response});
                 this.errorImage = null;
             }
         );
         imageService.uploadError$.subscribe(
-            result => { this.errorImage = result }
+            response => { this.errorImage = response }
         );
     }
 
@@ -59,11 +59,11 @@ export class MeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            if (!result) {
+        this.userSubscription = this.authService.getUser.subscribe(response => {
+            if (!response) {
                 this.router.navigate(['/403']);
             }
-            this.authenticatedUser = Object.assign({}, result);
+            this.authenticatedUser = Object.assign({}, response);
         });
 
         this.userEditForm = this.formBuilder.group({

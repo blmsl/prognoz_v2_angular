@@ -57,9 +57,9 @@ export class HomeComponent implements OnInit {
     private getNewsData() {
         this.spinnerNews = true;
         this.newsService.getNews().subscribe(
-            result => {
-                if (result) {
-                    this.news = result.data;
+            response => {
+                if (response) {
+                    this.news = response.data;
                 }
                 this.spinnerNews = false;
             },
