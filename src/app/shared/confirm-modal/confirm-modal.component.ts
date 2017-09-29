@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-confirm-modal',
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.css']
 })
-export class ConfirmModalComponent implements OnInit {
+export class ConfirmModalComponent {
 
     @Input() data: any;
     @Input() message: string;
@@ -18,8 +18,4 @@ export class ConfirmModalComponent implements OnInit {
     confirm() {
         this.onConfirmed.emit(this.data);
     }
-
-    ngOnInit() {
-    }
-
 }

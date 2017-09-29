@@ -74,66 +74,6 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
         }
     }
 
-    getMyTeamMatchesData(round?: number) {
-        this.resetMyTeamMatchesData();
-        this.spinnerTeamMatches = true;
-        let param = [{parameter: 'filter', value: 'my'}];
-        if (round) param.push({parameter: 'round', value: round.toString()});
-        this.teamMatchService.getTeamMatchesAuthUser(param).subscribe(
-            response => {
-                if (response) {
-                    this.teamMatches = response.team_matches;
-                    this.availableTeamParticipants = this.setAvailableTeamParticipants(response.team_matches);
-                    this.getCurrentTeamTeamMatch();
-                }
-                this.spinnerTeamMatches = false;
-            },
-            error => {
-                this.errorTeamMatches = error;
-                this.spinnerTeamMatches = false;
-            }
-        );
-    }
-
-    getTeamParticipantsData() {
-        this.resetMyTeamParticipantsData();
-        this.spinnerTeamParticipants = true;
-        let param = [{parameter: 'current', value: 'true'}];
-        this.teamParticipantService.getCurrentTeamParticipants(param)
-            .subscribe(
-                response => {
-                    if (response) {
-                        this.teamParticipants = response.team_participants;
-                        this.currentTeamId = response.team_participants[0].team_id;
-                        this.getTeamCaptain(response.team_participants);
-                        this.getCurrentTeamTeamMatch();
-                    }
-                    this.spinnerTeamParticipants = false;
-                },
-                error => {
-                    this.errorTeamParticipants = error;
-                    this.spinnerTeamParticipants = false;
-                }
-            );
-    }
-
-    getTeamTeamMatchesData(round?: number) {
-        this.spinnerTeamTeamMatches = true;
-        this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
-            response => {
-                if (response) {
-                    this.getCurrentTeamTeamMatch();
-                    this.teamTeamMatches = response.data;
-                }
-                this.spinnerTeamTeamMatches = false;
-            },
-            error => {
-                this.errorTeamTeamMatches = error;
-                this.spinnerTeamTeamMatches = false;
-            }
-        );
-    }
-
     getPredictionDetails(teamMatch: TeamMatch, teamId: number): {name: string, prediction: string, predicted_at: string} {
         // not the same function as in team-team-match-card component - no is predictable check
         if (teamMatch.team_predictions) {
@@ -167,7 +107,7 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
             if (result) {
                 this.getMyTeamMatchesData(this.round || null);
                 this.getTeamParticipantsData();
-                this.getTeamTeamMatchesData(this.round || null)
+                this.getTeamTeamMatchesData(this.round || null);
             }
         });
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -175,7 +115,7 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
             if (this.authenticatedUser) {
                 this.getMyTeamMatchesData(params['round'] || null);
                 this.getTeamParticipantsData();
-                this.getTeamTeamMatchesData(params['round'] || null)
+                this.getTeamTeamMatchesData(params['round'] || null);
             }
         });
     }
@@ -240,6 +180,66 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
                 }
             });
         }
+    }
+
+    private getMyTeamMatchesData(round?: number) {
+        this.resetMyTeamMatchesData();
+        this.spinnerTeamMatches = true;
+        let param = [{parameter: 'filter', value: 'my'}];
+        if (round) param.push({parameter: 'round', value: round.toString()});
+        this.teamMatchService.getTeamMatchesAuthUser(param).subscribe(
+            response => {
+                if (response) {
+                    this.teamMatches = response.team_matches;
+                    this.availableTeamParticipants = this.setAvailableTeamParticipants(response.team_matches);
+                    this.getCurrentTeamTeamMatch();
+                }
+                this.spinnerTeamMatches = false;
+            },
+            error => {
+                this.errorTeamMatches = error;
+                this.spinnerTeamMatches = false;
+            }
+        );
+    }
+
+    private getTeamParticipantsData() {
+        this.resetMyTeamParticipantsData();
+        this.spinnerTeamParticipants = true;
+        let param = [{parameter: 'current', value: 'true'}];
+        this.teamParticipantService.getCurrentTeamParticipants(param)
+            .subscribe(
+                response => {
+                    if (response) {
+                        this.teamParticipants = response.team_participants;
+                        this.currentTeamId = response.team_participants[0].team_id;
+                        this.getTeamCaptain(response.team_participants);
+                        this.getCurrentTeamTeamMatch();
+                    }
+                    this.spinnerTeamParticipants = false;
+                },
+                error => {
+                    this.errorTeamParticipants = error;
+                    this.spinnerTeamParticipants = false;
+                }
+            );
+    }
+
+    private getTeamTeamMatchesData(round?: number) {
+        this.spinnerTeamTeamMatches = true;
+        this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
+            response => {
+                if (response) {
+                    this.getCurrentTeamTeamMatch();
+                    this.teamTeamMatches = response.data;
+                }
+                this.spinnerTeamTeamMatches = false;
+            },
+            error => {
+                this.errorTeamTeamMatches = error;
+                this.spinnerTeamTeamMatches = false;
+            }
+        );
     }
 
     private resetMyTeamMatchesData(): void {

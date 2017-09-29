@@ -32,7 +32,21 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
     teamRatingUser: TeamRatingUser[];
     userSubscription: Subscription;
 
-    getTeamRatingData() {
+    ngOnDestroy() {
+        if (!this.userSubscription.closed) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
+    ngOnInit() {
+        this.userSubscription = this.authService.getUser.subscribe(result => {
+            this.authenticatedUser = result;
+        });
+        this.getTeamRatingData();
+        this.getTeamRatingUserData();
+    }
+
+    private getTeamRatingData() {
         this.resetTeamRating();
         this.spinnerTeamRating = true;
         this.teamRatingService.getTeamRating().subscribe(
@@ -47,7 +61,7 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
         );
     }
 
-    getTeamRatingUserData() {
+    private getTeamRatingUserData() {
         this.resetTeamRatingUser();
         this.spinnerTeamRatingUser = true;
         this.teamRatingUserService.getTeamRatingUser().subscribe(
@@ -60,20 +74,6 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
                 this.spinnerTeamRatingUser = false;
             }
         );
-    }
-
-    ngOnDestroy() {
-        if (!this.userSubscription.closed) {
-            this.userSubscription.unsubscribe();
-        }
-    }
-
-    ngOnInit() {
-        this.userSubscription = this.authService.getUser.subscribe(result => {
-            this.authenticatedUser = result;
-        });
-        this.getTeamRatingData();
-        this.getTeamRatingUserData();
     }
 
     private resetTeamRating(): void {

@@ -1,5 +1,9 @@
 <!-- TODAY MATCHES -->
-<h2 *ngIf="championshipMatches">Найближчі матчі: </h2>
+<h2 *ngIf="championshipMatches">Найближчі матчі:
+    <button (click)="getChampionshipMatchesData()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+    </button>
+</h2>
 <!-- spinner -->
 <app-spinner *ngIf="spinnerChampionshipMatches" [height]="250"></app-spinner>
 <!-- error -->

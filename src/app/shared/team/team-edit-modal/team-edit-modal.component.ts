@@ -61,30 +61,12 @@ export class TeamEditModalComponent implements OnInit {
         this.imageService.fileChange(event, environment.imageSettings.team);
     }
 
-    getClubsData() {
-        this.spinnerClubs = true;
-        this.clubService.getClubs(null, 'clubs')
-            .subscribe(
-                response => {
-                    if (response) {
-                        this.clubs = response.clubs;
-                    }
-                    this.spinnerClubs = false;
-                },
-                error => {
-                    this.errorClubs = error;
-                    this.spinnerClubs = false;
-                }
-            );
-    }
-
     ngOnInit() {
         this.getClubsData();
         $('#teamEditModal').on('hidden.bs.modal', (e) => {
             this.resetTeamForm();
-        })
+        });
     }
-
 
     onSubmit() {
         this.onSubmitted.emit(this.teamForm);
@@ -101,6 +83,23 @@ export class TeamEditModalComponent implements OnInit {
                 image: null
             });
         }
+    }
+
+    private getClubsData() {
+        this.spinnerClubs = true;
+        this.clubService.getClubs(null, 'clubs')
+            .subscribe(
+                response => {
+                    if (response) {
+                        this.clubs = response.clubs;
+                    }
+                    this.spinnerClubs = false;
+                },
+                error => {
+                    this.errorClubs = error;
+                    this.spinnerClubs = false;
+                }
+            );
     }
 
     private resetData(): void {

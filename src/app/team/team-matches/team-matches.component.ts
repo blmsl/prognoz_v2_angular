@@ -61,24 +61,6 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
         });
     }
 
-    getCompetitionData() {
-        this.spinnerCompetition = true;
-        this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true)
-            .subscribe(
-                response => {
-                    if (response) {
-                        this.competition = response.competition;
-                        this.getTeamTeamMatchesData(response.competition.round);
-                    }
-                    this.spinnerCompetition = false;
-                },
-                error => {
-                    this.errorCompetition = error;
-                    this.spinnerCompetition = false;
-                }
-            );
-    }
-
     getTeamTeamMatchesData(round: number) {
         this.spinnerTeamTeamMatches = true;
         this.resetTeamTeamMatchData();
@@ -96,6 +78,24 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
                 this.spinnerTeamTeamMatches = false;
             }
         );
+    }
+
+    private getCompetitionData() {
+        this.spinnerCompetition = true;
+        this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true)
+            .subscribe(
+                response => {
+                    if (response) {
+                        this.competition = response.competition;
+                        this.getTeamTeamMatchesData(response.competition.round);
+                    }
+                    this.spinnerCompetition = false;
+                },
+                error => {
+                    this.errorCompetition = error;
+                    this.spinnerCompetition = false;
+                }
+            );
     }
 
     private resetTeamTeamMatchData(): void {

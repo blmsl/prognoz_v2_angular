@@ -1,15 +1,15 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
-import { environment }                                      from '../../../../environments/environment';
-import { TeamRatingUser }                                   from '../../models/team-rating-user.model';
-import { User }                                             from '../../models/user.model';
+import { environment }                              from '../../../../environments/environment';
+import { TeamRatingUser }                           from '../../models/team-rating-user.model';
+import { User }                                     from '../../models/user.model';
 
 @Component({
     selector: 'app-team-rating-user-table',
     templateUrl: './team-rating-user-table.component.html',
     styleUrls: ['./team-rating-user-table.component.css']
 })
-export class TeamRatingUserTableComponent implements OnChanges, OnInit {
+export class TeamRatingUserTableComponent implements OnChanges {
 
     @Input() teamRatingUser: TeamRatingUser[];
     @Input() spinnerTeamRatingUser: boolean;
@@ -34,9 +34,6 @@ export class TeamRatingUserTableComponent implements OnChanges, OnInit {
                 this.goalkeepersRating = this.formTeamUserRating(changes[propName].currentValue, 'blocked');
             }
         }
-    }
-
-    ngOnInit() {
     }
 
     private filterTeamUserRating(teamRatingUser: TeamRatingUser[], column: string): TeamRatingUser[] {

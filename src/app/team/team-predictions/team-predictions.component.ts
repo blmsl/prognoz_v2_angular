@@ -86,41 +86,6 @@ export class TeamPredictionsComponent implements OnInit, OnDestroy {
         }
     }
 
-    getTeamTeamMatchesData(round?: number) {
-        this.spinnerTeamTeamMatches = true;
-        this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
-            response => {
-                if (response) {
-                    this.teamTeamMatches = response.data;
-                    this.nextRound = response.next_page_url;
-                    this.previousRound = response.prev_page_url;
-                    this.getTeamGoalkeeperData();
-                }
-                this.spinnerTeamTeamMatches = false;
-            },
-            error => {
-                this.errorTeamTeamMatches = error;
-                this.spinnerTeamTeamMatches = false;
-            }
-        );
-    }
-
-    getTeamPredictionsData(round?: number) {
-        this.spinnerTeamPredictions = true;
-        this.resetTeamPredictionsData();
-        this.teamPredictionService.getTeamPredictions(round ? [{parameter: 'round', value: round.toString()}] : null)
-            .subscribe(
-                response => {
-                    if (response) this.teamPredictions = response.team_predictions;
-                    this.spinnerTeamPredictions = false;
-                },
-                error => {
-                    this.errorTeamPredictions = error;
-                    this.spinnerTeamPredictions = false;
-                }
-            );
-    }
-
     ngOnDestroy() {
         if (!this.userSubscription.closed) {
             this.userSubscription.unsubscribe();
@@ -166,6 +131,41 @@ export class TeamPredictionsComponent implements OnInit, OnDestroy {
                 }
             }
         }
+    }
+
+    private getTeamTeamMatchesData(round?: number) {
+        this.spinnerTeamTeamMatches = true;
+        this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
+            response => {
+                if (response) {
+                    this.teamTeamMatches = response.data;
+                    this.nextRound = response.next_page_url;
+                    this.previousRound = response.prev_page_url;
+                    this.getTeamGoalkeeperData();
+                }
+                this.spinnerTeamTeamMatches = false;
+            },
+            error => {
+                this.errorTeamTeamMatches = error;
+                this.spinnerTeamTeamMatches = false;
+            }
+        );
+    }
+
+    private getTeamPredictionsData(round?: number) {
+        this.spinnerTeamPredictions = true;
+        this.resetTeamPredictionsData();
+        this.teamPredictionService.getTeamPredictions(round ? [{parameter: 'round', value: round.toString()}] : null)
+            .subscribe(
+                response => {
+                    if (response) this.teamPredictions = response.team_predictions;
+                    this.spinnerTeamPredictions = false;
+                },
+                error => {
+                    this.errorTeamPredictions = error;
+                    this.spinnerTeamPredictions = false;
+                }
+            );
     }
 
     private resetTeamPredictionsData(): void {
