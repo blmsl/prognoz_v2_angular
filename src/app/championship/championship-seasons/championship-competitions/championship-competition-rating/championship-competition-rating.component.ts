@@ -25,7 +25,6 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
     authenticatedUser: User = this.currentStateService.user;
     championshipRatingItems: ChampionshipRating[];
     errorChampionshipRating: string | Array<string>;
-    spinnerChampionshipRating: boolean = false;
     userSubscription: Subscription;
 
     ngOnDestroy() {
@@ -39,25 +38,23 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
             this.authenticatedUser = response;
         });
         this.activatedRoute.params.forEach((params: Params) => {
-            this.resetData();
-            this.spinnerChampionshipRating = true;
             let param = [{parameter: 'competition_id', value: <string>params['competitionId']}];
             this.championshipRatingService.getChampionshipRatingItems(param).subscribe(
                 response => {
                     if (response) {
+                        this.resetChampionshipRatingData();
                         this.championshipRatingItems = response.championship_ratings;
                     }
-                    this.spinnerChampionshipRating = false;
                 },
                 error => {
+                    this.resetChampionshipRatingData();
                     this.errorChampionshipRating = error;
-                    this.spinnerChampionshipRating = false;
                 }
             );
         });
     }
 
-    private resetData() {
+    private resetChampionshipRatingData() {
         this.championshipRatingItems = null;
         this.errorChampionshipRating = null;
     }

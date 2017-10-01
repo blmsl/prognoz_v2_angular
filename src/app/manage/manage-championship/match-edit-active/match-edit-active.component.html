@@ -4,14 +4,10 @@
             <h2>Редагувати матч:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerChampionshipMatches" [height]="100"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
-    <!-- no matches -->
-    <app-info *ngIf="!championshipMatches && !spinnerChampionshipMatches && !errorChampionshipMatches" [message]="noChampionshipMatches"></app-info>
     <!-- select match input -->
-    <div *ngIf="!spinnerChampionshipMatches" class="row">
+    <div class="row">
         <div class="hidden-md-down col-lg-2">
             <div *ngIf="selectedMatch" class="rounded bg-inverse">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{selectedMatch.club_first.image}}" alt="{{selectedMatch.club_first.title}}">
@@ -36,12 +32,8 @@
             </div>
         </div>
     </div>
-    <!-- spinner clubs -->
-    <app-spinner *ngIf="spinnerClubs" [height]="250"></app-spinner>
     <!-- error clubs -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
-    <!-- no clubs -->
-    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <!-- match edit form -->
     <div *ngIf="clubs && selectedMatch != undefined" class="row">
         <div class="col-12 col-md-12 col-lg-8 offset-lg-2 text-white">

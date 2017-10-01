@@ -15,22 +15,17 @@ export class ChampionshipSeasonsComponent implements OnInit {
     ) { }
 
     errorSeasons: string | Array<string>;
-    noSeasons: string = 'В базі даних сезонів не знайдено.';
     seasons: Season[];
-    spinnerSeasons: boolean = false;
 
     ngOnInit() {
-        this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
                 if (response) {
                     this.seasons = response.seasons;
                 }
-                this.spinnerSeasons = false;
             },
             error => {
                 this.errorSeasons = error;
-                this.spinnerSeasons = false;
             }
         );
     }

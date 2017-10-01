@@ -1,9 +1,5 @@
-<!-- spinner -->
-<app-spinner *ngIf="spinnerCompetition" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
-<!-- competition winner -->
-<app-info *ngIf="competition && !competition.winners.length" [message]="'Цей чемпіонат поки що немає переможців'"></app-info>
 <!-- competition winners -->
 <div *ngIf="competition && competition.winners.length">
     <h2>Переможці:</h2>

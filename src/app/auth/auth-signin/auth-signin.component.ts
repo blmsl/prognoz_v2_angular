@@ -22,7 +22,7 @@ export class AuthSigninComponent implements OnInit {
     ) { }
 
     signInForm: FormGroup;
-    spinner: boolean = false;
+    spinnerButton: boolean = false;
     user: User = this.currentStateService.user;
 
     ngOnInit() {
@@ -35,19 +35,19 @@ export class AuthSigninComponent implements OnInit {
 
     onSubmit() {
         if (this.signInForm.valid) {
-            this.spinner = true;
+            this.spinnerButton = true;
             this.authService.signIn(this.signInForm.value.name, this.signInForm.value.password)
                 .subscribe(
                     response => {
                         this.notificationService.success('Успішно', 'Вхід виконано успішно');
-                        this.spinner = false;
+                        this.spinnerButton = false;
                         this.router.navigate(['/championship/predictions']);
                     },
                     errors => {
                         for (let error of errors) {
                             this.notificationService.error('Помилка', error);
                         }
-                        this.spinner = false;
+                        this.spinnerButton = false;
                     }
                 );
         }

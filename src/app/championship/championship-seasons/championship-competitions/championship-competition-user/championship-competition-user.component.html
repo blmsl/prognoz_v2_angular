@@ -1,6 +1,4 @@
 <h2>Прогнози {{user ? user.name : 'гравця'}}: </h2>
-<!-- spinner user/rating -->
-<app-spinner *ngIf="spinnerUser || spinnerRating" [height]="250"></app-spinner>
 <!-- error user/rating -->
 <app-error *ngIf="errorUser" [message]="error"></app-error>
 <app-error *ngIf="errorRating" [message]="errorRating"></app-error>
@@ -48,6 +46,5 @@
     </div>
 </div>
 <app-championship-user-predictions-table [predictions]="championshipPredictions"
-                                         [spinner]="spinnerChampionshipPredictions"
                                          [error]="errorChampionshipPredictions">
 </app-championship-user-predictions-table>

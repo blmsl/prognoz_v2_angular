@@ -34,12 +34,10 @@
                     <div class="card-header">
                         Статистика
                     </div>
-                    <!-- spinner statistic -->
-                    <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
                     <!-- error statistic -->
-                    <app-error *ngIf="errorStatistic" [message]="error"></app-error>
+                    <app-error *ngIf="errorStatistic" [message]="errorStatistic"></app-error>
                     <!-- statistic -->
-                    <div *ngIf="statistic && !spinnerStatistic"
+                    <div *ngIf="statistic"
                          class="card-block bg-white">
                         <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
                             <canvas baseChart
@@ -110,12 +108,10 @@
                     <div class="card-header">
                         Статистика
                     </div>
-                    <!-- spinner statistic -->
-                    <app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
                     <!-- error statistic -->
-                    <app-error *ngIf="errorStatistic" [message]="error"></app-error>
+                    <app-error *ngIf="errorStatistic" [message]="errorStatistic"></app-error>
                     <!-- statistic -->
-                    <div *ngIf="statistic && match && !spinnerStatistic" class="card-block bg-white">
+                    <div *ngIf="statistic && match" class="card-block bg-white">
                         <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
                             <canvas baseChart
                                     [data]="resultChartData"

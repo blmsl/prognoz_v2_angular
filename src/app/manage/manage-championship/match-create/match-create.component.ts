@@ -29,9 +29,7 @@ export class MatchCreateComponent implements OnInit {
     error: string | Array<string>;
     errorClubs: string | Array<string>;
     lastEnteredDate: string;
-    noClubs: string = 'В базі даних команд не знайдено.';
-    spinner: boolean = false;
-    spinnerClubs: boolean = false;
+    spinnerButton: boolean = false;
 
     ngOnInit() {
         this.championshipMatchCreateForm = this.formBuilder.group({
@@ -39,22 +37,18 @@ export class MatchCreateComponent implements OnInit {
             t2_id: ['', [Validators.required]],
             starts_at: ['', [Validators.required]]
         });
-
-        this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
                 this.clubs = response.clubs;
-                this.spinnerClubs = false;
             },
             error => {
                 this.errorClubs = error;
-                this.spinnerClubs = false;
             }
         );
     }
 
     onSubmit() {
-        this.spinner = true;
+        this.spinnerButton = true;
         this.championshipMatchService.createChampionshipMatch(this.championshipMatchCreateForm.value).subscribe(
             response => {
                 this.lastEnteredDate = response.starts_at;
@@ -62,13 +56,13 @@ export class MatchCreateComponent implements OnInit {
                 this.championshipMatchCreateForm.patchValue({starts_at: this.lastEnteredDate});
                 this.addedMatches.push(response);
                 this.notificationService.success('Успішно', 'Матч додано!');
-                this.spinner = false;
+                this.spinnerButton = false;
             },
             errors => {
                 for (let error of errors) {
                     this.notificationService.error('Помилка', error);
                 }
-                this.spinner = false;
+                this.spinnerButton = false;
             }
         );
     }

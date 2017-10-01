@@ -5,8 +5,6 @@
                            [previousRound]="previousRound"
                            [path]="path">
 </app-team-round-navigation>
-<!-- spinner team predictions -->
-<app-spinner *ngIf="spinnerTeamPredictions" [height]="255"></app-spinner>
 <!-- error team predictions -->
 <app-error *ngIf="errorTeamPredictions" [message]="errorTeamPredictions" [additionalInfo]="false"></app-error>
 <!-- predictions -->
@@ -16,10 +14,6 @@
                               (teamPredictionUpdated)="reloadTeamPredictionsData()"
     ></app-team-prediction-form>
 </div>
-<!-- no team predictions -->
-<app-info *ngIf="authenticatedUser && !spinnerTeamPredictions && !errorTeamPredictions && !teamPredictions" [message]="noTeamPredictions"></app-info>
-<!-- spinner team matches -->
-<app-spinner *ngIf="spinnerTeamMatches" [height]="255"></app-spinner>
 <!-- error team matches -->
 <app-error *ngIf="errorTeamMatches" [message]="errorTeamMatches"></app-error>
 <!-- matches to block -->

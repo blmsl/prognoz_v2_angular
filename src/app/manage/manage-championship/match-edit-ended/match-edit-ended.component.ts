@@ -28,11 +28,7 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     errorChampionshipMatches: string;
     errorClubs: string | Array<string>;
     isUpdatedMatches: boolean = false;
-    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
-    noClubs: string = 'В базі даних команд не знайдено.';
     spinnerButton: any = {};
-    spinnerChampionshipMatches: boolean = false;
-    spinnerClubs: boolean = false;
     spinnerUpdateRatingButton: boolean = false;
     updatedMatches: any = {};
 
@@ -91,32 +87,26 @@ export class MatchEditEndedComponent implements OnInit, OnDestroy {
     }
 
     private getChampionshipMatchesData() {
-        this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'ended'}];
         this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
                 if (response) {
                     this.championshipMatches = response.championship_matches;
                 }
-              this.spinnerChampionshipMatches = false;
             },
             error => {
                 this.errorChampionshipMatches = error;
-                this.spinnerChampionshipMatches = false;
             }
         );
     }
 
     private getClubsData() {
-        this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
                 this.clubs = response.clubs;
-                this.spinnerClubs = false;
             },
             error => {
                 this.errorClubs = error;
-                this.spinnerClubs = false;
             }
         );
     }

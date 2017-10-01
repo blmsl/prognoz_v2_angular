@@ -24,8 +24,7 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
 
     authenticatedUser: User = this.currentStateService.user;
     championshipRatingItems: ChampionshipRating[];
-    errorRating: string;
-    spinnerRating: boolean = false;
+    errorChampionshipRating: string;
     userSubscription: Subscription;
 
     ngOnDestroy() {
@@ -38,17 +37,14 @@ export class ChampionshipRatingComponent implements OnInit, OnDestroy {
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
         });
-        this.spinnerRating = true;
         this.championshipRatingService.getChampionshipRatingItems().subscribe(
             response => {
                 if (response) {
                     this.championshipRatingItems = response.championship_ratings;
                 }
-                this.spinnerRating = false;
             },
             error => {
-                this.errorRating = error;
-                this.spinnerRating = false;
+                this.errorChampionshipRating = error;
             }
         );
     }

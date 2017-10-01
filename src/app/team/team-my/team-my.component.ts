@@ -38,8 +38,6 @@ export class TeamMyComponent implements OnInit, OnDestroy {
     noAccess: string = 'Доступ заборонено. Увійдіть на сайт для перегляду цієї сторінки.';
     path: string = '/team/my/round/';
     previousRound: string;
-    spinnerTeam: boolean = false;
-    spinnerTeamTeamMatches: boolean = false;
     spinnerButtonTeamEditForm: boolean = false;
     team: Team;
     teamEditForm: FormGroup;
@@ -48,20 +46,18 @@ export class TeamMyComponent implements OnInit, OnDestroy {
     userSubscription: Subscription;
 
     getTeamTeamMatchesData(round?: number) {
-        this.spinnerTeamTeamMatches = true;
-        this.resetTeamTeamMatchesData();
         this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
             response => {
+                this.resetTeamTeamMatchesData();
                 if (response) {
                     this.teamTeamMatches = response.data;
                     this.nextRound = response.next_page_url;
                     this.previousRound = response.prev_page_url;
                 }
-                this.spinnerTeamTeamMatches = false;
             },
             error => {
+                this.resetTeamTeamMatchesData();
                 this.errorTeamTeamMatches = error;
-                this.spinnerTeamTeamMatches = false;
             }
         );
     }
@@ -119,11 +115,10 @@ export class TeamMyComponent implements OnInit, OnDestroy {
     }
 
     private getTeamData() {
-        this.spinnerTeam = true;
-        this.resetTeamData();
         let param = [{parameter: 'user_id', value: this.authenticatedUser.id.toString()}];
         this.teamService.getTeam(null, param).subscribe(
             response => {
+                this.resetTeamData();
                 if (response) {
                     this.team = Object.assign({}, response);
                     if (this.team.captain_id === this.authenticatedUser.id) {
@@ -136,11 +131,10 @@ export class TeamMyComponent implements OnInit, OnDestroy {
                         });
                     }
                 }
-                this.spinnerTeam = false;
             },
             error => {
+                this.resetTeamData();
                 this.errorTeam = error;
-                this.spinnerTeam = false;
             }
         );
     }

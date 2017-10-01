@@ -1,7 +1,5 @@
 <!-- coming matches slider -->
 <div class="hidden-md-down">
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerChampionshipMatches" [height]="400"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
     <div *ngIf="championshipMatches" id="carousel" class="carousel slide bg-black" data-ride="carousel">
@@ -81,12 +79,8 @@
             <h2>Останні новини:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerNews" [height]="250"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorNews" [message]="errorNews"></app-error>
-    <!-- no news -->
-    <app-info *ngIf="!news && !spinnerNews && !errorNews" [message]="noNews"></app-info>
     <!-- last 3 news -->
     <div *ngIf="news" class="row">
         <div class="col">

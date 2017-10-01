@@ -14,9 +14,7 @@ export class TeamMatchEditComponent implements OnInit {
 
     clubsImagesUrl: string = environment.apiImageClubs;
     errorTeamMatches: string;
-    noTeamMatches: string = 'В базі даних матчів не знайдено.';
     spinnerButton: any = {};
-    spinnerTeamMatches: boolean;
     teamMatches: TeamMatch[];
     updatedMatches: any = {};
 
@@ -54,24 +52,15 @@ export class TeamMatchEditComponent implements OnInit {
     }
 
     private getTeamMatchesData(): void {
-        this.spinnerTeamMatches = true;
-        this.resetTeamMatchesData();
         let param = [{parameter: 'filter', value: 'active'}];
         this.teamMatchService.getTeamMatches(param).subscribe(
             response => {
                 if (response) this.teamMatches = response.team_matches;
-                this.spinnerTeamMatches = false;
             },
             error => {
                 this.errorTeamMatches = error;
-                this.spinnerTeamMatches = false;
             }
         );
-    }
-
-    private resetTeamMatchesData(): void {
-        this.errorTeamMatches = null;
-        this.teamMatches = null;
     }
 
     private validateResult(score) {

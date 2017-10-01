@@ -36,9 +36,6 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
     round: number;
     spinnerButton: any = {};
     spinnerButtonGoalkeeper: boolean = false;
-    spinnerTeamMatches: boolean = false;
-    spinnerTeamParticipants: boolean = false;
-    spinnerTeamTeamMatches: boolean = false;
     teamEnvironment = environment.tournaments.team;
     teamMatches: TeamMatch[];
     teamParticipants: TeamParticipant[];
@@ -183,29 +180,25 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
     }
 
     private getMyTeamMatchesData(round?: number) {
-        this.resetMyTeamMatchesData();
-        this.spinnerTeamMatches = true;
         let param = [{parameter: 'filter', value: 'my'}];
         if (round) param.push({parameter: 'round', value: round.toString()});
         this.teamMatchService.getTeamMatchesAuthUser(param).subscribe(
             response => {
+                this.resetMyTeamMatchesData();
                 if (response) {
                     this.teamMatches = response.team_matches;
                     this.availableTeamParticipants = this.setAvailableTeamParticipants(response.team_matches);
                     this.getCurrentTeamTeamMatch();
                 }
-                this.spinnerTeamMatches = false;
             },
             error => {
+                this.resetMyTeamMatchesData();
                 this.errorTeamMatches = error;
-                this.spinnerTeamMatches = false;
             }
         );
     }
 
     private getTeamParticipantsData() {
-        this.resetMyTeamParticipantsData();
-        this.spinnerTeamParticipants = true;
         let param = [{parameter: 'current', value: 'true'}];
         this.teamParticipantService.getCurrentTeamParticipants(param)
             .subscribe(
@@ -216,28 +209,23 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
                         this.getTeamCaptain(response.team_participants);
                         this.getCurrentTeamTeamMatch();
                     }
-                    this.spinnerTeamParticipants = false;
                 },
                 error => {
                     this.errorTeamParticipants = error;
-                    this.spinnerTeamParticipants = false;
                 }
             );
     }
 
     private getTeamTeamMatchesData(round?: number) {
-        this.spinnerTeamTeamMatches = true;
         this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
             response => {
                 if (response) {
                     this.getCurrentTeamTeamMatch();
                     this.teamTeamMatches = response.data;
                 }
-                this.spinnerTeamTeamMatches = false;
             },
             error => {
                 this.errorTeamTeamMatches = error;
-                this.spinnerTeamTeamMatches = false;
             }
         );
     }
@@ -245,11 +233,6 @@ export class TeamCaptainComponent implements OnInit, OnDestroy {
     private resetMyTeamMatchesData(): void {
         this.teamMatches = null;
         this.errorTeamMatches = null
-    }
-
-    private resetMyTeamParticipantsData(): void {
-        this.teamParticipants = null;
-        this.errorTeamParticipants = null;
     }
 
     private setAvailableTeamParticipants(teamMatches: TeamMatch[]) {

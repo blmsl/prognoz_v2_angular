@@ -23,16 +23,12 @@ export class NewsListComponent implements OnInit {
     news: News[];
     lastPage: number;
     newsImagesUrl: string = environment.apiImageNews;
-    noNews: string = 'В базі даних новин не знайдено.';
     path: string = '/news/page/';
     perPage: number;
-    spinnerNews: boolean = false;
     total: number;
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.resetData();
-            this.spinnerNews = true;
             this.newsService.getNews(params['number']).subscribe(
                 response => {
                     if (response) {
@@ -42,18 +38,11 @@ export class NewsListComponent implements OnInit {
                         this.total = response.total;
                         this.news = response.data;
                     }
-                    this.spinnerNews = false;
                 },
                 error => {
                     this.errorNews = error;
-                    this.spinnerNews = false;
                 }
-            )
+            );
         });
-    }
-
-    private resetData() {
-        this.news = null;
-        this.errorNews = null;
     }
 }

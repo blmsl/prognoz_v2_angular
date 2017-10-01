@@ -4,14 +4,9 @@
             <h2>Змінити результат:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerChampionshipMatches || spinnerClubs" [height]="250"></app-spinner>
     <!-- errors -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
     <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
-    <!-- no data -->
-    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
-    <app-info *ngIf="!championshipMatches && !spinnerChampionshipMatches && !errorChampionshipMatches" [message]="noChampionshipMatches"></app-info>
     <!-- matches -->
     <div *ngIf="championshipMatches && clubs" class="row">
         <div class="col-12">

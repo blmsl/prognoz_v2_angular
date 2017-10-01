@@ -1,10 +1,6 @@
 <h2>Архів:</h2>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerSeasons" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorSeasons" [message]="errorSeasons"></app-error>
-<!-- no seasons -->
-<app-info *ngIf="!spinnerSeasons && !errorSeasons && !seasons" [message]="noSeasons"></app-info>
 <!-- seasons -->
 <div *ngIf="seasons" class="row">
     <div *ngFor="let season of seasons" class="col col-sm-6">

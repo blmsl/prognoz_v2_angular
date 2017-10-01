@@ -18,21 +18,17 @@ export class ChampionshipLastResultsComponent implements OnInit {
     championshipMatches: ChampionshipMatch[];
     clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
-    spinnerChampionshipMatches: boolean = false;
 
     getChampionshipMatchesData() {
-        this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'last'}];
         this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
                 if (response) {
                     this.championshipMatches = response.championship_matches;
                 }
-                this.spinnerChampionshipMatches = false;
             },
             error => {
                 this.errorChampionshipMatches = error;
-                this.spinnerChampionshipMatches = false;
             }
         );
     }

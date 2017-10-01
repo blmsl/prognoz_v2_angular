@@ -19,7 +19,6 @@ export class TeamSelectModalComponent implements OnInit {
 
     errorTeams: string;
     noTeams: string = 'Ви не є капітаном жодної з команд.';
-    spinnerTeams: boolean = false;
     teamSelectForm: FormGroup;
     teams: Team[];
     userSubscription: Subscription;
@@ -32,18 +31,15 @@ export class TeamSelectModalComponent implements OnInit {
         this.teamSelectForm = new FormGroup({
             team_id: new FormControl(null, [Validators.required]),
         });
-        this.spinnerTeams = true;
         let param = [{parameter: 'captain_id', value: this.authenticatedUser.id.toString()}];
         this.teamService.getTeams(param).subscribe(
             response => {
                 if (response) {
                     this.teams = response.teams;
                 }
-                this.spinnerTeams = false;
             },
             error => {
                 this.errorTeams = error;
-                this.spinnerTeams = false;
             }
         );
     }

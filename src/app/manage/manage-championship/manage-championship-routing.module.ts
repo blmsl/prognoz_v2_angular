@@ -21,8 +21,7 @@ const routes: Routes = [
                     { path: 'matches/create', component: MatchCreateComponent },
                     { path: 'matches/edit', component: MatchEditComponent },
                     { path: 'matches/edit/active', component: MatchEditActiveComponent },
-                    { path: 'matches/edit/ended', component: MatchEditEndedComponent },
-                    { path: '', redirectTo: 'matches/edit', pathMatch: 'full'},
+                    { path: 'matches/edit/ended', component: MatchEditEndedComponent }
                 ]
             }
         ]

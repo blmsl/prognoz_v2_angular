@@ -4,12 +4,8 @@
             <h2>Добавити матч:</h2>
         </div>
     </div>
-    <!-- spinner clubs -->
-    <app-spinner *ngIf="spinnerClubs" [height]="200"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
-    <!-- no clubs -->
-    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <div *ngIf="clubs" class="row">
         <!-- left column (form) -->
         <div class="col-12 col-md-6 col-lg-6 text-white">

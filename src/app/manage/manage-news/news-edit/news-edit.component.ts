@@ -40,7 +40,6 @@ export class NewsEditComponent implements OnInit {
     newsEditForm: FormGroup;
     newsImagesUrl = environment.apiImageNews;
     spinnerButton: boolean = false;
-    spinnerNews: boolean = false;
 
     fileChange(event) {
         this.imageService.fileChange(event, environment.imageSettings.news);
@@ -56,7 +55,6 @@ export class NewsEditComponent implements OnInit {
         });
 
         this.activatedRoute.params.forEach((params: Params) => {
-            this.spinnerNews = true;
             this.newsService.getNewsItem(+params['id']).subscribe(
                 response => {
                     if (response) {
@@ -68,11 +66,9 @@ export class NewsEditComponent implements OnInit {
                         });
                         this.news = response;
                     }
-                    this.spinnerNews = false;
                 },
                 error => {
                     this.errorNews = error;
-                    this.spinnerNews = false;
                 });
         });
     }

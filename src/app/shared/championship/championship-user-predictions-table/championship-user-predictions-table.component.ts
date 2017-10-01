@@ -11,7 +11,6 @@ import { HelperService }            from '../../../core/helper.service';
 export class ChampionshipUserPredictionsTableComponent {
 
   @Input() predictions: ChampionshipPrediction[];
-  @Input() spinner: boolean;
   @Input() error: string;
 
   constructor(

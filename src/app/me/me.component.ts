@@ -39,9 +39,9 @@ export class MeComponent implements OnInit, OnDestroy {
     }
 
     authenticatedUser: User = Object.assign({}, this.currentStateService.user);
-    spinnerButton: boolean = false;
     errorImage: string;
     hasUnsavedChanges: boolean = false;
+    spinnerButton: boolean = false;
     userEditForm: FormGroup;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;

@@ -76,7 +76,6 @@ export class TeamTeamMatchCardComponent implements AfterViewInit {
     ngAfterViewInit() {
         let id = '#collapseTeamTeamMatch' + this.teamTeamMatch.id;
         $(id).on('hidden.bs.collapse', () => {
-            this.resetTeamMatchesData();
             this.toggleChevron();
             this.changeDetectorRef.detectChanges();
         });
@@ -92,10 +91,5 @@ export class TeamTeamMatchCardComponent implements AfterViewInit {
 
     toggleChevron() {
         this.expandedTeamMatch = !this.expandedTeamMatch;
-    }
-
-    private resetTeamMatchesData(): void {
-        this.teamMatches = null;
-        this.errorTeamMatches = null;
     }
 }

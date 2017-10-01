@@ -42,10 +42,7 @@ export class ClubEditComponent implements OnInit {
     errorClub: string | Array<string>;
     errorClubs: string | Array<string>;
     errorImage: string;
-    noClubs: string = 'В базі даних команд не знайдено.';
     spinnerButton: boolean = false;
-    spinnerClub: boolean = false;
-    spinnerClubs: boolean = false;
 
     fileChange(event) {
         this.imageService.fileChange(event, environment.imageSettings.club);
@@ -85,7 +82,6 @@ export class ClubEditComponent implements OnInit {
     }
 
     private getClubData(id: number) {
-        this.spinnerClub = true;
         this.clubService.getClub(id).subscribe(
             response => {
                 this.clubEditForm.patchValue({
@@ -95,26 +91,21 @@ export class ClubEditComponent implements OnInit {
                     parent_id: response.parent_id
                 });
                 this.club = response;
-                this.spinnerClub = false;
             },
             error => {
                 this.errorClub = error;
-                this.spinnerClub = false;
             }
         );
     }
 
     private getClubsData() {
-        this.spinnerClubs = true;
         this.clubService.getClubs(null, 'national_teams')
             .subscribe(
                 response => {
                     this.clubs = response.clubs;
-                    this.spinnerClubs = false;
                 },
                 error => {
                     this.errorClubs = error;
-                    this.spinnerClubs = false;
                 }
             );
     }

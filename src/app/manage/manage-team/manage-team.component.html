@@ -9,8 +9,6 @@
             <button routerLink="/manage" type="button" class="btn btn-outline-primary mb-2 mb-md-0">Назад до меню керування</button>
         </div>
     </div>
-    <!-- spinner competition -->
-    <app-spinner *ngIf="spinnerCompetition" [height]="255"></app-spinner>
     <!-- error competition -->
     <app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
     <div *ngIf="competition" class="row mb-2">

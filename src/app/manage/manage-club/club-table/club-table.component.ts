@@ -27,10 +27,8 @@ export class ClubTableComponent implements OnInit {
     errorClubs: string | Array<string>;
     lastPage: number;
     message: string = 'Ви дійсно бажаєте видалити';
-    noClubs: string = 'В базі даних команд не знайдено.';
     path: string = '/manage/clubs/page/';
     perPage: number;
-    spinnerClubs: boolean = false;
     title: string = 'Підтвердження';
     total: number;
 
@@ -51,8 +49,6 @@ export class ClubTableComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.resetData();
-            this.spinnerClubs = true;
             let page = params['number'] ? params['number'] : 1;
             this.clubService.getClubs(page).subscribe(
                 response => {
@@ -63,18 +59,11 @@ export class ClubTableComponent implements OnInit {
                         this.total = response.total;
                         this.clubs = response.data;
                     }
-                    this.spinnerClubs = false;
                 },
                 error => {
                     this.errorClubs = error;
-                    this.spinnerClubs = false;
                 }
-            )
+            );
         });
-    }
-
-    private resetData() {
-        this.clubs = null;
-        this.errorClubs = null;
     }
 }

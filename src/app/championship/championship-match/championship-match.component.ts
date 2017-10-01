@@ -38,10 +38,25 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
     // scoresChartData: number[];
     // scoresChartLabels: string[];
     // scoresChartType: string = 'doughnut';
-    spinnerChampionshipMatch: boolean = false;
-    spinnerStatistic: boolean = false;
     statistic: any;
     userSubscription: Subscription;
+
+    getChampionshipMatchStatisticData(id: number) {
+        let param = [{parameter: 'statistic', value: 'true'}];
+        this.championshipMatchService.getChampionshipMatch(id, param).subscribe(
+            response => {
+                this.resetStatisticData();
+                this.statistic = response;
+                this.resultChartData = [response.results.home, response.results.away, response.results.draw];
+                // this.scoresChartData = (<any>Object).values(this.statistic.scores);
+                // this.scoresChartLabels = Object.keys(this.statistic.scores);
+            },
+            error => {
+                this.resetStatisticData();
+                this.errorStatistic = error;
+            }
+        );
+    }
 
     goBack() {
         this.location.back();
@@ -53,54 +68,37 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
         });
         this.activatedRoute.params.forEach((params: Params) => {
-            this.resetData();
             this.getChampionshipMatchData(params['id']);
             this.getChampionshipMatchStatisticData(params['id']);
         });
     }
 
     private getChampionshipMatchData(id: number) {
-        this.spinnerChampionshipMatch = true;
         this.championshipMatchService.getChampionshipMatch(id)
             .subscribe(
                 response => {
+                    this.resetChampionshipMatchData();
                     this.championshipMatch = response.championship_match;
                     this.resultChartLabels = [response.championship_match.club_first.title, response.championship_match.club_second.title, 'Нічия'];
-                    this.spinnerChampionshipMatch = false;
                 },
                 error => {
+                    this.resetChampionshipMatchData();
                     this.errorChampionshipMatch = error;
-                    this.spinnerChampionshipMatch = false;
                 }
             );
     }
 
-    private getChampionshipMatchStatisticData(id: number) {
-        this.spinnerStatistic = true;
-        let param = [{parameter: 'statistic', value: 'true'}];
-        this.championshipMatchService.getChampionshipMatch(id, param).subscribe(
-            response => {
-                this.statistic = response;
-                this.resultChartData = [response.results.home, response.results.away, response.results.draw];
-                // this.scoresChartData = (<any>Object).values(this.statistic.scores);
-                // this.scoresChartLabels = Object.keys(this.statistic.scores);
-                this.spinnerStatistic = false;
-            },
-            error => {
-                this.errorStatistic = error;
-                this.spinnerStatistic = false;
-            }
-        );
-    }
-
-    private resetData(): void {
+    private resetChampionshipMatchData(): void {
         this.championshipMatch = null;
         this.errorChampionshipMatch = null;
+    }
+
+    private resetStatisticData(): void {
         this.statistic = null;
         this.errorStatistic = null;
     }

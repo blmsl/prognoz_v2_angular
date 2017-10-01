@@ -20,7 +20,6 @@ export class ManageTeamComponent implements OnInit {
     confirmModalId: string;
     confirmModalMessage: string;
     confirmSpinnerButton: boolean = false;
-    spinnerCompetition: boolean = false;
 
     constructor(
         private competitionService: CompetitionService,
@@ -53,16 +52,13 @@ export class ManageTeamComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.spinnerCompetition = true;
         this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true)
             .subscribe(
                 response => {
                     if (response) this.competition = response.competition;
-                    this.spinnerCompetition = false;
                 },
                 error => {
                     this.errorCompetition = error;
-                    this.spinnerCompetition = false;
                 }
             );
     }

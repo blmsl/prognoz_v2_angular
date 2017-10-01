@@ -36,25 +36,20 @@ export class ClubCreateComponent implements OnInit {
     clubs: Club[];
     errorClubs: string | Array<string>;
     errorImage: string;
-    noClubs: string = 'В базі даних команд не знайдено.';
     spinnerButton: boolean = false;
-    spinnerClubs: boolean = false;
 
     fileChange(event) {
         this.imageService.fileChange(event, environment.imageSettings.club);
     }
 
     ngOnInit() {
-        this.spinnerClubs = true;
         this.clubService.getClubs(null, 'national_teams')
             .subscribe(
                 response => {
                     this.clubs = response.clubs;
-                    this.spinnerClubs = false;
                 },
                 error => {
                     this.errorClubs = error;
-                    this.spinnerClubs = false;
                 }
         );
 

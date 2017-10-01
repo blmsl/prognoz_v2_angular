@@ -40,9 +40,6 @@ export class CompetitionEditComponent implements OnInit {
     noTournaments: string;
     seasons: Season[];
     spinnerButton: boolean = false;
-    spinnerCompetition: boolean = false;
-    spinnerSeasons: boolean = false;
-    spinnerTournaments: boolean = false;
     tournaments: Tournament[];
 
     ngOnInit() {
@@ -88,38 +85,31 @@ export class CompetitionEditComponent implements OnInit {
     }
 
     private getCompetitionData(id: number) {
-        this.spinnerCompetition = true;
         this.competitionService.getCompetition(id).subscribe(
             response => {
                 this.competition = response;
                 this.updateCompetitionEditForm(response);
-                this.spinnerCompetition = false;
             },
             error => {
                 this.errorCompetition = error;
-                this.spinnerCompetition = false;
             }
         );
     }
 
     private getSeasonsData() {
-        this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
                 if (response) {
                     this.seasons = response.seasons;
                 }
-                this.spinnerSeasons = false;
             },
             error => {
                 this.errorSeasons = error;
-                this.spinnerSeasons = false;
             }
         );
     }
 
     private getTournamentsData() {
-        this.spinnerTournaments = true;
         this.tournamentService.getTournaments().subscribe(
             response => {
                 if (!response) {
@@ -127,11 +117,9 @@ export class CompetitionEditComponent implements OnInit {
                 } else {
                     this.tournaments = response.tournaments;
                 }
-                this.spinnerTournaments = false;
             },
             error => {
                 this.errorTournaments = error;
-                this.spinnerTournaments = false;
             }
         );
     }

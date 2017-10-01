@@ -23,13 +23,10 @@ export class CompetitionTableComponent implements OnInit {
     noCompetitions: string;
     path: string = '/manage/competitions/page/';
     perPage: number;
-    spinnerCompetitions: boolean = false;
     total: number;
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.resetData();
-            this.spinnerCompetitions = true;
             this.competitionService.getCompetitions(params['number'] || 1).subscribe(
                 response => {
                     if (response.data) {
@@ -41,18 +38,11 @@ export class CompetitionTableComponent implements OnInit {
                     } else {
                         this.noCompetitions = 'В базі даних змагань не знайдено.'
                     }
-                    this.spinnerCompetitions = false;
                 },
                 error => {
                     this.errorCompetitions = error;
-                    this.spinnerCompetitions = false;
                 }
             );
         });
-    }
-
-    private resetData(): void {
-        this.competitions = null;
-        this.errorCompetitions = null;
     }
 }

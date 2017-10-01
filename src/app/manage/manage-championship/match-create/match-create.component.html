@@ -4,12 +4,8 @@
             <h2>Добавити матч:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerClubs" [height]="200"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
-    <!-- no clubs -->
-    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <div class="row">
         <!-- left column (form) -->
         <div *ngIf="clubs" class="col-12 col-md-6 col-lg-6 text-white">
@@ -75,11 +71,11 @@
                     </div>
                 </div>
                 <!-- submit -->
-                <button [hidden]="spinner" [disabled]="championshipMatchCreateForm.invalid" type="submit" class="btn btn-primary">
+                <button [hidden]="spinnerButton" [disabled]="championshipMatchCreateForm.invalid" type="submit" class="btn btn-primary">
                     Добавити
                 </button>
                 <!-- spinner button -->
-                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </form>
         </div>
         <!-- right column (added matches) -->

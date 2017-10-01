@@ -10,6 +10,5 @@ import { ChampionshipMatch }  from '../../models/championship-match.model';
 export class ChampionshipResultsTableComponent {
 
   @Input() results: ChampionshipMatch[];
-  @Input() spinner: boolean;
   @Input() error: string;
 }

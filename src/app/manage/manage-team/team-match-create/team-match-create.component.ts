@@ -25,9 +25,7 @@ export class TeamMatchCreateComponent implements OnInit {
     clubs: Club[];
     errorClubs: string;
     lastEnteredDate: string;
-    noClubs: string = 'В базі даних команд не знайдено.';
     spinnerButton: boolean = false;
-    spinnerClubs: boolean = false;
     teamMatchCreateForm: FormGroup;
 
     ngOnInit() {
@@ -36,16 +34,12 @@ export class TeamMatchCreateComponent implements OnInit {
             t2_id: ['', [Validators.required]],
             starts_at: ['', [Validators.required]]
         });
-
-        this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
                 this.clubs = response.clubs;
-                this.spinnerClubs = false;
             },
             error => {
                 this.errorClubs = error;
-                this.spinnerClubs = false;
             }
         );
     }

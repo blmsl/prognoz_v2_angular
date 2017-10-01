@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
     ) { }
 
     headerSignInForm: FormGroup;
-    spinner: boolean = false;
+    spinnerButton: boolean = false;
     user: User;
 
     logout() {
@@ -42,18 +42,18 @@ export class HeaderComponent implements OnInit {
 
     onSubmit() {
         if (this.headerSignInForm.valid) {
-            this.spinner = true;
+            this.spinnerButton = true;
             this.authService.signIn(this.headerSignInForm.value.name, this.headerSignInForm.value.password)
                 .subscribe(
                     response => {
                         this.notificationService.success('Успішно', 'Вхід виконано успішно');
-                        this.spinner = false;
+                        this.spinnerButton = false;
                     },
                     errors => {
                         for (let error of errors) {
                             this.notificationService.error('Помилка', error);
                         }
-                        this.spinner = false;
+                        this.spinnerButton = false;
                     });
         }
     }
