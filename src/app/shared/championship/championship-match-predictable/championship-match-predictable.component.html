@@ -41,7 +41,7 @@
                     <!-- statistic -->
                     <div *ngIf="statistic && !spinnerStatistic"
                          class="card-block bg-white">
-                        <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                        <div class="col-12">
                             <canvas baseChart
                                     [data]="resultChartData"
                                     [labels]="resultChartLabels"
@@ -116,7 +116,7 @@
                     <app-error *ngIf="errorStatistic" [message]="error"></app-error>
                     <!-- statistic -->
                     <div *ngIf="statistic && match && !spinnerStatistic" class="card-block bg-white">
-                        <div class="col-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+                        <div class="col-12">
                             <canvas baseChart
                                     [data]="resultChartData"
                                     [labels]="resultChartLabels"
