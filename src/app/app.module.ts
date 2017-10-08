@@ -1,5 +1,5 @@
 import { NgModule }                   from '@angular/core';
-import { HttpClientModule }           from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule }              from '@angular/platform-browser';
 import { BrowserAnimationsModule }    from '@angular/platform-browser/animations';
 
@@ -13,7 +13,7 @@ import { HomeModule }                 from './home/home.module';
 import { ManageModule }               from './manage/manage.module';
 import { MeModule }                   from './me/me.module';
 import { NewsModule }                 from './news/news.module';
-import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
+import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
 import { SharedModule }               from './shared/shared.module';
 import { SimpleNotificationsModule }  from 'angular2-notifications';
 import { TeamModule }                 from './team/team.module';
@@ -44,7 +44,7 @@ import { TeamModule }                 from './team/team.module';
         AppComponent
     ],
     providers: [
-        { provide: BrowserXhr, useClass: NgProgressBrowserXhr }
+        { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true }
     ]
 })
 
