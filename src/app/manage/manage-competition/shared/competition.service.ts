@@ -1,11 +1,11 @@
-import { Injectable }                       from '@angular/core';
-import { Http, URLSearchParams }            from '@angular/http';
-import { Observable }                       from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { Competition }                      from '../../../shared/models/competition.model';
-import { ErrorHandlerService }              from '../../../core/error-handler.service';
-import { environment }                      from '../../../../environments/environment';
-import { HeadersWithToken }                 from '../../../core/headers-with-token.service';
+import { Competition } from '../../../shared/models/competition.model';
+import { ErrorHandlerService } from '../../../core/error-handler.service';
+import { environment } from '../../../../environments/environment';
+import { HeadersWithToken } from '../../../core/headers-with-token.service';
 
 @Injectable()
 
@@ -14,7 +14,7 @@ export class CompetitionService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) {}
 
     private competitionUrl = environment.apiUrl + 'competitions';
@@ -28,14 +28,13 @@ export class CompetitionService {
      * @returns {Observable<any>}
      */
     getCompetitions(page?: number, tournament?: number, season?: number, state?: boolean): Observable<any> {
-        let params = new URLSearchParams();
-        if (page) params.set('page', page.toString());
-        if (tournament) params.set('tournament', tournament.toString());
-        if (season) params.set('season', season.toString());
-        if (state) params.set('state', state.toString());
-        return this.http
-            .get(this.competitionUrl, {search: params})
-            .map(response => response.json())
+        let params: HttpParams = new HttpParams();
+        if (page) params = params.append('page', page.toString());
+        if (tournament) params = params.append('tournament', tournament.toString());
+        if (season) params = params.append('season', season.toString());
+        if (state) params = params.append('state', state.toString());
+        return this.httpClient
+            .get(this.competitionUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -45,9 +44,9 @@ export class CompetitionService {
      * @returns {Competition}
      */
     getCompetition(id: number): Observable<Competition> {
-        return this.http
+        return this.httpClient
             .get(`${this.competitionUrl}/${id}`)
-            .map(response => response.json().competition)
+            .map(response => response['competition'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -59,7 +58,7 @@ export class CompetitionService {
     createCompetition(competition: Competition): Observable<Competition> {
         return this.headersWithToken
             .post(this.competitionUrl, competition)
-            .map(response => response.json().competition)
+            .map(response => response['competition'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -71,7 +70,7 @@ export class CompetitionService {
     updateCompetition(competition: Competition): Observable<Competition> {
         return this.headersWithToken
             .put(`${this.competitionUrl}/${competition.id}`, competition)
-            .map(response => response.json().competition)
+            .map(response => response['competition'])
             .catch(this.errorHandlerService.handle);
     }
 }

@@ -3,7 +3,7 @@ import { NgModule }                                   from '@angular/core';
 import { ReactiveFormsModule }                        from '@angular/forms';
 
 import { AppRoutingModule }                           from '../app-routing.module';
-import { ChartsModule }                               from 'ng2-charts/ng2-charts';
+import { ChartsModule }                               from 'ng2-charts';
 import { ChampionshipLastResultsComponent }           from './championship/championship-last-results/championship-last-results.component';
 import { ChampionshipMatchPredictableComponent }      from './championship/championship-match-predictable/championship-match-predictable.component';
 import { ChampionshipMatchPredictionsTableComponent } from './championship/championship-match-predictions-table/championship-match-predictions-table.component';

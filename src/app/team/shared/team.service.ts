@@ -1,12 +1,12 @@
-import { Injectable }             from '@angular/core';
-import { Http, URLSearchParams }  from '@angular/http';
-import { Observable }             from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { Team }                   from '../../shared/models/team.model';
-import { environment }            from '../../../environments/environment';
-import { ErrorHandlerService }    from '../../core/error-handler.service';
-import { HeadersWithToken }       from '../../core/headers-with-token.service';
-import { RequestParams }          from '../../shared/models/request-params.model';
+import { Team } from '../../shared/models/team.model';
+import { environment } from '../../../environments/environment';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { HeadersWithToken } from '../../core/headers-with-token.service';
+import { RequestParams } from '../../shared/models/request-params.model';
 
 @Injectable()
 export class TeamService {
@@ -14,7 +14,7 @@ export class TeamService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) { }
 
     private teamInfoUrl = environment.apiUrl + 'team/teams';
@@ -25,15 +25,14 @@ export class TeamService {
      * @returns {Observable<any>}
      */
     getTeams(requestParams?: RequestParams[]): Observable<any> {
-        let params: URLSearchParams = new URLSearchParams();
+        let params: HttpParams = new HttpParams();
         if (requestParams) {
-            for (let requestParam of requestParams) {
-                params.set(requestParam.parameter, requestParam.value);
+            for (const requestParam of requestParams) {
+                params = params.append(requestParam.parameter, requestParam.value);
             }
         }
-        return this.http
-            .get(this.teamInfoUrl, requestParams ? {search: params} : null)
-            .map(response => response.json())
+        return this.httpClient
+            .get(this.teamInfoUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -44,16 +43,16 @@ export class TeamService {
      * @returns {Observable<Team>}
      */
     getTeam(id?: number, requestParams?: RequestParams[]): Observable<Team> {
-        let url = id ? `${this.teamInfoUrl}/${id}` : `${this.teamInfoUrl}/search`;
-        let params: URLSearchParams = new URLSearchParams();
+        const url = id ? `${this.teamInfoUrl}/${id}` : `${this.teamInfoUrl}/search`;
+        let params: HttpParams = new HttpParams();
         if (requestParams) {
-            for (let requestParam of requestParams) {
-                params.set(requestParam.parameter, requestParam.value);
+            for (const requestParam of requestParams) {
+                params = params.append(requestParam.parameter, requestParam.value);
             }
         }
-        return this.http
-            .get(url, requestParams ? {search: params} : null)
-            .map(response => response.json().team)
+        return this.httpClient
+            .get(url, {params: params})
+            .map(response => response['team'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -65,7 +64,7 @@ export class TeamService {
     createTeam(team: Team): Observable<Team> {
         return this.headersWithToken
             .post(this.teamInfoUrl, team)
-            .map(response => response.json().team)
+            .map(response => response['team'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -77,7 +76,7 @@ export class TeamService {
     updateTeam(team: Team): Observable<Team> {
         return this.headersWithToken
             .put(`${this.teamInfoUrl}/${team.id}`, team)
-            .map(response => response.json().team)
+            .map(response => response['team'])
             .catch(this.errorHandlerService.handle);
     }
 }

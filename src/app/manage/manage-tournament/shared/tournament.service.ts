@@ -1,9 +1,9 @@
-import { Injectable }                       from '@angular/core';
-import { Http }                             from '@angular/http';
-import { Observable }                       from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { environment }                      from '../../../../environments/environment';
-import { ErrorHandlerService }              from '../../../core/error-handler.service';
+import { environment } from '../../../../environments/environment';
+import { ErrorHandlerService } from '../../../core/error-handler.service';
 
 @Injectable()
 
@@ -11,7 +11,7 @@ export class TournamentService {
 
     constructor(
         private errorHandlerService: ErrorHandlerService,
-        private http: Http
+        private httpClient: HttpClient
     ) {}
 
     private tournamentsUrl = environment.apiUrl + 'tournaments';
@@ -21,9 +21,8 @@ export class TournamentService {
      * @returns {Observable<any>}
      */
     getTournaments(): Observable<any> {
-        return this.http
+        return this.httpClient
             .get(this.tournamentsUrl)
-            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }

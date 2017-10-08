@@ -1,19 +1,19 @@
-import { Injectable }               from '@angular/core';
-import { Http, Headers }            from '@angular/http';
-import { Observable }               from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { environment }              from '../../environments/environment';
-import { ErrorHandlerService }      from './error-handler.service';
-import { HeadersWithToken }         from './headers-with-token.service';
-import { User }                     from '../shared/models/user.model';
+import { environment } from '../../environments/environment';
+import { ErrorHandlerService } from './error-handler.service';
+import { HeadersWithToken } from './headers-with-token.service';
+import { User } from '../shared/models/user.model';
 
 @Injectable()
 export class AuthService {
-    
+
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ){
         this.getUser = new Observable(observer => {
             this.userObserver = observer;
@@ -48,33 +48,32 @@ export class AuthService {
      * Sign in request
      * @param name
      * @param password
-     * @returns {any|Promise<R>|Promise<ErrorObservable>|Promise<ErrorObservable|T>|Maybe<T>}
+     * @returns {Observable<any>}
      */
     signIn(name, password): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(this.authUrl + 'signin', JSON.stringify({name, password}), {headers})
-            .map(response => response.json())
-            .map((response) => {
-                if (response.token) {
-                    this.setTokenToLocalStorage(response.token);
-                    this.updateUserInLocalStorage(response.user);
-                    this.updateRolesInLocalStorage(response.roles);
-                    this.userObserver.next(response.user);
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.httpClient
+            .post(this.authUrl + 'signin', {name, password}, {headers: headers})
+            .map(response => {
+                if (response['token']) {
+                    this.setTokenToLocalStorage(response['token']);
+                    this.updateUserInLocalStorage(response['user']);
+                    this.updateRolesInLocalStorage(response['roles']);
+                    this.userObserver.next(response['user']);
                 }
-                return response.user;
+                return response['user'];
             })
             .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Sends unvalidate token request
-     * @returns {any|Promise<R>|Promise<ErrorObservable>|Promise<ErrorObservable|T>|Maybe<T>}
+     * @returns {Observable<any>}
      */
     logout(): Observable<any> {
-        return this.headersWithToken.post(this.authUrl + 'logout', {})
-            .map(response => response.json())
-            .map((response) => {
+        return this.headersWithToken
+            .post(this.authUrl + 'logout', {})
+            .map(response => {
                 localStorage.clear();
                 this.userObserver.next(null);
                 return response;
@@ -85,20 +84,19 @@ export class AuthService {
     /**
      * Sends registration request
      * @param user
-     * @returns {any|Promise<ErrorObservable|T>|Maybe<T>|Promise<ErrorObservable>|Promise<R>}
+     * @returns {Observable<any>}
      */
     signUp(user: User): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(this.authUrl + 'signup', JSON.stringify(user), {headers})
-            .map(response=> response.json())
-            .map((response) => {
-                if (response.token) {
-                    this.setTokenToLocalStorage(response.token);
-                    this.updateUserInLocalStorage(response.user);
-                    this.userObserver.next(response.user);
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.httpClient
+            .post(this.authUrl + 'signup', user, {headers: headers})
+            .map(response => {
+                if (response['token']) {
+                    this.setTokenToLocalStorage(response['token']);
+                    this.updateUserInLocalStorage(response['user']);
+                    this.userObserver.next(response['user']);
                 }
-                return response.user;
+                return response['user'];
             })
             .catch(this.errorHandlerService.handle);
     }
@@ -106,36 +104,33 @@ export class AuthService {
     /**
      * Sends recovery request
      * @param email
-     * @returns {Observable<R|T>}
+     * @returns {Observable<any>}
      */
     recovery(email: string): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(this.authUrl + 'recovery', JSON.stringify({email: email}), {headers})
-            .map(response => response)
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.httpClient
+            .post(this.authUrl + 'recovery', {email: email}, {headers: headers})
             .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Sends reset password request
      * @param user
-     * @returns {Observable<R|T>}
+     * @returns {Observable<any>}
      */
     reset(user: User): Observable<any> {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        return this.http.post(this.authUrl + 'reset', JSON.stringify(user), {headers})
-            .map(response => response)
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.httpClient
+            .post(this.authUrl + 'reset', user, {headers: headers})
             .catch(this.errorHandlerService.handle);
     }
 
     /**
      * Refresh user data request (by token)
-     * @returns {any|Promise<R>|Promise<ErrorObservable>|Promise<ErrorObservable|T>|Maybe<T>}
+     * @returns {Observable<any>}
      */
     private refresh(): Observable<any> {
         return this.headersWithToken.get(this.authUrl + 'refresh')
-            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 
@@ -154,7 +149,7 @@ export class AuthService {
      */
     private updateUserInLocalStorage(user?: any) {
         if (!!user) {
-            localStorage.setItem('user', JSON.stringify(user));    
+            localStorage.setItem('user', JSON.stringify(user));
         } else {
             localStorage.removeItem('user');
         }
@@ -167,9 +162,9 @@ export class AuthService {
      */
     private updateRolesInLocalStorage(roles?: Array<string>) {
         if (!!roles) {
-            localStorage.setItem('roles', JSON.stringify(roles));    
+            localStorage.setItem('roles', JSON.stringify(roles));
         } else {
-            localStorage.removeItem('roles');    
+            localStorage.removeItem('roles');
         }
     }
 

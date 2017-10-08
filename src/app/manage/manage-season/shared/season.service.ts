@@ -1,11 +1,11 @@
-import { Injectable }                       from '@angular/core';
-import { Http }                             from '@angular/http';
-import { Observable }                       from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { environment }                      from '../../../../environments/environment';
-import { ErrorHandlerService }              from '../../../core/error-handler.service';
-import { HeadersWithToken }                 from '../../../core/headers-with-token.service';
-import { Season }                           from '../../../shared/models/season.model';
+import { environment } from '../../../../environments/environment';
+import { ErrorHandlerService } from '../../../core/error-handler.service';
+import { HeadersWithToken } from '../../../core/headers-with-token.service';
+import { Season } from '../../../shared/models/season.model';
 
 @Injectable()
 
@@ -14,7 +14,7 @@ export class SeasonService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) {}
 
     private seasonsUrl = environment.apiUrl + 'seasons';
@@ -24,9 +24,8 @@ export class SeasonService {
      * @returns {Observable<any>}
      */
     getSeasons(): Observable<any> {
-        return this.http
+        return this.httpClient
             .get(this.seasonsUrl)
-            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 
@@ -36,9 +35,9 @@ export class SeasonService {
      * @returns {Observable<Season>}
      */
     getSeason(id: number): Observable<Season> {
-        return this.http
+        return this.httpClient
             .get(`${this.seasonsUrl}/${id}`)
-            .map(response => response.json().season)
+            .map(response => response['season'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -50,7 +49,7 @@ export class SeasonService {
     createSeason(season: Season): Observable<Season> {
         return this.headersWithToken
             .post(this.seasonsUrl, season)
-            .map(response => response.json().season)
+            .map(response => response['season'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -61,8 +60,8 @@ export class SeasonService {
      */
     updateSeason(season: Season): Observable<Season> {
         return this.headersWithToken
-            .put(`${this.seasonsUrl}/${season.id}`, JSON.stringify(season))
-            .map(response => response.json().season)
+            .put(`${this.seasonsUrl}/${season.id}`, season)
+            .map(response => response['season'])
             .catch(this.errorHandlerService.handle);
     }
 }

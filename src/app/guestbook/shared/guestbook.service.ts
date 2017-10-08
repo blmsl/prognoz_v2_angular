@@ -1,11 +1,11 @@
-import { Injectable }                           from '@angular/core';
-import { Http, URLSearchParams }                from '@angular/http';
-import { Observable }                           from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { environment }                          from '../../../environments/environment';
-import { ErrorHandlerService }                  from '../../core/error-handler.service';
-import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
-import { HeadersWithToken }                     from '../../core/headers-with-token.service';
+import { environment } from '../../../environments/environment';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { GuestbookMessage } from '../../shared/models/guestbook-message.model';
+import { HeadersWithToken } from '../../core/headers-with-token.service';
 
 @Injectable()
 
@@ -14,7 +14,7 @@ export class GuestbookService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) {}
 
     private guestbookUrl = environment.apiUrl + 'guestbookmessages';
@@ -25,11 +25,10 @@ export class GuestbookService {
      * @returns {Observable<any>}
      */
     getGuestbookMessages(page: number = 1): Observable<any> {
-        let params = new URLSearchParams();
-        params.set('page', page.toString());
-        return this.http
-            .get(this.guestbookUrl, {search: params})
-            .map(response => response.json())
+        let params: HttpParams = new HttpParams();
+        params = params.append('page', page.toString());
+        return this.httpClient
+            .get(this.guestbookUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -41,7 +40,7 @@ export class GuestbookService {
     createGuestbookMessage(message: GuestbookMessage): Observable<GuestbookMessage> {
         return this.headersWithToken
             .post(this.guestbookUrl, message)
-            .map(response => response.json().guestbookMessage)
+            .map(response => response['guestbookMessage'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -53,7 +52,7 @@ export class GuestbookService {
     updateGuestbookMessage(message: GuestbookMessage): Observable<GuestbookMessage> {
         return this.headersWithToken
             .put(`${this.guestbookUrl}/${message.id}`, message)
-            .map(response => response.json().guestbookMessage)
+            .map(response => response['guestbookMessage'])
             .catch(this.errorHandlerService.handle);
     }
 }
