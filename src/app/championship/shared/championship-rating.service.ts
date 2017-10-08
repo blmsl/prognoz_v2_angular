@@ -1,12 +1,12 @@
-import { Injectable }                       from '@angular/core';
-import { Http, URLSearchParams }            from '@angular/http';
-import { Observable }                       from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { ChampionshipRating }               from '../../shared/models/championship-rating.model';
-import { ErrorHandlerService }              from '../../core/error-handler.service';
-import { environment }                      from '../../../environments/environment';
-import { HeadersWithToken }                 from '../../core/headers-with-token.service';
-import { RequestParams }                    from '../../shared/models/request-params.model';
+import { ChampionshipRating } from '../../shared/models/championship-rating.model';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { environment } from '../../../environments/environment';
+import { HeadersWithToken } from '../../core/headers-with-token.service';
+import { RequestParams } from '../../shared/models/request-params.model';
 
 @Injectable()
 
@@ -15,7 +15,7 @@ export class ChampionshipRatingService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) {}
 
     private championshipRatingUrl = environment.apiUrl + 'championship/rating';
@@ -26,15 +26,14 @@ export class ChampionshipRatingService {
      * @returns {Observable<any>}
      */
     getChampionshipRatingItems(requestParams?: RequestParams[]): Observable<any> {
-        let params: URLSearchParams = new URLSearchParams();
+        let params: HttpParams = new HttpParams();
         if (requestParams) {
-            for (let requestParam of requestParams) {
-                params.set(requestParam.parameter, requestParam.value);
+            for (const requestParam of requestParams) {
+                params = params.append(requestParam.parameter, requestParam.value);
             }
         }
-        return this.http
-            .get(this.championshipRatingUrl, requestParams ? {search: params} : null)
-            .map(response => response.json())
+        return this.httpClient
+            .get(this.championshipRatingUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -45,12 +44,12 @@ export class ChampionshipRatingService {
      * @returns {Observable<ChampionshipRating>}
      */
     getChampionshipRatingItem(userId: number, competitionId?: number): Observable<ChampionshipRating> {
-        let params = new URLSearchParams();
-        if (competitionId) params.set('competition_id', competitionId.toString());
-        return this.http
-            .get(`${this.championshipRatingUrl}/${userId}`, {search: params})
-            .map(response => response.json().championship_rating)
-            .catch(this.errorHandlerService.handle)
+        let params: HttpParams = new HttpParams();
+        if (competitionId) params = params.append('competition_id', competitionId.toString());
+        return this.httpClient
+            .get(`${this.championshipRatingUrl}/${userId}`, {params: params})
+            .map(response => response['championship_rating'])
+            .catch(this.errorHandlerService.handle);
     }
 
     /**
@@ -60,7 +59,6 @@ export class ChampionshipRatingService {
     updateChampionshipRatingItems(): Observable<void> {
         return this.headersWithToken
             .put(this.championshipRatingUrl, {})
-            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }

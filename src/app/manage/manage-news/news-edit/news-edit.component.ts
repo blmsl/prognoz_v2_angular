@@ -60,13 +60,13 @@ export class NewsEditComponent implements OnInit {
             this.newsService.getNewsItem(+params['id']).subscribe(
                 response => {
                     if (response) {
-                        this.newsEditForm.patchValue({
-                            id: response.id,
-                            title: response.title,
-                            body: response.body,
-                            tournament_id: response.tournament_id
-                        });
                         this.news = response;
+                        this.newsEditForm.patchValue({
+                            id: this.news.id,
+                            title: this.news.title,
+                            body: this.news.body,
+                            tournament_id: this.news.tournament_id
+                        });
                     }
                     this.spinnerNews = false;
                 },

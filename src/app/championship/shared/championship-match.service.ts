@@ -1,12 +1,12 @@
-import { Injectable }                       from '@angular/core';
-import { Http, URLSearchParams }            from '@angular/http';
-import { Observable }                       from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { ChampionshipMatch }                from '../../shared/models/championship-match.model';
-import { environment }                      from '../../../environments/environment';
-import { ErrorHandlerService }              from '../../core/error-handler.service';
-import { HeadersWithToken }                 from '../../core/headers-with-token.service';
-import { RequestParams }                    from '../../shared/models/request-params.model';
+import { ChampionshipMatch } from '../../shared/models/championship-match.model';
+import { environment } from '../../../environments/environment';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { HeadersWithToken } from '../../core/headers-with-token.service';
+import { RequestParams } from '../../shared/models/request-params.model';
 
 @Injectable()
 export class ChampionshipMatchService {
@@ -14,7 +14,7 @@ export class ChampionshipMatchService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) {}
 
     private championshipMatchUrl = environment.apiUrl + 'championship/matches';
@@ -27,7 +27,7 @@ export class ChampionshipMatchService {
     createChampionshipMatch(championshipMatch: ChampionshipMatch): Observable<ChampionshipMatch> {
         return this.headersWithToken
             .post(this.championshipMatchUrl, championshipMatch)
-            .map(response => response.json().championship_match)
+            .map(response => response['championship_match'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -39,7 +39,7 @@ export class ChampionshipMatchService {
     updateChampionshipMatch(championshipMatch: ChampionshipMatch): Observable<ChampionshipMatch> {
         return this.headersWithToken
             .put(`${this.championshipMatchUrl}/${championshipMatch.id}`, championshipMatch)
-            .map(response => response.json().championship_match)
+            .map(response => response['championship_match'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -50,15 +50,14 @@ export class ChampionshipMatchService {
      * @returns {Observable<any>}
      */
     getChampionshipMatch(id: number, requestParams?: RequestParams[]): Observable<any> {
-        let params: URLSearchParams = new URLSearchParams();
+        let params: HttpParams = new HttpParams();
         if (requestParams) {
-            for (let requestParam of requestParams) {
-                params.set(requestParam.parameter, requestParam.value);
+            for (const requestParam of requestParams) {
+                params = params.append(requestParam.parameter, requestParam.value);
             }
         }
-        return this.http
-            .get(`${this.championshipMatchUrl}/${id}`, requestParams ? {search: params} : null)
-            .map(response => response.json())
+        return this.httpClient
+            .get(`${this.championshipMatchUrl}/${id}`, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -68,15 +67,14 @@ export class ChampionshipMatchService {
      * @returns {Observable<any>}
      */
     getChampionshipMatches(requestParams?: RequestParams[]): Observable<any> {
-        let params: URLSearchParams = new URLSearchParams();
+        let params: HttpParams = new HttpParams();
         if (requestParams) {
-            for (let requestParam of requestParams) {
-                params.set(requestParam.parameter, requestParam.value);
+            for (const requestParam of requestParams) {
+                params = params.append(requestParam.parameter, requestParam.value);
             }
         }
-        return this.http
-            .get(this.championshipMatchUrl, requestParams ? {search: params} : null)
-            .map(response => response.json())
+        return this.httpClient
+            .get(this.championshipMatchUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -88,14 +86,13 @@ export class ChampionshipMatchService {
      * @returns {Observable<any>}
      */
     getChampionshipPredictableMatches(requestParams: RequestParams[]): Observable<any> {
-        let params: URLSearchParams = new URLSearchParams();
-        let url = `${this.championshipMatchUrl}-predictable`;
-        for (let requestParam of requestParams) {
-            params.set(requestParam.parameter, requestParam.value);
+        let params: HttpParams = new HttpParams();
+        const url = `${this.championshipMatchUrl}-predictable`;
+        for (const requestParam of requestParams) {
+            params = params.append(requestParam.parameter, requestParam.value);
         }
         return this.headersWithToken
             .get(url, params)
-            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }

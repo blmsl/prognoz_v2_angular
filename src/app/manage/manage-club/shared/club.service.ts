@@ -1,11 +1,11 @@
-import { Injectable }                       from '@angular/core';
-import { Http, URLSearchParams }            from '@angular/http';
-import { Observable }                       from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { Club }                             from '../../../shared/models/club.model';
-import { environment }                      from '../../../../environments/environment';
-import { ErrorHandlerService }              from '../../../core/error-handler.service';
-import { HeadersWithToken }                 from '../../../core/headers-with-token.service';
+import { Club } from '../../../shared/models/club.model';
+import { environment } from '../../../../environments/environment';
+import { ErrorHandlerService } from '../../../core/error-handler.service';
+import { HeadersWithToken } from '../../../core/headers-with-token.service';
 
 @Injectable()
 
@@ -14,7 +14,7 @@ export class ClubService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) {}
 
     private clubUrl = environment.apiUrl + 'clubs';
@@ -26,12 +26,11 @@ export class ClubService {
      * @returns {Observable<any>}
      */
     getClubs(page?: number, type?: string): Observable<any> {
-        let params = new URLSearchParams();
-        if (page) params.set('page', page.toString());
-        if (type) params.set('type', type);
-        return this.http
-            .get(this.clubUrl, {search: params})
-            .map(response => response.json())
+        let params: HttpParams = new HttpParams();
+        if (page) params = params.append('page', page.toString());
+        if (type) params = params.append('type', type);
+        return this.httpClient
+            .get(this.clubUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -41,9 +40,9 @@ export class ClubService {
      * @returns {Observable<Club>}
      */
     getClub(id: number): Observable<Club> {
-        return this.http
+        return this.httpClient
             .get(`${this.clubUrl}/${id}`)
-            .map(response => response.json().club)
+            .map(response => response['club'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -55,10 +54,10 @@ export class ClubService {
     createClub(club: Club): Observable<Club> {
         return this.headersWithToken
             .post(this.clubUrl, club)
-            .map(response => response.json().club)
+            .map(response => response['club'])
             .catch(this.errorHandlerService.handle);
     }
-    
+
     /**
      * Delete club
      * @param id
@@ -67,7 +66,6 @@ export class ClubService {
     deleteClub(id: number): Observable<void> {
         return this.headersWithToken
             .delete(`${this.clubUrl}/${id}`)
-            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 
@@ -78,8 +76,8 @@ export class ClubService {
      */
     updateClub(club: Club): Observable<Club> {
         return this.headersWithToken
-            .put(`${this.clubUrl}/${club.id}`, JSON.stringify(club))
-            .map(response => response.json().club)
+            .put(`${this.clubUrl}/${club.id}`, club)
+            .map(response => response['club'])
             .catch(this.errorHandlerService.handle);
     }
 }

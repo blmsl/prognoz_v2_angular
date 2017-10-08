@@ -1,5 +1,5 @@
 import { NgModule }                   from '@angular/core';
-import { HttpModule }                 from '@angular/http';
+import { HttpClientModule }           from '@angular/common/http';
 import { BrowserModule }              from '@angular/platform-browser';
 import { BrowserAnimationsModule }    from '@angular/platform-browser/animations';
 
@@ -30,7 +30,7 @@ import { TeamModule }                 from './team/team.module';
         CoreModule,
         GuestbookModule,
         HomeModule,
-        HttpModule,
+        HttpClientModule,
         ManageModule,
         MeModule,
         TeamModule,

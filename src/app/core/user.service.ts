@@ -1,11 +1,11 @@
-import { Injectable }               from '@angular/core';
-import { Http, URLSearchParams }    from '@angular/http';
-import { Observable }               from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { environment }              from '../../environments/environment';
-import { ErrorHandlerService }      from './error-handler.service';
-import { HeadersWithToken }         from './headers-with-token.service';
-import { User }                     from '../shared/models/user.model';
+import { environment } from '../../environments/environment';
+import { ErrorHandlerService } from './error-handler.service';
+import { HeadersWithToken } from './headers-with-token.service';
+import { User } from '../shared/models/user.model';
 
 @Injectable()
 
@@ -14,7 +14,7 @@ export class UserService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ){ }
 
     private usersUrl = environment.apiUrl + 'users';
@@ -27,13 +27,12 @@ export class UserService {
      * @returns {Observable<any>}
      */
     getUsers(limit?: number, order?: string, sequence?: string): Observable<any> {
-        let params = new URLSearchParams();
-        if (limit) params.set('limit', limit.toString());
-        if (order) params.set('order', order);
-        if (sequence) params.set('sequence', sequence);
-        return this.http
-            .get(this.usersUrl, {search: params})
-            .map(response => response.json())
+        let params: HttpParams = new HttpParams();
+        if (limit) params = params.append('limit', limit.toString());
+        if (order) params = params.append('order', order);
+        if (sequence) params = params.append('sequence', sequence);
+        return this.httpClient
+            .get(this.usersUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -43,9 +42,9 @@ export class UserService {
      * @returns {Observable<User>}
      */
     getUser(id: number): Observable<User> {
-        return this.http
+        return this.httpClient
             .get(`${this.usersUrl}/${id}`)
-            .map(response => response.json().user)
+            .map(response => response['user'])
             .catch(this.errorHandlerService.handle);
     }
 
@@ -57,7 +56,6 @@ export class UserService {
     updateUser(user: User): Observable<User> {
         return this.headersWithToken
             .put(`${this.usersUrl}/${user.id}`, user)
-            .map(response => response.json())
             .catch(this.errorHandlerService.handle);
     }
 }

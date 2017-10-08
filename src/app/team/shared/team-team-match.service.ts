@@ -1,12 +1,11 @@
-import { Injectable }             from '@angular/core';
-import { Http, URLSearchParams }  from '@angular/http';
-import { Observable }             from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { environment }            from '../../../environments/environment';
-import { ErrorHandlerService }    from '../../core/error-handler.service';
-import { HeadersWithToken }       from '../../core/headers-with-token.service';
-import { RequestParams }          from '../../shared/models/request-params.model';
-import { TeamTeamMatch }          from '../../shared/models/team-team-match.model';
+import { environment } from '../../../environments/environment';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { HeadersWithToken } from '../../core/headers-with-token.service';
+import { TeamTeamMatch } from '../../shared/models/team-team-match.model';
 
 @Injectable()
 export class TeamTeamMatchService {
@@ -14,7 +13,7 @@ export class TeamTeamMatchService {
     constructor(
         private errorHandlerService: ErrorHandlerService,
         private headersWithToken: HeadersWithToken,
-        private http: Http
+        private httpClient: HttpClient
     ) { }
 
     private teamTeamMatchUrl = environment.apiUrl + 'team/team-matches';
@@ -25,11 +24,10 @@ export class TeamTeamMatchService {
      * @returns {Observable<any>}
      */
     getTeamTeamMatches(page?: number): Observable<any> {
-        let params = new URLSearchParams();
-        if (page) params.set('page', page.toString());
-        return this.http
-            .get(this.teamTeamMatchUrl, page ? {search: params} : null)
-            .map(response => response.json())
+        let params: HttpParams = new HttpParams();
+        if (page) params = params.append('page', page.toString());
+        return this.httpClient
+            .get(this.teamTeamMatchUrl, {params: params})
             .catch(this.errorHandlerService.handle);
     }
 
@@ -41,7 +39,7 @@ export class TeamTeamMatchService {
     updateTeamTeamMatch(teamTeamMatch: TeamTeamMatch): Observable<TeamTeamMatch> {
         return this.headersWithToken
             .put(`${this.teamTeamMatchUrl}/${teamTeamMatch.id}`, teamTeamMatch)
-            .map(response => response.json().team_team_match)
+            .map(response => response['team_team_match'])
             .catch(this.errorHandlerService.handle);
     }
 }
