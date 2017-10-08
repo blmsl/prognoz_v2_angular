@@ -25,9 +25,6 @@ export class HomeComponent implements OnInit {
     errorNews: string | Array<string>;
     news: News[];
     newsImagesUrl: string = environment.apiImageNews;
-    noNews: string = 'В базі даних новин не знайдено.';
-    spinnerNews: boolean = false;
-    spinnerChampionshipMatches: boolean = false;
 
     ngOnInit() {
         this.getNewsData();
@@ -35,7 +32,6 @@ export class HomeComponent implements OnInit {
     }
 
     private getMatchesData() {
-        this.spinnerChampionshipMatches = true;
         let param = [
             {parameter: 'filter', value: 'predictable'},
             {parameter: 'coming', value: 'true'}
@@ -45,27 +41,22 @@ export class HomeComponent implements OnInit {
                 if (response) {
                     this.championshipMatches = response.championship_matches;
                 }
-                this.spinnerChampionshipMatches = false;
             },
             error => {
                 this.errorChampionshipMatches = error;
-                this.spinnerChampionshipMatches = false;
             }
         );
     }
 
     private getNewsData() {
-        this.spinnerNews = true;
         this.newsService.getNews().subscribe(
             response => {
                 if (response) {
                     this.news = response.data;
                 }
-                this.spinnerNews = false;
             },
             error => {
                 this.errorNews = error;
-                this.spinnerNews = false;
             }
         );
     }

@@ -19,34 +19,27 @@ export class ChampionshipCompetitionsComponent implements OnInit {
 
     competitions: Competition[];
     errorCompetitions: string;
-    noCompetitions: string;
-    spinnerCompetitions: boolean = false;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
-            this.spinnerCompetitions = true;
-            this.resetData();
             this.competitionService.getCompetitions(null, environment.tournaments.championship.id, params['id'])
                 .subscribe(
                     response => {
-                        if (!response) {
-                            this.noCompetitions = 'В базі даних змагань не знайдено.'
-                        } else {
+                        this.resetCompetitionsData();
+                        if (response) {
                             this.competitions = response.competitions;
                         }
-                        this.spinnerCompetitions = false;
                     },
                     error => {
+                        this.resetCompetitionsData();
                         this.errorCompetitions = error;
-                        this.spinnerCompetitions = false;
                     }
                 );
         });
     }
 
-    private resetData(): void {
+    private resetCompetitionsData(): void {
         this.competitions = null;
         this.errorCompetitions = null;
-        this.noCompetitions = null;
     }
 }

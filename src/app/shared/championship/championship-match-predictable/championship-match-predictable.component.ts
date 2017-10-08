@@ -26,13 +26,11 @@ export class ChampionshipMatchPredictableComponent {
     resultChartData: any;
     resultChartLabels: any;
     resultChartType: string = 'doughnut';
-    spinnerStatistic: boolean = false;
     statistic: any = false;
 
     getChampionshipMatchStatisticData(match: ChampionshipMatch) {
           if (!this.expandedStatistic) {
               this.expandedStatistic = true;
-              this.spinnerStatistic = true;
               setTimeout(() =>
                   this.championshipMatchService.getChampionshipMatch(match.id, [{parameter: 'statistic', value: 'true'}])
                       .subscribe(
@@ -40,11 +38,9 @@ export class ChampionshipMatchPredictableComponent {
                               this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
                               this.resultChartData = [response.results.home, response.results.away, response.results.draw];
                               this.statistic = response;
-                              this.spinnerStatistic = false;
                           },
                           error => {
                               this.errorStatistic = error;
-                              this.spinnerStatistic = false;
                           }
                       )
               , 1000);

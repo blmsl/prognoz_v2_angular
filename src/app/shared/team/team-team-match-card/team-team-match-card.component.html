@@ -24,15 +24,15 @@
                      alt="{{teamTeamMatch.away_team.name}}">
                 <small class="hidden-sm-up">{{teamTeamMatch.away_team.name}}</small>
                 <strong class="hidden-xs-down">{{teamTeamMatch.away_team.name}}</strong>
-                <i [hidden]="expandedTeamMatch" class="pull-right fa fa-chevron-down fa-lg text-primary hidden-xs-down"></i>
-                <i [hidden]="!expandedTeamMatch" class="pull-right fa fa-chevron-up fa-lg text-primary hidden-xs-down"></i>
+                <i [hidden]="expandedTeamMatch || spinnerTeamMatches" class="pull-right fa fa-chevron-down fa-lg text-primary hidden-xs-down"></i>
+                <i [hidden]="!expandedTeamMatch || spinnerTeamMatches" class="pull-right fa fa-chevron-up fa-lg text-primary hidden-xs-down"></i>
+                <i [hidden]="!spinnerTeamMatches" class="pull-right fa fa-spinner fa-spin fa-lg fa-fw text-primary"></i>
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
     </div>
 </div>
-<div class="collapse mt-1" [attr.id]="'collapseTeamTeamMatch' + teamTeamMatch.id">
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerTeamMatches" [height]="450"></app-spinner>
+<div class="collapse" [attr.id]="'collapseTeamTeamMatch' + teamTeamMatch.id" [ngClass]="{'mt-1': teamMatches}">
     <!-- error -->
     <app-error *ngIf="errorTeamMatches" [message]="errorTeamMatches"></app-error>
     <!-- no team matches -->

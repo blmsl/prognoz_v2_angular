@@ -9,12 +9,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- spinner -->
-                    <app-spinner *ngIf="spinnerTeams" [height]="250"></app-spinner>
                     <!-- error -->
                     <app-error *ngIf="errorTeams" [message]="errorTeams"></app-error>
                     <!-- no clubs -->
-                    <app-info *ngIf="!teams && !spinnerTeams && !errorTeams" [message]="noTeams"></app-info>
+                    <app-info *ngIf="!teams && !errorTeams" [message]="noTeams"></app-info>
                     <div *ngIf="teams" class="container-fluid">
                         <div class="row">
                             <div class="col">

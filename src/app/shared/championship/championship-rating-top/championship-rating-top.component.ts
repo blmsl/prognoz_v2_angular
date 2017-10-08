@@ -19,7 +19,6 @@ export class ChampionshipRatingTopComponent implements OnInit {
 
     championshipRatingItems: ChampionshipRating[];
     errorRating: string;
-    spinnerRating: boolean = false;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
 
@@ -28,25 +27,16 @@ export class ChampionshipRatingTopComponent implements OnInit {
     }
   
     topRating() {
-        this.resetData();
-        this.spinnerRating = true;
         let param = [{parameter: 'limit', value: '5'}];
         this.championshipRatingService.getChampionshipRatingItems(param).subscribe(
             response => {
                 if (response) {
                     this.championshipRatingItems = response.championship_ratings;
                 }
-                this.spinnerRating = false;
             },
             error => {
                 this.errorRating = error;
-                this.spinnerRating = false;
             }
         );
-    }
-
-    private resetData(): void {
-        this.championshipRatingItems = null;
-        this.errorRating = null
     }
 }

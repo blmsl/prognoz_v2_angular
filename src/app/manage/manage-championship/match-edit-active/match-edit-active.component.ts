@@ -28,12 +28,8 @@ export class MatchEditActiveComponent implements OnInit {
     clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
     errorClubs: string | Array<string>;
-    noChampionshipMatches: string = 'В базі даних матчів не знайдено';
     selectedMatch: ChampionshipMatch;
     spinnerButton: boolean = false;
-    spinnerChampionshipMatches: boolean = false;
-    spinnerClubs: boolean = false;
-    noClubs: string = 'В базі даних команд не знайдено.';
 
     ngOnInit() {
         this.championshipMatchEditActiveForm = this.formBuilder.group({
@@ -87,32 +83,26 @@ export class MatchEditActiveComponent implements OnInit {
     }
 
     private getClubsData() {
-        this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
                 this.clubs = response.clubs;
-                this.spinnerClubs = false;
             },
             error => {
                 this.errorClubs = error;
-                this.spinnerClubs = false;
             }
         );
     }
 
     private getChampionshipMatchesData() {
-        this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'active'}];
         this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
                 if (response) {
                     this.championshipMatches = response.championship_matches;
                 }
-                this.spinnerChampionshipMatches = false;
             },
             error => {
                 this.errorChampionshipMatches = error;
-                this.spinnerChampionshipMatches = false;
             }
         );
     }

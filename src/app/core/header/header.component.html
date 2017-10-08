@@ -34,15 +34,15 @@
         <!-- sign up and recovery buttons -->
         <div class="btn-group ml-sm-2" role="group" aria-label="header-buttons">
             <!-- sign in button -->
-            <button [hidden]="spinner" [disabled]="headerSignInForm.invalid" type="submit" class="btn btn-secondary">
+            <button [hidden]="spinnerButton" [disabled]="headerSignInForm.invalid" type="submit" class="btn btn-secondary">
                 <i class="fa fa-sign-in" aria-hidden="true"></i> Вхід
             </button>
             <!-- sign in spinner -->
-            <app-spinner-button [hidden]="!spinner"></app-spinner-button>
-            <button [disabled]="spinner" routerLink="signup" type="button" class="btn btn-outline-secondary">
+            <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
+            <button [disabled]="spinnerButton" routerLink="signup" type="button" class="btn btn-outline-secondary">
                 <i class="fa fa-user-plus" aria-hidden="true"></i> Реєстрація
             </button>
-            <button [disabled]="spinner" routerLink="recovery" type="button" class="btn btn-outline-secondary">
+            <button [disabled]="spinnerButton" routerLink="recovery" type="button" class="btn btn-outline-secondary">
                 <i class="fa fa-question-circle" aria-hidden="true"></i> Забули пароль
             </button>
         </div>

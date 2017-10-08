@@ -40,7 +40,6 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
     news: News;
     newsImagesUrl: string = environment.apiImageNews;
     spinnerButton: boolean = false;
-    spinnerNews: boolean = false;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
     userSubscription: Subscription;
@@ -70,7 +69,6 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
             this.addCommentForm.patchValue({user_id: (response ? response.id : '')});
         });
         this.activatedRoute.params.forEach((params: Params) => {
-            this.spinnerNews = true;
             this.newsService.getNewsItem(+params['id']).subscribe(
                 response => {
                     if (response) {
@@ -78,11 +76,9 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                         let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
                         this.addCommentForm.patchValue({news_id: this.news.id, user_id: userId});
                     }
-                    this.spinnerNews = false;
                 },
                 error => {
                     this.errorNews = error;
-                    this.spinnerNews = false;
                 }
             );
         });
@@ -92,16 +88,13 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
         this.spinnerButton = true;
         this.commentService.createComment(value).subscribe(
             response => {
-                this.spinnerNews = true;
                 this.newsService.getNewsItem(value.news_id)
                     .subscribe(
                         response => {
                             this.news = response;
-                            this.spinnerNews = false;
                         },
                         error => {
                             this.errorNews = error;
-                            this.spinnerNews = false;
                         });
                 this.notificationService.success('Успішно', 'Новий коментар додано');
                 this.addCommentForm.reset({news_id: this.news.id, user_id: this.authenticatedUser.id});

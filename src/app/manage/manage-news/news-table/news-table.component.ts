@@ -25,10 +25,8 @@ export class NewsTableComponent implements OnInit {
     news: News[];
     lastPage: number;
     message: string = 'Ви дійсно бажаєте видалити';
-    noNews: string = 'В базі даних новин не знайдено.';
     path: string = '/manage/news/page/';
     perPage: number;
-    spinnerNews: boolean = false;
     title: string = 'Підтвердження';
     total: number;
 
@@ -49,8 +47,6 @@ export class NewsTableComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.resetData();
-            this.spinnerNews = true;
             this.newsService.getNews(params['number']).subscribe(
                 response => {
                     if (response) {
@@ -60,18 +56,11 @@ export class NewsTableComponent implements OnInit {
                         this.total = response.total;
                         this.news = response.data;
                     }
-                    this.spinnerNews = false;
                 },
                 error => {
                     this.errorNews = error;
-                    this.spinnerNews = false;
                 }
-            )
+            );
         });
-    }
-
-    private resetData() {
-        this.news = null;
-        this.errorNews = null;
     }
 }

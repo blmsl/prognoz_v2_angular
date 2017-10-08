@@ -23,7 +23,7 @@ export class AuthSignupComponent implements OnInit {
 
     captchaValidity: boolean = false;
     signUpForm: FormGroup;
-    spinner: boolean = false;
+    spinnerButton: boolean = false;
     user: User = this.currentStateService.user;
 
     ngOnInit() {
@@ -39,18 +39,18 @@ export class AuthSignupComponent implements OnInit {
     
     onSubmit() {
         if (this.signUpForm.valid) {
-            this.spinner = true;
+            this.spinnerButton = true;
             this.authService.signUp(this.signUpForm.value).subscribe(
                 response => {
                     this.notificationService.success('Успішно', 'Реєстрація пройшла успішно', {timeOut: 0});
-                    this.spinner = false;
+                    this.spinnerButton = false;
                     this.router.navigate(['/me']);
                 },
                 errors => {
                     for (let error of errors) {
                         this.notificationService.error('Помилка', error);
                     }
-                    this.spinner = false;
+                    this.spinnerButton = false;
                 }
             );
         }

@@ -4,12 +4,8 @@
             <h2>Таблиця команд:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerClubs" [height]="250"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
-    <!-- no clubs -->
-    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <!-- clubs table -->
     <div *ngIf="clubs" class="row">
         <div class="col-12">

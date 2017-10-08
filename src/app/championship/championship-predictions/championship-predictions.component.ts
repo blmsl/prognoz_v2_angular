@@ -33,9 +33,7 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
     championshipPredictionsForm: FormGroup;
     clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
-    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
     spinnerButton: boolean = false;
-    spinnerChampionshipMatches: boolean = false;
     userSubscription: Subscription;
 
     ngOnDestroy() {
@@ -71,7 +69,6 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getChampionshipMatchesData() {
-        this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'predictable'}];
         if (this.authenticatedUser) {
             this.championshipMatchService.getChampionshipPredictableMatches(param).subscribe(
@@ -79,11 +76,9 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
                     if (response) {
                         this.updateForm(response.championship_matches, true);
                     }
-                    this.spinnerChampionshipMatches = false;
                 },
                 error => {
                     this.errorChampionshipMatches = error;
-                    this.spinnerChampionshipMatches = false;
                 }
             );
         } else {
@@ -92,11 +87,9 @@ export class ChampionshipPredictionsComponent implements OnInit, OnDestroy {
                     if (response) {
                         this.updateForm(response.championship_matches, false);
                     }
-                    this.spinnerChampionshipMatches = false;
                 },
                 error => {
                     this.errorChampionshipMatches = error;
-                    this.spinnerChampionshipMatches = false;
                 }
             );
         }

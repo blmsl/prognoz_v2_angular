@@ -12,12 +12,10 @@ import { User }                                     from '../../models/user.mode
 export class TeamRatingUserTableComponent implements OnChanges {
 
     @Input() teamRatingUser: TeamRatingUser[];
-    @Input() spinnerTeamRatingUser: boolean;
     @Input() errorTeamRatingUser: string;
     @Input() authenticatedUser: User;
 
     goalkeepersRating: TeamRatingUser[];
-    noTeamRatingUser: string = 'Командний чемпіонат ще не почався / рейтингу гравців не знайдено';
     teamImageDefault: string = environment.imageTeamDefault;
     teamImagesUrl: string = environment.apiImageTeams;
     topScorersRating: TeamRatingUser[];

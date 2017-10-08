@@ -1,14 +1,11 @@
 <h2>
     Матчі:
-    <button [hidden]="spinnerTeamTeamMatches"
-            class="btn btn-sm btn-outline-secondary cursor-pointer"
+    <button class="btn btn-sm btn-outline-secondary cursor-pointer"
             title="Оновити"
             (click)="getTeamTeamMatchesData(round)">
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerCompetition" [height]="255"></app-spinner>
 <!-- error competition -->
 <app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
 <app-team-round-navigation *ngIf="teamTeamMatches"
@@ -17,12 +14,8 @@
                            [previousRound]="previousRound"
                            [path]="path">
 </app-team-round-navigation>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerTeamTeamMatches" [height]="255"></app-spinner>
 <!-- error team matches -->
 <app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
-<!-- no team-team matches -->
-<app-info *ngIf="!spinnerTeamTeamMatches && !errorTeamTeamMatches && !teamTeamMatches && !spinnerCompetition" [message]="noTeamTeamMatches"></app-info>
 <div *ngIf="teamTeamMatches" class="row no-gutters black-shadow mb-1">
     <div class="col-12 black-shadow">
         <app-team-team-match-card *ngFor="let teamTeamMatch of teamTeamMatches"

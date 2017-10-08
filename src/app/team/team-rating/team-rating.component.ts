@@ -24,8 +24,6 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
-    spinnerTeamRating: boolean;
-    spinnerTeamRatingUser: boolean;
     errorTeamRating: string;
     errorTeamRatingUser: string;
     teamRating: TeamRating[];
@@ -47,42 +45,24 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
     }
 
     private getTeamRatingData() {
-        this.resetTeamRating();
-        this.spinnerTeamRating = true;
         this.teamRatingService.getTeamRating().subscribe(
             response => {
                 if (response) this.teamRating = response;
-                this.spinnerTeamRating = false;
             },
             error => {
                 this.errorTeamRating = error;
-                this.spinnerTeamRating = false;
             }
         );
     }
 
     private getTeamRatingUserData() {
-        this.resetTeamRatingUser();
-        this.spinnerTeamRatingUser = true;
         this.teamRatingUserService.getTeamRatingUser().subscribe(
             response => {
                 if (response) this.teamRatingUser = response;
-                this.spinnerTeamRatingUser = false;
             },
             error => {
                 this.errorTeamRatingUser = error;
-                this.spinnerTeamRatingUser = false;
             }
         );
-    }
-
-    private resetTeamRating(): void {
-        this.teamRating = null;
-        this.errorTeamRating = null;
-    }
-
-    private resetTeamRatingUser(): void {
-        this.teamRatingUser = null;
-        this.errorTeamRatingUser = null;
     }
 }

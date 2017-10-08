@@ -4,12 +4,8 @@
             <h2>Таблиця сезонів:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerSeasons" [height]="200"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorSeasons" [message]="errorSeasons"></app-error>
-    <!-- no seasons -->
-    <app-info *ngIf="!seasons && !spinnerSeasons && !errorSeasons" [message]="noSeasons"></app-info>
     <!-- seasons table -->
     <div *ngIf="seasons" class="row">
         <div class="col-12">

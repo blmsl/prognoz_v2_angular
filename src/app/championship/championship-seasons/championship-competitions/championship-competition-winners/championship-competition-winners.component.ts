@@ -21,31 +21,28 @@ export class ChampionshipCompetitionWinnersComponent implements OnInit {
     awardsImagesUrl: string = environment.apiImageAwards;
     competition: Competition;
     errorCompetition: string | Array<string>;
-    spinnerCompetition: boolean = false;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params:Params) => {
-            this.spinnerCompetition = true;
-            this.resetData();
             this.competitionService.getCompetition(params['competitionId']).subscribe(
                 response => {
+                    this.resetCompetitionWinnerData();
                     if (response.tournament_id != environment.tournaments.championship.id) {
                         this.router.navigate(['/404']);
                     }
                     this.competition = response;
-                    this.spinnerCompetition = false;
                 },
                 error => {
+                    this.resetCompetitionWinnerData();
                     this.errorCompetition = error;
-                    this.spinnerCompetition = false;
                 }
             );
         });
     }
 
-    private resetData(): void {
+    private resetCompetitionWinnerData(): void {
         this.competition = null;
         this.errorCompetition = null;
     }

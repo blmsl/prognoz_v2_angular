@@ -17,7 +17,6 @@ export class LastUserComponent implements OnInit {
 
     errorUser: string | Array<string>;
     lastUser: User;
-    spinnerUser: boolean = false;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
 
@@ -26,14 +25,11 @@ export class LastUserComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.spinnerUser = true;
         this.userService.getUsers(1, 'created_at', 'desc').subscribe(
             response => {
                 this.lastUser = response.users[0];
-                this.spinnerUser = false;
             }, error => {
                 this.errorUser = error;
-                this.spinnerUser = false;
             }
         );
     }

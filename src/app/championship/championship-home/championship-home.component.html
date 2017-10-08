@@ -4,12 +4,10 @@
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerChampionshipMatches" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
 <!-- championship-match-predictable component-->
-<div *ngIf="championshipMatches && !spinnerChampionshipMatches" class="container-fluid">
+<div *ngIf="championshipMatches" class="container-fluid">
     <form novalidate [formGroup]="championshipPredictionsForm" (ngSubmit)="onSubmit()">
         <app-championship-match-predictable *ngFor="let championshipMatch of championshipMatches"
                                             [match]="championshipMatch"
@@ -41,7 +39,6 @@
         </div>
     </form>
 </div>
-
 <!-- RATING TOP -->
 <div *ngIf="championshipRatingItems" class="row align-items-end mt-2">
     <div class="col-12 col-sm-5 col-md-6">
@@ -57,8 +54,7 @@
 </div>
 <!-- rating table -->
 <app-championship-rating-table [rating]="championshipRatingItems"
-                               [error]="errorRating"
-                               [spinner]="spinnerRating"
+                               [error]="errorChampionshipRating"
                                [authenticatedUser]="authenticatedUser">
 </app-championship-rating-table>
 <!-- LAST PREDICTIONS -->
@@ -67,12 +63,10 @@
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerChampionshipPredictions" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorChampionshipPredictions" [message]="errorChampionshipPredictions"></app-error>
 <!-- predictions -->
-<div *ngIf="championshipPredictions && !spinnerChampionshipPredictions" class="row">
+<div *ngIf="championshipPredictions" class="row">
     <div class="col-12">
         <div class="card black-shadow">
             <ul class="list-group list-group-flush">

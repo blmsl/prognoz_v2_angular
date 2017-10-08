@@ -33,8 +33,6 @@ export class CompetitionCreateComponent implements OnInit {
     noTournaments: string;
     seasons: Season[];
     spinnerButton: boolean = false;
-    spinnerSeasons: boolean = false;
-    spinnerTournaments: boolean = false;
     tournaments: Tournament[];
 
     ngOnInit() {
@@ -72,23 +70,19 @@ export class CompetitionCreateComponent implements OnInit {
     }
 
     private getSeasonsData() {
-        this.spinnerSeasons = true;
         this.seasonService.getSeasons().subscribe(
             response => {
                 if (response) {
                     this.seasons = response.seasons;
                 }
-                this.spinnerSeasons = false;
             },
             error => {
                 this.errorSeasons = error;
-                this.spinnerSeasons = false;
             }
         );
     }
 
     private getTournamentsData() {
-        this.spinnerTournaments = true;
         this.tournamentService.getTournaments().subscribe(
             response => {
                 if (!response) {
@@ -96,11 +90,9 @@ export class CompetitionCreateComponent implements OnInit {
                 } else {
                     this.tournaments = response.tournaments;
                 }
-                this.spinnerTournaments = false;
             },
             error => {
                 this.errorTournaments = error;
-                this.spinnerTournaments = false;
             }
         );
     }

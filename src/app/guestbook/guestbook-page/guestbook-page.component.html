@@ -37,12 +37,8 @@
         </form>
     </div>
 </div>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerGuestbookMessages" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorGuestbookMessages" [message]="errorGuestbookMessages"></app-error>
-<!-- no news -->
-<app-info *ngIf="!guestbookMessages && !spinnerGuestbookMessages && !errorGuestbookMessages" [message]="noGuestbookMessages"></app-info>
 <!-- guestbook messages -->
 <div *ngIf="guestbookMessages" class="row">
     <div class="col">

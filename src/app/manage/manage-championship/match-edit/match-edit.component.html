@@ -4,12 +4,8 @@
             <h2>Добавити результат:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerChampionshipMatches" [height]="250"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
-    <!-- no data -->
-    <app-info *ngIf="!championshipMatches && !spinnerChampionshipMatches && !errorChampionshipMatches" [message]="noChampionshipMatches"></app-info>
     <!-- matches -->
     <div *ngIf="championshipMatches" class="row">
         <div class="col-12">

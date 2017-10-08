@@ -26,12 +26,8 @@ export class TeamMatchEditActiveComponent implements OnInit {
     clubsImagesUrl: string = environment.apiImageClubs;
     errorClubs: string;
     errorTeamMatches: string;
-    noTeamMatches: string = 'В базі даних матчів не знайдено';
-    noClubs: string = 'В базі даних команд не знайдено.';
     selectedMatch: TeamMatch;
     spinnerButton: boolean = false;
-    spinnerClubs: boolean = false;
-    spinnerTeamMatches: boolean = false;
     teamMatchEditActiveForm: FormGroup;
     teamMatches: TeamMatch[];
 
@@ -86,32 +82,26 @@ export class TeamMatchEditActiveComponent implements OnInit {
     }
 
     private getClubsData() {
-        this.spinnerClubs = true;
         this.clubService.getClubs().subscribe(
             response => {
                 this.clubs = response.clubs;
-                this.spinnerClubs = false;
             },
             error => {
                 this.errorClubs = error;
-                this.spinnerClubs = false;
             }
         );
     }
 
     private getTeamMatchesData() {
-        this.spinnerTeamMatches = true;
         let param = [{parameter: 'filter', value: 'active'}];
         this.teamMatchService.getTeamMatches(param).subscribe(
             response => {
                 if (response) {
                     this.teamMatches = response.team_matches;
                 }
-                this.spinnerTeamMatches = false;
             },
             error => {
                 this.errorTeamMatches = error;
-                this.spinnerTeamMatches = false;
             }
         );
     }

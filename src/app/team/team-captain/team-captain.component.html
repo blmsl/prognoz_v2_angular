@@ -1,6 +1,4 @@
 <h2 [hidden]="!teamMatches || !teamParticipants">Стратегія: </h2>
-<!-- spinners -->
-<app-spinner *ngIf="spinnerTeamParticipants || spinnerTeamMatches" [height]="255"></app-spinner>
 <!-- error matches-->
 <app-error *ngIf="errorTeamMatches" [message]="errorTeamMatches"></app-error>
 <!-- error participants -->
@@ -155,8 +153,6 @@
         </tbody>
     </table>
 </div>
-<!-- spinner team-team matches -->
-<app-spinner *ngIf="spinnerTeamTeamMatches" [height]="255"></app-spinner>
 <!-- error team-team matches -->
 <app-error *ngIf="errorTeamTeamMatches" [message]="errorTeamTeamMatches"></app-error>
 <h2 [hidden]="!teamParticipants || !teamTeamMatches">Воротар: </h2>

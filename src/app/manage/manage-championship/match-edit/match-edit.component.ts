@@ -23,9 +23,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
     isUpdatedMatches: boolean = false;
-    noChampionshipMatches: string = 'В базі даних матчів не знайдено.';
     spinnerButton: any = {};
-    spinnerChampionshipMatches: boolean = false;
     spinnerUpdateRatingButton: boolean = false;
     updatedMatches: any = {};
 
@@ -36,18 +34,15 @@ export class MatchEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'active'}];
         this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
                 if (response) {
                     this.championshipMatches = response.championship_matches;
                 }
-                this.spinnerChampionshipMatches = false;
             },
             error => {
                 this.errorChampionshipMatches = error;
-                this.spinnerChampionshipMatches = false;
             }
         );
     }
@@ -77,7 +72,7 @@ export class MatchEditComponent implements OnInit, OnDestroy {
             }
         );
     }
-    
+
     updateRating() {
         this.spinnerUpdateRatingButton = true;
         this.championshipRatingService.updateChampionshipRatingItems().subscribe(

@@ -13,11 +13,9 @@ import { HelperService }    from '../../../core/helper.service';
 export class TeamRatingTableComponent {
 
     @Input() teamRating: TeamRating[];
-    @Input() spinnerTeamRating: boolean;
     @Input() errorTeamRating: string;
     @Input() authenticatedUser: User;
 
-    noTeamRating: string = 'Командний чемпіонат ще не почався / рейтингу не знайдено';
     teamImageDefault: string = environment.imageTeamDefault;
     teamImagesUrl: string = environment.apiImageTeams;
 

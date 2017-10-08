@@ -4,13 +4,9 @@
             <h2>Редагувати команду<span *ngIf="club"> {{club.title}}</span>:</h2>
         </div>
     </div>
-    <!-- spinner -->
-    <app-spinner *ngIf="spinnerClubs || spinnerClub" [height]="250"></app-spinner>
     <!-- error -->
     <app-error *ngIf="errorClub" [message]="errorClub"></app-error>
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
-    <!-- no clubs -->
-    <app-info *ngIf="!clubs && !spinnerClubs && !errorClubs" [message]="noClubs"></app-info>
     <div *ngIf="club && clubs" class="row">
         <!-- left column(current club data) -->
         <div class="col-12 col-lg-6">

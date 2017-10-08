@@ -35,11 +35,9 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
     errorGuestbookMessages: string | Array<string>;
     guestbookMessages: GuestbookMessage[];
     lastPage: number;
-    noGuestbookMessages: string = 'В базі даних повідомлень не знайдено.';
     path: string = '/guestbook/page/';
     perPage: number;
     spinnerButton: boolean = false;
-    spinnerGuestbookMessages: boolean = false;
     total: number;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
@@ -88,8 +86,6 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
 
     private getGuestbookMessagesData() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.resetData();
-            this.spinnerGuestbookMessages = true;
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
                 response => {
                     if (response) {
@@ -101,18 +97,11 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
                         let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
                         this.addGuestbookMessageForm.patchValue({user_id: userId});
                     }
-                    this.spinnerGuestbookMessages = false;
                 },
                 error => {
                     this.errorGuestbookMessages = error;
-                    this.spinnerGuestbookMessages = false;
                 }
-            )
+            );
         });
-    }
-
-    private resetData() {
-        this.guestbookMessages = null;
-        this.errorGuestbookMessages = null;
     }
 }

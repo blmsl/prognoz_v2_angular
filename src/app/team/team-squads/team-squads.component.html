@@ -1,11 +1,11 @@
 <h2>
     Заявки / Склади:
-    <button [hidden]="spinnerTeamsInfo" (click)="getTeamsData(); getCompetitionData();" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+    <button (click)="getTeamsData(); getCompetitionData();" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
 <!-- create / make team stated button -->
-<div *ngIf="authenticatedUser && !alreadyJoined && !alreadyPending && !spinnerTeamsInfo && competition && competition.stated" class="row mb-2">
+<div *ngIf="authenticatedUser && !alreadyJoined && !alreadyPending && competition && competition.stated" class="row mb-2">
     <div class="col">
         <button type="button" class="btn btn-primary mb-2 mb-sm-0" data-toggle="modal" data-target="#teamEditModal">
             Створити нову команду
@@ -15,19 +15,13 @@
         </button>
     </div>
 </div>
-<!-- spinner team participants-->
-<app-spinner *ngIf="spinnerTeamsInfo" [height]="255"></app-spinner>
 <!-- error competition -->
 <app-error *ngIf="errorCompetition" [message]="errorCompetition"></app-error>
 <!-- error team participants-->
 <app-error *ngIf="errorTeams" [message]="errorTeams"></app-error>
-<!-- no competition -->
-<app-info *ngIf="!spinnerCompetition && !errorCompetition && !competition" [message]="noStateCompetition"></app-info>
-<!-- no team participants -->
-<app-info *ngIf="!spinnerTeamsInfo && !errorTeams && !teams" [message]="noParticipants"></app-info>
 <!-- team participants -->
-<div class="card">
-    <table *ngIf="teams" class="table table-bordered table-hover table-sm black-shadow black-border m-0">
+<div *ngIf="teams" class="card">
+    <table class="table table-bordered table-hover table-sm black-shadow black-border m-0">
         <thead class="thead-inverse">
             <tr>
                 <th class="text-center">Команда</th>

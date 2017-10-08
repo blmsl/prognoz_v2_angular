@@ -51,8 +51,6 @@ export class TeamEditModalComponent implements OnInit {
         maxLength: 0,
         animate: 'scale'
     };
-    noClubs: string = 'В базі даних команд не знайдено.';
-    spinnerClubs: boolean = false;
     teamImageDefault: string = environment.imageTeamDefault;
     teamImagesUrl: string = environment.apiImageTeams;
 
@@ -86,24 +84,16 @@ export class TeamEditModalComponent implements OnInit {
     }
 
     private getClubsData() {
-        this.spinnerClubs = true;
         this.clubService.getClubs(null, 'clubs')
             .subscribe(
                 response => {
                     if (response) {
                         this.clubs = response.clubs;
                     }
-                    this.spinnerClubs = false;
                 },
                 error => {
                     this.errorClubs = error;
-                    this.spinnerClubs = false;
                 }
             );
-    }
-
-    private resetData(): void {
-        this.clubs = null;
-        this.errorClubs = null;
     }
 }

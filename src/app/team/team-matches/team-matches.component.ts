@@ -30,13 +30,10 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
     competition: Competition;
     errorCompetition: string;
     errorTeamTeamMatches: string;
-    noTeamTeamMatches: string = 'Командний чемпіонат ще не почався / матчів не знайдено';
     nextRound: string;
     previousRound: string;
     path: string = '/team/matches/round/';
     round: number;
-    spinnerCompetition: boolean;
-    spinnerTeamTeamMatches: boolean = false;
     teamTeamMatches: TeamTeamMatch[];
     userSubscription: Subscription;
 
@@ -62,26 +59,23 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
     }
 
     getTeamTeamMatchesData(round: number) {
-        this.spinnerTeamTeamMatches = true;
-        this.resetTeamTeamMatchData();
         this.teamTeamMatchService.getTeamTeamMatches(round).subscribe(
             response => {
+                this.resetTeamTeamMatchData();
                 if (response) {
                     this.teamTeamMatches = response.data;
                     this.nextRound = response.next_page_url;
                     this.previousRound = response.prev_page_url;
                 }
-                this.spinnerTeamTeamMatches = false;
             },
             error => {
+                this.resetTeamTeamMatchData();
                 this.errorTeamTeamMatches = error;
-                this.spinnerTeamTeamMatches = false;
             }
         );
     }
 
     private getCompetitionData() {
-        this.spinnerCompetition = true;
         this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true)
             .subscribe(
                 response => {
@@ -89,11 +83,9 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
                         this.competition = response.competition;
                         this.getTeamTeamMatchesData(response.competition.round);
                     }
-                    this.spinnerCompetition = false;
                 },
                 error => {
                     this.errorCompetition = error;
-                    this.spinnerCompetition = false;
                 }
             );
     }

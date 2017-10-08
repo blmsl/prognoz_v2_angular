@@ -18,12 +18,9 @@ export class ChampionshipCompetitionResultsComponent implements OnInit {
 
     championshipMatches: ChampionshipMatch[];
     errorChampionshipMatches: string;
-    spinnerChampionshipMatches: boolean = false;
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
-            this.resetData();
-            this.spinnerChampionshipMatches = true;
             let param = [
                 {parameter: 'filter', value: 'ended'},
                 {parameter: 'competition_id', value: params['competitionId']},
@@ -31,22 +28,21 @@ export class ChampionshipCompetitionResultsComponent implements OnInit {
             this.championshipMatchService.getChampionshipMatches(param)
                 .subscribe(
                     response => {
+                        this.resetChampionshipMatchesData();
                         if (response) {
                             this.championshipMatches = response.championship_matches;
                         }
-                        this.spinnerChampionshipMatches = false;
                     },
                     error => {
+                        this.resetChampionshipMatchesData();
                         this.errorChampionshipMatches = error;
-                        this.spinnerChampionshipMatches = false;
                     }
                 );
-        });    
+        });
     }
 
-    private resetData(): void {
+    private resetChampionshipMatchesData(): void {
         this.championshipMatches = null;
         this.errorChampionshipMatches = null;
     }
-
 }

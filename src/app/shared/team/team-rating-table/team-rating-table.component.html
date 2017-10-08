@@ -1,17 +1,13 @@
-<div class="row align-items-end">
+<div *ngIf="teamRating" class="row align-items-end">
     <div class="col-12 col-sm-6 col-md-5">
         <h2>Рейтинг команд: </h2>
     </div>
-    <div *ngIf="teamRating" class="col-12 col-sm-6 col-md-7 text-right">
+    <div class="col-12 col-sm-6 col-md-7 text-right">
         <small class="text-muted">Рейтинг після {{teamRating[0].win + teamRating[0].draw + teamRating[0].loss}} туру</small>
     </div>
 </div>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerTeamRating" [height]="225"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorTeamRating" [message]="errorTeamRating"></app-error>
-<!-- no content -->
-<app-info *ngIf="!spinnerTeamRating && !errorTeamRating && !teamRating" [message]="noTeamRating"></app-info>
 <!-- team rating table -->
 <div *ngIf="teamRating" class="card">
     <table class="table table-bordered table-hover black-border black-shadow m-0">

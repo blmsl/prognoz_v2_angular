@@ -31,9 +31,6 @@ export class ChampionshipUserComponent implements OnInit {
     errorChampionshipPredictions: string;
     errorRating: string;
     errorUser: string;
-    spinnerChampionshipPredictions: boolean = false;
-    spinnerRating: boolean = false;
-    spinnerUser: boolean = false;
     user: User;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
@@ -47,46 +44,37 @@ export class ChampionshipUserComponent implements OnInit {
     }
 
     private getChampionshipPredictionsData(userId: number) {
-        this.spinnerChampionshipPredictions = true;
         let param = [{parameter: 'user-id', value: userId.toString()}];
         this.championshipPredictionService.getChampionshipPredictions(param).subscribe(
             response => {
                 if (response) {
                     this.championshipPredictions = response.championship_predicts;
                 }
-                this.spinnerChampionshipPredictions = false;
             },
             error => {
                 this.errorChampionshipPredictions = error;
-                this.spinnerChampionshipPredictions = false;
             }
         );
     }
 
     private getChampionshipRatingItemData(id: number) {
-        this.spinnerRating = true;
         this.championshipRatingService.getChampionshipRatingItem(id).subscribe(
             response => {
                 this.championshipRatingItem = response;
-                this.spinnerRating = false;
             },
             error => {
                 this.errorRating = error;
-                this.spinnerRating = false;
             }
         );
     }
 
     private getUserData(id: number) {
-        this.spinnerUser = true;
         this.userService.getUser(id).subscribe(
             response => {
                 this.user = response;
-                this.spinnerUser = false;
             },
             error => {
                 this.errorUser = error;
-                this.spinnerUser = false;
             }
         );
     }

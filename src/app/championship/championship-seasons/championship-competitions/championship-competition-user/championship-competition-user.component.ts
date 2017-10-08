@@ -30,9 +30,6 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
     errorChampionshipPredictions: string;
     errorRating: string;
     errorUser: string;
-    spinnerChampionshipPredictions: boolean = false;
-    spinnerRating: boolean = false;
-    spinnerUser: boolean = false;
     user: User;
     userImageDefault: string = environment.imageUserDefault;
     userImagesUrl: string = environment.apiImageUsers;
@@ -46,7 +43,6 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
     }
 
     private getChampionshipPredictionsData(userId: number, competitionId: number) {
-        this.spinnerChampionshipPredictions = true;
         let param = [
             {parameter: 'user-id', value: userId.toString()},
             {parameter: 'competition-id', value: competitionId.toString()}
@@ -56,39 +52,31 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
                 if (response) {
                     this.championshipPredictions = response.championship_predicts;
                 }
-                this.spinnerChampionshipPredictions = false;
             },
             error => {
                 this.errorChampionshipPredictions = error;
-                this.spinnerChampionshipPredictions = false;
             }
         );
     }
 
     private getChampionshipRatingItemData(userId: number, competitionId: number) {
-        this.spinnerRating = true;
         this.championshipRatingService.getChampionshipRatingItem(userId, competitionId).subscribe(
             response => {
                 this.championshipRatingItem = response;
-                this.spinnerRating = false;
             },
             error => {
                 this.errorRating = error;
-                this.spinnerRating = false;
             }
         );
     }
 
     private getUserData(id: number) {
-        this.spinnerUser = true;
         this.userService.getUser(id).subscribe(
             response => {
                 this.user = response;
-                this.spinnerUser = false;
             },
             error => {
                 this.errorUser = error;
-                this.spinnerUser = false;
             }
         );
     }

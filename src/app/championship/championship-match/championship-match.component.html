@@ -1,6 +1,4 @@
 <h2>Матч: </h2>
-<!-- spinner -->
-<app-spinner *ngIf="spinnerChampionshipMatch" [height]="250"></app-spinner>
 <!-- error -->
 <app-error *ngIf="errorChampionshipMatch" [message]="errorChampionshipMatch"></app-error>
 <!-- match info -->
@@ -55,15 +53,10 @@
 <!-- statistic -->
 <h2 *ngIf="statistic && championshipMatch && championshipMatch.championship_predicts.length">
     Статистика:
-    <button *ngIf="!championshipMatch.ended" (click)="getStatistic()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
-        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
-    </button>
 </h2>
-<!-- spinner statistic -->
-<app-spinner *ngIf="spinnerStatistic" [height]="250"></app-spinner>
 <!-- error statistic -->
 <app-error *ngIf="errorStatistic" [message]="error"></app-error>
-<div *ngIf="statistic && championshipMatch && championshipMatch.championship_predicts.length && !spinnerStatistic" class="container-fluid">
+<div *ngIf="statistic && championshipMatch && championshipMatch.championship_predicts.length" class="container-fluid">
     <div class="row mt-2 mb-2 black-border bg-white rounded black-shadow">
         <div class="col-12 offset-md-3 col-md-6 p-2">
             <canvas baseChart

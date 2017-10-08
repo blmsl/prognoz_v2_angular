@@ -18,21 +18,17 @@ export class ChampionshipResultsComponent implements OnInit {
     championshipMatches: ChampionshipMatch[];
     clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatches: string;
-    spinnerChampionshipMatches: boolean = false;
 
     ngOnInit() {
-        this.spinnerChampionshipMatches = true;
         let param = [{parameter: 'filter', value: 'ended'}];
         this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {
                 if (response) {
                     this.championshipMatches = response.championship_matches;
                 }
-                this.spinnerChampionshipMatches = false;
             },
             error => {
                 this.errorChampionshipMatches = error;
-                this.spinnerChampionshipMatches = false;
             }
         );
     }

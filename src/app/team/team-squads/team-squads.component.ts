@@ -43,12 +43,8 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     confirmModalMessage: string;
     confirmSpinnerButton: boolean = false;
     competition: Competition;
-    noParticipants: string = 'Заявок поки немає. Будьте першим хто подасть заявку.';
-    noStateCompetition: string = 'Відкритого для заявок / Активного / Завершеного командного чемпіонату не знайдено';
     spinnerButton: boolean = false;
     spinnerButtonSelect: boolean = false;
-    spinnerTeamsInfo: boolean = false;
-    spinnerCompetition: boolean = false;
     teamImageDefault: string = environment.imageTeamDefault;
     teamCreateForm: FormGroup;
     teamsImagesUrl: string = environment.apiImageTeams;
@@ -148,36 +144,32 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     }
 
     getCompetitionData() {
-        this.spinnerCompetition = true;
-        this.resetCompetitionData();
         this.competitionService.getCompetitions(null, environment.tournaments.team.id, null, true).subscribe(
             response => {
+                this.resetCompetitionData();
                 if (response) {
                     this.competition = response.competition;
                 }
-                this.spinnerCompetition = false;
             },
             error => {
+                this.resetCompetitionData();
                 this.errorCompetition = error;
-                this.spinnerCompetition = false;
             }
         );
     }
 
     getTeamsData() {
-        this.spinnerTeamsInfo = true;
-        this.resetTeamsData();
         this.teamService.getTeams().subscribe(
             response => {
+                this.resetTeamsData();
                 if (response) {
                     this.isMemberOfTeam(response.teams);
                     this.teams = response.teams;
                 }
-                this.spinnerTeamsInfo = false;
             },
             error => {
+                this.resetTeamsData();
                 this.errorTeams = error;
-                this.spinnerTeamsInfo = false;
             }
         );
     }
@@ -295,11 +287,6 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         }
 
         return true;
-    }
-
-    private resetData() {
-        this.resetTeamsData();
-        this.resetCompetitionData();
     }
 
     private resetTeamsData() {

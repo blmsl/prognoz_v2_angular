@@ -31,11 +31,11 @@
                     </div>
                 </div>
                 <!-- submit button -->
-                <button [hidden]="spinner" [disabled]="recoveryForm.invalid" type="submit" class="btn btn-primary">
+                <button [hidden]="spinnerButton" [disabled]="recoveryForm.invalid" type="submit" class="btn btn-primary">
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Продовжити
                 </button>
                 <!-- spinner button -->
-                <app-spinner-button [hidden]="!spinner"></app-spinner-button>
+                <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
             </form>
         </div>
     </div>
