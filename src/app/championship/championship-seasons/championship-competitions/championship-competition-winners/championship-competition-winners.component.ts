@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Competition }                    from '../../../../shared/models/competition.model';
 import { CompetitionService }             from '../../../../manage/manage-competition/shared/competition.service';
 import { environment }                    from '../../../../../environments/environment';
+import { TitleService }                   from '../../../../core/title.service';
 
 @Component({
     selector: 'app-championship-competition-winners',
@@ -15,7 +16,8 @@ export class ChampionshipCompetitionWinnersComponent implements OnInit {
     constructor(
         private activatedRoute: ActivatedRoute,
         private competitionService: CompetitionService,
-        private router: Router
+        private router: Router,
+        private titleService: TitleService
     ) { }
 
     awardsImagesUrl: string = environment.apiImageAwards;
@@ -26,6 +28,7 @@ export class ChampionshipCompetitionWinnersComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params:Params) => {
+            this.titleService.setTitle(`Переможці конкурсу ${params['competitionId']} - Чемпіонат`);
             this.competitionService.getCompetition(params['competitionId']).subscribe(
                 response => {
                     this.resetCompetitionWinnerData();

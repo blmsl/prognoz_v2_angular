@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators }   from '@angular/forms';
 import { AuthService }                          from '../../core/auth.service';
 import { CurrentStateService }                  from '../../core/current-state.service';
 import { NotificationsService }                 from 'angular2-notifications';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -16,7 +17,8 @@ export class AuthRecoveryComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private currentStateService: CurrentStateService,
-        private notificationService: NotificationsService
+        private notificationService: NotificationsService,
+        private titleService: TitleService
     ) { }
 
     recoveryForm: FormGroup;
@@ -24,6 +26,7 @@ export class AuthRecoveryComponent implements OnInit {
     user: User = this.currentStateService.user;
 
     ngOnInit() {
+        this.titleService.setTitle('Відновлення паролю');
         this.authService.getUser.subscribe(response => this.user = response);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.recoveryForm = new FormGroup({

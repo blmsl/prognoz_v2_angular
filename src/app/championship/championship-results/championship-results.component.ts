@@ -3,6 +3,7 @@ import { Component, OnInit }        from '@angular/core';
 import { ChampionshipMatch }        from '../../shared/models/championship-match.model';
 import { ChampionshipMatchService } from '../shared/championship-match.service';
 import { environment }              from '../../../environments/environment';
+import { TitleService }             from '../../core/title.service';
 
 @Component({
   selector: 'app-championship-results',
@@ -12,7 +13,8 @@ import { environment }              from '../../../environments/environment';
 export class ChampionshipResultsComponent implements OnInit {
 
     constructor(
-        private championshipMatchService: ChampionshipMatchService
+        private championshipMatchService: ChampionshipMatchService,
+        private titleService: TitleService
     ) { }
 
     championshipMatches: ChampionshipMatch[];
@@ -20,6 +22,7 @@ export class ChampionshipResultsComponent implements OnInit {
     errorChampionshipMatches: string;
 
     ngOnInit() {
+        this.titleService.setTitle('Результати матчів - Чемпіонат');
         let param = [{parameter: 'filter', value: 'ended'}];
         this.championshipMatchService.getChampionshipMatches(param).subscribe(
             response => {

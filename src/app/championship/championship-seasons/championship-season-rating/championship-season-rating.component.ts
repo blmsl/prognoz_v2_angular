@@ -7,6 +7,7 @@ import { ChampionshipRating }           from '../../../shared/models/championshi
 import { ChampionshipRatingService }    from '../../shared/championship-rating.service';
 import { CurrentStateService }          from '../../../core/current-state.service';
 import { User }                         from '../../../shared/models/user.model';
+import { TitleService }                 from '../../../core/title.service';
 
 @Component({
   selector: 'app-championship-season-rating',
@@ -19,7 +20,8 @@ export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private championshipRatingService: ChampionshipRatingService,
-        private currentStateService: CurrentStateService
+        private currentStateService: CurrentStateService,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -38,6 +40,7 @@ export class ChampionshipSeasonRatingComponent implements OnInit, OnDestroy {
             this.authenticatedUser = response;
         });
         this.activatedRoute.params.forEach((params: Params) => {
+            this.titleService.setTitle(`Рейтинг гравців в сезоні ${params['id']} - Чемпіонат`);
             let param = [{parameter: 'season_id', value: <string>params['id']}];
             this.championshipRatingService.getChampionshipRatingItems(param).subscribe(
                 response => {

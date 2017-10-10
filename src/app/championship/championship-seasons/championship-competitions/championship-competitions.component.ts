@@ -4,6 +4,7 @@ import { ActivatedRoute, Params }   from '@angular/router';
 import { Competition }              from '../../../shared/models/competition.model';
 import { CompetitionService }       from '../../../manage/manage-competition/shared/competition.service';
 import { environment }              from '../../../../environments/environment';
+import { TitleService }             from '../../../core/title.service';
 
 @Component({
   selector: 'app-championship-competitions',
@@ -14,7 +15,8 @@ export class ChampionshipCompetitionsComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private competitionService: CompetitionService
+        private competitionService: CompetitionService,
+        private titleService: TitleService
     ) { }
 
     competitions: Competition[];
@@ -22,6 +24,7 @@ export class ChampionshipCompetitionsComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
+            this.titleService.setTitle(`Конкурси сезону ${params['id']} - Чемпіонат`);
             this.competitionService.getCompetitions(null, environment.tournaments.championship.id, params['id'])
                 .subscribe(
                     response => {

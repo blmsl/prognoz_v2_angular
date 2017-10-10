@@ -2,6 +2,7 @@ import { Component, OnInit }   from '@angular/core';
 
 import { Season }              from '../../shared/models/season.model';
 import { SeasonService }       from '../../manage/manage-season/shared/season.service';
+import { TitleService }        from '../../core/title.service';
 
 @Component({
   selector: 'app-championship-seasons',
@@ -11,13 +12,15 @@ import { SeasonService }       from '../../manage/manage-season/shared/season.se
 export class ChampionshipSeasonsComponent implements OnInit {
 
     constructor(
-        private seasonService: SeasonService
+        private seasonService: SeasonService,
+        private titleService: TitleService
     ) { }
 
     errorSeasons: string | Array<string>;
     seasons: Season[];
 
     ngOnInit() {
+        this.titleService.setTitle('Архів конкурсів - Чемпіонат');
         this.seasonService.getSeasons().subscribe(
             response => {
                 if (response) {

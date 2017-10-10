@@ -9,6 +9,7 @@ import { CurrentStateService }          from '../../core/current-state.service';
 import { environment }                  from '../../../environments/environment';
 import { TeamTeamMatch }                from '../../shared/models/team-team-match.model';
 import { TeamTeamMatchService }         from '../shared/team-team-match.service';
+import { TitleService }                 from '../../core/title.service';
 import { User }                         from '../../shared/models/user.model';
 
 @Component({
@@ -24,6 +25,7 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
         private competitionService: CompetitionService,
         private currentStateService: CurrentStateService,
         private teamTeamMatchService: TeamTeamMatchService,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -50,6 +52,7 @@ export class TeamMatchesComponent implements OnInit, OnDestroy {
 
         this.activatedRoute.params.subscribe((params: Params) => {
             this.round = params['round'] || null;
+            this.titleService.setTitle(`Матчі ${this.round ? this.round + ' туру' : 'поточного туру'} - Командний`);
             if (!params['round']) {
                 this.getCompetitionData();
             } else {

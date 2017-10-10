@@ -5,6 +5,7 @@ import { Router }                               from '@angular/router';
 import { AuthService }                          from '../../core/auth.service';
 import { CurrentStateService }                  from '../../core/current-state.service';
 import { NotificationsService }                 from 'angular2-notifications';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -18,7 +19,8 @@ export class AuthSigninComponent implements OnInit {
         private authService: AuthService,
         private currentStateService: CurrentStateService,
         private notificationService: NotificationsService,
-        private router: Router
+        private router: Router,
+        private titleService: TitleService
     ) { }
 
     signInForm: FormGroup;
@@ -26,6 +28,7 @@ export class AuthSigninComponent implements OnInit {
     user: User = this.currentStateService.user;
 
     ngOnInit() {
+        this.titleService.setTitle('Вхід');
         this.authService.getUser.subscribe(response => this.user = response);
         this.signInForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3)]),

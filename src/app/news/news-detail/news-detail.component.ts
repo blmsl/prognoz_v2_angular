@@ -12,6 +12,7 @@ import { environment }                          from '../../../environments/envi
 import { NotificationsService }                 from 'angular2-notifications';
 import { News }                                 from '../../shared/models/news.model';
 import { NewsService }                          from '../shared/news.service';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -32,6 +33,7 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
         private location: Location,
         private notificationService: NotificationsService,
         private newsService: NewsService,
+        private titleService: TitleService
     ) {}
 
     addCommentForm: FormGroup;
@@ -73,6 +75,7 @@ export class NewsDetailComponent implements OnInit, OnDestroy {
                 response => {
                     if (response) {
                         this.news = response;
+                        this.titleService.setTitle(this.news.title);
                         let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
                         this.addCommentForm.patchValue({news_id: this.news.id, user_id: userId});
                     }

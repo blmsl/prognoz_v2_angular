@@ -5,6 +5,7 @@ import { ChampionshipMatchService } from '../championship/shared/championship-ma
 import { environment }              from '../../environments/environment';
 import { News }                     from '../shared/models/news.model';
 import { NewsService }              from '../news/shared/news.service';
+import { TitleService }             from '../core/title.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private championshipMatchService: ChampionshipMatchService,
-        private newsService: NewsService
+        private newsService: NewsService,
+        private titleService: TitleService
     ) { }
 
     championshipMatches: ChampionshipMatch[];
@@ -27,6 +29,7 @@ export class HomeComponent implements OnInit {
     newsImagesUrl: string = environment.apiImageNews;
 
     ngOnInit() {
+        this.titleService.setTitle('Prognoz.org.ua - конкурси футбольних прогнозів, прогнози на топ-матчі, чемпіонати прогнозистів');
         this.getNewsData();
         this.getMatchesData();
     }

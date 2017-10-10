@@ -9,6 +9,7 @@ import { ChampionshipMatchService }       from '../shared/championship-match.ser
 import { CurrentStateService }            from '../../core/current-state.service';
 import { environment }                    from '../../../environments/environment';
 import { HelperService }                  from '../../core/helper.service';
+import { TitleService }                   from '../../core/title.service';
 import { User }                           from '../../shared/models/user.model';
 
 @Component({
@@ -24,7 +25,8 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
         private championshipMatchService: ChampionshipMatchService,
         private currentStateService: CurrentStateService,
         public helperService: HelperService,
-        private location: Location
+        private location: Location,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -83,8 +85,15 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
             .subscribe(
                 response => {
                     this.resetChampionshipMatchData();
+                    this.titleService.setTitle(`${response.championship_match.club_first.title} vs
+                        ${response.championship_match.club_second.title}
+                        ${response.championship_match.starts_at.slice(0, -3)} - Чемпіонат`);
                     this.championshipMatch = response.championship_match;
-                    this.resultChartLabels = [response.championship_match.club_first.title, response.championship_match.club_second.title, 'Нічия'];
+                    this.resultChartLabels = [
+                        response.championship_match.club_first.title,
+                        response.championship_match.club_second.title,
+                        'Нічия'
+                    ];
                 },
                 error => {
                     this.resetChampionshipMatchData();

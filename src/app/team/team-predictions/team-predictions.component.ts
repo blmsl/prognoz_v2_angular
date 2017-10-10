@@ -10,6 +10,7 @@ import { TeamTeamMatch }                from '../../shared/models/team-team-matc
 import { TeamTeamMatchService }         from '../shared/team-team-match.service';
 import { TeamPrediction }               from '../../shared/models/team-prediction.model';
 import { TeamPredictionService }        from '../shared/team-prediction.service';
+import { TitleService }                 from '../../core/title.service';
 import { User }                         from '../../shared/models/user.model';
 
 @Component({
@@ -25,7 +26,8 @@ export class TeamPredictionsComponent implements OnInit, OnDestroy {
         private currentStateService: CurrentStateService,
         private teamMatchService: TeamMatchService,
         private teamTeamMatchService: TeamTeamMatchService,
-        private teamPredictionService: TeamPredictionService
+        private teamPredictionService: TeamPredictionService,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -87,6 +89,7 @@ export class TeamPredictionsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Зробити прогнози - Командний');
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
             this.resetTeamGoalkeeperData();

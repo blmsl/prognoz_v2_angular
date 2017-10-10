@@ -7,6 +7,7 @@ import { ChampionshipRating }            from '../../../../shared/models/champio
 import { ChampionshipRatingService }     from '../../../shared/championship-rating.service';
 import { environment }                   from '../../../../../environments/environment';
 import { HelperService }                 from '../../../../core/helper.service';
+import { TitleService }                  from '../../../../core/title.service';
 import { User }                          from '../../../../shared/models/user.model';
 import { UserService }                   from '../../../../core/user.service';
 
@@ -22,11 +23,13 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
         private championshipPredictionService: ChampionshipPredictionService,
         private championshipRatingService: ChampionshipRatingService,
         public helperService: HelperService,
+        private titleService: TitleService,
         private userService: UserService
     ) { }
 
     championshipPredictions: ChampionshipPrediction[];
     championshipRatingItem: ChampionshipRating;
+    competitionId: number;
     errorChampionshipPredictions: string;
     errorRating: string;
     errorUser: string;
@@ -36,6 +39,7 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
+            this.competitionId = params['competitionId'];
             this.getUserData(params['userId']);
             this.getChampionshipRatingItemData(params['userId'], params['competitionId']);
             this.getChampionshipPredictionsData(params['userId'], params['competitionId']);
@@ -74,6 +78,8 @@ export class ChampionshipCompetitionUserComponent implements OnInit {
         this.userService.getUser(id).subscribe(
             response => {
                 this.user = response;
+                this.titleService.setTitle(`Прогнози ${this.user.name}
+                    ${this.helperService.getHometown(this.user.hometown)} в конкурсі ${this.competitionId} - Чемпіонат`);
             },
             error => {
                 this.errorUser = error;

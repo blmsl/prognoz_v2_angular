@@ -10,6 +10,7 @@ import { environment }                          from '../../../environments/envi
 import { GuestbookMessage }                     from '../../shared/models/guestbook-message.model';
 import { GuestbookService }                     from '../shared/guestbook.service';
 import { NotificationsService }                 from 'angular2-notifications';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -26,7 +27,8 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         private domSanitizer: DomSanitizer,
         private formBuilder: FormBuilder,
         private guestbookService: GuestbookService,
-        private notificationService: NotificationsService
+        private notificationService: NotificationsService,
+        private titleService: TitleService
     ) { }
 
     addGuestbookMessageForm: FormGroup;
@@ -54,6 +56,7 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Гостьова');
         this.addGuestbookMessageForm = this.formBuilder.group({
             user_id: ['', [Validators.required]],
             body: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]]
@@ -86,6 +89,7 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
 
     private getGuestbookMessagesData() {
         this.activatedRoute.params.subscribe((params: Params) => {
+            this.titleService.setTitle(`Гостьова${params['number'] ? ', сторінка ' + params['number'] : ''}`);
             this.guestbookService.getGuestbookMessages(params['number']).subscribe(
                 response => {
                     if (response) {

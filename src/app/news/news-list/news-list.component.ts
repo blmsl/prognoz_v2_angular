@@ -4,6 +4,7 @@ import { ActivatedRoute, Params }           from '@angular/router';
 import { environment }                      from '../../../environments/environment';
 import { News }                             from '../../shared/models/news.model';
 import { NewsService }                      from '../shared/news.service';
+import { TitleService }                     from '../../core/title.service';
 
 @Component({
   selector: 'app-news-list',
@@ -15,7 +16,8 @@ export class NewsListComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private newsService: NewsService
+        private newsService: NewsService,
+        private titleService: TitleService
     ) { }
 
     currentPage: number;
@@ -29,6 +31,7 @@ export class NewsListComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
+            this.titleService.setTitle(`Новини${params['number'] ? ', сторінка ' + params['number'] : ''}`);
             this.newsService.getNews(params['number']).subscribe(
                 response => {
                     if (response) {

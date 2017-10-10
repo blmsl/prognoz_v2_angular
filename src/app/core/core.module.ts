@@ -15,6 +15,7 @@ import { ImageService }           from './image.service';
 import { PageNotFoundComponent }  from './page-not-found/page-not-found.component';
 import { SharedModule }           from '../shared/shared.module';
 import { throwIfAlreadyLoaded }   from './module-import-guard';
+import { TitleService }           from './title.service';
 import { UserService }            from './user.service';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { UserService }            from './user.service';
         HeadersWithToken,
         HelperService,
         ImageService,
+        TitleService,
         UserService,
     ],
 })

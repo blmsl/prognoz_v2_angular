@@ -7,6 +7,7 @@ import { ChampionshipRating }                   from '../../shared/models/champi
 import { ChampionshipRatingService }            from '../shared/championship-rating.service';
 import { environment }                          from '../../../environments/environment';
 import { HelperService }                        from '../../core/helper.service';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 import { UserService }                          from '../../core/user.service';
 
@@ -22,6 +23,7 @@ export class ChampionshipUserComponent implements OnInit {
         private championshipPredictionService: ChampionshipPredictionService,
         private championshipRatingService: ChampionshipRatingService,
         public helperService: HelperService,
+        private titleService: TitleService,
         private userService: UserService
     ) { }
 
@@ -72,6 +74,8 @@ export class ChampionshipUserComponent implements OnInit {
         this.userService.getUser(id).subscribe(
             response => {
                 this.user = response;
+                this.titleService.setTitle(`Прогнози ${this.user.name}
+                    ${this.helperService.getHometown(this.user.hometown)} - Чемпіонат`);
             },
             error => {
                 this.errorUser = error;

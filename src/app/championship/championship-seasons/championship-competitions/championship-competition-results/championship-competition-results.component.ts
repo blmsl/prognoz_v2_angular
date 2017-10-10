@@ -3,6 +3,7 @@ import { ActivatedRoute, Params }   from '@angular/router';
 
 import { ChampionshipMatch }        from '../../../../shared/models/championship-match.model';
 import { ChampionshipMatchService } from '../../../shared/championship-match.service';
+import { TitleService }             from '../../../../core/title.service';
 
 @Component({
   selector: 'app-championship-competition-results',
@@ -13,7 +14,8 @@ export class ChampionshipCompetitionResultsComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private championshipMatchService: ChampionshipMatchService
+        private championshipMatchService: ChampionshipMatchService,
+        private titleService: TitleService
     ) { }
 
     championshipMatches: ChampionshipMatch[];
@@ -21,6 +23,7 @@ export class ChampionshipCompetitionResultsComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.params.forEach((params: Params) => {
+            this.titleService.setTitle(`Результати матчів в конкурсі ${params['competitionId']} - Чемпіонат`);
             let param = [
                 {parameter: 'filter', value: 'ended'},
                 {parameter: 'competition_id', value: params['competitionId']},

@@ -5,6 +5,7 @@ import { Router }                               from '@angular/router';
 import { AuthService }                          from '../../core/auth.service';
 import { CurrentStateService }                  from '../../core/current-state.service';
 import { NotificationsService }                 from 'angular2-notifications';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -18,7 +19,8 @@ export class AuthSignupComponent implements OnInit {
         private authService: AuthService,
         private currentStateService: CurrentStateService,
         private notificationService: NotificationsService,
-        private router: Router
+        private router: Router,
+        private titleService: TitleService
     ) { }
 
     captchaValidity: boolean = false;
@@ -27,6 +29,7 @@ export class AuthSignupComponent implements OnInit {
     user: User = this.currentStateService.user;
 
     ngOnInit() {
+        this.titleService.setTitle('Реєстрація');
         this.authService.getUser.subscribe(response => this.user = response);
         let emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
         this.signUpForm = new FormGroup({

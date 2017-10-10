@@ -6,6 +6,7 @@ import { AuthService }                  from '../../../../core/auth.service';
 import { ChampionshipRating }           from '../../../../shared/models/championship-rating.model';
 import { ChampionshipRatingService }    from '../../../shared/championship-rating.service';
 import { CurrentStateService }          from '../../../../core/current-state.service';
+import { TitleService }                 from '../../../../core/title.service';
 import { User }                         from '../../../../shared/models/user.model';
 
 @Component({
@@ -19,7 +20,8 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private championshipRatingService: ChampionshipRatingService,
-        private currentStateService: CurrentStateService
+        private currentStateService: CurrentStateService,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -38,6 +40,7 @@ export class ChampionshipCompetitionRatingComponent implements OnInit, OnDestroy
             this.authenticatedUser = response;
         });
         this.activatedRoute.params.forEach((params: Params) => {
+            this.titleService.setTitle(`Рейтинг гравців в конкурсі ${params['competitionId']} - Чемпіонат`);
             let param = [{parameter: 'competition_id', value: <string>params['competitionId']}];
             this.championshipRatingService.getChampionshipRatingItems(param).subscribe(
                 response => {

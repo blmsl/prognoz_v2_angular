@@ -13,6 +13,7 @@ import { CurrentStateService }                  from '../../core/current-state.s
 import { environment }                          from '../../../environments/environment';
 import { HelperService }                        from '../../core/helper.service';
 import { NotificationsService }                 from 'angular2-notifications';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 @Component({
@@ -30,6 +31,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
         private currentStateService: CurrentStateService,
         public helperService: HelperService,
         private notificationService: NotificationsService,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -113,6 +115,7 @@ export class ChampionshipHomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Найближчі матчі, останні прогнози і топ-рейтингу - Чемпіонат');
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
             this.getChampionshipMatchesData();

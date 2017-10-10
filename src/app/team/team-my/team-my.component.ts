@@ -10,6 +10,7 @@ import { Team }                                 from '../../shared/models/team.m
 import { TeamService }                          from '../shared/team.service';
 import { TeamTeamMatch }                        from '../../shared/models/team-team-match.model';
 import { TeamTeamMatchService }                 from '../shared/team-team-match.service';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 declare var $: any;
@@ -27,7 +28,8 @@ export class TeamMyComponent implements OnInit, OnDestroy {
         private currentStateService: CurrentStateService,
         private notificationsService: NotificationsService,
         private teamService: TeamService,
-        private teamTeamMatchService: TeamTeamMatchService
+        private teamTeamMatchService: TeamTeamMatchService,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -69,6 +71,7 @@ export class TeamMyComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Вибір статегії і воротаря - Командний');
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
             if (response) {

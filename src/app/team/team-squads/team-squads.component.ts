@@ -12,6 +12,7 @@ import { Team }                                 from '../../shared/models/team.m
 import { TeamService }                          from '../shared/team.service';
 import { TeamParticipant }                      from '../../shared/models/team-participant.model';
 import { TeamParticipantService }               from '../shared/team-participant.service';
+import { TitleService }                         from '../../core/title.service';
 import { User }                                 from '../../shared/models/user.model';
 
 declare var $: any;
@@ -29,7 +30,8 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         private currentStateService: CurrentStateService,
         private notificationsService: NotificationsService,
         private teamService: TeamService,
-        private teamParticipantService: TeamParticipantService
+        private teamParticipantService: TeamParticipantService,
+        private titleService: TitleService
     ) { }
 
     alreadyJoined: boolean = false;
@@ -200,6 +202,7 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Заявки на участь / склади команд - Командний');
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
             this.getCompetitionData();

@@ -7,6 +7,7 @@ import { TeamRating }                   from '../../shared/models/team-rating.mo
 import { TeamRatingUser }               from '../../shared/models/team-rating-user.model';
 import { TeamRatingService }            from '../shared/team-rating.service';
 import { TeamRatingUserService }        from '../shared/team-rating-user.service';
+import { TitleService }                 from '../../core/title.service';
 import { User }                         from '../../shared/models/user.model';
 
 @Component({
@@ -20,7 +21,8 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
         private authService: AuthService,
         private currentStateService: CurrentStateService,
         private teamRatingService: TeamRatingService,
-        private teamRatingUserService: TeamRatingUserService
+        private teamRatingUserService: TeamRatingUserService,
+        private titleService: TitleService
     ) { }
 
     authenticatedUser: User = this.currentStateService.user;
@@ -37,6 +39,7 @@ export class TeamRatingComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Рейтинг команд, бомбардирів і воротарів - Командний');
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
         });
