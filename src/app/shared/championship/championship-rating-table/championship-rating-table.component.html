@@ -12,11 +12,11 @@
                 <i class="fa fa-arrow-circle-up text-success" aria-hidden="true"></i>
             </th>
             <th class="text-left" title="Ім'я гравця">Ім'я</th>
-            <th class="text-center hidden-xs-down" title="2 очки">x2</th>
+            <th class="text-center d-none d-sm-block" title="2 очки">x2</th>
             <th class="text-center" title="3 очки">x3</th>
             <th class="text-center" title="Сумарна кількість очок">
-                <span class="hidden-sm-up">О</span>
-                <span class="hidden-xs-down">Очки</span>
+                <span class="d-sm-none">О</span>
+                <span class="d-none d-sm-block">Очки</span>
             </th>
         </tr>
     </thead>
@@ -42,9 +42,9 @@
             </td>
             <td class="text-left">
                 <strong>{{ratingItem.user.name}}</strong>
-                <span class="hidden-xs-down">{{helperService.getHometown(ratingItem.user.hometown)}}</span>
+                <span class="d-none d-sm-block">{{helperService.getHometown(ratingItem.user.hometown)}}</span>
             </td>
-            <td class="text-center hidden-xs-down">{{ratingItem.x2}}</td>
+            <td class="text-center d-none d-sm-block">{{ratingItem.x2}}</td>
             <td class="text-center">{{ratingItem.x3}}</td>
             <td class="text-center"><strong>{{ratingItem.points}}</strong></td>
         </tr>

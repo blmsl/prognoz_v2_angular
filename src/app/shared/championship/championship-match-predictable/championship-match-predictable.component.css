@@ -2,3 +2,8 @@
     width: 50px;
     font-weight: bold;
 }
+.collapse-expand-indicator {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+}

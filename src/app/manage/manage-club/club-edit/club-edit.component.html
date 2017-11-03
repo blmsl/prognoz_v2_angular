@@ -10,8 +10,8 @@
     <div *ngIf="club && clubs" class="row">
         <!-- left column(current club data) -->
         <div class="col-12 col-lg-6">
-            <div class="card card-inverse">
-                <h5 class="card-header card-inverse">
+            <div class="card bg-dark text-white">
+                <h5 class="card-header">
                     Інформація про команду
                 </h5>
                 <br>
@@ -23,7 +23,7 @@
                         <img class="card-img-top img-fluid" src="{{clubImagesUrl}}{{club.parent.image}}" alt="{{club.parent.title}}" title="{{club.parent.title}}">
                     </div>
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     <div class="card-title"><small class="text-muted">Ім'я: </small>{{club.title}}</div>
                     <div class="card-title"><small class="text-muted">Name: </small>{{club.link}}</div>
                     <div class="card-title"><small class="text-muted">Створено: </small>{{club.created_at}}</div>
@@ -34,7 +34,7 @@
         </div>
         <!-- right column (form) -->
         <div class="col-12 col-lg-6 text-white">
-            <form novalidate [formGroup]="clubEditForm" (ngSubmit)="onSubmit(clubEditForm)" class="bg-inverse p-2 rounded">
+            <form novalidate [formGroup]="clubEditForm" (ngSubmit)="onSubmit(clubEditForm)" class="bg-dark p-2 rounded">
                 <input type="hidden" formControlName="id">
                 <!-- title -->
                 <div class="form-group"

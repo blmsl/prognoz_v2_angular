@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -10,16 +11,16 @@ export class ErrorHandlerService {
      * @param error
      * @returns {any}
      */
-    handle(error: Response | any) {
+    handle(error: HttpErrorResponse | any) {
         let errorObject: any;
-        let errorMessage: Array<any> = [];
-        if (error instanceof Response) {
+        const errorMessage: Array<any> = [];
+        if (error instanceof HttpErrorResponse) {
             if (error.status !== 422) {
-                const body = error.json() || '';
-                const err = body.message || JSON.stringify(body);
+                const errorJson = JSON.parse(error.error);
+                const err = errorJson.message || JSON.stringify(errorJson);
                 errorMessage.push(`${error.status} - ${err}`);
             } else {
-                errorObject = error.json();
+                errorObject = JSON.parse(error.error);
                 Object.keys(errorObject.errors).forEach(function(key) {
                     errorMessage.push(errorObject.errors[key]);
                 });

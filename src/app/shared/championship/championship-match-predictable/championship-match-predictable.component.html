@@ -1,18 +1,13 @@
 <!-- one match row (if user not authenticated)-->
 <div *ngIf="match && !authenticatedUser"
-     class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
-     data-toggle="collapse"
-     [attr.data-target]="'#collapseMatch' + match.id"
-     aria-expanded="false"
-     [attr.aria-controls]="'collapseMatch' + match.id"
-     (click)="getChampionshipMatchStatisticData(match)">
+     class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border position-relative">
     <!-- home club logo -->
-    <div class="hidden-sm-down col-md-2">
+    <div class="d-none d-md-block col-md-2">
         <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}"
              title="{{match.club_first.title}}">
     </div>
     <!-- club names, starts_at -->
-    <div class="col-12 col-md-8 bg-inverse rounded">
+    <div class="col-12 col-md-8 bg-dark rounded">
         <div class="row">
             <div class="col-12 text-center text-white">
                 {{match.starts_at}}
@@ -29,7 +24,7 @@
                 <strong>{{match.club_second.title}}</strong>
             </div>
             <!-- expandable statistic -->
-            <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
+            <div class="collapse col-12 mb-2" [attr.id]="'collapseMatch' + match.id" [ngbCollapse]="isCollapsed">
                 <div class="card text-center">
                     <div class="card-header">
                         Статистика
@@ -37,8 +32,7 @@
                     <!-- error statistic -->
                     <app-error *ngIf="errorStatistic" [message]="errorStatistic"></app-error>
                     <!-- statistic -->
-                    <div *ngIf="statistic && !spinnerStatistic"
-                         class="card-block bg-white">
+                    <div *ngIf="statistic" class="card-body bg-white">
                         <div class="col-12">
                             <canvas baseChart
                                     [data]="resultChartData"
@@ -52,27 +46,42 @@
         </div>
     </div>
     <!-- away club logo -->
-    <div class="hidden-sm-down col-md-2">
+    <div class="d-none d-md-block col-md-2">
         <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}"
              title="{{match.club_second.title}}">
+    </div>
+    <!-- expand-collapse indicator -->
+    <div class="collapse-expand-indicator cursor-pointer"
+         [attr.aria-controls]="'collapseMatch' + match.id"
+         (click)="getChampionshipMatchStatisticData(match)">
+        <span [hidden]="!isCollapsed || spinnerStatistic" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse" aria-hidden="true"></i>
+            <i class="fa fa-circle-o fa-stack-2x" aria-hidden="true"></i>
+            <i class="fa fa-chevron-down fa-stack-1x" aria-hidden="true"></i>
+        </span>
+        <span [hidden]="isCollapsed || spinnerStatistic" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse" aria-hidden="true"></i>
+            <i class="fa fa-circle-o fa-stack-2x" aria-hidden="true"></i>
+            <i class="fa fa-chevron-up fa-stack-1x" aria-hidden="true"></i>
+        </span>
+        <span [hidden]="!spinnerStatistic" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse" aria-hidden="true"></i>
+            <i class="fa fa-circle-o fa-stack-2x" aria-hidden="true"></i>
+            <i class="fa fa-spinner fa-spin fa-stack-1x" aria-hidden="true"></i>
+        </span>
     </div>
 </div>
 <!-- one match row (if user is authenticated)-->
 <div *ngIf="match && authenticatedUser && match.championship_predicts"
-     class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border cursor-pointer"
+     class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border position-relative"
      [ngClass]="{'green-inset-and-black-shadow': match.championship_predicts[0],
-                 'red-inset-and-black-shadow': !match.championship_predicts[0]}"
-     data-toggle="collapse"
-     [attr.data-target]="'#collapseMatch' + match.id"
-     aria-expanded="false"
-     [attr.aria-controls]="'collapseMatch' + match.id"
-     (click)="getChampionshipMatchStatisticData(match)">
+                 'red-inset-and-black-shadow': !match.championship_predicts[0]}">
     <!-- home club logo -->
-    <div class="hidden-md-down col-md-2">
+    <div class="d-none d-lg-block col-md-2">
         <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
     </div>
     <!-- club names, starts_at, inputs -->
-    <div class="col-12 col-md-12 col-lg-8 bg-inverse rounded"
+    <div class="col-12 col-md-12 col-lg-8 bg-dark rounded"
          [ngClass]="{'green-shadow': match.championship_predicts[0],
                      'red-shadow': !match.championship_predicts[0]}"
          [formGroup]="championshipPredictsForm">
@@ -82,10 +91,11 @@
             </div>
         </div>
         <div class="row align-items-center">
-            <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-right text-sm-center text-white">
+            <div class="col-6 col-sm-3 col-lg-4 order-1 order-sm-1 text-right text-sm-center text-white">
                 <strong><label [attr.for]="match.id + '_home'">{{match.club_first.title}}</label></strong>
             </div>
-            <div class="col-12 col-sm-4 col-md-6 col-lg-4 flex-last flex-sm-unordered text-center text-white mb-2" (click)="onClick($event)">
+            <div class="col-12 col-sm-6 col-lg-4 order-3 order-sm-2 text-center text-white mb-2" (click)="onClick($event)">
+                <img class="small-image d-lg-none" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
                 <input [attr.id]="match.id + '_home'"
                        type="number"
                        min="0"
@@ -98,12 +108,13 @@
                       max="9"
                       class="predict-input"
                       [formControlName]="match.id + '_away'">
+                <img class="small-image d-lg-none" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
             </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-4 flex-unordered flex-sm-unordered text-left text-sm-center text-white">
+            <div class="col-6 col-sm-3 col-lg-4 order-2 order-sm-3 text-left text-sm-center text-white">
                 <strong><label [attr.for]="match.id + '_away'">{{match.club_second.title}}</label></strong>
             </div>
             <!-- expandable statistic -->
-            <div class="collapse col-12 mb-2" id="{{'collapseMatch' + match.id}}">
+            <div class="collapse col-12 mb-2 order-4" [attr.id]="'collapseMatch' + match.id" [ngbCollapse]="isCollapsed">
                 <div class="card text-center">
                     <div class="card-header">
                         Статистика
@@ -111,7 +122,7 @@
                     <!-- error statistic -->
                     <app-error *ngIf="errorStatistic" [message]="errorStatistic"></app-error>
                     <!-- statistic -->
-                    <div *ngIf="statistic && match" class="card-block bg-white">
+                    <div *ngIf="statistic" class="card-body bg-white">
                         <div class="col-12">
                             <canvas baseChart
                                     [data]="resultChartData"
@@ -125,7 +136,27 @@
         </div>
     </div>
     <!-- away club logo -->
-    <div class="hidden-md-down col-md-2">
+    <div class="d-none d-lg-block col-md-2">
         <img class="img-fluid" src="{{clubsImagesUrl}}{{match.club_second.image}}" alt="{{match.club_second.title}}" title="{{match.club_second.title}}">
+    </div>
+    <!-- expand-collapse indicator -->
+    <div class="collapse-expand-indicator cursor-pointer"
+         [attr.aria-controls]="'collapseMatch' + match.id"
+         (click)="getChampionshipMatchStatisticData(match)">
+        <span [hidden]="!isCollapsed || spinnerStatistic" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse" aria-hidden="true"></i>
+            <i class="fa fa-circle-o fa-stack-2x" aria-hidden="true"></i>
+            <i class="fa fa-chevron-down fa-stack-1x" aria-hidden="true"></i>
+        </span>
+        <span [hidden]="isCollapsed || spinnerStatistic" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse" aria-hidden="true"></i>
+            <i class="fa fa-circle-o fa-stack-2x" aria-hidden="true"></i>
+            <i class="fa fa-chevron-up fa-stack-1x" aria-hidden="true"></i>
+        </span>
+        <span [hidden]="!spinnerStatistic" class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse" aria-hidden="true"></i>
+            <i class="fa fa-circle-o fa-stack-2x" aria-hidden="true"></i>
+            <i class="fa fa-spinner fa-spin fa-stack-1x" aria-hidden="true"></i>
+        </span>
     </div>
 </div>

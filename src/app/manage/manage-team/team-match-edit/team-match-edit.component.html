@@ -12,28 +12,28 @@
             <table class="table table-hover table-bordered black-border">
                 <thead>
                     <tr>
-                        <th class="hidden-sm-down text-center" title="Номер матчу/номер в раунді">№</th>
-                        <th class="hidden-sm-down text-center">Матч</th>
+                        <th class="d-none d-md-block text-center" title="Номер матчу/номер в раунді">№</th>
+                        <th class="d-none d-md-block text-center">Матч</th>
                         <th colspan="2" class="text-center">Результати</th>
                         <th class="text-center">
-                            <span class="hidden-sm-down">Додати</span>
-                            <i class="fa fa-plus-circle hidden-md-up" aria-hidden="true"></i>
+                            <span class="d-none d-md-block">Додати</span>
+                            <i class="fa fa-plus-circle d-md-none" aria-hidden="true"></i>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let teamMatch of teamMatches" [ngClass]="{'bg-success': updatedMatches['match_' + teamMatch.id]}">
-                        <th scope="row" class="hidden-sm-down align-middle text-center">
+                        <th scope="row" class="d-none d-md-block align-middle text-center">
                             <strong>{{teamMatch.id + '/' + teamMatch.number_in_round}}</strong>
                         </th>
-                        <td class="hidden-sm-down">
+                        <td class="d-none d-md-block">
                             <img class="small-image" src="{{clubsImagesUrl}}{{teamMatch.club_first.image}}" alt="{{teamMatch.club_first.link}}">
                             <small class="text-muted">{{teamMatch.starts_at}}</small>
                             <img class="small-image" src="{{clubsImagesUrl}}{{teamMatch.club_second.image}}" alt="{{teamMatch.club_second.link}}"><br>
                             <strong>{{teamMatch.club_first.title}}</strong> - <strong>{{teamMatch.club_second.title}}</strong>
                         </td>
                         <td class="align-middle text-center">
-                            <div class="hidden-md-up">
+                            <div class="d-md-none">
                                 <img class="small-image" src="{{clubsImagesUrl}}{{teamMatch.club_first.image}}" alt="{{teamMatch.club_first.link}}"><br>
                                 <small>{{teamMatch.club_first.title}}</small>
                             </div>
@@ -46,7 +46,7 @@
                                    [(ngModel)]="teamMatch.home">
                         </td>
                         <td class="align-middle text-center">
-                            <div class="hidden-md-up">
+                            <div class="d-md-none">
                                 <img class="small-image" src="{{clubsImagesUrl}}{{teamMatch.club_second.image}}" alt="{{teamMatch.club_second.link}}"><br>
                                 <small>{{teamMatch.club_second.title}}</small>
                             </div>
@@ -62,8 +62,8 @@
                             <button (click)="onSubmit(teamMatch)"
                                     [hidden]="spinnerButton['match_' + teamMatch.id] || updatedMatches['match_' + teamMatch.id]"
                                     class="btn btn-outline-success">
-                                <span class="hidden-sm-down">Додати</span>
-                                <i class="fa fa-plus-circle hidden-md-up" aria-hidden="true"></i>
+                                <span class="d-none d-md-block">Додати</span>
+                                <i class="fa fa-plus-circle d-md-none" aria-hidden="true"></i>
                             </button>
                             <app-spinner-button [hidden]="!spinnerButton['match_' + teamMatch.id]"></app-spinner-button>
                             <i [hidden]="!updatedMatches['match_' + teamMatch.id]" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>

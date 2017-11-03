@@ -14,7 +14,7 @@
                 <div class="card mb-sm-2 black-shadow">
                     <h4 class="card-header">{{news.title}}</h4>
                     <img class="card-img-top img-fluid p-sm-2" src="{{newsImagesUrl}}{{news.image}}" alt="{{news.title}}">
-                    <div class="card-block">
+                    <div class="card-body">
                         <p class="card-text">Категорія: {{news.tournament ? news.tournament.title : 'Робота сайту'}}</p>
                         <p class="card-text">{{news.body}}</p>
                     </div>
@@ -28,7 +28,7 @@
         <div *ngIf="news.comments && news.comments.length" class="row">
             <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
                 <div *ngFor="let comment of news.comments" class="card mb-sm-2 black-shadow">
-                    <div class="card-block">
+                    <div class="card-body">
                         <div class="h4 card-title">
                             <img class="rounded small-image" src="{{userImagesUrl}}{{comment.user.image || userImageDefault}}" alt="{{comment.user.name}}">
                             {{comment.user.name}}
@@ -44,7 +44,7 @@
         <!-- form for adding comments -->
         <div *ngIf="authenticatedUser && news" class="row">
             <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 text-white">
-                <form [formGroup]="addCommentForm" (ngSubmit)="onSubmit(addCommentForm.value)" novalidate class="bg-inverse p-2 rounded">
+                <form [formGroup]="addCommentForm" (ngSubmit)="onSubmit(addCommentForm.value)" novalidate class="bg-dark p-2 rounded">
                     <input type="hidden" name="user_id" formControlName="user_id">
                     <input type="hidden" name="news_id" formControlName="news_id">
                     <div class="form-group"

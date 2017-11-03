@@ -12,27 +12,27 @@
             <table class="table table-inverse">
                 <thead>
                     <tr>
-                        <th class="hidden-md-down">#</th>
+                        <th class="d-none d-lg-block">#</th>
                         <th class="text-center">Назва</th>
                         <th class="text-center" title="Активний">
-                            <span class="hidden-md-down">Активний</span>
-                            <i class="hidden-lg-up fa fa-hourglass-half" aria-hidden="true"></i>
+                            <span class="d-none d-lg-block">Активний</span>
+                            <i class="d-lg-none fa fa-hourglass-half" aria-hidden="true"></i>
                         </th>
                         <th class="text-center" title="Завершений">
-                            <span class="hidden-md-down">Завершений</span>
-                            <i class="hidden-lg-up fa fa-hourglass-end" aria-hidden="true"></i>
+                            <span class="d-none d-lg-block">Завершений</span>
+                            <i class="d-lg-none fa fa-hourglass-end" aria-hidden="true"></i>
                         </th>
-                        <th class="hidden-xs-down text-center">Змінено</th>
-                        <th class="hidden-xs-down text-center">Створено</th>
+                        <th class="d-none d-sm-block text-center">Змінено</th>
+                        <th class="d-none d-sm-block text-center">Створено</th>
                         <th class="text-center" title="Змінити">
-                            <span class="hidden-md-down">Змінити</span>
-                            <i class="hidden-lg-up fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <span class="d-none d-lg-block">Змінити</span>
+                            <i class="d-lg-none fa fa-pencil-square-o" aria-hidden="true"></i>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let season of seasons">
-                        <th scope="row" class="hidden-md-down">{{season.id}}.</th>
+                        <th scope="row" class="d-none d-lg-block">{{season.id}}.</th>
                         <td class="text-center"><strong>{{season.title}}</strong></td>
                         <td class="text-center">
                             <i *ngIf="season.active" class="text-success fa fa-check-circle fa-lg" aria-hidden="true"></i>
@@ -42,8 +42,8 @@
                             <i *ngIf="season.ended" class="text-success fa fa-check-circle fa-lg" aria-hidden="true"></i>
                             <i *ngIf="!season.ended" class="text-danger fa fa-times fa-lg" aria-hidden="true"></i>
                         </td>
-                        <td class="hidden-xs-down text-center"><small>{{season.updated_at}}</small></td>
-                        <td class="hidden-xs-down text-center"><small>{{season.created_at}}</small></td>
+                        <td class="d-none d-sm-block text-center"><small>{{season.updated_at}}</small></td>
+                        <td class="d-none d-sm-block text-center"><small>{{season.created_at}}</small></td>
                         <td class="text-center">
                             <a type="button" routerLink="/manage/seasons/{{season.id}}/edit" class="btn btn-sm btn-outline-warning">
                                 <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>

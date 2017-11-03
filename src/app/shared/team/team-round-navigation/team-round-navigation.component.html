@@ -4,22 +4,22 @@
              class="card cursor-pointer full-height list-group-item-action"
              routerLink="{{path}}{{teamTeamMatches[0].round - 1}}"
              title="Попередній тур">
-            <div class="card-block text-center">
+            <div class="card-body text-center">
                 <div class="card-title mb-0">
                     <i class="fa fa-lg fa-chevron-circle-left" aria-hidden="true"></i>
-                    <span class="hidden-xs-down font-weight-bold">{{previousRound ? teamTeamMatches[0].round - 1 : ''}}</span>
+                    <span class="d-none d-sm-block font-weight-bold">{{previousRound ? teamTeamMatches[0].round - 1 : ''}}</span>
                 </div>
-                <small class="hidden-xs-down">Попередній</small>
+                <small class="d-none d-sm-block">Попередній</small>
             </div>
         </div>
     </div>
     <div class="col-6 col-md-6 col-lg-8">
         <div class="card full-height">
-            <div class="card-block text-center">
+            <div class="card-body text-center">
                 <h4 class="card-title mb-0">Тур {{teamTeamMatches[0].round}}</h4>
-                <small [hidden]="teamTeamMatches[0].ended || !teamTeamMatches[0].active" class="text-muted hidden-xs-down">Активний</small>
-                <small [hidden]="teamTeamMatches[0].active || !teamTeamMatches[0].ended" class="text-muted hidden-xs-down">Завершений</small>
-                <small [hidden]="teamTeamMatches[0].active || teamTeamMatches[0].ended" class="text-muted hidden-xs-down">Не початий</small>
+                <small [hidden]="teamTeamMatches[0].ended || !teamTeamMatches[0].active" class="text-muted d-none d-sm-block">Активний</small>
+                <small [hidden]="teamTeamMatches[0].active || !teamTeamMatches[0].ended" class="text-muted d-none d-sm-block">Завершений</small>
+                <small [hidden]="teamTeamMatches[0].active || teamTeamMatches[0].ended" class="text-muted d-none d-sm-block">Не початий</small>
             </div>
         </div>
     </div>
@@ -28,12 +28,12 @@
              class="card cursor-pointer full-height list-group-item-action"
              routerLink="{{path}}{{teamTeamMatches[0].round + 1}}"
              title="Наступний тур">
-            <div class="card-block text-center">
+            <div class="card-body text-center">
                 <div class="card-title mb-0">
-                    <span class="hidden-xs-down font-weight-bold">{{nextRound ? teamTeamMatches[0].round + 1 : ''}}</span>
+                    <span class="d-none d-sm-block font-weight-bold">{{nextRound ? teamTeamMatches[0].round + 1 : ''}}</span>
                     <i class="fa fa-lg fa-chevron-circle-right" aria-hidden="true"></i>
                 </div>
-                <small class="hidden-xs-down">Наступний</small>
+                <small class="d-none d-sm-block">Наступний</small>
             </div>
         </div>
     </div>

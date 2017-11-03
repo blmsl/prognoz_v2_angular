@@ -9,7 +9,7 @@
     <!-- news edit form -->
     <div *ngIf="news" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
-            <form novalidate [formGroup]="newsEditForm" (ngSubmit)="onSubmit(newsEditForm)" class="bg-inverse p-2 rounded">
+            <form novalidate [formGroup]="newsEditForm" (ngSubmit)="onSubmit(newsEditForm)" class="bg-dark p-2 rounded">
                 <input type="hidden" formControlName="id">
                 <!-- title -->
                 <div class="form-group"

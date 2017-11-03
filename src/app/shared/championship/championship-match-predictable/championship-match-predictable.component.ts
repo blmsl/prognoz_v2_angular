@@ -22,31 +22,34 @@ export class ChampionshipMatchPredictableComponent {
 
     clubsImagesUrl: string = environment.apiImageClubs;
     errorStatistic: string | Array<string>;
-    expandedStatistic: boolean = false;
+    isCollapsed = true;
     resultChartData: any;
     resultChartLabels: any;
     resultChartType: string = 'doughnut';
+    spinnerStatistic = false;
     statistic: any = false;
 
     getChampionshipMatchStatisticData(match: ChampionshipMatch) {
-          if (!this.expandedStatistic) {
-              this.expandedStatistic = true;
-              setTimeout(() =>
-                  this.championshipMatchService.getChampionshipMatch(match.id, [{parameter: 'statistic', value: 'true'}])
-                      .subscribe(
-                          response => {
-                              this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
-                              this.resultChartData = [response.results.home, response.results.away, response.results.draw];
-                              this.statistic = response;
-                          },
-                          error => {
-                              this.errorStatistic = error;
-                          }
-                      )
-              , 1000);
-          } else {
-              this.expandedStatistic = false;
-          }
+        if (this.isCollapsed) {
+            this.spinnerStatistic = true;
+            this.championshipMatchService.getChampionshipMatch(match.id, [{parameter: 'statistic', value: 'true'}])
+                .subscribe(
+                    response => {
+                        this.isCollapsed = !this.isCollapsed;
+                        this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
+                        this.resultChartData = [response.results.home, response.results.away, response.results.draw];
+                        this.statistic = response;
+                        this.spinnerStatistic = false;
+                    },
+                    error => {
+                        this.isCollapsed = !this.isCollapsed;
+                        this.errorStatistic = error;
+                        this.spinnerStatistic = false;
+                    }
+                );
+        } else {
+            this.isCollapsed = !this.isCollapsed;
+        }
     }
 
     onClick(e: Event) {

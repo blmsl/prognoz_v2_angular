@@ -33,8 +33,8 @@
             <tr *ngFor="let participant of team.team_participants; let i = index;">
                 <td *ngIf="i === 0" [attr.rowspan]="team.team_participants.length" class="p-2">
                     <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title hidden-xs-down">
+                        <div class="card-body">
+                            <h4 class="card-title d-none d-sm-block">
                                 {{team.name}}
                                 <span class="pull-right">
                                     {{numberOfConfirmedParticipants(team.team_participants)}}/4
@@ -43,21 +43,21 @@
                                     <i class="fa fa-lg fa-check-circle-o text-success mr-1" aria-hidden="true"></i>
                                 </span>
                             </h4>
-                            <div class="hidden-sm-up">
+                            <div class="d-sm-none">
                                 <strong>{{team.name}}</strong>
                             </div>
-                            <h6 *ngIf="team.caption" class="card-subtitle mb-2 text-muted hidden-xs-down">
+                            <h6 *ngIf="team.caption" class="card-subtitle mb-2 text-muted d-none d-sm-block">
                                 <small>{{team.caption}}</small>
                             </h6>
-                            <div class="text-center hidden-xs-down mb-2">
+                            <div class="text-center d-none d-sm-block mb-2">
                                 <img class="team-img img-fluid rounded card-img-bottom"
                                      src="{{teamsImagesUrl}}{{team.image || teamImageDefault}}"
                                      alt="{{team.name}}">
                             </div>
                             <div *ngIf="showJoinButton(team) && !alreadyJoined && competition && competition.stated" class="text-center">
                                 <button class="btn btn-sm btn-info" (click)="joinTeamModalOpen(team)" data-toggle="modal" data-target="#joinTeamConfirmModal">
-                                    <small class="hidden-sm-up">Приєднатись</small>
-                                    <span class="hidden-xs-down">Приєднатись</span>
+                                    <small class="d-sm-none">Приєднатись</small>
+                                    <span class="d-none d-sm-block">Приєднатись</span>
                                 </button>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                 <td class="align-middle"
                     [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id),
                                 'font-weight-bold': participant.confirmed}">
-                    <img class="small-image rounded-circle hidden-xs-down mr-1"
+                    <img class="small-image rounded-circle d-none d-sm-block mr-1"
                          src="{{userImagesUrl}}{{participant.user.image || userImageDefault}}"
                          alt="{{participant.user.name}}">
                     {{participant.user.name}}
@@ -79,26 +79,26 @@
                                 && competition && competition.stated">
                         <div class="btn-group" role="group" aria-label="Confirm or refuse">
                             <button type="button" class="btn btn-sm btn-success" title="Прийняти заявку" (click)="confirmParticipantModalOpen(participant)" data-toggle="modal" data-target="#confirmTeamParticipantConfirmModal">
-                                <i aria-hidden="true" class="hidden-lg-up fa fa-lg fa-check-circle-o"></i>
-                                <span class="hidden-md-down">Прийняти</span>
+                                <i aria-hidden="true" class="d-lg-none fa fa-lg fa-check-circle-o"></i>
+                                <span class="d-none d-lg-block">Прийняти</span>
                             </button>
                             <button type="button" class="btn btn-sm btn-danger" title="Відхилити заявку" (click)="refuseParticipantModalOpen(participant)" data-toggle="modal" data-target="#refuseTeamParticipantConfirmModal">
-                                <i aria-hidden="true" class="hidden-lg-up fa fa-lg fa-times-circle-o"></i>
-                                <span class="hidden-md-down">Відхилити</span>
+                                <i aria-hidden="true" class="d-lg-none fa fa-lg fa-times-circle-o"></i>
+                                <span class="d-none d-lg-block">Відхилити</span>
                             </button>
                         </div>
                     </div>
                     <div *ngIf="(!participant.confirmed && !participant.refused && !authenticatedUser) || (authenticatedUser && team.captain_id !== authenticatedUser.id && !participant.confirmed && !participant.refused)"
                          title="Очікується">
-                        <strong class="text-info"><i aria-hidden="true" class="fa fa-lg fa-question-circle-o"></i> <span class="hidden-xs-down">Очікується</span></strong>
+                        <strong class="text-info"><i aria-hidden="true" class="fa fa-lg fa-question-circle-o"></i> <span class="d-none d-sm-block">Очікується</span></strong>
                     </div>
                     <div *ngIf="participant.confirmed && !participant.refused"
                          title="Підтверджено">
-                        <strong class="text-success"><i aria-hidden="true" class="fa fa-lg fa-check-circle-o"></i> <span class="hidden-xs-down">Підтверджено</span></strong>
+                        <strong class="text-success"><i aria-hidden="true" class="fa fa-lg fa-check-circle-o"></i> <span class="d-none d-sm-block">Підтверджено</span></strong>
                     </div>
                     <div *ngIf="!participant.confirmed && participant.refused"
                          title="Відхилено">
-                        <strong class="text-danger"><i aria-hidden="true" class="fa fa-lg fa-times-circle-o"></i> <span class="hidden-xs-down">Відхилено</span></strong>
+                        <strong class="text-danger"><i aria-hidden="true" class="fa fa-lg fa-times-circle-o"></i> <span class="d-none d-sm-block">Відхилено</span></strong>
                     </div>
                 </td>
             </tr>

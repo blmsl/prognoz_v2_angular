@@ -1,5 +1,5 @@
 <!-- coming matches slider -->
-<div class="hidden-md-down">
+<div class="d-none d-lg-block">
     <!-- error -->
     <app-error *ngIf="errorChampionshipMatches" [message]="errorChampionshipMatches"></app-error>
     <div *ngIf="championshipMatches" id="carousel" class="carousel slide bg-black" data-ride="carousel">
@@ -14,7 +14,7 @@
                                 <div class="col text-center cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center title-block">
                                         <div class="col">
-                                            <h2 class="bg-inverse p-2 rounded">{{championshipMatch.club_first.title}}</h2>
+                                            <h2 class="bg-dark p-2 rounded">{{championshipMatch.club_first.title}}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                                 <div class="col text-center cursor-pointer" routerLink="/championship/predictions">
                                     <div class="row align-items-center title-block">
                                         <div class="col">
-                                            <h2 class="bg-inverse p-2 rounded">{{championshipMatch.club_second.title}}</h2>
+                                            <h2 class="bg-dark p-2 rounded">{{championshipMatch.club_second.title}}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="carousel-caption d-none d-md-block">
-                            <h3 class="bg-inverse p-2 rounded">{{championshipMatch.starts_at}}</h3>
+                            <h3 class="bg-dark p-2 rounded">{{championshipMatch.starts_at}}</h3>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
             <div class="card-deck">
                 <div *ngFor="let one of news | slice:0:3" class="card black-shadow">
                     <img class="card-img-top img-fluid p-2" src="{{newsImagesUrl}}{{one.image}}" alt="{{one.title}}">
-                    <div class="card-block">
+                    <div class="card-body">
                         <h4 class="card-title">{{one.title}}</h4>
                         <p class="card-text">{{one.body | slice:0:75}}...</p>
                         <a routerLink="/news/{{one.id}}" class="btn btn-outline-primary">Читати далі</a>

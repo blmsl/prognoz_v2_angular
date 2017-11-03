@@ -7,10 +7,10 @@
     <!-- reset form -->
     <div *ngIf="!user" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
-            <form novalidate [formGroup]="resetForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
+            <form novalidate [formGroup]="resetForm" (ngSubmit)="onSubmit()" class="bg-dark p-2 rounded">
                 <!-- email input -->
                 <div class="form-group"
-                     [class.has-danger]="resetForm.get('email').invalid && (resetForm.get('email').touched || !resetForm.get('email').pristine)">
+                     [class.form-group-invalid-custom]="resetForm.get('email').invalid && (resetForm.get('email').touched || !resetForm.get('email').pristine)">
                     <label class="form-control-label" for="email"><strong>Email:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
@@ -18,21 +18,18 @@
                                id="email"
                                placeholder="Введіть свій email"
                                class="form-control"
-                               [class.form-control-danger]="resetForm.get('email').invalid && (resetForm.get('email').touched || !resetForm.get('email').pristine)"
                                formControlName="email">
                     </div>
-                    <div *ngIf="resetForm.get('email').hasError('required') && (resetForm.get('email').touched || !resetForm.get('email').pristine)"
-                         class="form-control-feedback">
+                    <div *ngIf="resetForm.get('email').hasError('required') && (resetForm.get('email').touched || !resetForm.get('email').pristine)">
                         <small>Email обов'язковий.</small>
                     </div>
-                    <div *ngIf="resetForm.get('email').hasError('pattern') && !resetForm.get('email').pristine"
-                         class="form-control-feedback">
+                    <div *ngIf="resetForm.get('email').hasError('pattern') && !resetForm.get('email').pristine">
                         <small>Email введено неправильно.</small>
                     </div>
                 </div>
                 <!-- new password input -->
                 <div class="form-group"
-                     [class.has-danger]="resetForm.get('password').invalid && (resetForm.get('password').touched || !resetForm.get('password').pristine)">
+                     [class.form-group-invalid-custom]="resetForm.get('password').invalid && (resetForm.get('password').touched || !resetForm.get('password').pristine)">
                     <label class="form-control-label" for="password"><strong>Новий пароль:</strong></label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
@@ -40,21 +37,18 @@
                                id="password"
                                placeholder="Придумайте новий пароль"
                                class="form-control"
-                               [class.form-control-danger]="resetForm.get('password').invalid && (resetForm.get('password').touched || !resetForm.get('password').pristine)"
                                formControlName="password">
                     </div>
-                    <div *ngIf="resetForm.get('password').hasError('required') && (resetForm.get('password').touched || !resetForm.get('password').pristine)"
-                         class="form-control-feedback">
+                    <div *ngIf="resetForm.get('password').hasError('required') && (resetForm.get('password').touched || !resetForm.get('password').pristine)">
                         <small>Пароль обов'язковий.</small>
                     </div>
-                    <div *ngIf="resetForm.get('password').hasError('minlength') && !resetForm.get('password').pristine"
-                         class="form-control-feedback">
+                    <div *ngIf="resetForm.get('password').hasError('minlength') && !resetForm.get('password').pristine">
                         <small>Пароль повинен бути більшим ніж шість символів.</small>
                     </div>
                 </div>
                 <!-- new password repeating input -->
                 <div class="form-group"
-                     [class.has-danger]="(resetForm.get('password_confirmation').invalid || (resetForm.value.password != resetForm.value.password_confirmation))
+                     [class.form-group-invalid-custom]="(resetForm.get('password_confirmation').invalid || (resetForm.value.password != resetForm.value.password_confirmation))
                                         && (resetForm.get('password_confirmation').touched || !resetForm.get('password_confirmation').pristine)">
                     <label class="form-control-label" for="password_confirmation"><strong>Повторіть новий
                         пароль:</strong></label>
@@ -64,16 +58,12 @@
                                id="password_confirmation"
                                placeholder="Повторіть новий пароль"
                                class="form-control"
-                               [class.form-control-danger]="(resetForm.get('password_confirmation').invalid || (resetForm.value.password != resetForm.value.password_confirmation))
-                                                            && (resetForm.get('password_confirmation').touched || !resetForm.get('password_confirmation').pristine)"
                                formControlName="password_confirmation">
                     </div>
-                    <div *ngIf="resetForm.get('password_confirmation').hasError('required') && (resetForm.get('password_confirmation').touched || !resetForm.get('password_confirmation').pristine)"
-                         class="form-control-feedback">
+                    <div *ngIf="resetForm.get('password_confirmation').hasError('required') && (resetForm.get('password_confirmation').touched || !resetForm.get('password_confirmation').pristine)">
                         <small>Повторення паролю обов'язкове.</small>
                     </div>
-                    <div *ngIf="(resetForm.value.password != resetForm.value.password_confirmation) && !resetForm.get('password_confirmation').pristine"
-                         class="form-control-feedback">
+                    <div *ngIf="(resetForm.value.password != resetForm.value.password_confirmation) && !resetForm.get('password_confirmation').pristine">
                         <small>Паролі не співпадають.</small>
                     </div>
                 </div>

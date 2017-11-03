@@ -9,7 +9,7 @@
     <!-- club create form -->
     <div *ngIf="clubs" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
-            <form novalidate [formGroup]="clubCreateForm" (ngSubmit)="onSubmit(clubCreateForm)" class="bg-inverse p-2 rounded">
+            <form novalidate [formGroup]="clubCreateForm" (ngSubmit)="onSubmit(clubCreateForm)" class="bg-dark p-2 rounded">
                 <!-- title -->
                 <div class="form-group"
                      [class.has-danger]="clubCreateForm.get('title').invalid && clubCreateForm.get('title').touched">

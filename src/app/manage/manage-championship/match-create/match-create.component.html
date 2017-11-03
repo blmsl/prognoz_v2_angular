@@ -10,7 +10,7 @@
         <!-- left column (form) -->
         <div *ngIf="clubs" class="col-12 col-md-6 col-lg-6 text-white">
             <form novalidate [formGroup]="championshipMatchCreateForm"
-                  (ngSubmit)="onSubmit(championshipMatchCreateForm)" class="bg-inverse p-2 rounded">
+                  (ngSubmit)="onSubmit(championshipMatchCreateForm)" class="bg-dark p-2 rounded">
                 <!-- home club -->
                 <div class="form-group"
                      [class.has-danger]="championshipMatchCreateForm.get('t1_id').hasError('required') && championshipMatchCreateForm.get('t1_id').touched">

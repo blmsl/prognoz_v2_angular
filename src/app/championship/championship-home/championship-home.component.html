@@ -74,10 +74,10 @@
                    routerLink="/championship/users/{{championshipPrediction.user.id}}"
                    class="list-group-item list-group-item-action">
                     <div class="col-6">
-                        <img class="rounded-circle small-image mr-2 hidden-xs-down"
+                        <img class="rounded-circle small-image mr-2 d-none d-sm-block"
                              src="{{userImagesUrl}}{{championshipPrediction.user.image || userImageDefault}}"
                              alt="{{championshipPrediction.user.name}}">
-                        <strong>{{championshipPrediction.user.name}}</strong> <span class="text-muted hidden-md-down">{{helperService.getHometown(championshipPrediction.user.hometown)}}</span>
+                        <strong>{{championshipPrediction.user.name}}</strong> <span class="text-muted d-none d-lg-block">{{helperService.getHometown(championshipPrediction.user.hometown)}}</span>
                     </div>
                     <div class="col-6 text-right">
                         <span>{{championshipPrediction.diffForHumans}}</span>

@@ -37,14 +37,14 @@
                                 <table class="table table-sm mb-0">
                                     <tr [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
                                                     'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
-                                        <td class="hidden-md-down">{{teamMatch.club_first.title}}</td>
+                                        <td class="d-none d-lg-block">{{teamMatch.club_first.title}}</td>
                                         <td>
                                             <img class="small-image"
                                                  src="{{clubsImagesUrl}}{{teamMatch.club_first.image}}"
                                                  alt="{{teamMatch.club_first.title}}"
                                                  title="{{teamMatch.club_first.title}}">
                                         </td>
-                                        <td class="hidden-xs-down">
+                                        <td class="d-none d-sm-block">
                                             {{helperService.showScore(teamMatch.home, teamMatch.away, 'vs')}}
                                         </td>
                                         <td>
@@ -53,9 +53,9 @@
                                                  alt="{{teamMatch.club_second.title}}"
                                                  title="{{teamMatch.club_second.title}}">
                                         </td>
-                                        <td class="hidden-md-down">{{teamMatch.club_second.title}}</td>
+                                        <td class="d-none d-lg-block">{{teamMatch.club_second.title}}</td>
                                     </tr>
-                                    <tr class="hidden-sm-up"
+                                    <tr class="d-sm-none"
                                         [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
                                                     'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
                                         <td colspan="2">
@@ -65,7 +65,7 @@
                                 </table>
                             </td>
                         </tr>
-                        <tr class="hidden-xs-down"
+                        <tr class="d-none d-sm-block"
                             [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
                                         'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
                             <td class="text-center">
@@ -133,12 +133,12 @@
                             (click)="updateOrCreateTeamPredictor(teamPredictorForm, teamMatch)">
                         <i [hidden]="matchHasPrediction(teamMatch)" class="fa fa-check-circle-o" aria-hidden="true"></i>
                         <i [hidden]="!matchHasPrediction(teamMatch)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        <span class="hidden-md-down">{{matchHasPrediction(teamMatch) ? 'Змінити' : 'Підтвердити'}}</span>
+                        <span class="d-none d-lg-block">{{matchHasPrediction(teamMatch) ? 'Змінити' : 'Підтвердити'}}</span>
                     </button>
                     <button *ngIf="!isCaptain || !teamMatch.is_predictable"
                             class="btn btn-outline-secondary"
                             disabled>
-                        <i class="fa fa-ban" aria-hidden="true"></i> <span class="hidden-md-down">Заборонено</span>
+                        <i class="fa fa-ban" aria-hidden="true"></i> <span class="d-none d-lg-block">Заборонено</span>
                     </button>
                     <app-spinner-button [hidden]="!spinnerButton['team_match_' + teamMatch.id]"></app-spinner-button>
                 </td>

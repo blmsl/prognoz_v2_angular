@@ -1,11 +1,11 @@
 <nav aria-label="Page navigation" class="mt-2">
     <ul class="pagination justify-content-center">
-        <li class="page-item hidden-sm-down" [ngClass]="{disabled: pager.currentPage === 1}">
+        <li class="page-item d-none d-md-block" [ngClass]="{disabled: pager.currentPage === 1}">
             <a class="page-link" routerLink="{{path}}{{1}}" aria-label="Previous">
                 Перша
             </a>
         </li>
-        <li class="page-item hidden-xs-down" [ngClass]="{disabled: pager.currentPage === 1}">
+        <li class="page-item d-none d-sm-block" [ngClass]="{disabled: pager.currentPage === 1}">
             <a class="page-link" routerLink="{{path}}{{pager.currentPage - 1}}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only">Previous</span>
@@ -14,13 +14,13 @@
         <li *ngFor="let page of pager.pages" class="page-item" [ngClass]="{active: page === pager.currentPage}">
             <a class="page-link" routerLink="{{path}}{{page}}">{{page}}</a>
         </li>
-        <li class="page-item hidden-xs-down" [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+        <li class="page-item d-none d-sm-block" [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
             <a class="page-link" routerLink="{{path}}{{pager.currentPage + 1}}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
                 <span class="sr-only">Next</span>
             </a>
         </li>
-        <li class="page-item hidden-sm-down" [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+        <li class="page-item d-none d-md-block" [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
             <a class="page-link" routerLink="{{path}}{{pager.totalPages}}" aria-label="Previous">
                 Остання
             </a>

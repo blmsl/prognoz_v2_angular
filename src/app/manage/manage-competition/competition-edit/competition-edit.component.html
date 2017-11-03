@@ -14,7 +14,7 @@
     <!-- competition edit form -->
     <div *ngIf="seasons && tournaments && competition" class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 text-white">
-            <form novalidate [formGroup]="competitionEditForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
+            <form novalidate [formGroup]="competitionEditForm" (ngSubmit)="onSubmit()" class="bg-dark p-2 rounded">
                 <!-- title -->
                 <div class="form-group"
                      [class.has-danger]="competitionEditForm.get('title').invalid && competitionEditForm.get('title').touched">

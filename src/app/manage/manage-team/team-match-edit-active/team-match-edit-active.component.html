@@ -8,13 +8,13 @@
     <app-error *ngIf="errorTeamMatches" [message]="errorTeamMatches"></app-error>
     <!-- select match input -->
     <div class="row">
-        <div class="hidden-md-down col-lg-2">
-            <div *ngIf="selectedMatch" class="rounded bg-inverse">
+        <div class="d-none d-lg-block col-lg-2">
+            <div *ngIf="selectedMatch" class="rounded bg-dark">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{selectedMatch.club_first.image}}" alt="{{selectedMatch.club_first.title}}">
             </div>
         </div>
         <div class="col-12 col-md-12 col-lg-8 text-white">
-            <div class="bg-inverse p-2 rounded">
+            <div class="bg-dark p-2 rounded">
                 <div class="form-group">
                     <label class="form-control-label" for="active_match"><strong>Виберіть матч:</strong></label>
                     <select id="active_match" class="form-control" (change)="onChange($event.target.value)">
@@ -26,8 +26,8 @@
                 </div>
             </div>
         </div>
-        <div class="hidden-md-down col-lg-2">
-            <div *ngIf="selectedMatch" class="rounded bg-inverse">
+        <div class="d-none d-lg-block col-lg-2">
+            <div *ngIf="selectedMatch" class="rounded bg-dark">
                 <img class="img-fluid" src="{{clubsImagesUrl}}{{selectedMatch.club_second.image}}" alt="{{selectedMatch.club_second.title}}">
             </div>
         </div>
@@ -37,7 +37,7 @@
     <!-- match edit form -->
     <div *ngIf="clubs && selectedMatch != undefined" class="row">
         <div class="col-12 col-md-12 col-lg-8 offset-lg-2 text-white">
-            <form novalidate [formGroup]="teamMatchEditActiveForm" (ngSubmit)="onSubmit()" class="bg-inverse p-2 rounded">
+            <form novalidate [formGroup]="teamMatchEditActiveForm" (ngSubmit)="onSubmit()" class="bg-dark p-2 rounded">
                 <input type="hidden" formControlName="id">
                 <!-- home club -->
                 <div class="form-group"
