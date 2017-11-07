@@ -1,4 +1,4 @@
-import { Component, Input }         from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup }                from '@angular/forms';
 
 import { ChampionshipMatch }        from '../../models/championship-match.model';
@@ -10,7 +10,7 @@ import { environment }              from '../../../../environments/environment';
   templateUrl: './championship-match-predictable.component.html',
   styleUrls: ['./championship-match-predictable.component.css']
 })
-export class ChampionshipMatchPredictableComponent {
+export class ChampionshipMatchPredictableComponent implements OnChanges {
 
     @Input() match: ChampionshipMatch;
     @Input() authenticatedUser: any;
@@ -52,9 +52,11 @@ export class ChampionshipMatchPredictableComponent {
         }
     }
 
-    onClick(e: Event) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
+    ngOnChanges(changes: SimpleChanges) {
+        for (const propName in changes) {
+            if (!changes[propName].firstChange && propName === 'match') {
+                this.isCollapsed = true;
+            }
+        }
     }
 }

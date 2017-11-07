@@ -1,8 +1,8 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { environment }                              from '../../../../environments/environment';
-import { TeamRatingUser }                           from '../../models/team-rating-user.model';
-import { User }                                     from '../../models/user.model';
+import { environment } from '../../../../environments/environment';
+import { TeamRatingUser } from '../../models/team-rating-user.model';
+import { User } from '../../models/user.model';
 
 @Component({
     selector: 'app-team-rating-user-table',

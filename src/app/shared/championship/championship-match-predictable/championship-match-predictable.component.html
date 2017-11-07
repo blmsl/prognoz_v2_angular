@@ -94,7 +94,7 @@
             <div class="col-6 col-sm-3 col-lg-4 order-1 order-sm-1 text-right text-sm-center text-white">
                 <strong><label [attr.for]="match.id + '_home'">{{match.club_first.title}}</label></strong>
             </div>
-            <div class="col-12 col-sm-6 col-lg-4 order-3 order-sm-2 text-center text-white mb-2" (click)="onClick($event)">
+            <div class="col-12 col-sm-6 col-lg-4 order-3 order-sm-2 text-center text-white mb-2">
                 <img class="small-image d-lg-none" src="{{clubsImagesUrl}}{{match.club_first.image}}" alt="{{match.club_first.title}}" title="{{match.club_first.title}}">
                 <input [attr.id]="match.id + '_home'"
                        type="number"

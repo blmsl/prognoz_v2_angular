@@ -3,77 +3,27 @@
 <app-error *ngIf="errorChampionshipMatch" [message]="errorChampionshipMatch"></app-error>
 <!-- match info -->
 <div *ngIf="championshipMatch" class="container-fluid">
-    <div class="row align-items-center mb-2 p-md-1 rounded bg-white black-shadow black-border">
-        <!-- home club logo -->
-        <div class="d-none d-md-block col-md-2">
-            <img class="img-fluid" src="{{clubsImagesUrl}}{{championshipMatch.club_first.image}}" alt="{{championshipMatch.club_first.title}}"
-                 title="{{championshipMatch.club_first.title}}">
-        </div>
-        <!-- club names, starts_at -->
-        <div class="col-12 col-md-8 bg-dark rounded">
-            <div class="row">
-                <div class="col-12 text-center text-white">
-                    {{championshipMatch.starts_at.slice(0, -3)}}
-                </div>
-            </div>
-            <div class="row align-items-center mb-2">
-                <div class="col-4 text-center text-white">
-                    <strong>{{championshipMatch.club_first.title}}</strong>
-                </div>
-                <div class="col-4 text-center text-white">
-                    <strong>{{helperService.showScore(championshipMatch.home, championshipMatch.away, 'vs')}}</strong>
-                </div>
-                <div class="col-4 text-center text-white">
-                    <strong>{{championshipMatch.club_second.title}}</strong>
-                </div>
-            </div>
-        </div>
-        <!-- away club logo -->
-        <div class="d-none d-md-block col-md-2">
-            <img class="img-fluid" src="{{clubsImagesUrl}}{{championshipMatch.club_second.image}}" alt="{{championshipMatch.club_second.title}}"
-                 title="{{championshipMatch.club_second.title}}">
-        </div>
-    </div>
+    <app-championship-match-predictable [match]="championshipMatch"
+                                        [authenticatedUser]="null"
+                                        [championshipPredictsForm]="null">
+    </app-championship-match-predictable>
 </div>
 <!-- previous/next match -->
 <nav *ngIf="championshipMatch" aria-label="Previous/Next match">
     <ul class="pagination justify-content-center">
-        <li class="page-item">
+        <li class="page-item blue-shadow">
             <a routerLink="/championship/matches/{{championshipMatch.id - 1}}" class="page-link" title="Попередній матч">
-                <i class="fa fa-chevron-circle-left fa-fw" aria-hidden="true"></i> <span class="d-none d-sm-block">Попередній</span>
+                <i class="fa fa-chevron-circle-left fa-fw" aria-hidden="true"></i> <span class="d-none d-sm-inline">Попередній</span>
             </a>
         </li>
-        <li class="page-item">
+        <li class="page-item blue-shadow">
             <a routerLink="/championship/matches/{{championshipMatch.id + 1}}" class="page-link" title="Наступний матч">
-                <span class="d-none d-sm-block">Наступний</span> <i class="fa fa-chevron-circle-right fa-fw" aria-hidden="true"></i>
+                <span class="d-none d-sm-inline">Наступний</span> <i class="fa fa-chevron-circle-right fa-fw" aria-hidden="true"></i>
             </a>
         </li>
     </ul>
 </nav>
-<!-- statistic -->
-<h2 *ngIf="statistic && championshipMatch && championshipMatch.championship_predicts.length">
-    Статистика:
-</h2>
-<!-- error statistic -->
-<app-error *ngIf="errorStatistic" [message]="error"></app-error>
-<div *ngIf="statistic && championshipMatch && championshipMatch.championship_predicts.length" class="container-fluid">
-    <div class="row mt-2 mb-2 black-border bg-white rounded black-shadow">
-        <div class="col-12 offset-md-3 col-md-6 p-2">
-            <canvas baseChart
-                    [data]="resultChartData"
-                    [labels]="resultChartLabels"
-                    [chartType]="resultChartType">
-            </canvas>
-        </div>
-        <!--<div class="col-12 col-md-6 black-border p-2">-->
-            <!--<canvas baseChart-->
-                    <!--[data]="scoresChartData"-->
-                    <!--[labels]="scoresChartLabels"-->
-                    <!--[chartType]="scoresChartType">-->
-            <!--</canvas>-->
-        <!--</div>-->
-    </div>
-</div>
+<h2>Прогнози: </h2>
 <app-championship-match-predictions-table [match]="championshipMatch"
                                           [authenticatedUser]="authenticatedUser">
 </app-championship-match-predictions-table>

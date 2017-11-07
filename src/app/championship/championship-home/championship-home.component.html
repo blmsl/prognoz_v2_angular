@@ -72,14 +72,14 @@
             <ul class="list-group list-group-flush">
                 <a *ngFor="let championshipPrediction of championshipPredictions"
                    routerLink="/championship/users/{{championshipPrediction.user.id}}"
-                   class="list-group-item list-group-item-action">
-                    <div class="col-6">
-                        <img class="rounded-circle small-image mr-2 d-none d-sm-block"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                        <img class="rounded-circle small-image mr-2"
                              src="{{userImagesUrl}}{{championshipPrediction.user.image || userImageDefault}}"
                              alt="{{championshipPrediction.user.name}}">
-                        <strong>{{championshipPrediction.user.name}}</strong> <span class="text-muted d-none d-lg-block">{{helperService.getHometown(championshipPrediction.user.hometown)}}</span>
+                        <strong>{{championshipPrediction.user.name}}</strong> <span class="text-muted d-none d-md-inline">{{helperService.getHometown(championshipPrediction.user.hometown)}}</span>
                     </div>
-                    <div class="col-6 text-right">
+                    <div>
                         <span>{{championshipPrediction.diffForHumans}}</span>
                     </div>
                 </a>

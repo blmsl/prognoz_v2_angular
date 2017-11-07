@@ -28,11 +28,11 @@ import { SharedModule }                     from '../shared/shared.module';
         ChampionshipSeasonsModule
     ],
     declarations: [
-        ChampionshipComponent, 
+        ChampionshipComponent,
         ChampionshipPredictionsComponent,
-        ChampionshipRatingComponent, 
-        ChampionshipResultsComponent, 
-        ChampionshipRulesComponent, 
+        ChampionshipRatingComponent,
+        ChampionshipResultsComponent,
+        ChampionshipRulesComponent,
         ChampionshipUserComponent,
         ChampionshipMatchComponent,
         ChampionshipHomeComponent

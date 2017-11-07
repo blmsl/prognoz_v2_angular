@@ -33,32 +33,7 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
     championshipMatch: ChampionshipMatch;
     clubsImagesUrl: string = environment.apiImageClubs;
     errorChampionshipMatch: string;
-    errorStatistic: string;
-    resultChartData: number[];
-    resultChartLabels: string[];
-    resultChartType: string = 'doughnut';
-    // scoresChartData: number[];
-    // scoresChartLabels: string[];
-    // scoresChartType: string = 'doughnut';
-    statistic: any;
     userSubscription: Subscription;
-
-    getChampionshipMatchStatisticData(id: number) {
-        let param = [{parameter: 'statistic', value: 'true'}];
-        this.championshipMatchService.getChampionshipMatch(id, param).subscribe(
-            response => {
-                this.resetStatisticData();
-                this.statistic = response;
-                this.resultChartData = [response.results.home, response.results.away, response.results.draw];
-                // this.scoresChartData = (<any>Object).values(this.statistic.scores);
-                // this.scoresChartLabels = Object.keys(this.statistic.scores);
-            },
-            error => {
-                this.resetStatisticData();
-                this.errorStatistic = error;
-            }
-        );
-    }
 
     goBack() {
         this.location.back();
@@ -76,7 +51,6 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
         });
         this.activatedRoute.params.forEach((params: Params) => {
             this.getChampionshipMatchData(params['id']);
-            this.getChampionshipMatchStatisticData(params['id']);
         });
     }
 
@@ -89,11 +63,6 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
                         ${response.championship_match.club_second.title}
                         ${response.championship_match.starts_at.slice(0, -3)} - Чемпіонат`);
                     this.championshipMatch = response.championship_match;
-                    this.resultChartLabels = [
-                        response.championship_match.club_first.title,
-                        response.championship_match.club_second.title,
-                        'Нічия'
-                    ];
                 },
                 error => {
                     this.resetChampionshipMatchData();
@@ -105,10 +74,5 @@ export class ChampionshipMatchComponent implements OnInit, OnDestroy {
     private resetChampionshipMatchData(): void {
         this.championshipMatch = null;
         this.errorChampionshipMatch = null;
-    }
-
-    private resetStatisticData(): void {
-        this.statistic = null;
-        this.errorStatistic = null;
     }
 }
