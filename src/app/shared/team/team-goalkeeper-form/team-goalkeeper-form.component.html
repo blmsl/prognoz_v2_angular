@@ -4,11 +4,10 @@
             <div class="col-12 col-md-7 col-lg-8">
                 <div class="form-group mb-0"
                      *ngIf="!blockedTeamMatch || blockedTeamMatch.is_predictable"
-                     [class.has-danger]="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
+                     [class.form-group-invalid-custom]="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
                     <select id="team_match_id"
                             class="form-control"
-                            formControlName="team_match_id"
-                            [class.form-control-danger]="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
+                            formControlName="team_match_id">
                         <option [value]="''">Не вибрано</option>
                         <option *ngFor="let teamMatch of teamMatches"
                                 [value]="teamMatch.id"
@@ -16,8 +15,7 @@
                             {{teamMatch.club_first.title + ' - ' + teamMatch.club_second.title}}
                         </option>
                     </select>
-                    <div *ngIf="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched"
-                         class="form-control-feedback">
+                    <div *ngIf="teamGoalkeeperForm.get('team_match_id').hasError('required') && teamGoalkeeperForm.get('team_match_id').touched">
                         <small>Вибір матчу для блокування обов'язковий.</small>
                     </div>
                 </div>

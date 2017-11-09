@@ -13,57 +13,54 @@
                 <input type="hidden" formControlName="id">
                 <!-- title -->
                 <div class="form-group"
-                     [class.has-danger]="newsEditForm.get('title').invalid && newsEditForm.get('title').touched">
+                     [class.form-group-invalid-custom]="newsEditForm.get('title').invalid && newsEditForm.get('title').touched">
                      <label class="form-control-label" for="title"><strong>Заголовок:</strong></label>
                      <input type="text"
                             id="title"
                             placeholder="Введіть заголовок новини"
                             class="form-control"
-                            [class.form-control-danger]="newsEditForm.get('title').invalid && newsEditForm.get('title').touched"
                             formControlName="title">
-                     <div *ngIf="newsEditForm.get('title').hasError('required') && newsEditForm.get('title').touched" class="form-control-feedback">
+                     <div *ngIf="newsEditForm.get('title').hasError('required') && newsEditForm.get('title').touched">
                          <small>Заголовок новини обов'язковий</small>
                      </div>
-                     <div *ngIf="newsEditForm.get('title').hasError('minlength') && newsEditForm.get('title').touched" class="form-control-feedback">
+                     <div *ngIf="newsEditForm.get('title').hasError('minlength') && newsEditForm.get('title').touched">
                          <small>Заголовок повинен бути більшим ніж 10 символів</small>
                      </div>
-                     <div *ngIf="newsEditForm.get('title').hasError('maxlength') && newsEditForm.get('title').touched" class="form-control-feedback">
+                     <div *ngIf="newsEditForm.get('title').hasError('maxlength') && newsEditForm.get('title').touched">
                          <small>Заголовок перевищує сто символів</small>
                      </div>
                 </div>
                 <!-- body -->
                 <div class="form-group"
-                     [class.has-danger]="newsEditForm.get('body').invalid && newsEditForm.get('body').touched">
+                     [class.form-group-invalid-custom]="newsEditForm.get('body').invalid && newsEditForm.get('body').touched">
                     <label class="form-control-label" for="body"><strong>Текст:</strong></label>
                     <textarea id="body"
                               placeholder="Введіть текст новини"
                               class="form-control"
-                              [class.form-control-danger]="newsEditForm.get('body').invalid && newsEditForm.get('body').touched"
                               formControlName="body"
                               rows="3">
                     </textarea>
-                    <div *ngIf="newsEditForm.get('body').hasError('required') && newsEditForm.get('body').touched" class="form-control-feedback">
+                    <div *ngIf="newsEditForm.get('body').hasError('required') && newsEditForm.get('body').touched">
                         <small>Текст новини обов'язковий</small>
                     </div>
-                    <div *ngIf="newsEditForm.get('body').hasError('minlength') && newsEditForm.get('body').touched" class="form-control-feedback">
+                    <div *ngIf="newsEditForm.get('body').hasError('minlength') && newsEditForm.get('body').touched">
                         <small>Текст новини повинен бути більшим ніж 50 символів</small>
                     </div>
-                    <div *ngIf="newsEditForm.get('body').hasError('maxlength') && newsEditForm.get('body').touched" class="form-control-feedback">
+                    <div *ngIf="newsEditForm.get('body').hasError('maxlength') && newsEditForm.get('body').touched">
                         <small>Текст новини перевищує 3000 символів</small>
                     </div>
                 </div>
                 <!-- tournament -->
-                <div class="form-group" [class.has-danger]="newsEditForm.get('tournament_id').invalid && newsEditForm.get('tournament_id').touched">
+                <div class="form-group" [class.form-group-invalid-custom]="newsEditForm.get('tournament_id').invalid && newsEditForm.get('tournament_id').touched">
                     <label class="form-control-label" for="tournament_id"><strong>Категорія:</strong></label>
                     <select id="tournament_id"
                             class="form-control"
-                            [class.form-control-danger]="newsEditForm.get('tournament_id').invalid && newsEditForm.get('tournament_id').touched"
                             formControlName="tournament_id">
                         <option value="1">Чемпіонат</option>
                         <option value="2">Кубок</option>
                         <option value="3">Командний</option>
                     </select>
-                    <div *ngIf="newsEditForm.get('tournament_id').hasError('required') && newsEditForm.get('tournament_id').touched" class="form-control-feedback">
+                    <div *ngIf="newsEditForm.get('tournament_id').hasError('required') && newsEditForm.get('tournament_id').touched">
                         <small>Вибір категорії обов'язковий</small>
                     </div>
                 </div>
@@ -71,16 +68,15 @@
                 <div *ngIf="news">
                     <img class="img-fluid" src="{{newsImagesUrl}}{{news.image}}" alt="{{news.title}}">
                 </div>
-                <div class="form-group" [class.has-danger]="errorImage">
+                <div class="form-group" [class.form-group-invalid-custom]="errorImage">
                     <label class="form-control-label" for="image"><strong>Зображення:</strong></label>
                     <input type="file"
                          id="image"
                          placeholder="Завантажте зображення для новини"
                          class="form-control"
-                         [class.form-control-danger]="errorImage"
                          (change)="fileChange($event)"
                          accept=".png,.jpg,.gif,.jpeg">
-                    <div *ngIf="errorImage" class="form-control-feedback">
+                    <div *ngIf="errorImage">
                         <small>{{errorImage}}</small>
                     </div>
                 </div>

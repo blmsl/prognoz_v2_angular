@@ -48,22 +48,21 @@
                     <input type="hidden" name="user_id" formControlName="user_id">
                     <input type="hidden" name="news_id" formControlName="news_id">
                     <div class="form-group"
-                         [class.has-danger]="addCommentForm.get('body').invalid && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)">
+                         [class.form-group-invalid-custom]="addCommentForm.get('body').invalid && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)">
                         <label class="form-control-label" for="body"><strong>Добавити коментар:</strong></label>
                         <textarea id="body"
                                   placeholder="Напишіть щось..."
                                   class="form-control"
-                                  [class.form-control-danger]="addCommentForm.get('body').invalid && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)"
                                   rows="3"
                                   formControlName="body">
                         </textarea>
-                        <div *ngIf="addCommentForm.get('body').hasError('required') && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)" class="form-control-feedback">
+                        <div *ngIf="addCommentForm.get('body').hasError('required') && (addCommentForm.get('body').touched || !addCommentForm.get('body').pristine)">
                             <small>Текст коментаря обов'язковий.</small>
                         </div>
-                        <div *ngIf="addCommentForm.get('body').hasError('minlength') && !addCommentForm.get('body').pristine" class="form-control-feedback">
+                        <div *ngIf="addCommentForm.get('body').hasError('minlength') && !addCommentForm.get('body').pristine">
                             <small>Текст коментаря повинен бути більшим ніж 10 символів.</small>
                         </div>
-                        <div *ngIf="addCommentForm.get('body').hasError('maxlength') && !addCommentForm.get('body').pristine" class="form-control-feedback">
+                        <div *ngIf="addCommentForm.get('body').hasError('maxlength') && !addCommentForm.get('body').pristine">
                             <small>Текст коментаря перевищує 1000 символів.</small>
                         </div>
                     </div>

@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group"
-                                     [class.has-danger]="teamSelectForm.get('team_id').invalid && teamSelectForm.get('team_id').touched">
+                                     [class.form-group-invalid-custom]="teamSelectForm.get('team_id').invalid && teamSelectForm.get('team_id').touched">
                                     <label class="form-control-label" for="team_id"><strong>Команда:</strong></label>
                                     <select id="team_id"
                                             class="form-control"
@@ -25,8 +25,7 @@
                                         <option [value]="null" selected disabled>Виберіть команду</option>
                                         <option *ngFor="let team of teams" [value]="team.id">{{team.name}}</option>
                                     </select>
-                                    <div *ngIf="teamSelectForm.get('team_id').hasError('required') && teamSelectForm.get('team_id').touched"
-                                         class="form-control-feedback">
+                                    <div *ngIf="teamSelectForm.get('team_id').hasError('required') && teamSelectForm.get('team_id').touched">
                                         <small>Вибір команди обов'язковий</small>
                                     </div>
                                 </div>

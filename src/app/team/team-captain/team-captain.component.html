@@ -160,12 +160,11 @@
 <div *ngIf="teamParticipants && teamTeamMatches" class="card black-shadow">
     <form #teamGoalkeeperForm="ngForm" novalidate class="p-2">
         <div class="form-group"
-             [class.has-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched">
+             [class.form-group-invalid-custom]="goalkeeper_id.errors?.required && goalkeeper_id.touched">
             <label class="form-control-label" for="goalkeeper_id"><strong>Воротар:</strong></label>
             <select name="goalkeeper_id"
                     id="goalkeeper_id"
                     class="form-control"
-                    [class.form-control-danger]="goalkeeper_id.errors?.required && goalkeeper_id.touched"
                     [ngModel]="goalkeeperId ? goalkeeperId : ''"
                     [disabled]="!isCaptain || (teamTeamMatch && teamTeamMatch.ended) || !teamTeamMatch"
                     #goalkeeper_id="ngModel"
@@ -176,7 +175,7 @@
                     {{teamParticipant.user.name}}
                 </option>
             </select>
-            <div *ngIf="goalkeeper_id.errors?.required && goalkeeper_id.touched" class="form-control-feedback">
+            <div *ngIf="goalkeeper_id.errors?.required && goalkeeper_id.touched">
                 <small>Вибір воротаря обов'язковий.</small>
             </div>
             <div [hidden]="!goalkeeperId" class="alert alert-info mt-2" role="alert">

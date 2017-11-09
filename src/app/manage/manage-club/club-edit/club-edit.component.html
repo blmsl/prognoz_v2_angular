@@ -38,46 +38,44 @@
                 <input type="hidden" formControlName="id">
                 <!-- title -->
                 <div class="form-group"
-                     [class.has-danger]="clubEditForm.get('title').invalid && clubEditForm.get('title').touched">
+                     [class.form-group-invalid-custom]="clubEditForm.get('title').invalid && clubEditForm.get('title').touched">
                     <label class="form-control-label" for="title"><strong>Назва:</strong></label>
                     <input type="text"
                            id="title"
                            placeholder="Введіть назву команди"
                            class="form-control"
-                           [class.form-control-danger]="clubEditForm.get('title').invalid && clubEditForm.get('title').touched"
                            formControlName="title">
-                    <div *ngIf="clubEditForm.get('title').hasError('required') && clubEditForm.get('title').touched" class="form-control-feedback">
+                    <div *ngIf="clubEditForm.get('title').hasError('required') && clubEditForm.get('title').touched">
                         <small>Назва команди обов'язкова</small>
                     </div>
-                    <div *ngIf="clubEditForm.get('title').hasError('minlength') && clubEditForm.get('title').touched" class="form-control-feedback">
+                    <div *ngIf="clubEditForm.get('title').hasError('minlength') && clubEditForm.get('title').touched">
                         <small>Назва команди повинна бути більшою ніж 2 символи</small>
                     </div>
-                    <div *ngIf="clubEditForm.get('title').hasError('maxlength') && clubEditForm.get('title').touched" class="form-control-feedback">
+                    <div *ngIf="clubEditForm.get('title').hasError('maxlength') && clubEditForm.get('title').touched">
                         <small>Назва команди перевищує 50 символів</small>
                     </div>
                 </div>
                 <!-- link -->
                 <div class="form-group"
-                     [class.has-danger]="clubEditForm.get('link').invalid && clubEditForm.get('link').touched">
+                     [class.form-group-invalid-custom]="clubEditForm.get('link').invalid && clubEditForm.get('link').touched">
                     <label class="form-control-label" for="link"><strong>Назва англійською:</strong></label>
                     <input type="text"
                            id="link"
                            placeholder="Введіть назву команд англійською"
                            class="form-control"
-                           [class.form-control-danger]="clubEditForm.get('link').invalid && clubEditForm.get('link').touched"
                            formControlName="link">
-                    <div *ngIf="clubEditForm.get('link').hasError('required') && clubEditForm.get('link').touched" class="form-control-feedback">
+                    <div *ngIf="clubEditForm.get('link').hasError('required') && clubEditForm.get('link').touched">
                         <small>Назва команди англійською обов'язкова</small>
                     </div>
-                    <div *ngIf="clubEditForm.get('link').hasError('minlength') && clubEditForm.get('link').touched" class="form-control-feedback">
+                    <div *ngIf="clubEditForm.get('link').hasError('minlength') && clubEditForm.get('link').touched">
                         <small>Назва команди англійською повинна бути більшою ніж 2 символи</small>
                     </div>
-                    <div *ngIf="clubEditForm.get('link').hasError('maxlength') && clubEditForm.get('link').touched" class="form-control-feedback">
+                    <div *ngIf="clubEditForm.get('link').hasError('maxlength') && clubEditForm.get('link').touched">
                         <small>Назва команди англійською перевищує 50 символів</small>
                     </div>
                 </div>
                 <!-- logo -->
-                <div class="form-group" [class.has-danger]="errorImage">
+                <div class="form-group" [class.form-group-invalid-custom]="errorImage">
                     <label class="form-control-label" for="image"><strong>Емблема / Прапор:</strong></label>
                     <div *ngIf="!errorImage" class="alert alert-info" role="alert">
                         <strong>Увага!</strong> Зображення повинне бути формату <strong>.png / .gif</strong> і розміром <strong>256x256</strong> пікселів.
@@ -86,10 +84,9 @@
                            id="image"
                            placeholder="Завантажте емблему/прапор для команди"
                            class="form-control"
-                           [class.form-control-danger]="errorImage"
                            (change)="fileChange($event)"
                            accept=".png,.jpg,.gif,.jpeg">
-                    <div *ngIf="errorImage" class="form-control-feedback">
+                    <div *ngIf="errorImage">
                         <small>{{errorImage}}</small>
                     </div>
                 </div>

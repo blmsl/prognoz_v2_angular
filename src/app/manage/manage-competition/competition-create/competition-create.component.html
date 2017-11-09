@@ -16,21 +16,20 @@
             <form novalidate [formGroup]="competitionCreateForm" (ngSubmit)="onSubmit()" class="bg-dark p-2 rounded">
                 <!-- title -->
                 <div class="form-group"
-                     [class.has-danger]="competitionCreateForm.get('title').invalid && competitionCreateForm.get('title').touched">
+                     [class.form-group-invalid-custom]="competitionCreateForm.get('title').invalid && competitionCreateForm.get('title').touched">
                     <label class="form-control-label" for="title"><strong>Назва:</strong></label>
                     <input type="text"
                            id="title"
                            placeholder="Введіть назву змагання"
                            class="form-control"
-                           [class.form-control-danger]="competitionCreateForm.get('title').invalid && competitionCreateForm.get('title').touched"
                            formControlName="title">
-                    <div *ngIf="competitionCreateForm.get('title').hasError('required') && competitionCreateForm.get('title').touched" class="form-control-feedback">
+                    <div *ngIf="competitionCreateForm.get('title').hasError('required') && competitionCreateForm.get('title').touched">
                         <small>Назва змагання обов'язкова</small>
                     </div>
-                    <div *ngIf="competitionCreateForm.get('title').hasError('minlength') && competitionCreateForm.get('title').touched" class="form-control-feedback">
+                    <div *ngIf="competitionCreateForm.get('title').hasError('minlength') && competitionCreateForm.get('title').touched">
                         <small>Назва повинна бути більшою ніж 10 символів</small>
                     </div>
-                    <div *ngIf="competitionCreateForm.get('title').hasError('maxlength') && competitionCreateForm.get('title').touched" class="form-control-feedback">
+                    <div *ngIf="competitionCreateForm.get('title').hasError('maxlength') && competitionCreateForm.get('title').touched">
                         <small>Назва перевищує 50 символів</small>
                     </div>
                 </div>
@@ -39,8 +38,7 @@
                     <label class="form-control-label" for="season_id"><strong>Сезон:</strong></label>
                     <select id="season_id"
                             class="form-control"
-                            formControlName="season_id"
-                            [class.form-control-danger]="competitionCreateForm.get('season_id').hasError('required') && competitionCreateForm.get('season_id').touched">
+                            formControlName="season_id">
                         <option *ngFor="let season of seasons" [value]="season.id" [disabled]="season.ended == true">{{season.title}}</option>
                     </select>
                 </div>
@@ -49,23 +47,20 @@
                     <label class="form-control-label" for="tournament_id"><strong>Турнір:</strong></label>
                     <select id="tournament_id"
                             class="form-control"
-                            formControlName="tournament_id"
-                            [class.form-control-danger]="competitionCreateForm.get('tournament_id').hasError('required') && competitionCreateForm.get('season_id').touched">
+                            formControlName="tournament_id">
                         <option *ngFor="let tournament of tournaments" [value]="tournament.id">{{tournament.title}}</option>
                     </select>
                 </div>
                 <!-- number of teams -->
                 <div class="form-group"
                      [hidden]="competitionCreateForm.get('tournament_id').value != competitionsEnvironment.team.id"
-                     [class.has-danger]="competitionCreateForm.get('number_of_teams').invalid && competitionCreateForm.get('number_of_teams').touched">
+                     [class.form-group-invalid-custom]="competitionCreateForm.get('number_of_teams').invalid && competitionCreateForm.get('number_of_teams').touched">
                     <label class="form-control-label" for="number_of_teams"><strong>Кількість команд:</strong></label>
                     <input type="number"
                         id="number_of_teams"
                         class="form-control"
-                        formControlName="number_of_teams"
-                        [class.form-control-danger]="competitionCreateForm.get('number_of_teams').invalid && competitionCreateForm.get('season_id').touched">
-                    <div *ngIf="competitionCreateForm.get('number_of_teams').hasError('parity') && competitionCreateForm.get('number_of_teams').touched"
-                         class="form-control-feedback">
+                        formControlName="number_of_teams">
+                    <div *ngIf="competitionCreateForm.get('number_of_teams').hasError('parity') && competitionCreateForm.get('number_of_teams').touched">
                         <small>Кількість команд повинна бути парною.</small>
                     </div>
                 </div>
