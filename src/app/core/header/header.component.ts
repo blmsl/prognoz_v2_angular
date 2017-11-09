@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
     ) { }
 
     headerSignInForm: FormGroup;
+    isCollapsed = true;
     spinnerButton: boolean = false;
     user: User;
 
