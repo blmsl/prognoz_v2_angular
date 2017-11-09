@@ -9,12 +9,11 @@
         <form [formGroup]="addGuestbookMessageForm" (ngSubmit)="onSubmit()" novalidate class="bg-dark p-2 mb-0 mb-sm-2 rounded">
             <input type="hidden" name="user_id" formControlName="user_id">
             <div class="form-group"
-                 [class.has-danger]="addGuestbookMessageForm.get('body').invalid && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)">
+                 [class.form-group-invalid-custom]="addGuestbookMessageForm.get('body').invalid && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)">
                 <label class="form-control-label" for="body"><strong>Добавити повідомлення:</strong></label>
                 <textarea id="body"
                           placeholder="Напишіть щось..."
                           class="form-control"
-                          [class.form-control-danger]="addGuestbookMessageForm.get('body').invalid && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)"
                           rows="3"
                           formControlName="body">
                     </textarea>
