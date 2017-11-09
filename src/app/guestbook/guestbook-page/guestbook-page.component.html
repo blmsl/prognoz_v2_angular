@@ -17,13 +17,13 @@
                           rows="3"
                           formControlName="body">
                     </textarea>
-                <div *ngIf="addGuestbookMessageForm.get('body').hasError('required') && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)" class="form-control-feedback">
+                <div *ngIf="addGuestbookMessageForm.get('body').hasError('required') && (addGuestbookMessageForm.get('body').touched || !addGuestbookMessageForm.get('body').pristine)">
                     <small>Текст коментаря обов'язковий.</small>
                 </div>
-                <div *ngIf="addGuestbookMessageForm.get('body').hasError('minlength') && !addGuestbookMessageForm.get('body').pristine" class="form-control-feedback">
+                <div *ngIf="addGuestbookMessageForm.get('body').hasError('minlength') && !addGuestbookMessageForm.get('body').pristine">
                     <small>Текст коментаря повинен бути більшим ніж 10 символів.</small>
                 </div>
-                <div *ngIf="addGuestbookMessageForm.get('body').hasError('maxlength') && !addGuestbookMessageForm.get('body').pristine" class="form-control-feedback">
+                <div *ngIf="addGuestbookMessageForm.get('body').hasError('maxlength') && !addGuestbookMessageForm.get('body').pristine">
                     <small>Текст коментаря перевищує 1000 символів.</small>
                 </div>
             </div>

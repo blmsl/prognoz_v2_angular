@@ -41,16 +41,14 @@
                 <input type="hidden" formControlName="id">
                 <!-- home club -->
                 <div class="form-group"
-                     [class.has-danger]="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched">
+                     [class.form-group-invalid-custom]="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched">
                     <label class="form-control-label" for="t1_id"><strong>Господарі:</strong></label>
                     <select id="t1_id"
                             class="form-control"
-                            formControlName="t1_id"
-                            [class.form-control-danger]="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched">
+                            formControlName="t1_id">
                         <option *ngFor="let club of clubs" [value]="club.id">{{club.title}}</option>
                     </select>
-                    <div *ngIf="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched"
-                         class="form-control-feedback">
+                    <div *ngIf="championshipMatchEditActiveForm.get('t1_id').hasError('required') && championshipMatchEditActiveForm.get('t1_id').touched">
                         <small>Вибір першої команди обов'язковий.</small>
                     </div>
                 </div>
@@ -70,31 +68,27 @@
                 </div>
                 <!-- away club -->
                 <div class="form-group"
-                     [class.has-danger]="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched">
+                     [class.form-group-invalid-custom]="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched">
                     <label class="form-control-label" for="t2_id"><strong>Гості:</strong></label>
                     <select id="t2_id"
                             class="form-control"
-                            formControlName="t2_id"
-                            [class.form-control-danger]="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched">
+                            formControlName="t2_id">
                         <option *ngFor="let club of clubs" [value]="club.id">{{club.title}}</option>
                     </select>
-                    <div *ngIf="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched"
-                         class="form-control-feedback">
+                    <div *ngIf="championshipMatchEditActiveForm.get('t2_id').hasError('required') && championshipMatchEditActiveForm.get('t2_id').touched">
                         <small>Вибір другої команди обов'язковий.</small>
                     </div>
                 </div>
                 <!-- starts at -->
                 <div class="form-group"
-                     [class.has-danger]="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched">
+                     [class.form-group-invalid-custom]="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched">
                     <label class="form-control-label" for="starts_at"><strong>Час початку мату:</strong></label>
                     <input type="text"
                            id="starts_at"
                            placeholder="Введіть час початку матчу"
                            class="form-control"
-                           formControlName="starts_at"
-                           [class.form-control-danger]="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched">
-                    <div *ngIf="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched"
-                         class="form-control-feedback">
+                           formControlName="starts_at">
+                    <div *ngIf="championshipMatchEditActiveForm.get('starts_at').hasError('required') && championshipMatchEditActiveForm.get('starts_at').touched">
                         <small>Вибір часу початку матчу обов'язковий.</small>
                     </div>
                 </div>

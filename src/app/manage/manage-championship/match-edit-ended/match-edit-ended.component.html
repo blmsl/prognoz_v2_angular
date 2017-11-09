@@ -10,10 +10,10 @@
     <!-- matches -->
     <div *ngIf="championshipMatches && clubs" class="row">
         <div class="col-12">
-            <table class="table table-hover table-striped table-bordered">
+            <table class="table table-hover table-striped table-bordered table-responsive-sm">
                 <thead class="thead-dark">
                     <tr>
-                        <th class="text-center">№</th>
+                        <th class="d-none d-md-table-cell text-center">№</th>
                         <th colspan="2" class="text-center">Матч</th>
                         <th colspan="2" class="text-center">Результати</th>
                         <th class="text-center">Змінити</th>
@@ -21,25 +21,25 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let championshipMatch of championshipMatches | slice:0:12" [ngClass]="{'bg-success': updatedMatches['match_' + championshipMatch.id]}">
-                        <th scope="row" class="align-middle text-center">
+                        <th scope="row" class="align-middle text-center d-none d-md-table-cell">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <strong class="fa-stack-1x text-danger">{{championshipMatch.number_in_competition}}</strong>
                             </span>
                         </th>
                         <td>
-                            <select class="form-control" [(ngModel)]="championshipMatch.t1_id" [disabled]="true">
+                            <select class="form-control min-w-50" [(ngModel)]="championshipMatch.t1_id" [disabled]="true">
                                 <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
                             </select>
                         </td>
                         <td>
-                            <select class="form-control" [(ngModel)]="championshipMatch.t2_id" [disabled]="true">
+                            <select class="form-control min-w-50" [(ngModel)]="championshipMatch.t2_id" [disabled]="true">
                                 <option *ngFor="let c of clubs" [value]="c.id">{{c.title}}</option>
                             </select>
                         </td>
                         <td class="align-middle text-center">
                             <input type="number"
-                                   class="form-control"
+                                   class="form-control min-w-50"
                                    min="0"
                                    max="9"
                                    [disabled]="updatedMatches['match_' + championshipMatch.id]"
@@ -47,7 +47,7 @@
                         </td>
                         <td class="align-middle text-center">
                             <input type="number"
-                                   class="form-control"
+                                   class="form-control min-w-50"
                                    min="0"
                                    max="9"
                                    [disabled]="updatedMatches['match_' + championshipMatch.id]"

@@ -72,3 +72,7 @@ form .form-group-invalid-custom .input-group-addon {
     color: #dc3545;
 }
 
+.min-w-50 {
+    min-width: 50px;
+}
+
