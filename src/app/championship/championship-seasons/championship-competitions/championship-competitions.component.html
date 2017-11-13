@@ -5,20 +5,20 @@
     <div class="col">
         <div class="card blue-shadow">
             <div class="text-center">
-                <div *ngFor="let competition of competitions" ngbDropdown class="d-inline-block m-2">
-                    <button class="btn btn-outline-primary"
-                            [attr.id]="'competition_' + competition.id"
-                            ngbDropdownToggle>
+                <div *ngFor="let competition of competitions" class="d-inline-block m-2">
+                    <button type="button"
+                            class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
                         <span class="sr-only">Toggle Dropdown</span>
                         {{competition.number_in_season}}
                     </button>
-                    <div ngbDropdownMenu
-                         [attr.aria-labelledby]="'competition_' + competition.id"
-                         class="blue-shadow">
+                    <div class="dropdown-menu blue-shadow">
                         <a routerLink="{{competition.id}}/winners" routerLinkActive="active" class="dropdown-item">Переможці</a>
-                        <!--<div class="dropdown-divider"></div>-->
+                        <div class="dropdown-divider"></div>
                         <a routerLink="{{competition.id}}/rating" routerLinkActive="active" class="dropdown-item">Рейтинг</a>
-                        <!--<div class="dropdown-divider"></div>-->
+                        <div class="dropdown-divider"></div>
                         <a routerLink="{{competition.id}}/results" routerLinkActive="active" class="dropdown-item">Результати</a>
                     </div>
                 </div>

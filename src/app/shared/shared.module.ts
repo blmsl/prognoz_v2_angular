@@ -16,7 +16,6 @@ import { ConfirmModalComponent }                      from './confirm-modal/conf
 import { ErrorComponent }                             from './error/error.component';
 import { InfoComponent }                              from './info/info.component';
 import { LastUserComponent }                          from './last-user/last-user.component';
-import { NgbModule }                                  from '@ng-bootstrap/ng-bootstrap';
 import { SpinnerButtonComponent }                     from './spinner-button/spinner-button.component';
 import { SpinnerComponent }                           from './spinner/spinner.component';
 import { PaginationComponent }                        from './pagination/pagination.component';
@@ -36,7 +35,6 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         CommonModule,
         AppRoutingModule,
         ChartsModule,
-        NgbModule,
         ReactiveFormsModule,
         SimpleNotificationsModule
     ],

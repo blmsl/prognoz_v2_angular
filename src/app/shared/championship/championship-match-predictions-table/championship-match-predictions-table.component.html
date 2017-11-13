@@ -6,7 +6,7 @@
         <tr>
             <th class="text-center">№</th>
             <th class="text-center" title="Ім'я гравця, який зробив прогноз">Ім'я</th>
-            <th class="text-center d-none d-sm-block" title="Час зробленого прогнозу">Час</th>
+            <th class="text-center d-none d-sm-table-cell" title="Час зробленого прогнозу">Час</th>
             <th class="text-center">Прогноз</th>
             <th class="text-center" title="Очки">О</th>
         </tr>
@@ -15,10 +15,11 @@
         <tr *ngFor="let predict of match.championship_predicts; let i = index"
             routerLink="/championship/users/{{predict.user_id}}"
             class="cursor-pointer"
-            [ngClass]="{'table-active': authenticatedUser && (predict.user.id === authenticatedUser.id)}">
+            [ngClass]="{'table-active': authenticatedUser && (predict.user.id === authenticatedUser.id),
+                        'table-success': helperService.isChampionshipMatchGuessed(match, predict)}">
             <th scope="row" class="text-center">{{i + 1}}.</th>
             <td class="text-left">{{predict.user.name}}</td>
-            <td class="text-center d-none d-sm-block">{{predict.updated_at}}</td>
+            <td class="text-center d-none d-sm-table-cell">{{predict.updated_at}}</td>
             <td class="text-center">
                 {{helperService.showScore(predict.home, predict.away, '?')}}
             </td>

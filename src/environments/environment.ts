@@ -9,9 +9,9 @@ export const environment = {
     imageUserDefault: 'default.png',
     imageTeamDefault: 'default.jpeg',
     imageSettings: {
-        club: { maxSize: 200000, types: ["image/gif", "image/png"] },
-        user: { maxSize: 500000, types: ["image/gif", "image/png", "image/jpg", "image/jpeg"] },
-        news: { maxSize: 500000, types: ["image/jpg", "image/jpeg", "image/png"] },
+        club: { maxSize: 204800, types: ["image/gif", "image/png"] },
+        user: { maxSize: 524288, types: ["image/gif", "image/png", "image/jpg", "image/jpeg"] },
+        news: { maxSize: 524288, types: ["image/jpg", "image/jpeg", "image/png"] },
         team: { maxSize: 524288, types: ["image/gif", "image/png", "image/jpg", "image/jpeg"] }
     },
     tournaments: {

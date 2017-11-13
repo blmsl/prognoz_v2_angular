@@ -6,27 +6,28 @@
     <div class="card-body">
         <div class="row" title="Натисніть для більш детальної інформації">
             <div class="col-4 col-sm-5 text-right">
-                <strong class="d-none d-sm-block">{{teamTeamMatch.home_team.name}}</strong>
+                <strong class="d-none d-sm-inline">{{teamTeamMatch.home_team.name}}</strong>
                 <small class="d-sm-none">{{teamTeamMatch.home_team.name}}</small>
-                <img class="small-image rounded d-none d-sm-block ml-1"
+                <img class="small-image rounded d-none d-sm-inline ml-1"
                      src="{{teamsImagesUrl}}{{teamTeamMatch.home_team.image || teamImageDefault}}"
                      alt="{{teamTeamMatch.home_team.name}}">
             </div>
             <div class="col-4 col-sm-2 text-center">
                 <strong>{{helperService.showScore(teamTeamMatch.home, teamTeamMatch.away, 'vs')}}</strong>
                 <br class="d-sm-none">
-                <i [hidden]="expandedTeamMatch" class="fa fa-chevron-down fa-lg text-primary d-sm-none"></i>
-                <i [hidden]="!expandedTeamMatch" class="fa fa-chevron-up fa-lg text-primary d-sm-none"></i>
+                <i [hidden]="expandedTeamMatch || spinnerTeamMatches" class="fa fa-chevron-down fa-lg text-primary d-sm-none"></i>
+                <i [hidden]="!expandedTeamMatch || spinnerTeamMatches" class="fa fa-chevron-up fa-lg text-primary d-sm-none"></i>
+                <i [hidden]="!spinnerTeamMatches" class="fa fa-spinner fa-spin fa-lg text-primary d-sm-none"></i>
             </div>
             <div class="col-4 col-sm-5 text-left">
-                <img class="small-image rounded d-none d-sm-block mr-1"
+                <img class="small-image rounded d-none d-sm-inline mr-1"
                      src="{{teamsImagesUrl}}{{teamTeamMatch.away_team.image || teamImageDefault}}"
                      alt="{{teamTeamMatch.away_team.name}}">
                 <small class="d-sm-none">{{teamTeamMatch.away_team.name}}</small>
-                <strong class="d-none d-sm-block">{{teamTeamMatch.away_team.name}}</strong>
-                <i [hidden]="expandedTeamMatch || spinnerTeamMatches" class="pull-right fa fa-chevron-down fa-lg text-primary d-none d-sm-block"></i>
-                <i [hidden]="!expandedTeamMatch || spinnerTeamMatches" class="pull-right fa fa-chevron-up fa-lg text-primary d-none d-sm-block"></i>
-                <i [hidden]="!spinnerTeamMatches" class="pull-right fa fa-spinner fa-spin fa-lg fa-fw text-primary"></i>
+                <strong class="d-none d-sm-inline">{{teamTeamMatch.away_team.name}}</strong>
+                <i [hidden]="expandedTeamMatch || spinnerTeamMatches" class="pull-right fa fa-chevron-down fa-lg text-primary d-none d-sm-inline"></i>
+                <i [hidden]="!expandedTeamMatch || spinnerTeamMatches" class="pull-right fa fa-chevron-up fa-lg text-primary d-none d-sm-inline"></i>
+                <i [hidden]="!spinnerTeamMatches" class="pull-right fa fa-spinner fa-spin fa-lg fa-fw text-primary d-none d-sm-inline"></i>
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
@@ -54,7 +55,7 @@
                     <td class="text-center"
                         [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
                         <img *ngIf="teamTeamMatch.home_team_goalkeeper_id"
-                             class="small-image rounded-circle d-none d-lg-block"
+                             class="small-image rounded-circle d-none d-lg-table-cell"
                              src="{{userImagesUrl}}{{teamTeamMatch.home_team_goalkeeper.image || userImageDefault}}"
                              alt="{{teamTeamMatch.home_team_goalkeeper.name}}">
                         {{teamTeamMatch.home_team_goalkeeper_id ? teamTeamMatch.home_team_goalkeeper.name : '-'}}
@@ -64,7 +65,7 @@
                         [ngClass]="{'font-weight-bold': teamTeamMatch.home_team_goalkeeper_id}">
                         {{teamTeamMatch.away_team_goalkeeper_id ? teamTeamMatch.away_team_goalkeeper.name : '-'}}
                         <img *ngIf="teamTeamMatch.away_team_goalkeeper_id"
-                             class="small-image rounded-circle d-none d-lg-block"
+                             class="small-image rounded-circle d-none d-lg-table-cell"
                              src="{{userImagesUrl}}{{teamTeamMatch.away_team_goalkeeper.image || userImageDefault}}"
                              alt="{{teamTeamMatch.away_team_goalkeeper.name}}">
                     </td>
@@ -74,32 +75,32 @@
                 <thead>
                     <tr>
                         <th class="text-muted text-center" title="Прогноз першої команди">
-                            <small class="d-none d-sm-block">Прогноз</small>
+                            <small class="d-none d-sm-inline">Прогноз</small>
                             <small class="d-sm-none">П.</small>
                         </th>
                         <th class="text-muted text-center" title="Прогнозист першої команди">
-                            <small class="d-none d-sm-block">Гравець</small>
+                            <small class="d-none d-sm-inline">Гравець</small>
                             <small class="d-sm-none">Г.</small>
                         </th>
                         <th class="text-muted text-right" title="Господарі">
-                            <small class="d-none d-lg-block">Господарі</small>
                             <i class="fa fa-home d-lg-none pr-1" aria-hidden="true"></i>
+                            <small class="d-none d-lg-inline">Господарі</small>
                         </th>
                         <th class="text-muted text-center" title="Результат матчу">
-                            <small class="d-none d-lg-block d-xl-none">Р.</small>
-                            <small class="d-none d-xl-block">Результат</small>
+                            <small class="d-none d-xl-inline">Результат</small>
+                            <small class="d-none d-lg-inline d-xl-none">Р.</small>
                             <i class="fa fa-soccer-ball-o d-lg-none" aria-hidden="true"></i>
                         </th>
                         <th class="text-muted text-left" title="Гості">
-                            <small class="d-none d-lg-block">Гості</small>
                             <i class="fa fa-plane d-lg-none pl-1" aria-hidden="true"></i>
+                            <small class="d-none d-lg-inline">Гості</small>
                         </th>
                         <th class="text-muted text-center" title="Прогнозист другої команди">
-                            <small class="d-none d-sm-block">Гравець</small>
+                            <small class="d-none d-sm-inline">Гравець</small>
                             <small class="d-sm-none">Г.</small>
                         </th>
                         <th class="text-muted text-center" title="Прогноз другої комади">
-                            <small class="d-none d-sm-block">Прогноз</small>
+                            <small class="d-none d-sm-inline">Прогноз</small>
                             <small class="d-sm-none">П.</small>
                         </th>
                     </tr>
@@ -108,43 +109,43 @@
                     <tr *ngFor="let teamMatch of teamMatches">
                         <td class="align-middle text-center"
                             title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).predicted_at}}"
-                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id)
-                                                              && !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
-                                                'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
-                                                'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id)
-                                                              || helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id)}">
-                            <span class="d-none d-sm-block">{{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).prediction}}</span>
+                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) &&
+                                                      !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
+                                        'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
+                                        'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id) ||
+                                                      helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id)}">
+                            <span class="d-none d-sm-inline">{{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).prediction}}</span>
                             <small class="d-sm-none">{{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).prediction}}</small>
                         </td>
                         <td class="align-middle text-center"
                             title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).predicted_at}}"
-                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id)
-                                                              && !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
-                                                'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
-                                                'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id)
-                                                              || helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id)}">
-                            <span class="d-none d-sm-block">{{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).name}}</span>
+                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) &&
+                                                      !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
+                                        'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
+                                        'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id) ||
+                                                      helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id)}">
+                            <span class="d-none d-sm-inline">{{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).name}}</span>
                             <small class="d-sm-none">{{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).name}}</small>
                         </td>
                         <td class="align-middle text-right">
-                                    <span *ngIf="helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) && !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id)"
-                                          class="pull-left text-success d-none d-lg-block">
-                                        <i class="fa fa-lg fa-check-circle-o" aria-hidden="true"></i>
-                                    </span>
+                            <span *ngIf="helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) && !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id)"
+                                  class="pull-left text-success d-none d-lg-inline">
+                                <i class="fa fa-lg fa-check-circle-o" aria-hidden="true"></i>
+                            </span>
                             <span *ngIf="!helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) && helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id)"
-                                  class="pull-left text-danger d-none d-lg-block"
+                                  class="pull-left text-danger d-none d-lg-inline"
                                   title="">
-                                        <i class="fa fa-lg fa-lock" aria-hidden="true"></i>
-                                    </span>
+                                <i class="fa fa-lg fa-lock" aria-hidden="true"></i>
+                            </span>
                             <span *ngIf="helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) && helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id)"
-                                  class="pull-left d-none d-lg-block">
-                                        <span class="fa-stack">
-                                              <i class="fa fa-check-circle fa-stack-1x text-success"></i>
-                                              <i class="fa fa-ban fa-stack-2x text-danger"></i>
-                                        </span>
-                                    </span>
-                            <small class="d-none d-lg-block d-xl-none">{{teamMatch.club_first.title}}</small>
-                            <span class="d-none d-xl-block">{{teamMatch.club_first.title}}</span>
+                                  class="pull-left d-none d-lg-inline">
+                                <span class="fa-stack">
+                                    <i class="fa fa-check-circle fa-stack-1x text-success"></i>
+                                    <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                                </span>
+                            </span>
+                            <small class="d-none d-lg-inline d-xl-none">{{teamMatch.club_first.title}}</small>
+                            <span class="d-none d-xl-inline">{{teamMatch.club_first.title}}</span>
                             <img class="small-image" src="{{clubsImagesUrl}}{{teamMatch.club_first.image}}" alt="{{teamMatch.club_first.title}}"
                                  title="{{teamMatch.club_first.title}}">
                         </td>
@@ -154,42 +155,42 @@
                         <td class="align-middle text-left">
                             <img class="small-image" src="{{clubsImagesUrl}}{{teamMatch.club_second.image}}" alt="{{teamMatch.club_second.title}}"
                                  title="{{teamMatch.club_second.title}}">
-                            <small class="d-none d-lg-block d-xl-none">{{teamMatch.club_second.title}}</small>
-                            <span class="d-none d-xl-block">{{teamMatch.club_second.title}}</span>
+                            <small class="d-none d-lg-inline d-xl-none">{{teamMatch.club_second.title}}</small>
+                            <span class="d-none d-xl-inline">{{teamMatch.club_second.title}}</span>
                             <span *ngIf="helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id) && !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id)"
-                                  class="pull-right text-success d-none d-lg-block">
-                                        <i class="fa fa-lg fa-check-circle-o" aria-hidden="true"></i>
-                                    </span>
+                                  class="pull-right text-success d-none d-lg-inline">
+                                <i class="fa fa-lg fa-check-circle-o" aria-hidden="true"></i>
+                            </span>
                             <span *ngIf="!helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id) && helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id)"
-                                  class="pull-right text-danger d-none d-lg-block">
-                                        <i class="fa fa-lg fa-lock" aria-hidden="true"></i>
-                                    </span>
+                                  class="pull-right text-danger d-none d-lg-inline">
+                                <i class="fa fa-lg fa-lock" aria-hidden="true"></i>
+                            </span>
                             <span *ngIf="helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id) && helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id)"
-                                  class="pull-right d-none d-lg-block">
-                                        <span class="fa-stack">
-                                              <i class="fa fa-check-circle fa-stack-1x text-success"></i>
-                                              <i class="fa fa-ban fa-stack-2x text-danger"></i>
-                                        </span>
-                                    </span>
+                                  class="pull-right d-none d-lg-inline">
+                                <span class="fa-stack">
+                                    <i class="fa fa-check-circle fa-stack-1x text-success"></i>
+                                    <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                                </span>
+                            </span>
                         </td>
                         <td class="align-middle text-center"
                             title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).predicted_at}}"
-                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id)
-                                                              && !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
-                                                'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
-                                                'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id)
-                                                              || helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id)}">
-                            <span class="d-none d-sm-block">{{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).name}}</span>
+                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id) &&
+                                                      !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
+                                        'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
+                                        'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id) ||
+                                                      helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id)}">
+                            <span class="d-none d-sm-inline">{{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).name}}</span>
                             <small class="d-sm-none">{{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).name}}</small>
                         </td>
                         <td class="align-middle text-center"
                             title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).predicted_at}}"
-                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id)
-                                                              && !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
-                                                'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
-                                                'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id)
-                                                              || helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id)}">
-                            <span class="d-none d-sm-block">{{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).prediction}}</span>
+                            [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id) &&
+                                                      !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
+                                        'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
+                                        'text-white': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id) ||
+                                                      helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id)}">
+                            <span class="d-none d-sm-inline">{{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).prediction}}</span>
                             <small class="d-sm-none">{{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).prediction}}</small>
                         </td>
                     </tr>

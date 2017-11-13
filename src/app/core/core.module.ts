@@ -12,7 +12,6 @@ import { HeaderComponent }        from './header/header.component';
 import { HeadersWithToken }       from './headers-with-token.service';
 import { HelperService }          from './helper.service';
 import { ImageService }           from './image.service';
-import { NgbModule }              from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent }  from './page-not-found/page-not-found.component';
 import { SharedModule }           from '../shared/shared.module';
 import { throwIfAlreadyLoaded }   from './module-import-guard';
@@ -25,7 +24,6 @@ import { UserService }            from './user.service';
         ReactiveFormsModule,
         RouterModule,
         SharedModule,
-        NgbModule
     ],
     exports: [
         AccessDeniedComponent,

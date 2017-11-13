@@ -3,6 +3,7 @@ import { FormGroup }                from '@angular/forms';
 
 import { ChampionshipPrediction }   from '../shared/models/championship-prediction.model';
 import { TeamMatch }                from '../shared/models/team-match.model';
+import {ChampionshipMatch} from "../shared/models/championship-match.model";
 
 @Injectable()
 
@@ -172,6 +173,26 @@ export class HelperService {
         return championshipPredictionsToUpdate;
     }
 
+    /**
+     * Is championship match guessed
+     * @param championshipMatch
+     * @param championshipPrediction
+     * @returns {boolean}
+     */
+    isChampionshipMatchGuessed(championshipMatch: ChampionshipMatch,
+                               championshipPrediction: ChampionshipPrediction): boolean {
+        if (!championshipMatch.ended) {
+            return false;
+        }
+        if (this.isScore(championshipPrediction.home, championshipPrediction.away)) {
+            if (this.getUserPointsOnMatch(championshipMatch.home, championshipMatch.away,
+                    championshipPrediction.home, championshipPrediction.away) === 3) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Is team match guessed

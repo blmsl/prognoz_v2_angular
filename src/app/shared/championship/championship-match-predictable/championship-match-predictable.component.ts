@@ -1,9 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup }                from '@angular/forms';
 
 import { ChampionshipMatch }        from '../../models/championship-match.model';
 import { ChampionshipMatchService } from '../../../championship/shared/championship-match.service';
 import { environment }              from '../../../../environments/environment';
+
+declare var $: any;
 
 @Component({
   selector: 'app-championship-match-predictable',
@@ -17,7 +19,8 @@ export class ChampionshipMatchPredictableComponent implements OnChanges {
     @Input() championshipPredictsForm: FormGroup;
 
     constructor(
-      private championshipMatchService: ChampionshipMatchService
+        private championshipMatchService: ChampionshipMatchService,
+        private changeDetectorRef: ChangeDetectorRef
     ) { }
 
     clubsImagesUrl: string = environment.apiImageClubs;
@@ -29,33 +32,32 @@ export class ChampionshipMatchPredictableComponent implements OnChanges {
     spinnerStatistic = false;
     statistic: any = false;
 
-    getChampionshipMatchStatisticData(match: ChampionshipMatch) {
-        if (this.isCollapsed) {
+    getChampionshipMatchStatisticData(match: ChampionshipMatch, forceUpdate: boolean = false) {
+        if (this.isCollapsed || forceUpdate) {
             this.spinnerStatistic = true;
             this.championshipMatchService.getChampionshipMatch(match.id, [{parameter: 'statistic', value: 'true'}])
                 .subscribe(
                     response => {
-                        this.isCollapsed = !this.isCollapsed;
                         this.resultChartLabels = [match.club_first.title, match.club_second.title, 'Нічия'];
                         this.resultChartData = [response.results.home, response.results.away, response.results.draw];
                         this.statistic = response;
                         this.spinnerStatistic = false;
+                        this.changeDetectorRef.detectChanges();
                     },
                     error => {
-                        this.isCollapsed = !this.isCollapsed;
                         this.errorStatistic = error;
                         this.spinnerStatistic = false;
                     }
                 );
-        } else {
-            this.isCollapsed = !this.isCollapsed;
         }
     }
 
     ngOnChanges(changes: SimpleChanges) {
         for (const propName in changes) {
             if (!changes[propName].firstChange && propName === 'match') {
-                this.isCollapsed = true;
+                if (!this.isCollapsed) {
+                    this.getChampionshipMatchStatisticData(changes[propName].currentValue, true);
+                }
             }
         }
     }

@@ -3,7 +3,6 @@ import { NgModule }         from '@angular/core';
 
 import { AppRoutingModule } from '../app-routing.module';
 import { HomeComponent }    from './home.component';
-import { NgbModule }        from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule }     from '../shared/shared.module';
 
 @NgModule({
@@ -11,7 +10,6 @@ import { SharedModule }     from '../shared/shared.module';
         CommonModule,
         AppRoutingModule,
         SharedModule,
-        NgbModule
     ],
     declarations: [HomeComponent],
     exports: [HomeComponent]

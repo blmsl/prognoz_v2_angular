@@ -76,3 +76,7 @@ form .form-group-invalid-custom .input-group-addon {
     min-width: 50px;
 }
 
+[hidden] {
+    display: none !important;
+}
+
