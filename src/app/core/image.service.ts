@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
 
 export class ImageService {
-    
+
     private uploadedImage = new Subject<string>();
     private uploadError = new Subject<string>();
-    
+
     uploadedImage$ = this.uploadedImage.asObservable();
     uploadError$ = this.uploadError.asObservable();
-    
+
     fileChange(event, type) {
         let fileList: FileList = event.target.files;
         if(fileList.length > 0) {

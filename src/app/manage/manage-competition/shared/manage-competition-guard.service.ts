@@ -18,7 +18,6 @@ export class ManageCompetitionGuard implements CanActivate, CanActivateChild {
 
     /**
      * Check if user have acceptable roles to edit news
-     *
      * @returns {boolean}
      */
     checkRole(): boolean {

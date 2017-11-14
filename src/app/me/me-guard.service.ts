@@ -17,7 +17,6 @@ export class MeGuard implements CanActivate {
 
     /**
      * Check if there is user userService
-     *
      * @returns {boolean}
      */
     checkRoles(): boolean {

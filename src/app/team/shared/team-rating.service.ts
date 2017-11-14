@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Injectable }               from '@angular/core';
+import { HttpClient, HttpParams }   from '@angular/common/http';
+import { Observable }               from 'rxjs/Observable';
 
-import { TeamRating } from '../../shared/models/team-rating.model';
-import { environment } from '../../../environments/environment';
-import { ErrorHandlerService } from '../../core/error-handler.service';
-import { RequestParams } from '../../shared/models/request-params.model';
+import { TeamRating }           from '../../shared/models/team-rating.model';
+import { environment }          from '../../../environments/environment';
+import { ErrorHandlerService }  from '../../core/error-handler.service';
+import { RequestParams }        from '../../shared/models/request-params.model';
 
 @Injectable()
 export class TeamRatingService {

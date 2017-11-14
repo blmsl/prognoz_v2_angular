@@ -3,7 +3,7 @@ import { FormGroup }                from '@angular/forms';
 
 import { ChampionshipPrediction }   from '../shared/models/championship-prediction.model';
 import { TeamMatch }                from '../shared/models/team-match.model';
-import {ChampionshipMatch} from "../shared/models/championship-match.model";
+import { ChampionshipMatch }        from '../shared/models/championship-match.model';
 
 @Injectable()
 

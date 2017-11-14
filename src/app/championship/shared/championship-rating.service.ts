@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Injectable }               from '@angular/core';
+import { HttpClient, HttpParams }   from '@angular/common/http';
+import { Observable }               from 'rxjs/Observable';
 
-import { ChampionshipRating } from '../../shared/models/championship-rating.model';
-import { ErrorHandlerService } from '../../core/error-handler.service';
-import { environment } from '../../../environments/environment';
-import { HeadersWithToken } from '../../core/headers-with-token.service';
-import { RequestParams } from '../../shared/models/request-params.model';
+import { ChampionshipRating }       from '../../shared/models/championship-rating.model';
+import { ErrorHandlerService }      from '../../core/error-handler.service';
+import { environment }              from '../../../environments/environment';
+import { HeadersWithToken }         from '../../core/headers-with-token.service';
+import { RequestParams }            from '../../shared/models/request-params.model';
 
 @Injectable()
 

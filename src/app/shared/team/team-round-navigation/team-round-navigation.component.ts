@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { TeamTeamMatch }    from "../../models/team-team-match.model";
+import { TeamTeamMatch }    from '../../models/team-team-match.model';
 
 @Component({
     selector: 'app-team-round-navigation',

@@ -24,7 +24,7 @@ export class PaginationComponent implements OnChanges {
             this.pager = this.getPage(this.totalItems, this.currentPage, this.pageSize);
         }
     }
-    
+
     private getPage(totalItems: number, current: number, perPage: number) {
         let currentPage = current || 1;
         let pageSize = perPage || 10;
@@ -65,6 +65,6 @@ export class PaginationComponent implements OnChanges {
             startIndex: startIndex,
             endIndex: endIndex,
             pages: pages
-        }
+        };
     }
 }

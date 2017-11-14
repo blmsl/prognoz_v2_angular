@@ -3,18 +3,17 @@ import { CanActivate, Router }  from '@angular/router';
 
 @Injectable()
 export class ManageGuard implements CanActivate {
-    
+
     constructor(
         private router: Router
     ) {}
-    
+
     canActivate() {
         return this.checkRoles();
     }
 
     /**
      * Check if user have some roles in localStorage
-     *
      * @returns {boolean}
      */
     checkRoles(): boolean {

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpParams } from '@angular/common/http';
 
-import { environment } from '../../../environments/environment';
-import { ErrorHandlerService } from '../../core/error-handler.service';
-import { HeadersWithToken } from '../../core/headers-with-token.service';
-import { RequestParams } from '../../shared/models/request-params.model';
-import { TeamPrediction } from '../../shared/models/team-prediction.model';
+import { environment }          from '../../../environments/environment';
+import { ErrorHandlerService }  from '../../core/error-handler.service';
+import { HeadersWithToken }     from '../../core/headers-with-token.service';
+import { RequestParams }        from '../../shared/models/request-params.model';
+import { TeamPrediction }       from '../../shared/models/team-prediction.model';
 
 @Injectable()
 export class TeamPredictionService {

@@ -39,7 +39,7 @@ export class AuthSignupComponent implements OnInit {
             password_confirmation: new FormControl('', [Validators.required]),
         });
     }
-    
+
     onSubmit() {
         if (this.signUpForm.valid) {
             this.spinnerButton = true;

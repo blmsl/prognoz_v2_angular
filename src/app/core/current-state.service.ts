@@ -1,7 +1,7 @@
-import { Injectable }               from '@angular/core';
+import { Injectable }   from '@angular/core';
 
-import { AuthService }              from './auth.service';
-import { User }                     from '../shared/models/user.model';
+import { AuthService }  from './auth.service';
+import { User }         from '../shared/models/user.model';
 
 @Injectable()
 export class CurrentStateService {

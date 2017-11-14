@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Injectable }               from '@angular/core';
+import { HttpClient, HttpParams }   from '@angular/common/http';
+import { Observable }               from 'rxjs/Observable';
 
-import { TeamParticipant } from '../../shared/models/team-participant.model';
-import { environment } from '../../../environments/environment';
-import { ErrorHandlerService } from '../../core/error-handler.service';
-import { HeadersWithToken } from '../../core/headers-with-token.service';
-import { RequestParams } from '../../shared/models/request-params.model';
+import { TeamParticipant }      from '../../shared/models/team-participant.model';
+import { environment }          from '../../../environments/environment';
+import { ErrorHandlerService }  from '../../core/error-handler.service';
+import { HeadersWithToken }     from '../../core/headers-with-token.service';
+import { RequestParams }        from '../../shared/models/request-params.model';
 
 @Injectable()
 export class TeamParticipantService {
@@ -38,7 +38,6 @@ export class TeamParticipantService {
 
     /**
      * Get participants for captain
-     *
      * @param requestParams
      * @returns {Observable<any>}
      */

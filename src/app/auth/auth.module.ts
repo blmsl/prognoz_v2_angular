@@ -27,7 +27,7 @@ import { SharedModule }          from '../shared/shared.module';
       AuthSignupComponent,
   ],
   exports: [
-      AuthComponent  
+      AuthComponent
   ]
 })
 export class AuthModule { }

@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup }                from '@angular/forms';
+import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges }    from '@angular/core';
+import { FormGroup }                                                        from '@angular/forms';
 
 import { ChampionshipMatch }        from '../../models/championship-match.model';
 import { ChampionshipMatchService } from '../../../championship/shared/championship-match.service';

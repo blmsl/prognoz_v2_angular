@@ -18,7 +18,6 @@ export class ManageTeamGuard implements CanActivate, CanActivateChild {
 
     /**
      * Check if user have acceptable roles to edit team competition
-     *
      * @returns {boolean}
      */
     checkRole(): boolean {

@@ -14,7 +14,7 @@ import { NotificationsService }                 from 'angular2-notifications';
   styleUrls: ['./match-create.component.css']
 })
 export class MatchCreateComponent implements OnInit {
-    
+
     constructor(
         private championshipMatchService: ChampionshipMatchService,
         private clubService: ClubService,

@@ -18,7 +18,6 @@ export class ManageSeasonGuard implements CanActivate, CanActivateChild {
 
     /**
      * Check if user have acceptable roles to edit seasons
-     *
      * @returns {boolean}
      */
     checkRole(): boolean {

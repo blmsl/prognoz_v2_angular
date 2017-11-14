@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Injectable }               from '@angular/core';
+import { HttpClient, HttpHeaders }  from '@angular/common/http';
+import { Observable }               from 'rxjs/Observable';
 
-import { environment } from '../../environments/environment';
-import { ErrorHandlerService } from './error-handler.service';
-import { HeadersWithToken } from './headers-with-token.service';
-import { User } from '../shared/models/user.model';
+import { environment }          from '../../environments/environment';
+import { ErrorHandlerService }  from './error-handler.service';
+import { HeadersWithToken }     from './headers-with-token.service';
+import { User }                 from '../shared/models/user.model';
 
 @Injectable()
 export class AuthService {
