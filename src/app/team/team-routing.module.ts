@@ -52,7 +52,7 @@ const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: 'matches',
+                redirectTo: 'squads',
                 pathMatch: 'full'
             }
         ]

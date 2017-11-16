@@ -151,6 +151,7 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
                 this.resetCompetitionData();
                 if (response) {
                     this.competition = response.competition;
+                    this.getTeamsData();
                 }
             },
             error => {
@@ -161,7 +162,8 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
     }
 
     getTeamsData() {
-        this.teamService.getTeams().subscribe(
+        const param = [{parameter: 'competition_id', value: this.competition.id.toString()}];
+        this.teamService.getTeams(param).subscribe(
             response => {
                 this.resetTeamsData();
                 if (response) {
@@ -206,10 +208,8 @@ export class TeamSquadsComponent implements OnDestroy, OnInit {
         this.userSubscription = this.authService.getUser.subscribe(response => {
             this.authenticatedUser = response;
             this.getCompetitionData();
-            this.getTeamsData();
         });
         this.getCompetitionData();
-        this.getTeamsData();
         this.teamCreateForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
             image: new FormControl(null, []),

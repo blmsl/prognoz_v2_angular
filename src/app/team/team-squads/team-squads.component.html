@@ -1,6 +1,6 @@
 <h2>
     Заявки / Склади:
-    <button (click)="getTeamsData(); getCompetitionData();" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
+    <button (click)="getTeamsData()" title="Оновити" class="btn btn-sm btn-outline-secondary cursor-pointer">
         <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
     </button>
 </h2>
@@ -66,7 +66,7 @@
                 <td class="align-middle"
                     [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id),
                                 'font-weight-bold': participant.confirmed}">
-                    <img class="small-image rounded-circle d-none d-sm-block mr-1"
+                    <img class="small-image rounded-circle d-none d-sm-inline mr-1"
                          src="{{userImagesUrl}}{{participant.user.image || userImageDefault}}"
                          alt="{{participant.user.name}}">
                     {{participant.user.name}}
