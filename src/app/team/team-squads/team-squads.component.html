@@ -5,7 +5,7 @@
     </button>
 </h2>
 <!-- create / make team stated button -->
-<div *ngIf="authenticatedUser && !alreadyJoined && !alreadyPending && competition && competition.stated" class="row mb-2">
+<div *ngIf="authenticatedUser && !alreadyJoined && !alreadyPending && competition && competition.stated && teams" class="row mb-2">
     <div class="col">
         <button type="button" class="btn btn-primary mb-2 mb-sm-0" data-toggle="modal" data-target="#teamEditModal">
             Створити нову команду
@@ -31,41 +31,34 @@
         </thead>
         <tbody *ngFor="let team of teams">
             <tr *ngFor="let participant of team.team_participants; let i = index;">
-                <td *ngIf="i === 0" [attr.rowspan]="team.team_participants.length" class="p-2">
+                <td *ngIf="i === 0"
+                    [attr.rowspan]="team.team_participants.length"
+                    class="p-2"
+                    [ngClass]="{'table-success': numberOfConfirmedParticipants(team.team_participants) === 4}">
                     <div class="card">
+                        <h4 class="card-header">
+                            {{team.name}}
+                            <small class="pull-right text-muted d-none d-lg-inline">{{numberOfConfirmedParticipants(team.team_participants)}}/4</small>
+                        </h4>
                         <div class="card-body">
-                            <h4 class="card-title d-none d-sm-block">
-                                {{team.name}}
-                                <span class="pull-right">
-                                    {{numberOfConfirmedParticipants(team.team_participants)}}/4
-                                </span>
-                                <span *ngIf="numberOfConfirmedParticipants(team.team_participants) === 4" class="pull-right">
-                                    <i class="fa fa-lg fa-check-circle-o text-success mr-1" aria-hidden="true"></i>
-                                </span>
-                            </h4>
-                            <div class="d-sm-none">
-                                <strong>{{team.name}}</strong>
-                            </div>
-                            <h6 *ngIf="team.caption" class="card-subtitle mb-2 text-muted d-none d-sm-block">
-                                <small>{{team.caption}}</small>
-                            </h6>
-                            <div class="text-center d-none d-sm-block mb-2">
+                            <div class="text-center mb-2">
                                 <img class="team-img img-fluid rounded card-img-bottom"
                                      src="{{teamsImagesUrl}}{{team.image || teamImageDefault}}"
                                      alt="{{team.name}}">
                             </div>
-                            <div *ngIf="showJoinButton(team) && !alreadyJoined && competition && competition.stated" class="text-center">
-                                <button class="btn btn-sm btn-info" (click)="joinTeamModalOpen(team)" data-toggle="modal" data-target="#joinTeamConfirmModal">
-                                    <small class="d-sm-none">Приєднатись</small>
-                                    <span class="d-none d-sm-block">Приєднатись</span>
-                                </button>
-                            </div>
+                        </div>
+                        <div *ngIf="showJoinButton(team) && !alreadyJoined && competition && competition.stated" class="card-footer text-center">
+                            <button class="btn btn-primary" (click)="joinTeamModalOpen(team)" data-toggle="modal" data-target="#joinTeamConfirmModal">
+                                Приєднатись
+                            </button>
                         </div>
                     </div>
                 </td>
                 <td class="align-middle"
                     [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id),
-                                'font-weight-bold': participant.confirmed}">
+                                'font-weight-bold': participant.confirmed,
+                                'table-success': (numberOfConfirmedParticipants(team.team_participants) === 4 && participant.confirmed),
+                                'table-danger': (numberOfConfirmedParticipants(team.team_participants) === 4 && participant.refused)}">
                     <img class="small-image rounded-circle d-none d-sm-inline mr-1"
                          src="{{userImagesUrl}}{{participant.user.image || userImageDefault}}"
                          alt="{{participant.user.name}}">
@@ -73,7 +66,9 @@
                     <span [hidden]="!participant.captain" title="Капітан команди"> (К)</span>
                 </td>
                 <td class="text-center align-middle"
-                    [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id)}">
+                    [ngClass]="{'table-active': (this.authenticatedUser && this.authenticatedUser.id === participant.user_id),
+                                'table-success': (numberOfConfirmedParticipants(team.team_participants) === 4 && participant.confirmed),
+                                'table-danger': (numberOfConfirmedParticipants(team.team_participants) === 4 && participant.refused)}">
                     <div *ngIf="authenticatedUser && team.captain_id === authenticatedUser.id
                                 && !participant.confirmed && !participant.refused
                                 && competition && competition.stated">
@@ -90,15 +85,15 @@
                     </div>
                     <div *ngIf="(!participant.confirmed && !participant.refused && !authenticatedUser) || (authenticatedUser && team.captain_id !== authenticatedUser.id && !participant.confirmed && !participant.refused)"
                          title="Очікується">
-                        <strong class="text-info"><i aria-hidden="true" class="fa fa-lg fa-question-circle-o"></i> <span class="d-none d-sm-block">Очікується</span></strong>
+                        <strong class="text-info"><i aria-hidden="true" class="fa fa-lg fa-question-circle-o"></i> <span class="d-none d-sm-inline">Очікується</span></strong>
                     </div>
                     <div *ngIf="participant.confirmed && !participant.refused"
                          title="Підтверджено">
-                        <strong class="text-success"><i aria-hidden="true" class="fa fa-lg fa-check-circle-o"></i> <span class="d-none d-sm-block">Підтверджено</span></strong>
+                        <strong class="text-success"><i aria-hidden="true" class="fa fa-lg fa-check-circle-o"></i> <span class="d-none d-sm-inline">Підтверджено</span></strong>
                     </div>
                     <div *ngIf="!participant.confirmed && participant.refused"
                          title="Відхилено">
-                        <strong class="text-danger"><i aria-hidden="true" class="fa fa-lg fa-times-circle-o"></i> <span class="d-none d-sm-block">Відхилено</span></strong>
+                        <strong class="text-danger"><i aria-hidden="true" class="fa fa-lg fa-times-circle-o"></i> <span class="d-none d-sm-inline">Відхилено</span></strong>
                     </div>
                 </td>
             </tr>
