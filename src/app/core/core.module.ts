@@ -13,6 +13,7 @@ import { HeadersWithToken }       from './headers-with-token.service';
 import { HelperService }          from './helper.service';
 import { ImageService }           from './image.service';
 import { PageNotFoundComponent }  from './page-not-found/page-not-found.component';
+import { PusherService }          from './pusher.service';
 import { SharedModule }           from '../shared/shared.module';
 import { throwIfAlreadyLoaded }   from './module-import-guard';
 import { TitleService }           from './title.service';
@@ -44,6 +45,7 @@ import { UserService }            from './user.service';
         HeadersWithToken,
         HelperService,
         ImageService,
+        PusherService,
         TitleService,
         UserService,
     ],
