@@ -8,19 +8,38 @@ declare const Pusher: any;
 export class PusherService {
 
     instance: any;
+    channelSubscription: any;
+
+    private channelName: string;
 
     constructor() {
         this.instance = new Pusher(environment.pusher.apiKey, {
             cluster: 'eu',
-            encrypted: false
+            encrypted: false,
+            authEndpoint: environment.apiUrl + 'auth/pusher',
+            auth: {
+                headers: {
+                    'Authorization': 'Bearer {' + localStorage.getItem('auth_token') + '}'
+                }
+            }
         });
     }
 
-    subscribe(channelName: string, eventName: string, callable) {
-        return this.instance.subscribe(channelName).bind(eventName, callable);
+    setChannelName(channelName: string): void {
+        this.channelName = channelName;
     }
 
-    unsubscribe(channelName: string) {
-        return this.instance.unsubscribe(channelName);
+    subscribeToChannel(): void {
+        this.channelSubscription = this.instance.subscribe(this.channelName); //.bind(eventName, callable)
+    }
+
+    unsubscribeFromChannel(): void {
+        if (this.channelName) {
+            this.instance.unsubscribe(this.channelName);
+        }
+    }
+
+    bindEvent(eventName: string, callback): void {
+        this.channelSubscription.bind(eventName, callback);
     }
 }
