@@ -1,0 +1,8 @@
+<div *ngIf="users.length" class="card mt-2 black-shadow">
+    <h4 class="card-header text-xs-center">Зараз на сайті</h4>
+    <ul class="list-group list-group-flush">
+        <li *ngFor="let user of users" class="list-group-item list-group-item-action">
+            {{user.name}}
+        </li>
+    </ul>
+</div>

@@ -1,8 +1,9 @@
 import { Injectable }       from '@angular/core';
 
 import { AuthService }      from './auth.service';
-import { User }             from '../shared/models/user.model';
 import { PusherService }    from './pusher.service';
+import { Subject }          from 'rxjs/Subject';
+import { User }             from '../shared/models/user.model';
 
 @Injectable()
 export class CurrentStateService {
@@ -14,16 +15,22 @@ export class CurrentStateService {
         this.authService.getUser.subscribe(response => {
             this.user = response;
             this.getOnlineUsers(this.user);
-            // @todo: remove console.log
+            // @todo: remove console.log; do something if subscription error occurs;
         });
     }
 
     user: User;
     onlineUsers: Array<any>;
     pusherInstance: any;
+    onlineUsersObservable = new Subject<any>();
 
     initialize(): void {
         this.authService.initializeUser();
+    }
+
+
+    private addOnlineUser(userId: number, userInfo: User) {
+        this.onlineUsers.push({id: userId, name: userInfo.name});
     }
 
     /**
@@ -31,7 +38,7 @@ export class CurrentStateService {
      * Method updates users list
      * @param {User} user
      */
-    getOnlineUsers(user: User): void {
+    private getOnlineUsers(user: User): void {
         if (user) {
             this.pusherInstance = this.pusherService.createInstance();
             const subscription = this.pusherService.subscribeToChannel(this.pusherInstance, 'presence-users');
@@ -40,6 +47,7 @@ export class CurrentStateService {
                 console.log('subscription_succeeded: ' + JSON.stringify(members));
                 members.each((member) => {
                     this.addOnlineUser(member.id, member.info);
+                    this.onlineUsersObservable.next({id: member.id, name: member.info.name});
                 });
             });
 
@@ -50,11 +58,13 @@ export class CurrentStateService {
             this.pusherService.bindEvent(subscription, 'pusher:member_added', (member) => {
                 console.log('member_added' + JSON.stringify(member));
                 this.addOnlineUser(member.id, member.info);
+                this.onlineUsersObservable.next({id: member.id, name: member.info.name});
             });
 
             this.pusherService.bindEvent(subscription, 'pusher:member_removed', (member) => {
                 console.log('member_removed' + JSON.stringify(member));
                 this.removeOnlineUser(member.id, member.info);
+                this.onlineUsersObservable.next({id: member.id, name: member.info.name});
             });
 
         } else if (this.pusherInstance) {
@@ -62,11 +72,7 @@ export class CurrentStateService {
         }
     }
 
-    addOnlineUser(userId: number, userInfo: User) {
-        this.onlineUsers.push({id: userId, name: userInfo.name});
-    }
-
-    removeOnlineUser(userId: number, userInfo: User) {
+    private removeOnlineUser(userId: number, userInfo: User) {
         this.onlineUsers.filter(user => user.id !== userId);
     }
 }

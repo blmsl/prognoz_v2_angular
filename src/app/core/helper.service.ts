@@ -229,4 +229,16 @@ export class HelperService {
 
         return false;
     }
+
+    /**
+     * Is element in array of objects
+     * @param array
+     * @param property
+     * @param value
+     * @returns {boolean}
+     */
+    isElementInArray(array, property, value) {
+        const element = array.find(item => item[property] === value);
+        return !!element;
+    }
 }
