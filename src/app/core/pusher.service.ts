@@ -7,13 +7,22 @@ declare const Pusher: any;
 @Injectable()
 export class PusherService {
 
-    instance: any;
-    channelSubscription: any;
+    /**
+     * Bind event to channel
+     * @param subscription
+     * @param {string} eventName
+     * @param callback
+     */
+    bindEvent(subscription, eventName: string, callback) {
+        return subscription.bind(eventName, callback);
+    }
 
-    private channelName: string;
-
-    constructor() {
-        this.instance = new Pusher(environment.pusher.apiKey, {
+    /**
+     * Create Pusher instance
+     * @returns {any}
+     */
+    createInstance() {
+        const pusher = new Pusher(environment.pusher.apiKey, {
             cluster: 'eu',
             encrypted: false,
             authEndpoint: environment.apiUrl + 'auth/pusher',
@@ -23,23 +32,25 @@ export class PusherService {
                 }
             }
         });
+
+        return pusher;
     }
 
-    setChannelName(channelName: string): void {
-        this.channelName = channelName;
+    /**
+     * Subscribe to channel
+     * @param instance
+     * @param {string} channelName
+     */
+    subscribeToChannel(instance, channelName: string) {
+        return instance.subscribe(channelName);
     }
 
-    subscribeToChannel(): void {
-        this.channelSubscription = this.instance.subscribe(this.channelName); //.bind(eventName, callable)
-    }
-
-    unsubscribeFromChannel(): void {
-        if (this.channelName) {
-            this.instance.unsubscribe(this.channelName);
-        }
-    }
-
-    bindEvent(eventName: string, callback): void {
-        this.channelSubscription.bind(eventName, callback);
+    /**
+     * Unsubscribe from channel
+     * @param instance
+     * @param {string} channelName
+     */
+    unsubscribeFromChannel(instance, channelName: string) {
+        return instance.unsubscribe(channelName);
     }
 }

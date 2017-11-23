@@ -13,38 +13,60 @@ export class CurrentStateService {
     ) {
         this.authService.getUser.subscribe(response => {
             this.user = response;
-            if (this.user) {
-                this.pusherService.setChannelName('presence-users');
-                this.pusherService.subscribeToChannel();
-                this.pusherService.bindEvent('pusher:subscription_succeeded', (members) => {
-                    console.log('subscription_succeeded: ' + members);
-                    this.onlineUsers = members;
-                });
-
-                this.pusherService.bindEvent('pusher:subscription_error', (error) => {
-                    console.log('error: ' + error);
-                });
-
-                this.pusherService.bindEvent('pusher:member_added', (member) => {
-                    console.log('member_added');
-                    //this.onlineUsers.push(member);
-                });
-
-                this.pusherService.bindEvent('pusher:member_removed', (member) => {
-                    console.log('member_removed');
-                    // @todo: remove user
-                    // this.onlineUsers.
-                });
-            } else {
-                this.pusherService.unsubscribeFromChannel();
-            }
+            this.getOnlineUsers(this.user);
+            // @todo: remove console.log
         });
     }
 
     user: User;
-    onlineUsers: any;
+    onlineUsers: Array<any>;
+    pusherInstance: any;
 
-    initialize() {
+    initialize(): void {
         this.authService.initializeUser();
+    }
+
+    /**
+     * Get list of online users (only if user is authenticated)
+     * Method updates users list
+     * @param {User} user
+     */
+    getOnlineUsers(user: User): void {
+        if (user) {
+            this.pusherInstance = this.pusherService.createInstance();
+            const subscription = this.pusherService.subscribeToChannel(this.pusherInstance, 'presence-users');
+
+            this.pusherService.bindEvent(subscription, 'pusher:subscription_succeeded', (members) => {
+                console.log('subscription_succeeded: ' + JSON.stringify(members));
+                members.each((member) => {
+                    this.addOnlineUser(member.id, member.info);
+                });
+            });
+
+            this.pusherService.bindEvent(subscription, 'pusher:subscription_error', (error) => {
+                console.log('error: ' + error);
+            });
+
+            this.pusherService.bindEvent(subscription, 'pusher:member_added', (member) => {
+                console.log('member_added' + JSON.stringify(member));
+                this.addOnlineUser(member.id, member.info);
+            });
+
+            this.pusherService.bindEvent(subscription, 'pusher:member_removed', (member) => {
+                console.log('member_removed' + JSON.stringify(member));
+                this.removeOnlineUser(member.id, member.info);
+            });
+
+        } else if (this.pusherInstance) {
+            this.pusherService.unsubscribeFromChannel(this.pusherInstance, 'presence-users');
+        }
+    }
+
+    addOnlineUser(userId: number, userInfo: User) {
+        this.onlineUsers.push({id: userId, name: userInfo.name});
+    }
+
+    removeOnlineUser(userId: number, userInfo: User) {
+        this.onlineUsers.filter(user => user.id !== userId);
     }
 }
