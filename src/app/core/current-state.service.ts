@@ -22,7 +22,7 @@ export class CurrentStateService {
     user: User;
     onlineUsers: Array<any>;
     pusherInstance: any;
-    onlineUsersObservable = new Subject<any>();
+    onlineUserObservable = new Subject<any>();
 
     initialize(): void {
         this.authService.initializeUser();
@@ -47,7 +47,7 @@ export class CurrentStateService {
                 console.log('subscription_succeeded: ' + JSON.stringify(members));
                 members.each((member) => {
                     this.addOnlineUser(member.id, member.info);
-                    this.onlineUsersObservable.next({id: member.id, name: member.info.name});
+                    this.onlineUserObservable.next({id: member.id, name: member.info.name});
                 });
             });
 
@@ -58,13 +58,13 @@ export class CurrentStateService {
             this.pusherService.bindEvent(subscription, 'pusher:member_added', (member) => {
                 console.log('member_added' + JSON.stringify(member));
                 this.addOnlineUser(member.id, member.info);
-                this.onlineUsersObservable.next({id: member.id, name: member.info.name});
+                this.onlineUserObservable.next({id: member.id, name: member.info.name});
             });
 
             this.pusherService.bindEvent(subscription, 'pusher:member_removed', (member) => {
                 console.log('member_removed' + JSON.stringify(member));
                 this.removeOnlineUser(member.id, member.info);
-                this.onlineUsersObservable.next({id: member.id, name: member.info.name});
+                this.onlineUserObservable.next({id: member.id, name: member.info.name});
             });
 
         } else if (this.pusherInstance) {
