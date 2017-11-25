@@ -5,10 +5,11 @@
     - Championship match navigation: previous/next (Chart.js bug)
 
 - Small changes
-    - Team squads page ordering
+    - ~~Team squads page ordering~~
     - Cancel button on 'me' page
     - Remove old championship-predicts PUT route
     - Update button in both rating pages
+    - ~~Update button in guest book~~
     
 - New task
     - Ability to change user password
@@ -21,7 +22,7 @@
     - Award edit page
     - Set award to winner ability (winners edit page)
     - Hall of fame page
-    - Users online component
+    - ~~Users online component~~
     - Message system
     
 - Consider to implement

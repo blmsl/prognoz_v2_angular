@@ -49,6 +49,28 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
         return this.domSanitizer.bypassSecurityTrustHtml(message);
     }
 
+    getGuestbookMessagesData() {
+        this.activatedRoute.params.subscribe((params: Params) => {
+            this.titleService.setTitle(`Гостьова${params['number'] ? ', сторінка ' + params['number'] : ''}`);
+            this.guestbookService.getGuestbookMessages(params['number']).subscribe(
+                response => {
+                    if (response) {
+                        this.currentPage = response.current_page;
+                        this.lastPage = response.last_page;
+                        this.perPage = response.per_page;
+                        this.total = response.total;
+                        this.guestbookMessages = response.data;
+                        let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
+                        this.addGuestbookMessageForm.patchValue({user_id: userId});
+                    }
+                },
+                error => {
+                    this.errorGuestbookMessages = error;
+                }
+            );
+        });
+    }
+
     ngOnDestroy() {
         if (!this.userSubscription.closed) {
             this.userSubscription.unsubscribe();
@@ -85,27 +107,5 @@ export class GuestbookPageComponent implements OnInit, OnDestroy {
                     this.spinnerButton = false;
                 }
             );
-    }
-
-    private getGuestbookMessagesData() {
-        this.activatedRoute.params.subscribe((params: Params) => {
-            this.titleService.setTitle(`Гостьова${params['number'] ? ', сторінка ' + params['number'] : ''}`);
-            this.guestbookService.getGuestbookMessages(params['number']).subscribe(
-                response => {
-                    if (response) {
-                        this.currentPage = response.current_page;
-                        this.lastPage = response.last_page;
-                        this.perPage = response.per_page;
-                        this.total = response.total;
-                        this.guestbookMessages = response.data;
-                        let userId = this.authenticatedUser ? this.authenticatedUser.id.toString() : '';
-                        this.addGuestbookMessageForm.patchValue({user_id: userId});
-                    }
-                },
-                error => {
-                    this.errorGuestbookMessages = error;
-                }
-            );
-        });
     }
 }

@@ -8,7 +8,7 @@
     <app-error *ngIf="errorClubs" [message]="errorClubs"></app-error>
     <div *ngIf="clubs" class="row">
         <!-- left column (form) -->
-        <div class="col-12 col-md-6 col-lg-6 text-white">
+        <div class="col-12 col-md-6 col-lg-6">
             <form novalidate [formGroup]="teamMatchCreateForm"
                   (ngSubmit)="onSubmit()" class="black-border text-gray-dark p-2 rounded">
                 <!-- home club -->
