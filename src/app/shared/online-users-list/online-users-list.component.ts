@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { User }                         from '../models/user.model';
 import { CurrentStateService }          from '../../core/current-state.service';
-import { HelperService }                from '../../core/helper.service';
 import { Subscription }                 from 'rxjs/Subscription';
 
 @Component({
@@ -13,11 +12,10 @@ import { Subscription }                 from 'rxjs/Subscription';
 export class OnlineUsersListComponent implements OnDestroy, OnInit {
 
     constructor(
-        private currentStateService: CurrentStateService,
-        private helperService: HelperService
+        private currentStateService: CurrentStateService
     ) { }
 
-    users: User[];
+    users: User[] = [];
     onlineUserSubscription: Subscription;
 
     ngOnDestroy() {
@@ -27,12 +25,9 @@ export class OnlineUsersListComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit() {
-        this.onlineUserSubscription = this.currentStateService.onlineUserObservable.subscribe(value => {
-            if (!this.helperService.isElementInArray(this.users, 'id', value.id)) {
-                this.users.push(value);
-            } else {
-                this.users = this.users.filter(user => user.id !== value.id);
-            }
+        this.users = this.currentStateService.onlineUsers;
+        this.onlineUserSubscription = this.currentStateService.onlineUserObservable.subscribe(() => {
+            this.users = this.currentStateService.onlineUsers;
         });
     }
 }

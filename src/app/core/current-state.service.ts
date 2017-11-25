@@ -14,23 +14,26 @@ export class CurrentStateService {
     ) {
         this.authService.getUser.subscribe(response => {
             this.user = response;
-            this.getOnlineUsers(this.user);
-            // @todo: remove console.log; do something if subscription error occurs;
+            this.getOnlineUsers(response);
         });
     }
 
-    user: User;
-    onlineUsers: Array<any>;
+    onlineUsers: Array<any> = [];
+    onlineUserObservable = new Subject<void>();
     pusherInstance: any;
-    onlineUserObservable = new Subject<any>();
+    user: User;
 
     initialize(): void {
         this.authService.initializeUser();
     }
 
-
-    private addOnlineUser(userId: number, userInfo: User) {
-        this.onlineUsers.push({id: userId, name: userInfo.name});
+    /**
+     * Add online user to list
+     * @param userId
+     * @param userInfo
+     */
+    private addOnlineUser(userId: string, userInfo: User): void {
+        this.onlineUsers.push({id: parseInt(userId), name: userInfo.name});
     }
 
     /**
@@ -44,35 +47,35 @@ export class CurrentStateService {
             const subscription = this.pusherService.subscribeToChannel(this.pusherInstance, 'presence-users');
 
             this.pusherService.bindEvent(subscription, 'pusher:subscription_succeeded', (members) => {
-                console.log('subscription_succeeded: ' + JSON.stringify(members));
                 members.each((member) => {
                     this.addOnlineUser(member.id, member.info);
-                    this.onlineUserObservable.next({id: member.id, name: member.info.name});
+                    this.onlineUserObservable.next();
                 });
             });
 
-            this.pusherService.bindEvent(subscription, 'pusher:subscription_error', (error) => {
-                console.log('error: ' + error);
-            });
-
             this.pusherService.bindEvent(subscription, 'pusher:member_added', (member) => {
-                console.log('member_added' + JSON.stringify(member));
                 this.addOnlineUser(member.id, member.info);
-                this.onlineUserObservable.next({id: member.id, name: member.info.name});
+                this.onlineUserObservable.next();
             });
 
             this.pusherService.bindEvent(subscription, 'pusher:member_removed', (member) => {
-                console.log('member_removed' + JSON.stringify(member));
-                this.removeOnlineUser(member.id, member.info);
-                this.onlineUserObservable.next({id: member.id, name: member.info.name});
+                this.removeOnlineUser(member.id);
+                this.onlineUserObservable.next();
             });
 
         } else if (this.pusherInstance) {
-            this.pusherService.unsubscribeFromChannel(this.pusherInstance, 'presence-users');
+            this.pusherInstance.disconnect();
+            this.onlineUsers = [];
+            this.onlineUserObservable.next();
         }
     }
 
-    private removeOnlineUser(userId: number, userInfo: User) {
-        this.onlineUsers.filter(user => user.id !== userId);
+    /**
+     * Remove online user from list
+     * @param userId
+     */
+    private removeOnlineUser(userId): void {
+        userId = parseInt(userId);
+        this.onlineUsers = this.onlineUsers.filter(user => user.id !== userId);
     }
 }
