@@ -24,5 +24,8 @@ export const environment = {
             matchesInRound: 12,
             matchesToBlock: 2
         }
+    },
+    pusher: {
+        apiKey: 'd0200d5a8e86a9d21577'
     }
 };

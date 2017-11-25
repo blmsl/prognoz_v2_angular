@@ -16,6 +16,7 @@ import { ConfirmModalComponent }                      from './confirm-modal/conf
 import { ErrorComponent }                             from './error/error.component';
 import { InfoComponent }                              from './info/info.component';
 import { LastUserComponent }                          from './last-user/last-user.component';
+import { OnlineUsersListComponent }                   from './online-users-list/online-users-list.component';
 import { SpinnerButtonComponent }                     from './spinner-button/spinner-button.component';
 import { SpinnerComponent }                           from './spinner/spinner.component';
 import { PaginationComponent }                        from './pagination/pagination.component';
@@ -39,12 +40,6 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         SimpleNotificationsModule
     ],
     declarations: [
-        SpinnerComponent,
-        SpinnerButtonComponent,
-        PaginationComponent,
-        LastUserComponent,
-        ErrorComponent,
-        InfoComponent,
         ChampionshipRatingTopComponent,
         ChampionshipLastResultsComponent,
         ChampionshipRatingTableComponent,
@@ -54,6 +49,13 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
         ConfirmModalComponent,
+        ErrorComponent,
+        InfoComponent,
+        LastUserComponent,
+        PaginationComponent,
+        OnlineUsersListComponent,
+        SpinnerComponent,
+        SpinnerButtonComponent,
         TeamEditModalComponent,
         TeamGoalkeeperFormComponent,
         TeamNavigationComponent,
@@ -65,12 +67,6 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         TeamTeamMatchCardComponent,
     ],
     exports: [
-        SpinnerComponent,
-        SpinnerButtonComponent,
-        PaginationComponent,
-        LastUserComponent,
-        ErrorComponent,
-        InfoComponent,
         ChampionshipRatingTopComponent,
         ChampionshipLastResultsComponent,
         ChampionshipRatingTableComponent,
@@ -80,6 +76,13 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         ChampionshipUserPredictionsTableComponent,
         ChampionshipMatchPredictableComponent,
         ConfirmModalComponent,
+        ErrorComponent,
+        InfoComponent,
+        LastUserComponent,
+        OnlineUsersListComponent,
+        PaginationComponent,
+        SpinnerComponent,
+        SpinnerButtonComponent,
         TeamEditModalComponent,
         TeamGoalkeeperFormComponent,
         TeamNavigationComponent,
