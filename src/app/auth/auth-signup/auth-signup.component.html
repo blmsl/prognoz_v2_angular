@@ -90,7 +90,7 @@
                 </div>
                 <!-- reCaptcha -->
                 <div class="mb-2">
-                    <recaptcha (resolved)="resolved($event)" siteKey="6LcZUhQUAAAAAO0sLBWgT4DujK8EfRpEG2jdZbLv"></recaptcha>
+                    <re-captcha (resolved)="resolved($event)" siteKey="6LcZUhQUAAAAAO0sLBWgT4DujK8EfRpEG2jdZbLv"></re-captcha>
                 </div>
                 <!-- submit button -->
                 <button [hidden]="spinnerButton" [disabled]="signUpForm.invalid || (signUpForm.value.password != signUpForm.value.password_confirmation) || !captchaValidity" type="submit" class="btn btn-primary">
