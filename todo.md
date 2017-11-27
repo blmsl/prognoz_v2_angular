@@ -7,11 +7,13 @@
 - Small changes
     - ~~Team squads page ordering~~
     - Cancel button on 'me' page
-    - Remove old championship-predicts PUT route
+    - ~~Remove old championship-predicts PUT route~~
     - Update button in both rating pages
     - ~~Update button in guest book~~
     
 - New task
+    - Update to latest Angular version
+    - Use moment.js instead of backend Carbon
     - Ability to change user password
     - Captcha in recovery + update captcha library
     - Edit ended match page (team competition)
@@ -30,7 +32,6 @@
     - Change all *ngIf to [hidden] where its possible
     - Yellow highlight when data is changed and unsaved
     - Create about page. my contacts. link in footer
-    - Use moment.js instead of backend Carbon
     - User-club relation
     - Championship-match comment relation
     
