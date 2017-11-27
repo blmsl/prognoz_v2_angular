@@ -91,4 +91,16 @@ export class MeComponent implements OnInit, OnDestroy {
             }
         );
     }
+
+    onCancel(): void {
+        this.authenticatedUser = Object.assign({}, this.currentStateService.user);
+        this.errorImage = null;
+        this.userEditForm = this.formBuilder.group({
+            id: [this.authenticatedUser.id],
+            first_name: [this.authenticatedUser.first_name, [Validators.maxLength(50)]],
+            hometown: [this.authenticatedUser.hometown, [Validators.maxLength(50)]],
+            favorite_team: [this.authenticatedUser.favorite_team, [Validators.maxLength(50)]],
+            image: [''],
+        });
+    }
 }

@@ -113,6 +113,7 @@
                 <!-- submit button -->
                 <div class="text-center m-2">
                     <button [disabled]="userEditForm.invalid || errorImage" [hidden]="spinnerButton" type="submit" class="btn btn-primary">Зберегти зміни</button>
+                    <button [hidden]="spinnerButton" type="button" class="btn btn-outline-danger" (click)="onCancel()">Скасувати</button>
                     <!-- spinner button -->
                     <app-spinner-button [hidden]="!spinnerButton"></app-spinner-button>
                 </div>

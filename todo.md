@@ -6,13 +6,13 @@
 
 - Small changes
     - ~~Team squads page ordering~~
-    - Cancel button on 'me' page
+    - ~~Cancel button on 'me' page~~
     - ~~Remove old championship-predicts PUT route~~
     - Update button in both rating pages
     - ~~Update button in guest book~~
     
 - New task
-    - Update to latest Angular version
+    - ~~Update to latest Angular version~~
     - Use moment.js instead of backend Carbon
     - Ability to change user password
     - Captcha in recovery + update captcha library
