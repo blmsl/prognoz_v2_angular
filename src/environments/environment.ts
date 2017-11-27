@@ -26,6 +26,6 @@ export const environment = {
         }
     },
     pusher: {
-        apiKey: 'd0200d5a8e86a9d21577'
+        apiKey: 'no-key-needed-for-development'
     }
 };

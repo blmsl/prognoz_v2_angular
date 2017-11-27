@@ -1,7 +1,6 @@
 <h2>Прогнози {{user ? user.name : 'гравця'}}: </h2>
 <!-- error user/rating -->
-<app-error *ngIf="errorUser" [message]="errorUser"></app-error>
-<app-error *ngIf="errorRating" [message]="errorRating"></app-error>
+<app-error *ngIf="errorUser && errorRating" [message]="errorUser + errorRating"></app-error>
 <!-- user data -->
 <div *ngIf="user" class="card black-shadow mb-2">
     <div class="card-body">
