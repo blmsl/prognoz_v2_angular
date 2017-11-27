@@ -16,7 +16,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let predict of predictions" routerLink="/championship/matches/{{predict.match_id}}" class="cursor-pointer">
+        <tr *ngFor="let predict of predictions"
+            routerLink="/championship/matches/{{predict.match_id}}"
+            class="cursor-pointer"
+            [ngClass]="{'table-success': helperService.isChampionshipMatchGuessed(predict.match, predict)}">
             <th scope="row" class="text-center d-none d-md-table-cell">{{predict.match.number_in_competition}}.</th>
             <td class="text-left">{{predict.match.club_first.title}} - {{predict.match.club_second.title}}</td>
             <td class="text-center d-none d-md-table-cell">{{predict.updated_at}}</td>
