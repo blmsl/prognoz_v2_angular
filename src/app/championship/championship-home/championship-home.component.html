@@ -49,7 +49,7 @@
         </h2>
     </div>
     <div class="col-12 col-sm-7 col-md-6 text-right">
-        <small class="text-muted">Рейтинг оновлено {{championshipRatingItems[0].updated_at}}</small>
+        <small class="text-muted">Рейтинг оновлено {{championshipRatingItems[0].updated_at | time:'fromNow'}}</small>
     </div>
 </div>
 <!-- rating table -->
@@ -80,7 +80,7 @@
                         <strong>{{championshipPrediction.user.name}}</strong> <span class="text-muted d-none d-md-inline">{{helperService.getHometown(championshipPrediction.user.hometown)}}</span>
                     </div>
                     <div>
-                        <span>{{championshipPrediction.diffForHumans}}</span>
+                        <span>{{championshipPrediction.updated_at | time:'fromNow'}}</span>
                     </div>
                 </a>
             </ul>

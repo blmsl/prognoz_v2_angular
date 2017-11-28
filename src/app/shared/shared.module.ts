@@ -30,6 +30,7 @@ import { TeamPredictionFormComponent }                from './team/team-predicti
 import { TeamRoundNavigationComponent }               from './team/team-round-navigation/team-round-navigation.component';
 import { TeamSelectModalComponent }                   from './team/team-select-modal/team-select-modal.component';
 import { TeamTeamMatchCardComponent }                 from './team/team-team-match-card/team-team-match-card.component';
+import { TimePipe }                                   from './pipes/time.pipe';
 
 @NgModule({
     imports: [
@@ -65,6 +66,7 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         TeamRoundNavigationComponent,
         TeamSelectModalComponent,
         TeamTeamMatchCardComponent,
+        TimePipe,
     ],
     exports: [
         ChampionshipRatingTopComponent,
@@ -92,6 +94,7 @@ import { TeamTeamMatchCardComponent }                 from './team/team-team-mat
         TeamRoundNavigationComponent,
         TeamSelectModalComponent,
         TeamTeamMatchCardComponent,
+        TimePipe
     ]
 })
 export class SharedModule { }

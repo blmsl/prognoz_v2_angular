@@ -16,7 +16,7 @@
                                 'red-shadow': !helperService.isScore(teamPrediction.home, teamPrediction.away)}">
                     <div class="row">
                         <div class="col-12 text-center text-white">
-                            {{teamPrediction.team_match.starts_at}}
+                            {{teamPrediction.team_match.starts_at | time:'dddd HH:mm'}}
                         </div>
                     </div>
                     <div class="row align-items-center">

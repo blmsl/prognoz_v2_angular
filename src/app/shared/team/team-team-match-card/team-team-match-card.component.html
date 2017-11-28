@@ -108,7 +108,7 @@
                 <tbody>
                     <tr *ngFor="let teamMatch of teamMatches">
                         <td class="align-middle text-center"
-                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).predicted_at}}"
+                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).predicted_at | time:'YYYY-MM-DD HH:mm'}}"
                             [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) &&
                                                       !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
                                         'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
@@ -118,7 +118,7 @@
                             <small class="d-sm-none">{{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).prediction}}</small>
                         </td>
                         <td class="align-middle text-center"
-                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).predicted_at}}"
+                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.home_team_id).predicted_at | time:'YYYY-MM-DD HH:mm'}}"
                             [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.home_team_id) &&
                                                       !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
                                         'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.home_team_id),
@@ -174,7 +174,7 @@
                             </span>
                         </td>
                         <td class="align-middle text-center"
-                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).predicted_at}}"
+                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).predicted_at | time:'YYYY-MM-DD HH:mm'}}"
                             [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id) &&
                                                       !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
                                         'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
@@ -184,7 +184,7 @@
                             <small class="d-sm-none">{{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).name}}</small>
                         </td>
                         <td class="align-middle text-center"
-                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).predicted_at}}"
+                            title="Прогноз зроблено {{getPredictionDetails(teamMatch, teamTeamMatch.away_team_id).predicted_at | time:'YYYY-MM-DD HH:mm'}}"
                             [ngClass]="{'bg-success': helperService.isTeamMatchGuessed(teamMatch, teamTeamMatch.away_team_id) &&
                                                       !helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),
                                         'bg-danger': helperService.isTeamMatchBlocked(teamMatch, teamTeamMatch.away_team_id),

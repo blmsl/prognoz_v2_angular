@@ -69,9 +69,9 @@
                             [ngClass]="{'table-success': helperService.isTeamMatchGuessed(teamMatch, teamParticipants[0].team_id),
                                         'table-danger': helperService.isTeamMatchBlocked(teamMatch, teamParticipants[0].team_id)}">
                             <td class="text-center">
-                                <small class="text-muted text-capitalize">{{teamMatch.starts_at}}</small>
+                                <small class="text-muted text-capitalize">{{teamMatch.starts_at | time:'dddd HH:mm'}}</small>
                                 <small *ngIf="matchHasPrediction(teamMatch)" class="text-muted">
-                                    / Прогноз зроблено {{getPredictionDetails(teamMatch, teamParticipants[0].team_id).predicted_at}}
+                                    / Прогноз зроблено {{getPredictionDetails(teamMatch, teamParticipants[0].team_id).predicted_at | time:'YYYY-MM-DD HH:mm'}}
                                 </small>
                             </td>
                         </tr>

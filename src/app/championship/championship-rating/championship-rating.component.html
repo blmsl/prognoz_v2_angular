@@ -3,7 +3,7 @@
         <h2>Рейтинг: </h2>
     </div>
     <div *ngIf="championshipRatingItems" class="col-12 col-sm-6 col-md-7 text-right">
-        <small class="text-muted">Рейтинг оновлено {{championshipRatingItems[0].updated_at}}</small>
+        <small class="text-muted">Рейтинг оновлено {{championshipRatingItems[0].updated_at | time:'fromNow'}}</small>
     </div>
 </div>
 <!-- rating table -->

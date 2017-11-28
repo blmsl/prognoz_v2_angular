@@ -22,7 +22,7 @@
             [ngClass]="{'table-success': helperService.isChampionshipMatchGuessed(predict.match, predict)}">
             <th scope="row" class="text-center d-none d-md-table-cell">{{predict.match.number_in_competition}}.</th>
             <td class="text-left">{{predict.match.club_first.title}} - {{predict.match.club_second.title}}</td>
-            <td class="text-center d-none d-md-table-cell">{{predict.updated_at}}</td>
+            <td class="text-center d-none d-md-table-cell">{{predict.updated_at | time:'YYYY-MM-DD HH:mm'}}</td>
             <td class="text-center">
                 {{helperService.showScore(predict.home, predict.away, '?')}}
             </td>

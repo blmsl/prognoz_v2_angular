@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h4 class="card-title">{{one.title}}</h4>
                         <a routerLink="/news/{{one.id}}" class="btn btn-outline-primary">Читати далі</a>
-                        <p class="card-text"><small class="text-muted">{{one.created_at}}</small></p>
+                        <p class="card-text"><small class="text-muted">{{one.created_at | time:'fromNow'}}</small></p>
                     </div>
                 </div>
             </div>
